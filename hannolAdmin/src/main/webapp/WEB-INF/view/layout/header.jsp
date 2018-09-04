@@ -1,0 +1,152 @@
+﻿<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+   String cp = request.getContextPath();
+%>
+<div class="header-top">
+    <div style="width: 960px; height: 120px; margin-top: 20px;" align="center">
+        <div style="margin: 2px;">
+            <a href="<%=cp%>/" style="text-decoration: none;">
+        		<img width="180px" height="120px" src="<%=cp%>/resource/images/logo.jpg">            
+            </a>
+        </div>
+    </div>
+    
+    <div style="width: 960px; height: 20px;" >
+        <div align="right">
+            <c:if test="${empty sessionScope.member}">
+                <a  href="<%=cp%>/member/login">로그인</a>
+                    &nbsp;|&nbsp;
+                <a href="<%=cp%>/member/member">회원가입</a>
+            </c:if>
+            <c:if test="${not empty sessionScope.member}">
+                <span style="color:black; font-weight: bold;">${sessionScope.member.userName}</span>님
+                &nbsp;|&nbsp;
+                <a href="<%=cp%>/">로그아웃</a>
+                &nbsp;|&nbsp;
+                <a href="<%=cp%>/">마이페이지</a>
+            </c:if>
+        </div>
+    </div>
+</div>
+
+<div class="menu">
+   	<p class="menu_icon"><a href="#"><span>▦</span></a></p>
+   	
+    <ul class="nav">
+    	<li>
+            <span class="dep1">공지사항</span>
+            <ul>
+                <li><a href="<%=cp %>/notice/list">사용자 공지</a></li>
+                <li><a href="#">사내 공지</a></li>
+            </ul>
+        </li>
+    
+    	<li>
+            <span class="dep1">재정관리</span>
+            <ul>
+                <li><a href="#">재정통계표</a></li>
+                <li><a href="#">이익</a></li>
+                <li><a href="#">손해</a></li>
+                <li><a href="#">예산</a></li>
+                <li><a href="#">현장 매출 등록</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">시스템 관리</span>
+            <ul>
+                <li><a href="#">이용권 관리</a></li>
+                <li><a href="#">할인카드 관리</a></li>
+                <li><a href="#">쿠폰 관리</a></li>
+                <li><a href="#">이용객 현황 관리</a></li>
+                <li><a href="#">예매/예약 현황 관리</a></li>
+                <li><a href="#">매직패스 예약현황 관리</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">사용자 관리</span>
+            <ul>
+                <li><a href="#">알림문구 설정</a></li>
+                <li><a href="#">알림 발송</a></li>
+                <li><a href="#">쿠폰 발송</a></li>
+                <li><a href="#">등급 관리</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">직원 관리</span>
+            <ul>
+                <li><a href="#">인사정보 관리</a></li>
+                <li><a href="#">발령 관리</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">고객소리함</span>
+            <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">1:1 문의</a></li>
+                <li><a href="#">후기</a></li>
+            </ul>
+        </li>
+        
+        <li class="mr0">
+            <span class="dep1">스케쥴</span>
+            <ul>
+                <li><a href="#">가이드</a></li>
+                <li><a href="#">공연</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">놀이기구</span>
+            <ul>
+                <li><a href="#">통계</a></li>
+                <li><a href="#">상태</a></li>
+                <li><a href="#">정보</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <span class="dep1">편의시설</span>
+            <ul>
+                <li><a href="#">대여/반납</a></li>
+                <li><a href="#">보관</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">정비</span>
+            <ul>
+                <li><a href="#">수리</a></li>
+                <li><a href="#">점검</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <span class="dep1">기프트샵</span>
+            <ul>
+                <li><a href="#">품목관리</a></li>
+                <li><a href="#">입고관리</a></li>
+                <li><a href="#">출고관리</a></li>
+                <li><a href="#">마감</a></li>
+                <li><a href="#">구매내역</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <span class="dep1">업체 관리</span>
+            <ul>
+                <li><a href="#">업체 정보</a></li>
+                <li><a href="#">거래 내역</a></li>
+            </ul>
+        </li>
+        <li style="width: 30%; float: right;">
+    		<a href="#"><img style="width: 100%;" src ="<%=cp%>/resource/images/park.JPG"></a>  
+    	</li>  
+    </ul>  
+</div>
