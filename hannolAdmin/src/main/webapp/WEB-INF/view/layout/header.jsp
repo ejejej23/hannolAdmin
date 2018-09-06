@@ -16,13 +16,13 @@
     
     <div style="width: 960px; height: 20px;" >
         <div align="right">
-            <c:if test="${empty sessionScope.member}">
-                <a  href="<%=cp%>/member/login">로그인</a>
+            <c:if test="${empty sessionScope.staff}">
+                <a  href="<%=cp%>/staff/login">로그인</a>
                     &nbsp;|&nbsp;
-                <a href="<%=cp%>/member/member">회원가입</a>
+                <a href="<%=cp%>/staff/staff">회원가입</a>
             </c:if>
-            <c:if test="${not empty sessionScope.member}">
-                <span style="color:black; font-weight: bold;">${sessionScope.member.userName}</span>님
+            <c:if test="${not empty sessionScope.staff}">
+                <span style="color:black; font-weight: bold;">${sessionScope.staff.staffName}</span>님
                 &nbsp;|&nbsp;
                 <a href="<%=cp%>/">로그아웃</a>
                 &nbsp;|&nbsp;

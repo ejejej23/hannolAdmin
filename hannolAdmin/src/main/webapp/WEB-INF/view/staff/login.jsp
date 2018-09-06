@@ -36,21 +36,21 @@ function bgLabel(ob, id) {
 function sendLogin() {
     var f = document.loginForm;
 
-	var str = f.userId.value;
+	var str = f.staffId.value;
     if(!str) {
         alert("아이디를 입력하세요. ");
-        f.userId.focus();
+        f.staffId.focus();
         return;
     }
 
-    str = f.userPwd.value;
+    str = f.staffPwd.value;
     if(!str) {
         alert("패스워드를 입력하세요. ");
-        f.userPwd.focus();
+        f.staffPwd.focus();
         return;
     }
 
-    f.action = "<%=cp%>/member/login";
+    f.action = "<%=cp%>/staff/login";
     f.submit();
 }
 </script>
@@ -61,10 +61,10 @@ function sendLogin() {
 		  <table style="margin: 15px auto; width: 360px; border-spacing: 0px;" >
 		  <tr align="center"> 
 		      <td height="60"> 
-		        <input type="text" name="userId" id="userId" class="loginTF" maxlength="15"
+		        <input type="text" name="staffId" id="staffId" class="loginTF" maxlength="15"
 		                   tabindex="1"
-                           onfocus="document.getElementById('lblUserId').style.display='none';"
-                           onblur="bgLabel(this, 'lblUserId');" style="border: none; border-bottom: 1px solid #ccc" placeholder="아이디">
+                           onfocus="document.getElementById('lblStaffId').style.display='none';"
+                           onblur="bgLabel(this, 'lblStaffId');" style="border: none; border-bottom: 1px solid #ccc" placeholder="아이디">
 		      </td>
 		      <td rowspan="2">
 		        <button type="button" onclick="sendLogin();" class="btnConfirm">로그인</button>
@@ -72,10 +72,10 @@ function sendLogin() {
 		  </tr>
 		  <tr align="center" height="60"> 
 		      <td>
-		        <input type="password" name="userPwd" id="userPwd" class="loginTF" maxlength="20" 
+		        <input type="password" name="staffPwd" id="staffPwd" class="loginTF" maxlength="20" 
 		                   tabindex="2"
-                           onfocus="document.getElementById('lblUserPwd').style.display='none';"
-                           onblur="bgLabel(this, 'lblUserPwd');" style="border: none; border-bottom: 1px solid #ccc" placeholder="패스워드">
+                           onfocus="document.getElementById('lblStaffPwd').style.display='none';"
+                           onblur="bgLabel(this, 'lblStaffPwd');" style="border: none; border-bottom: 1px solid #ccc" placeholder="패스워드">
 		      </td>
 		  </tr>
 

@@ -1,4 +1,4 @@
-package com.sp.member;
+package com.sp.staff;
 
 import java.util.List;
 import java.util.Map;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 import com.sp.common.dao.CommonDAO;
 
 @Service("member.memberService")
-public class MemberServiceImpl implements MemberService {
+public class StaffServiceImpl implements StaffService {
 	@Autowired
 	private CommonDAO  dao;
 
 	@Override
-	public Member loginMember(String userId) {
-		Member dto=null;
+	public Staff loginStaff(String staffId) {
+		Staff dto=null;
 		
 		try {
-			dto=dao.selectOne("member.loginMember", userId);
+			dto=dao.selectOne("staff.loginStaff", staffId);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

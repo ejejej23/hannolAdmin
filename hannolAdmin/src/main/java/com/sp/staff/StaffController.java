@@ -1,4 +1,4 @@
-package com.sp.member;
+package com.sp.staff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller("member.memberController")
-public class MemberController {
+@Controller("staff.memberController")
+public class StaffController {
 	@Autowired
-	private MemberService service;
+	private StaffService service;
 	
-	@RequestMapping(value="/member/member", method=RequestMethod.GET)
+	@RequestMapping(value="/staff/staff", method=RequestMethod.GET)
 	public String memberForm(Model model) {
 		model.addAttribute("mode", "created");
-		return ".member.member";
+		return ".staff.staff";
 	}
 
-	@RequestMapping(value="/member/member", method=RequestMethod.POST)
-	public String memberSubmit(Member dto,
+	@RequestMapping(value="/staff/staff", method=RequestMethod.POST)
+	public String memberSubmit(Staff dto,
 			Model model) {
 
 		/*int result=service.insertMember(dto);
@@ -43,37 +43,37 @@ public class MemberController {
 		model.addAttribute("mode", "created");
 		model.addAttribute("message", "아이디 중복으로 회원가입이 실패했습니다.");*/
 			
-		return ".member.member";
+		return ".staff.staff";
 	}
 	
-	@RequestMapping(value="/member/login", method=RequestMethod.GET)
+	@RequestMapping(value="/staff/login", method=RequestMethod.GET)
 	public String loginForm() {
-		return ".member.login";
+		return ".staff.login";
 	}
 	
-	@RequestMapping(value="/member/login", method=RequestMethod.POST)
+	@RequestMapping(value="/staff/login", method=RequestMethod.POST)
 	public String loginSubmit(
-			@RequestParam String userId,
-			@RequestParam String userPwd,
+			@RequestParam String staffId,
+			@RequestParam String staffPwd,
 			HttpSession session,
 			Model model
 			) {
 		
 		
-		Member dto=service.loginMember(userId);
-		if(dto==null ||  !  userPwd.equals(dto.getPwd())) {
+		Staff dto=service.loginStaff(staffId);
+		if(dto==null ||  !  staffPwd.equals(dto.getStaffPwd())) {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
-			return ".member.login";
+			return ".staff.login";
 		}
 		
 		// 세션에 로그인 정보 저장
 		SessionInfo info=new SessionInfo();
-		info.setUserId(dto.getId());
-		info.setUserName(dto.getName());
+		info.setStaffId(dto.getStaffId());
+		info.setStaffName(dto.getName());
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
 		
-		session.setAttribute("member", info);
+		session.setAttribute("staff", info);
 		
 		// 로그인 이전 URI로 이동
 		String uri=(String)session.getAttribute("preLoginURI");
@@ -86,10 +86,10 @@ public class MemberController {
 		return uri;
 	}
 	
-	@RequestMapping(value="/member/logout")
+	@RequestMapping(value="/staff/logout")
 	public String logout(HttpSession session) {
 		// 세션에 저장된 정보 지우기
-		session.removeAttribute("member");
+		session.removeAttribute("staff");
 		
 		// 세션에 저장된 모든 정보 지우고, 세션초기화
 		session.invalidate();
@@ -97,7 +97,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/member/pwd", method=RequestMethod.GET)
+	@RequestMapping(value="/staff/pwd", method=RequestMethod.GET)
 	public String pwdForm(
 			String dropout,
 			Model model) {
@@ -108,12 +108,12 @@ public class MemberController {
 			model.addAttribute("mode", "dropout");
 		}
 		
-		return ".member.pwd";
+		return ".staff.pwd";
 	}
 	
-	@RequestMapping(value="/member/pwd", method=RequestMethod.POST)
+	@RequestMapping(value="/staff/pwd", method=RequestMethod.POST)
 	public String pwdSubmit(
-			@RequestParam String userPwd,
+			@RequestParam String staffPwd,
 			@RequestParam String mode,
 			Model model,
 			HttpSession session
@@ -164,13 +164,13 @@ public class MemberController {
 		// 회원정보수정폼
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");*/
-		return ".member.member";
+		return ".staff.staff";
 	}
 
-	@RequestMapping(value="/member/update",
+	@RequestMapping(value="/staff/update",
 			method=RequestMethod.POST)
 	public String updateSubmit(
-			Member dto,
+			Staff dto,
 			Model model) {
 		
 		/*service.updateMember(dto);
@@ -181,17 +181,17 @@ public class MemberController {
 		
 		model.addAttribute("title", "회원 정보 수정");
 		model.addAttribute("message", sb.toString());*/
-		return ".member.complete";
+		return ".staff.complete";
 	}
 
-	@RequestMapping(value="/member/userIdCheck", method=RequestMethod.POST)
+	@RequestMapping(value="/staff/staffIdCheck", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> idCheck(
-			@RequestParam String userId
+			@RequestParam String staffId
 			) throws Exception {
 		
 		String p="true";
-		Member dto=service.loginMember(userId);
+		Staff dto=service.loginStaff(staffId);
 		if(dto!=null)
 			p="false";
 		

@@ -1,10 +1,10 @@
-package com.sp.member;
+package com.sp.staff;
 
 import java.util.List;
 import java.util.Map;
 
-public interface MemberService {
-	public Member loginMember(String userId);
+public interface StaffService {
+	public Staff loginStaff(String staffId);
 	
 /*	public int insertMember(Member dto);
 	

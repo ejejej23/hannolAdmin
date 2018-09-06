@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="staff">
+	<select id="loginStaff" parameterType="String" resultType="com.sp.staff.Staff">
+		SELECT SI.usersCode, SI.staffId, SI.staffPwd, S.name 
+		FROM STAFF S
+		JOIN STAFFINFO SI ON S.USERSCODE = SI.USERSCODE
+		WHERE staffId=#{staffId}
+	</select>
+
+</mapper>
