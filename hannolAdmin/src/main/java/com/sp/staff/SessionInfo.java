@@ -5,7 +5,15 @@ public class SessionInfo {
 	private long staffIdx;
 	private String staffId;
 	private String staffName;
-	private int staffLevel;
+	private String authority;
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	public long getStaffIdx() {
 		return staffIdx;
@@ -31,12 +39,5 @@ public class SessionInfo {
 		this.staffName = staffName;
 	}
 
-	public int getStaffLevel() {
-		return staffLevel;
-	}
-
-	public void setStaffLevel(int staffLevel) {
-		this.staffLevel = staffLevel;
-	}
 
 }

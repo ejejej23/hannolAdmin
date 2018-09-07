@@ -19,13 +19,13 @@ public class StaffController {
 	private StaffService service;
 	
 	@RequestMapping(value="/staff/staff", method=RequestMethod.GET)
-	public String memberForm(Model model) {
+	public String staffForm(Model model) {
 		model.addAttribute("mode", "created");
 		return ".staff.staff";
 	}
 
 	@RequestMapping(value="/staff/staff", method=RequestMethod.POST)
-	public String memberSubmit(Staff dto,
+	public String staffSubmit(Staff dto,
 			Model model) {
 
 		/*int result=service.insertMember(dto);
@@ -68,8 +68,10 @@ public class StaffController {
 		
 		// 세션에 로그인 정보 저장
 		SessionInfo info=new SessionInfo();
+		info.setStaffIdx(dto.getUsersCode());
 		info.setStaffId(dto.getStaffId());
 		info.setStaffName(dto.getName());
+		info.setAuthority(dto.getAuthority());
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
 		

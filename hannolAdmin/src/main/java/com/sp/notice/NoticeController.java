@@ -11,4 +11,14 @@ public class NoticeController {
 	      return ".notice.list";
 	 }
 	 
+	 @RequestMapping(value="/notice/created")
+	   public String created(Model model) throws Exception {
+	      return ".notice.created";
+	 }
+	 
+	 @RequestMapping(value="/notice/article")
+	   public String article(Model model) throws Exception {
+	      return ".notice.article";
+	 }
+	 
 }

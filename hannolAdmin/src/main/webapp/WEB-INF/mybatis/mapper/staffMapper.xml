@@ -3,10 +3,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="staff">
 	<select id="loginStaff" parameterType="String" resultType="com.sp.staff.Staff">
-		SELECT SI.usersCode, SI.staffId, SI.staffPwd, S.name 
+		SELECT SI.usersCode, SI.staffId, SI.staffPwd, S.name, S.authority
 		FROM STAFF S
 		JOIN STAFFINFO SI ON S.USERSCODE = SI.USERSCODE
-		WHERE staffId=#{staffId}
+		WHERE staffId=#{staffId} AND working = 1
 	</select>
 
 </mapper>

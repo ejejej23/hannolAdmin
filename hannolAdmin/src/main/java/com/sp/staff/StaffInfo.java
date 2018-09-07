@@ -3,12 +3,33 @@ package com.sp.staff;
 public class StaffInfo {
 	private long staffIdx;
 	private int staffship;
-	private String staffId, staffName, staffPwd, created_date, modify_date, last_login;
-	private String email, email1, email2;
-	private String tel, tel1, tel2, tel3;
+	private String staffId;
+	private String authority;
+	private String staffName;
+	private String staffPwd;
+	private String created_date;
+	private String modify_date;
+	private String last_login;
+	private String email;
+	private String email1;
+	private String email2;
+	private String tel;
+	private String tel1;
+	private String tel2;
+	private String tel3;
 	private String birth;
-	private String zip, addr1, addr2;
+	private String zip;
+	private String addr1;
+	private String addr2;
 	private int enabled;
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	public long getStaffIdx() {
 		return staffIdx;

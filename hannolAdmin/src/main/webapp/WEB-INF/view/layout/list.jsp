@@ -50,7 +50,7 @@
 		      <td>${dto.hitCount}</td>
 		      <td>
                     <c:if test="${not empty dto.saveFilename}">
-                           <a href="<%=cp%>/notice/download?num=${dto.num}"><img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;"></a>
+                           <a href="<%=cp%>/bbs/download?num=${dto.num}"><img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;"></a>
                     </c:if>		      
 		      </td>
 		  </tr>
@@ -70,10 +70,10 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/list';">새로고침</button>
 		      </td>
 		      <td align="center">
-		          <form name="searchForm" action="<%=cp%>/notice/list" method="post">
+		          <form name="searchForm" action="<%=cp%>/bbs/list" method="post">
 		              <select name="searchKey" class="selectField">
 		                  <option value="subject">제목</option>
 		                  <option value="userName">작성자</option>
@@ -85,7 +85,7 @@
 		        </form>
 		      </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/created';">글올리기</button>
 		      </td>
 		   </tr>
 		</table>

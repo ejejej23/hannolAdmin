@@ -1,9 +1,10 @@
 package com.sp.staff;
 
 public class Staff {
-	private String usersCode;
+	private long usersCode;
 	private String staffId;
 	public String staffPwd;
+	private String authority;
 
 	private String name;
 	private String tel;
@@ -23,12 +24,20 @@ public class Staff {
 	private int levelCode;
 	private int themeCode;
 
-	public String getUsersCode() {
+	public long getUsersCode() {
 		return usersCode;
 	}
 
-	public void setUsersCode(String usersCode) {
+	public void setUsersCode(long usersCode) {
 		this.usersCode = usersCode;
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	public String getStaffId() {
