@@ -14,6 +14,11 @@
 <meta charset="UTF-8">
 <title>spring</title>
 
+<link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css"/>
+<link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+
+
 <link rel="stylesheet" href="<%=cp%>/resource/css/reset.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/base.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">

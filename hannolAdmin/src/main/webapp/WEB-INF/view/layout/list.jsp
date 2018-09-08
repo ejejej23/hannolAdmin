@@ -5,59 +5,61 @@
 <%
    String cp = request.getContextPath();
 %>
+<style>
+.gitf-form-control{
+	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
+}
+</style>
+
 <script type="text/javascript">
 	function searchList() {
 		var f=document.searchForm;
 		f.submit();
 	}
 </script>
-
-<div class="body-container" style="width: 700px;">
-    <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 게시판 </h3>
-    </div>
+<div class="body-container" style="width: 960px;">
+     <div class="body-title">
+        <h3><span style="font-family: Webdings">2</span> 직원공지 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>
+    </div> 
+    
+<%--     <div class="page-header">
+	  <h1>직원공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h1>
+	</div> --%>
+  
     
     <div>
-		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-		   <tr height="35">
-		      <td align="left" width="50%">
-		          ${dataCount}개(${page}/${total_page} 페이지)
-		      </td>
-		      <td align="right">
-		          &nbsp;
-		      </td>
-		   </tr>
-		</table>
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-		      <th width="60" style="color: #787878;">번호</th>
-		      <th style="color: #787878;">제목</th>
-		      <th width="100" style="color: #787878;">작성자</th>
-		      <th width="80" style="color: #787878;">작성일</th>
-		      <th width="60" style="color: #787878;">조회수</th>
-		      <th width="50" style="color: #787878;">첨부</th>
-		  </tr>
-		 
-		 <c:forEach var="dto" items="${list}">
-		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td>${dto.listNum}</td>
-		      <td align="left" style="padding-left: 10px;">
-		           <a href="${articleUrl}&num=${dto.num}">${dto.subject} (${dto.replyCount})</a>
-		      </td>
+		<table class="table">
+			    <colgroup>
+			        <col style="width: 10%; text-align:center">
+			        <col style="text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			    </colgroup>
+    
+		  <thead class="thead-light">
+		    <tr>
+		      <th scope="col">번호</th>
+		      <th scope="col">제목</th>
+		      <th scope="col">작성자</th>
+		      <th scope="col">작성일</th>
+		      <th scope="col">조회수</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<c:forEach var="dto" items="${list}">
+		    <tr>
+		      <th scope="row">${dto.listNum}</th>
+		      <td><a href="${articleUrl}&num=${dto.num}">${dto.subject} (${dto.replyCount})</a></td>
 		      <td>${dto.userName}</td>
 		      <td>${dto.created}</td>
 		      <td>${dto.hitCount}</td>
-		      <td>
-                    <c:if test="${not empty dto.saveFilename}">
-                           <a href="<%=cp%>/bbs/download?num=${dto.num}"><img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;"></a>
-                    </c:if>		      
-		      </td>
-		  </tr>
-		  </c:forEach>
-
+		    </tr>
+		    </c:forEach>
+		  </tbody>
 		</table>
-		 
+		
+		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
 			<td align="center">
@@ -70,22 +72,21 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/list';">새로고침</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/layout/list';">새로고침</button>
 		      </td>
 		      <td align="center">
-		          <form name="searchForm" action="<%=cp%>/bbs/list" method="post">
-		              <select name="searchKey" class="selectField">
-		                  <option value="subject">제목</option>
-		                  <option value="userName">작성자</option>
-		                  <option value="content">내용</option>
-		                  <option value="created">등록일</option>
-		            </select>
-		            <input type="text" name="searchValue" class="boxTF">
-		            <button type="button" class="btn" onclick="searchList()">검색</button>
-		        </form>
+		          <div class="col-xs-8 col-xs-offset-2">
+					  		<div class="input-group">
+					            <input type="hidden" name="search_param" value="all" id="search_param">         
+					            <input type="text" class="form-control" name="x" placeholder="검색할 키워드를 입력해 주세요...">
+					            <span class="input-group-btn">
+					                <button class="btn btn-default btn-info" type="button"><span class="glyphicon glyphicon-search"></span></button>
+					            </span>
+					        </div>
+					    </div>
 		      </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/created';">글올리기</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/layout/created';">글올리기</button>
 		      </td>
 		   </tr>
 		</table>

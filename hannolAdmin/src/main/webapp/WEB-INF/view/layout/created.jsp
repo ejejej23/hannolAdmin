@@ -24,78 +24,59 @@
             return;
         }
 
-    	f.action="<%=cp%>/bbs/${mode}";
+    	f.action="<%=cp%>/layout/${mode}";
 
         f.submit();
     }
 </script>
 
-<div class="body-container" style="width: 700px;">
+<div class="body-container" style="width: 960px;">
     <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 게시판 </h3>
+        <h3><span style="font-family: Webdings">2</span> 글쓰기 </h3>
     </div>
     
-    <div>
-			<form name="boardForm" method="post" enctype="multipart/form-data">
-			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
-			      <td style="padding-left:10px;"> 
-			        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
-			      </td>
-			  </tr>
-			
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
-			      <td style="padding-left:10px;"> 
-			          ${sessionScope.member.userName}
-			      </td>
-			  </tr>
-			
-			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
-			      </td>
-			  </tr>
-			  
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
-			      <td style="padding-left:10px;"> 
-			          <input type="file" name="upload" class="boxTF" size="53" style="width: 95%; height: 25px;">
-			       </td>
-			  </tr>
-			  
-			  <c:if test="${mode=='update' }">
-				  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-				      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
-				      <td style="padding-left:10px;"> 
-				          ${dto.originalFilename}
-				          <c:if test="${not empty dto.saveFilename}">
-				          		| <a href="<%=cp%>/bbs/deleteFile?num=${dto.num}&page=${page}">파일삭제</a>
-				          </c:if>
-				       </td>
-				  </tr>
-			  </c:if>
-
-			  </table>
-			
-			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-			     <tr height="45"> 
-			      <td align="center" >
-			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/list';">${mode=='update'?'수정취소':'등록취소'}</button>
-			         <c:if test="${mode=='update'}">
-			         	 <input type="hidden" name="num" value="${dto.num}">
-			         	 <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
-			         	 <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
-			        	 <input type="hidden" name="page" value="${page}">
-			        </c:if>
-			      </td>
-			    </tr>
-			  </table>
-			</form>
-    </div>
+    
+    <form role="form" name="layoutForm" method="post" enctype="multipart/form-data"> 
+		<div class="form-group"> 
+			<label for="subjectLayout" class="col-sm-2 control-label">제목</label> 
+			<div class="col-sm-10"> 
+				<input name="subject" type="text" class="form-control" id="subjectLayout" placeholder="제목"  value="${dto.subject}"> 
+			</div> 
+		</div> 
+		<div class="form-group"> 
+			<label for="usernameLayout" class="col-sm-2 control-label">작성자</label> 
+			<div class="col-sm-10"> 
+				<input type="text" class="form-control" id="usernameLayout" placeholder="작성자" value="${sessionScope.staff.staffName}" readonly> 
+			</div>  
+		</div>
+		<div class="form-group"> 
+			<label for="contentLayout" class="col-sm-2 control-label">내용</label> 
+			<div class="col-sm-10"> 
+				<textarea name="content" id="contentLayout" class="form-control" rows="10">${dto.content}</textarea>
+			</div>  
+		</div>
+		<div class="form-group"> 
+			<label for="exampleInputFile" class="col-sm-2 control-label">첨부</label> 
+			<div class="col-sm-10"> 
+				<input type="file" name="upload" class="form-control" id="exampleInputFile" > 
+			</div> 
+		</div>
+	
+	 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+		     <tr height="45"> 
+		      <td align="center" >
+		        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+		        <button type="reset" class="btn">다시입력</button>
+		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/layout/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+		         <c:if test="${mode=='update'}">
+		         	 <input type="hidden" name="num" value="${dto.num}">
+		         	 <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
+		         	 <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
+		        	 <input type="hidden" name="page" value="${page}">
+		        </c:if>
+		      </td>
+		    </tr>
+		  </table>
+	</form>
     
 </div>

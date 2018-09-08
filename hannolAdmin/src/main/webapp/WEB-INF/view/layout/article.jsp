@@ -12,7 +12,7 @@ function deleteBoard() {
 	var num = "${dto.num}";
 	var page = "${page}";
 	var query = "num="+num+"&page="+page;
-	var url = "<%=cp%>/bbs/delete?" + query;
+	var url = "<%=cp%>/layout/delete?" + query;
 
 	if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 			location.href=url;
@@ -28,7 +28,7 @@ function updateBoard() {
 	var num = "${dto.num}";
 	var page = "${page}";
 	var query = "num="+num+"&page="+page;
-	var url = "<%=cp%>/bbs/update?" + query;
+	var url = "<%=cp%>/layout/update?" + query;
 
 	location.href=url;
 </c:if>
@@ -50,7 +50,7 @@ $(function(){
 		if(! confirm("게시물에 공감 하십니까 ? "))
 			return;
 		
-		var url="<%=cp%>/bbs/insertBoardLike";
+		var url="<%=cp%>/layout/insertBoardLike";
 		var num="${dto.num}";
 		
 		$.ajax({
@@ -88,7 +88,7 @@ $(function(){
 });
 
 function listPage(page) {
-	var url="<%=cp%>/bbs/listReply";
+	var url="<%=cp%>/layout/listReply";
 	var query="num=${dto.num}&pageNo="+page;
 	
 	$.ajax({
@@ -125,7 +125,7 @@ $(function(){
 		content = encodeURIComponent(content);
 		
 		var query="num="+num+"&content="+content+"&answer=0";
-		var url="<%=cp%>/bbs/insertReply";
+		var url="<%=cp%>/layout/insertReply";
 		$.ajax({
 			type:"post"
 			,url:url
@@ -165,7 +165,7 @@ $(function(){
 		var replyNum=$(this).attr("data-replyNum");
 		var page=$(this).attr("data-pageNo");
 		
-		var url="<%=cp%>/bbs/deleteReply";
+		var url="<%=cp%>/layout/deleteReply";
 		var query="replyNum="+replyNum+"&mode=reply";
 		
 		$.ajax({
@@ -208,7 +208,7 @@ $(function(){
 		
 		var query="replyNum="+replyNum+"&replyLike="+replyLike;
 		
-		var url="<%=cp%>/bbs/insertReplyLike";
+		var url="<%=cp%>/layout/insertReplyLike";
 		$.ajax({
 			type:"post"
 			,url:url
@@ -243,7 +243,7 @@ $(function(){
 	
 	// 댓글 좋아요 / 싫어요 개수
 	function countReplyLike(replyNum, $btn) {
-		var url="<%=cp%>/bbs/countReplyLike";
+		var url="<%=cp%>/layout/countReplyLike";
 		$.ajax({
 			type:"post"
 			,url:url
@@ -273,7 +273,7 @@ $(function(){
 
 // 댓글별 답글 리스트
 function listReplyAnswer(answer) {
-	var url="<%=cp%>/bbs/listReplyAnswer";
+	var url="<%=cp%>/layout/listReplyAnswer";
 	$.ajax({
 		type:"get"
 		,url:url
@@ -297,7 +297,7 @@ function listReplyAnswer(answer) {
 
 // 댓글별 답글 개수
 function countReplyAnswer(answer) {
-	var url="<%=cp%>/bbs/countReplyAnswer";
+	var url="<%=cp%>/layout/countReplyAnswer";
 	$.ajax({
 		type:"post"
 		,url:url
@@ -359,7 +359,7 @@ $(function(){
 		content = encodeURIComponent(content);
 		
 		var query="num="+num+"&content="+content+"&answer="+replyNum;
-		var url="<%=cp%>/bbs/insertReply";
+		var url="<%=cp%>/layout/insertReply";
 		$.ajax({
 			type:"post"
 			,url:url
@@ -398,7 +398,7 @@ $(function(){
 		var replyNum=$(this).attr("data-replyNum");
 		var answer=$(this).attr("data-answer");
 		
-		var url="<%=cp%>/bbs/deleteReply";
+		var url="<%=cp%>/layout/deleteReply";
 		var query="replyNum="+replyNum+"&mode=answer";
 		
 		$.ajax({
@@ -427,9 +427,9 @@ $(function(){
 
 </script>
 
-<div class="body-container" style="width: 700px;">
+<div class="body-container" style="width: 960px;">
     <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 게시판 </h3>
+        <h3><span style="font-family: Webdings">2</span> 글보기 </h3>
     </div>
     
     <div>
@@ -465,7 +465,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       첨&nbsp;&nbsp;부 :
 		           <c:if test="${not empty dto.saveFilename}">
-		                   <a href="<%=cp%>/bbs/download?num=${dto.num}">${dto.originalFilename}</a>
+		                   <a href="<%=cp%>/layout/download?num=${dto.num}">${dto.originalFilename}</a>
 		           </c:if>
 			    </td>
 			</tr>
@@ -474,7 +474,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			         <c:if test="${not empty preReadDto}">
-			              <a href="<%=cp%>/bbs/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+			              <a href="<%=cp%>/layout/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -483,7 +483,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       다음글 :
 			         <c:if test="${not empty nextReadDto}">
-			              <a href="<%=cp%>/bbs/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+			              <a href="<%=cp%>/layout/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -501,7 +501,7 @@ $(function(){
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/bbs/list?${query}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/layout/list?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

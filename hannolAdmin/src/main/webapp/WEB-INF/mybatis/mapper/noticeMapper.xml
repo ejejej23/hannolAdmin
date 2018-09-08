@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+	
+	<insert id="insertNotice" parameterType="com.sp.notice.Notice">
+	  INSERT INTO notice(NOTICECODE, SUBJECT, CONTENT, CREATED, USERSCODE) 
+	  VALUES (notice_seq.NEXTVAL, #{subject}, #{content}, #{created}, #{usersCode})
+	</insert>
+
+	<sql id="where-list">
+	  <if test="searchKey=='usersCode'">
+	      usersCode=#{searchValue}
+	  </if>
+	  <if test="searchKey=='subject'">
+	       INSTR(subject, #{searchValue}) &gt; 0
+	  </if>
+	  <if test="searchKey=='content'">
+	      DBMS_LOB.INSTR(content, #{searchValue}) &gt; 0 
+	  </if>
+	  <if test="searchKey=='created'">
+	      (TO_CHAR(N.created, 'YYYY-MM-DD') = #{searchValue}
+            OR TO_CHAR(N.created, 'YYYYMMDD') = #{searchValue})
+	  </if>
+	</sql>
+
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map"
+	            resultType="Integer">
+	  SELECT NVL(COUNT(*), 0) FROM notice 
+	     <where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	     </where>   
+	</select>
+
+	<!-- 글리스트 -->
+	<select id="listNotice" parameterType="map"
+	            resultType="com.sp.notice.Notice">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			     SELECT NOTICECODE, SUBJECT, CONTENT, CREATED, USERSCODE
+			     FROM NOTICE N
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+	                ORDER BY NOTICECODE DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+</mapper>
