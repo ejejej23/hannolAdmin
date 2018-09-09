@@ -6,7 +6,25 @@ public class Notice {
 	private String subject;
 	private String content;
 	private String created;
-	
+	private String name;
+	private int isNotice;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getIsNotice() {
+		return isNotice;
+	}
+
+	public void setIsNotice(int isNotice) {
+		this.isNotice = isNotice;
+	}
+
 	private int listNum;
 
 	public int getListNum() {

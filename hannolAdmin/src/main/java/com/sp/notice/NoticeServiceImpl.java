@@ -25,7 +25,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int insertNotice(Notice dto, String pathname) {
+	public int insertNotice(Notice dto) {
 		int result = 0;
 		try {
 			dao.insertData("notice.insertNotice", dto);
@@ -51,6 +51,17 @@ public class NoticeServiceImpl implements NoticeService {
 		List<Notice> list = null;
 		try {
 			list = dao.selectList("notice.listNotice", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Notice> listOnlyNotice(Map<String, Object> map) {
+		List<Notice> list =null;
+		try {
+			list = dao.selectList("notice.listOnlyNotice", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
