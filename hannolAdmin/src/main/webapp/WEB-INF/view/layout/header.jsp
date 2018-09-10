@@ -115,7 +115,7 @@
             <span class="dep1">편의시설</span>
             <ul>
                 <li><a href="#">대여/반납</a></li>
-                <li><a href="#">보관</a></li>
+                <li><a href="<%=cp %>/amenity/storage">보관</a></li>
             </ul>
         </li>
         
@@ -141,7 +141,7 @@
         <li>
             <span class="dep1">업체 관리</span>
             <ul>
-                <li><a href="#">업체 정보</a></li>
+                <li><a href="<%=cp%>/company/companyList">업체 정보</a></li>
                 <li><a href="#">거래 내역</a></li>
             </ul>
         </li>
