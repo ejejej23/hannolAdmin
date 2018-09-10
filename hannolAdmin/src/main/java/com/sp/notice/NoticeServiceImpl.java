@@ -68,4 +68,15 @@ public class NoticeServiceImpl implements NoticeService {
 		return list;
 	}
 
+	@Override
+	public Notice readNotice(int noticeCode) {
+		Notice dto =null;
+		try {
+			dto =dao.selectOne("notice.readNotice", noticeCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
 }

@@ -11,4 +11,5 @@ public interface NoticeService {
 	public int dataCount(Map<String,Object> map);
 	public List<Notice> listNotice(Map<String, Object> map);
 	public List<Notice> listOnlyNotice(Map<String, Object> map);
+	public Notice readNotice(int noticeCode);
 }

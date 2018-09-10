@@ -1,6 +1,5 @@
 package com.sp.notice;
 
-import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.common.FileManager;
 import com.sp.common.MyUtil;
 import com.sp.staff.SessionInfo;
 
@@ -35,10 +33,6 @@ public class NoticeController {
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, HttpServletRequest req,
 			Model model) throws Exception {
 
-		//test
-		System.out.println(searchKey+"/////////////"+searchValue);
-		
-		
 		String cp = req.getContextPath();
 
 		int rows = 10; // 한 화면에 보여주는 게시물 수
@@ -67,9 +61,9 @@ public class NoticeController {
 		map.put("start", start);
 		map.put("end", end);
 
-		//공지인 글 리스트
+		// 공지인 글 리스트
 		List<Notice> noticeList = service.listOnlyNotice(map);
-		
+
 		// 글 리스트
 		List<Notice> list = service.listNotice(map);
 
@@ -125,7 +119,22 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/notice/article")
-	public String article(Model model) throws Exception {
+	public String article(@RequestParam(value = "num") int num, @RequestParam(value = "page") String page,
+			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, Model model) throws Exception {
+
+		searchValue = URLDecoder.decode(searchValue, "utf-8");
+
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
+		}
+		
+		Notice dto = service.readNotice(num);
+		if(dto==null) {
+			return "redirect:/";
+		}
+		
 		return ".notice.article";
 	}
 

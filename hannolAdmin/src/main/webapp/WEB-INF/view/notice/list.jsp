@@ -30,14 +30,14 @@
 		f.submit();
 	}
 </script>
-<div class="body-container" style="width: 960px;">
+<div class="sub-container" style="width: 960px;">
      <div class="body-title">
         <h3><span style="font-family: Webdings">2</span> 공지사항 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>
     </div> 
     
-<%--     <div class="page-header">
+    <div class="page-header">
 	  <h1>공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h1>
-	</div> --%>
+	</div> 
   
     
     <div>

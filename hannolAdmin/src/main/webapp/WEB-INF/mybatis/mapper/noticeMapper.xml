@@ -45,7 +45,7 @@
 	            resultType="com.sp.notice.Notice">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, N.USERSCODE, S.NAME, ISNOTICE 
+			    SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE 
                 FROM STAFF S
                 JOIN NOTICE N ON S.USERSCODE = N.USERSCODE
                     <where>
@@ -66,7 +66,7 @@
 	            resultType="com.sp.notice.Notice">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, N.USERSCODE, S.NAME, ISNOTICE 
+			    SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE 
                 FROM STAFF S
                 JOIN NOTICE N ON S.USERSCODE = N.USERSCODE
                     <where>
@@ -79,5 +79,12 @@
 	        ) tb WHERE ROWNUM <= #{end}
 	    ) WHERE rnum >= #{start}
 	]]>
+	</select>
+	
+	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
+		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
+		FROM STAFF S
+		JOIN NOTICE N ON S.USERSCODE=N.USERSCODE
+		WHERE NOTICECODE = #{noticeCode}
 	</select>
 </mapper>
