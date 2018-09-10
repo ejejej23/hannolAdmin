@@ -9,6 +9,19 @@
 .gitf-form-control{
 	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
 }
+
+.col-xs-8:after{
+	content:''; display:block; clear:both;
+}
+
+.col-xs-offset-2{
+	width: 40%;
+}
+
+.col-xs-8{
+ 	float: none;
+ 	margin: 10px auto;
+}
 </style>
 
 <script type="text/javascript">
