@@ -1,5 +1,7 @@
 package com.sp.card;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Card {
 	private int cardCode;
 	private String cardName;
@@ -12,6 +14,25 @@ public class Card {
 	private String originalFilename;
 	private String logoSaveFilename;
 	private String logoOriginalFilename;
+	private MultipartFile cardupload;
+	private MultipartFile logoupload;
+	
+
+	public MultipartFile getCardupload() {
+		return cardupload;
+	}
+
+	public void setCardupload(MultipartFile cardupload) {
+		this.cardupload = cardupload;
+	}
+
+	public MultipartFile getLogoupload() {
+		return logoupload;
+	}
+
+	public void setLogoupload(MultipartFile logoupload) {
+		this.logoupload = logoupload;
+	}
 
 	public int getCardCode() {
 		return cardCode;

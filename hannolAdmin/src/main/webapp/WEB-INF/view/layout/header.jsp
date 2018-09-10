@@ -59,7 +59,7 @@
             <span class="dep1">시스템 관리</span>
             <ul>
                 <li><a href="#">이용권 관리</a></li>
-                <li><a href="#">할인카드 관리</a></li>
+                <li><a href="<%=cp%>/card/list">할인카드 관리</a></li>
                 <li><a href="#">쿠폰 관리</a></li>
                 <li><a href="#">이용객 현황 관리</a></li>
                 <li><a href="#">예매/예약 현황 관리</a></li>

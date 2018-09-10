@@ -30,29 +30,90 @@
     function sendOk() {
         var f = document.cardForm;
 
-    	/* var str = f.subject.value;
+    	var str = f.cardCo.value;
         if(!str) {
-            alert("제목을 입력하세요. ");
+            alert("카드사를 입력하세요. ");
             f.subject.focus();
             return;
         }
 
-    	str = f.content.value;
+    	str = f.cardName.value;
         if(!str) {
-            alert("내용을 입력하세요. ");
+            alert("카드명을 입력하세요. ");
             f.content.focus();
             return;
-        } */
-
+        } 
+        
+        str = f.startDate.value;
+        str = str.trim();
+        if(!str || !isValidDateFormat(str)) {
+            alert("시작일을 입력하세요. ");
+            f.content.focus();
+            return;
+        } 
+        
+        str = f.endDate.value;
+        str = str.trim();
+        if(!str || !isValidDateFormat(str)) {
+            alert("종료일을 입력하세요. ");
+            f.content.focus();
+            return;
+        } 
+        
+        str = f.discount.value;
+        if(!str) {
+            alert("할인율을 입력하세요. ");
+            f.content.focus();
+            return;
+        } 
+        
+        str = f.memo.value;
+        if(!str) {
+            alert("상세내용을 입력하세요. ");
+            f.content.focus();
+            return;
+        } 
+        
+        str = f.cardupload.value;
+        if(!str) {
+            alert("카드 이미지를 첨부하세요. ");
+            f.content.focus();
+            return;
+        } 
+        
     	f.action="<%=cp%>/card/${mode}";
 
         f.submit();
     }
+    
+    $(function(){
+    	$("#startDate").datepicker({
+    		showOn:"button"
+    		,buttonImage:"<%=cp%>/resource/images/calendar.gif"
+    		,buttonImageOnly:true
+    		,showMonthAfterYear:true
+    		,minDate:0
+    		,onClose: function( selectedDate ) {
+    		 	$("#endDate").datepicker( "option", "minDate", selectedDate );
+    		 }
+    	});
+    	
+    	$("#endDate").datepicker({
+    		showOn:"button"
+    		,buttonImage:"<%=cp%>/resource/images/calendar.gif"
+    		,buttonImageOnly:true
+    		,showMonthAfterYear:true
+    		,minDate:0
+    		,onClose: function( selectedDate ) {
+    			  $("#startDate").datepicker( "option", "maxDate", selectedDate );
+    		 }
+    	});
+    });
 </script>
 
 <div class="body-container" style="width: 960px;">
     <div class="body-title">
-        <h3><span class="glyphicon glyphicon-credit-card"></span> 카드등록 </h3>
+        <h3><span class="glyphicon glyphicon-credit-card"></span> 제휴카드 </h3>
     </div>
     
     
@@ -73,10 +134,8 @@
 			<label for="startDate" class="col-sm-2 control-label">기간</label> 
 			<div class="col-sm-10"> 
 				<input style="width: 46%;" name="startDate" type="text" class="form-control" id="startDate" placeholder="시작일"  value="${dto.startDate}">
-				<img src="<%=cp%>/resource/images/calendar.gif">
 				~ 
 				<input style="width: 46%;" name="endDate" type="text" class="form-control" id="endDate" placeholder="종료일"  value="${dto.endDate}"> 
-				<img src="<%=cp%>/resource/images/calendar.gif">
 			</div> 
 		</div>  
 		<div class="form-group"> 
