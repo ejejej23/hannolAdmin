@@ -24,15 +24,16 @@
             return;
         }
 
-    	f.action="<%=cp%>/notice/${mode}";
+    	f.action="<%=cp%>/noticeS/${mode}";
 
         f.submit();
     }
 
+    
     $(function(){
     	<c:if test="${not empty dto.isNotice}">
 	    	var chk = ${dto.isNotice};
-	    	var chkHere = $("#isNotice");
+	    	var chkHere = $("#isNoticeS");
 	    	
 	    	if(chk==1){
 	    		chkHere.prop("checked",true);
@@ -48,28 +49,28 @@
     
     <form role="form" name="noticeForm" method="post" enctype="multipart/form-data"> 
 		<div class="form-group"> 
-			<label for="subjectNotice" class="col-sm-2 control-label">제목</label> 
+			<label for="subjectNoticeS" class="col-sm-2 control-label">제목</label> 
 			<div class="col-sm-10"> 
-				<input name="subject" type="text" class="form-control" id="subjectNotice" placeholder="제목"  value="${dto.subject}"> 
+				<input name="subject" type="text" class="form-control" id="subjectNoticeS" placeholder="제목"  value="${dto.subject}"> 
 			</div> 
 		</div> 
 		<div class="form-group"> 
-			<label for="usernameNotice" class="col-sm-2 control-label">작성자</label> 
+			<label for="usernameNoticeS" class="col-sm-2 control-label">작성자</label> 
 			<div class="col-sm-10"> 
-				<input type="text" class="form-control" id="usernameNotice" placeholder="작성자" value="${sessionScope.staff.staffName}" readonly> 
+				<input type="text" class="form-control" id="usernameNoticeS" placeholder="작성자" value="${sessionScope.staff.staffName}" readonly> 
 			</div>  
 		</div>
 
 		<div class="form-group"> 
-			<label for="contentNotice" class="col-sm-2 control-label">내용</label> 
+			<label for="contentNoticeS" class="col-sm-2 control-label">내용</label> 
 			<div class="col-sm-10"> 
-				<textarea name="content" id="contentNotice" class="form-control" rows="10">${dto.content}</textarea>
+				<textarea name="content" id="contentNoticeS" class="form-control" rows="10">${dto.content}</textarea>
 			</div>  
 		</div>
 		<div class="form-group"> 
-			<label for="isNotice" class="col-sm-2 control-label">공지</label> 
+			<label for="isNoticeS" class="col-sm-2 control-label">공지</label> 
 			<div class="col-sm-10"> 
-				<input type="checkbox" name="isNotice" id="isNotice" value="1"> 공지여부 체크
+				<input type="checkbox" name="isNotice" id="isNoticeS" value="1"> 공지여부 체크
 			</div>  
 		</div>
 		
@@ -79,7 +80,7 @@
 		      <td align="center" >
 		        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 		        <button type="reset" class="btn">다시입력</button>
-		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/noticeS/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 		         <c:if test="${mode=='update'}">
 		         	 <input type="hidden" name="num" value="${dto.noticeCode}">
 		        	 <input type="hidden" name="page" value="${page}">
