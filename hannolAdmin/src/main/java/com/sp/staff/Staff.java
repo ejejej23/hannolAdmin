@@ -6,6 +6,7 @@ public class Staff {
 	public String staffPwd;
 	private String authority;
 
+	
 	private String name;
 	private String tel;
 	private String tel1;

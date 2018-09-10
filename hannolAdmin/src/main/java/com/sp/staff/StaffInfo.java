@@ -23,6 +23,7 @@ public class StaffInfo {
 	private String addr2;
 	private int enabled;
 
+	
 	public String getAuthority() {
 		return authority;
 	}

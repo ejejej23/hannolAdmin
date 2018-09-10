@@ -7,6 +7,7 @@ public class SessionInfo {
 	private String staffName;
 	private String authority;
 
+	
 	public String getAuthority() {
 		return authority;
 	}
