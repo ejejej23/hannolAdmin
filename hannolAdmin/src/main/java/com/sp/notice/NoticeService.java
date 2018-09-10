@@ -12,4 +12,8 @@ public interface NoticeService {
 	public List<Notice> listNotice(Map<String, Object> map);
 	public List<Notice> listOnlyNotice(Map<String, Object> map);
 	public Notice readNotice(int noticeCode);
+	public Notice preReadNotice(Map<String, Object> map);
+	public Notice nextReadNotice(Map<String, Object> map);
+	public int updateNotice(Notice dto);
+	public int deleteNotice(int noticeCode,long usersCode);
 }

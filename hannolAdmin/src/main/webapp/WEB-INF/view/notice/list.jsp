@@ -9,7 +9,6 @@
 .gitf-form-control{
 	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
 }
-
 .col-xs-8:after{
 	content:''; display:block; clear:both;
 }
@@ -22,6 +21,7 @@
  	float: none;
  	margin: 10px auto;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -100,7 +100,7 @@
 		          	<div class="col-xs-8 col-xs-offset-2">
 					  		<div class="input-group">
 					            <input type="hidden" name="searchKey" value="all">         
-					            <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+					            <input type="text" style="height:29px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
 					            <span class="input-group-btn">
 					                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
 					            </span>

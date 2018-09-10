@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sp.common.FileManager;
 import com.sp.common.dao.CommonDAO;
 import com.sp.staff.Staff;
 
@@ -14,9 +13,6 @@ import com.sp.staff.Staff;
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private CommonDAO dao;
-
-	@Autowired
-	private FileManager fileManager;
 
 	@Override
 	public Staff readStaff() {
@@ -77,6 +73,56 @@ public class NoticeServiceImpl implements NoticeService {
 			System.out.println(e.toString());
 		}
 		return dto;
+	}
+
+	@Override
+	public Notice preReadNotice(Map<String, Object> map) {
+		Notice dto = null;
+		try {
+			dto =dao.selectOne("notice.preReadNotice", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public Notice nextReadNotice(Map<String, Object> map) {
+		Notice dto = null;
+		try {
+			dto =dao.selectOne("notice.nextReadNotice", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public int updateNotice(Notice dto) {
+		int result = 0;
+		try {
+			result = dao.updateData("notice.updateNotice", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteNotice(int num, long usersCode) {
+		int result = 0;
+		try {
+			Notice dto = dao.selectOne("notice.deleteNotice", num);
+			boolean amIAdmin = dao.selectOne("staff.amIAdmin", usersCode);
+			
+			if(dto==null || ( !amIAdmin &&  usersCode != dto.getUsersCode()))
+				return result;
+			
+			result = dao.deleteData("notice.deleteNotice", num);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 }

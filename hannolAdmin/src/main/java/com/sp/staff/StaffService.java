@@ -5,6 +5,7 @@ import java.util.Map;
 
 public interface StaffService {
 	public Staff loginStaff(String staffId);
+	public boolean amIAdmin(long usersCode);
 	
 /*	public int insertMember(Member dto);
 	
