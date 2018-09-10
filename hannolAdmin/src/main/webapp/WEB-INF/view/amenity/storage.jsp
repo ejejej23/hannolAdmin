@@ -6,9 +6,6 @@
    String cp = request.getContextPath();
 %>
 <style>
-	.sub-container{width:960px; min-hieght:500px; margin:50px auto; padding:0 60px;}
-	.sub-title{margin-bottom:35px; padding-bottom:15px; font-size:28px; border-bottom:1px solid #eeeeee;}
-	h3{font-weight:700; color:#444444; }
 	
 	.storageCount_box{margin:20px 0; padding:15px; text-align:center; background-color:#fafafa; border:1px solid #efefef;}
 	
