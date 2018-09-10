@@ -40,7 +40,7 @@
             <span class="dep1">공지사항</span>
             <ul>
                 <li><a href="<%=cp %>/notice/list">사용자 공지</a></li>
-                <li><a href="#">사내 공지</a></li>
+                <li><a href="<%=cp %>/noticeS/list">사내 공지</a></li>
             </ul>
         </li>
     

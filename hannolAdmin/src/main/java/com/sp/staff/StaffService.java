@@ -1,11 +1,9 @@
 package com.sp.staff;
 
-import java.util.List;
-import java.util.Map;
-
 public interface StaffService {
 	public Staff loginStaff(String staffId);
 	public boolean amIAdmin(long usersCode);
+	
 	
 /*	public int insertMember(Member dto);
 	

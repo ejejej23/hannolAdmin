@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeS">
+	
+	<insert id="insertNotice" parameterType="com.sp.notice.Notice">
+	  INSERT INTO staffNotice(NOTICECODE, SUBJECT, CONTENT, USERSCODE, ISNOTICE) 
+	  VALUES (notice_seq.NEXTVAL, #{subject}, #{content}, #{usersCode}, #{isNotice})
+	</insert>
+
+	<sql id="where-list">
+	  <if test="searchKey=='name'">
+	      S.name =#{searchValue}
+	  </if>
+	  <if test="searchKey=='all'">
+	      (INSTR(subject, #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(content, #{searchValue}) &gt; 0)
+	  </if>
+	  <if test="searchKey=='subject'">
+	       INSTR(subject, #{searchValue}) &gt; 0
+	  </if>
+	  <if test="searchKey=='content'">
+	      INSTR(content, #{searchValue}) &gt; 0 
+	  </if>
+	  <if test="searchKey=='created'">
+	      (TO_CHAR(N.created, 'YYYY-MM-DD') = #{searchValue}
+            OR TO_CHAR(N.created, 'YYYYMMDD') = #{searchValue})
+	  </if>
+	</sql>
+
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map"
+	            resultType="Integer">
+	  SELECT NVL(COUNT(*), 0) FROM staffNotice 
+	     <where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	     </where>   
+	</select>
+
+	<!-- 공지리스트 -->
+	<select id="listOnlyNotice" parameterType="map"
+	            resultType="com.sp.notice.Notice">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE 
+                FROM STAFF S
+                JOIN staffNotice N ON S.USERSCODE = N.USERSCODE
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+                WHERE ISNOTICE = 1
+                ORDER BY NOTICECODE DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+
+	<!-- 글리스트 -->
+	<select id="listNotice" parameterType="map"
+	            resultType="com.sp.notice.Notice">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED,'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE 
+                FROM STAFF S
+                JOIN staffNotice N ON S.USERSCODE = N.USERSCODE
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+	            ORDER BY NOTICECODE DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+	
+	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
+		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
+		FROM STAFF S
+		JOIN staffNotice N ON S.USERSCODE=N.USERSCODE
+		WHERE NOTICECODE = #{num}
+	</select>
+	
+		<!-- 이전글 -->
+	<select id="preReadNotice" resultType="com.sp.notice.Notice" 
+				parameterType="map">
+		SELECT tb.* FROM (
+			SELECT NOTICECODE, SUBJECT
+                FROM staffNotice 
+                    <where>
+                         <if test="searchValue != null and searchValue != '' ">
+			                  <include refid="where-list"/>
+		                 </if>
+		               <![CDATA[
+		                 AND (NOTICECODE > #{num})
+		                 ]]>
+	                </where>
+				ORDER BY NOTICECODE ASC
+			) tb WHERE ROWNUM=1
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadNotice" resultType="com.sp.notice.Notice" 
+				parameterType="map">
+		SELECT tb.* FROM (
+			SELECT NOTICECODE, SUBJECT
+                FROM staffNotice 
+                    <where>
+                         <if test="searchValue != null and searchValue != '' ">
+			                  <include refid="where-list"/>
+		                 </if>
+		               <![CDATA[
+		                 AND (NOTICECODE < #{num})
+		                 ]]>
+	                </where>
+				ORDER BY NOTICECODE DESC
+			) tb WHERE ROWNUM=1
+	</select>
+
+     <!-- 수정 -->
+     <update id="updateNotice" parameterType="com.sp.notice.Notice">
+         UPDATE staffNotice SET subject=#{subject}, content=#{content}, isNotice = #{isNotice}
+                    WHERE noticeCode = #{noticeCode}
+      </update>
+      
+      <!-- 삭제 -->
+      <delete id="deleteNotice" parameterType="Integer">
+            DELETE FROM staffNotice WHERE noticeCode = #{num}
+      </delete>
+</mapper>
