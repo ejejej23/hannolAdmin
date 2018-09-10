@@ -4,6 +4,7 @@
 <mapper namespace="card">
 	<insert id="insertCard" parameterType="com.sp.card.Card">
 		INSERT INTO Card(cardCode, cardName, startDate, endDate, memo, cardCo, discount, saveFilename, originalFilename, logoSaveFilename, logoOriginalFilename) 
-    VALUES(card_seq.NEXTVAL,#{cardName},#{startDate},#{endDate},#{memo},#{cardCo},#{discount},#{saveFilename},#{originalFilename},#{logoSaveFilename},#{logoOriginalFilename})
+    VALUES(card_seq.NEXTVAL,#{cardName},#{startDate},#{endDate},#{memo},#{cardCo},#{discount},
+    	#{saveFilename},#{originalFilename},#{logoSaveFilename, jdbcType=VARCHAR},#{logoOriginalFilename, jdbcType=VARCHAR})
 	</insert>
 </mapper> 
