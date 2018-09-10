@@ -181,9 +181,12 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
-	public String updateUbmit(Model model) throws Exception {
+	public String updateUbmit(@RequestParam String page, Notice dto, @RequestParam int num) throws Exception {
 
-		return "redirect:/notice/list";
+		dto.setNoticeCode(num);
+		service.updateNotice(dto);
+		
+		return "redirect:/notice/list?page"+page;
 	}
 
 	@RequestMapping(value = "/notice/delete")

@@ -31,14 +31,24 @@
 	}
 </script>
 <div class="sub-container" style="width: 960px;">
-     <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 공지사항 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>
-    </div> 
     
-    <div class="page-header">
-	  <h1>공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h1>
+    <div class="sub-title">
+	  <h3>공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
 	</div> 
   
+  	<div>
+  		<form name="searchForm" method="post" action="<%=cp%>/notice/list">
+          	<div class="col-xs-8 col-xs-offset-2">
+			  		<div class="input-group">
+			            <input type="hidden" name="searchKey" value="all">         
+			            <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+			            <span class="input-group-btn">
+			                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
+			            </span>
+			        </div>
+			</div>
+		</form>
+  	</div>
     
     <div>
 		<table class="table">
@@ -46,8 +56,7 @@
 			        <col style="width: 10%; text-align:center">
 			        <col style="text-align:center">
 			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
+			        <col style="width: 15%; text-align:center">
 			    </colgroup>
     
 		  <thead class="thead-light">
@@ -96,17 +105,7 @@
 		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
 		      </td>
 		      <td align="center">
-		      	<form name="searchForm" method="post" action="<%=cp%>/notice/list">
-		          	<div class="col-xs-8 col-xs-offset-2">
-					  		<div class="input-group">
-					            <input type="hidden" name="searchKey" value="all">         
-					            <input type="text" style="height:29px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
-					            <span class="input-group-btn">
-					                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
-					            </span>
-					        </div>
-					</div>
-				</form>
+		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
 		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>

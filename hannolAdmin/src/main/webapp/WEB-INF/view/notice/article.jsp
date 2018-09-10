@@ -46,14 +46,14 @@ function login() {
 
 </script>
 
-<div class="body-container" style="width: 960px;">
-    <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 글보기 </h3>
-    </div>
+<div class="sub-container" style="width: 960px;">
+    <div class="sub-title">
+	  <h3>글보기</h3>
+	</div>
     
     <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			<tr height="35" style="border-top: 2px solid #dddddd; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				   ${dto.subject}
 			    </td>

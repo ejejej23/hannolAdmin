@@ -126,8 +126,8 @@
 
      <!-- 수정 -->
      <update id="updateNotice" parameterType="com.sp.notice.Notice">
-         UPDATE notice SET subject=#{subject}, content=#{content}
-                    WHERE noticeCode = #{num}
+         UPDATE notice SET subject=#{subject}, content=#{content}, isNotice = #{isNotice}
+                    WHERE noticeCode = #{noticeCode}
       </update>
       
       <!-- 삭제 -->

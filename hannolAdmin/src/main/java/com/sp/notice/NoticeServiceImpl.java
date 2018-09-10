@@ -101,7 +101,8 @@ public class NoticeServiceImpl implements NoticeService {
 	public int updateNotice(Notice dto) {
 		int result = 0;
 		try {
-			result = dao.updateData("notice.updateNotice", dto);
+			dao.updateData("notice.updateNotice", dto);
+			result =1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

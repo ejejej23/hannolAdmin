@@ -2,7 +2,7 @@ package com.sp.notice;
 
 public class Notice {
 	private long usersCode;
-	private String noticeCode;
+	private int noticeCode;
 	private String subject;
 	private String content;
 	private String created;
@@ -43,11 +43,11 @@ public class Notice {
 		this.usersCode = usersCode;
 	}
 
-	public String getNoticeCode() {
+	public int getNoticeCode() {
 		return noticeCode;
 	}
 
-	public void setNoticeCode(String noticeCode) {
+	public void setNoticeCode(int noticeCode) {
 		this.noticeCode = noticeCode;
 	}
 
