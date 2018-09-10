@@ -37,8 +37,6 @@
     		chkHere.prop("checked",true);
     	}
     	
-    	
-    	
     });
 </script>
 
