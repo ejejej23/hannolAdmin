@@ -70,5 +70,4 @@ $(function() {
 		</table>
 
     </div>
-
 </div>
