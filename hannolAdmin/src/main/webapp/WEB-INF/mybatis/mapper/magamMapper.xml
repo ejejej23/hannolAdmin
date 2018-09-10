@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="magam">
+	<select id="listMagam" parameterType="map" resultType="com.sp.magam.Magam">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT MAGAMY AS YEAR, MAGAMM AS MONTH, ISMAGAM, S.USERSCODE, NAME, TO_CHAR(MAGAMDATE,'YYYY-MM-DD') MAGAMDATE
+				FROM MAGAM M
+				JOIN STAFF S ON M.USERSCODE = S.USERSCODE
+                ORDER BY MAGAMY DESC, MAGAMM DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+
+	<select id="readMagam" parameterType="map" resultType="com.sp.magam.Magam">
+		SELECT MAGAMY AS YEAR, MAGAMM AS MONTH, ISMAGAM, S.USERSCODE, NAME, TO_CHAR(MAGAMDATE,'YYYY-MM-DD') MAGAMDATE
+		FROM MAGAM M
+		JOIN STAFF S ON M.USERSCODE = S.USERSCODE
+		WHERE MAGAMY = #{year} AND MAGAMM = #{month}
+	</select>
+
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*),0) FROM MAGAM
+	</select>
+	
+	<update id="updateMagam" parameterType="com.sp.magam.Magam">
+		UPDATE SET ISMAGAM =#{isMagam} 
+		WHERE MAGAMY = #{year} AND MAGAMM = #{month}
+	</update>
+</mapper>

@@ -15,13 +15,13 @@ public class NoticeServiceImpl implements NoticeService {
 	private CommonDAO dao;
 
 	@Override
-	public Staff readStaff() {
+	public Staff readStaff() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insertNotice(Notice dto) {
+	public int insertNotice(Notice dto) throws Exception {
 		int result = 0;
 		try {
 			dao.insertData("notice.insertNotice", dto);
@@ -32,7 +32,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int dataCount(Map<String, Object> map) {
+	public int dataCount(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
 			result = dao.selectOne("notice.dataCount", map);
@@ -43,7 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<Notice> listNotice(Map<String, Object> map) {
+	public List<Notice> listNotice(Map<String, Object> map) throws Exception {
 		List<Notice> list = null;
 		try {
 			list = dao.selectList("notice.listNotice", map);
@@ -54,8 +54,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<Notice> listOnlyNotice(Map<String, Object> map) {
-		List<Notice> list =null;
+	public List<Notice> listOnlyNotice(Map<String, Object> map) throws Exception {
+		List<Notice> list = null;
 		try {
 			list = dao.selectList("notice.listOnlyNotice", map);
 		} catch (Exception e) {
@@ -65,21 +65,10 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public Notice readNotice(int noticeCode) {
-		Notice dto =null;
-		try {
-			dto =dao.selectOne("notice.readNotice", noticeCode);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		return dto;
-	}
-
-	@Override
-	public Notice preReadNotice(Map<String, Object> map) {
+	public Notice readNotice(int noticeCode) throws Exception {
 		Notice dto = null;
 		try {
-			dto =dao.selectOne("notice.preReadNotice", map);
+			dto = dao.selectOne("notice.readNotice", noticeCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -87,10 +76,10 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public Notice nextReadNotice(Map<String, Object> map) {
+	public Notice preReadNotice(Map<String, Object> map) throws Exception {
 		Notice dto = null;
 		try {
-			dto =dao.selectOne("notice.nextReadNotice", map);
+			dto = dao.selectOne("notice.preReadNotice", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -98,11 +87,22 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int updateNotice(Notice dto) {
+	public Notice nextReadNotice(Map<String, Object> map) throws Exception {
+		Notice dto = null;
+		try {
+			dto = dao.selectOne("notice.nextReadNotice", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public int updateNotice(Notice dto) throws Exception {
 		int result = 0;
 		try {
 			dao.updateData("notice.updateNotice", dto);
-			result =1;
+			result = 1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -110,15 +110,15 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int deleteNotice(int num, long usersCode) {
+	public int deleteNotice(int num, long usersCode) throws Exception {
 		int result = 0;
 		try {
 			Notice dto = dao.selectOne("notice.deleteNotice", num);
 			boolean amIAdmin = dao.selectOne("staff.amIAdmin", usersCode);
-			
-			if(dto==null || ( !amIAdmin &&  usersCode != dto.getUsersCode()))
+
+			if (dto == null || (!amIAdmin && usersCode != dto.getUsersCode()))
 				return result;
-			
+
 			result = dao.deleteData("notice.deleteNotice", num);
 		} catch (Exception e) {
 			System.out.println(e.toString());
