@@ -28,6 +28,7 @@
 
         f.submit();
     }
+
     
     $(function(){
     	var chk = ${dto.isNotice};
