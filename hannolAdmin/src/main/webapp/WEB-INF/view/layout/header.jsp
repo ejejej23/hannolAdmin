@@ -141,7 +141,7 @@
         <li>
             <span class="dep1">업체 관리</span>
             <ul>
-                <li><a href="<%=cp%>/company/companyList">업체 정보</a></li>
+                <li><a href="<%=cp%>/company/list">업체 정보</a></li>
                 <li><a href="#">거래 내역</a></li>
             </ul>
         </li>
