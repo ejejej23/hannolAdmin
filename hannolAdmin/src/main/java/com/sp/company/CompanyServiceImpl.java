@@ -40,8 +40,14 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public List<Company> listCompany(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Company> list = null;
+		
+		try {
+			list = dao.selectList("company.listCompany", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
 	}
 
 }

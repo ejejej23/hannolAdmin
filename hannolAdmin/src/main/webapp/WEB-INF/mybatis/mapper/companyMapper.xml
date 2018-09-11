@@ -7,30 +7,45 @@
 		INSERT INTO company(companyCode, name, tel, memo) VALUES (company_seq.NEXTVAL, #{name}, #{tel}, #{memo})
 	</insert> 
 	
+	<!-- 검색 -->
 	<sql id="where-list">
 		<if test="searchKey=='companyName'">
-			companyName = #{searchValue}
+			INSTR(name, #{searchValue}) &gt; 0
 		</if>
 		<if test="searchKey=='content'">
-			INSTR(content, #{searchValue}) &gt; 0
+			INSTR(memo, #{searchValue}) &gt; 0
 		</if>
 		<if test="searchKey=='tel'">
 			(tel = #{searchValue} or REPLACE(tel, '-', '') = #{searchValue})
 		</if>
 		<if test="searchKey=='created'">
-			(TO_CHAR(created, 'YYYY-MM-DD') = #{searchValue} OR TO_CHAR(created, 'YYYYMMDD'))
+			(TO_CHAR(startDate, 'YYYY-MM-DD') = #{searchValue} or TO_CHAR(startDate, 'YYYYMMDD') = #{searchValue})
 		</if>
 	</sql>
 	
+	<!-- 데이터 개수 -->
 	<select id="dataCount" resultType="Integer" parameterType="map">
 		SELECT NVL(COUNT(*), 0) FROM company
 		<where>
 			<if test="searchValue!=null and searchValue!=''">
-				<include refid="where-list"></include>
+				<include refid="where-list"/>
 			</if>
 		</where>
 	</select>
 	
-	<!-- <select id="listCompany" resultType="" parameterType="map">
-	</select> -->
+	<!-- 리스트 -->
+	<select id="listCompany" resultType="com.sp.company.Company" parameterType="map">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT companyCode, name, memo, tel, TO_CHAR(startDate, 'YYYY-MM-DD') startDate
+		        FROM company
+		        <where>
+		        	<if test="searchValue!=null and searchValue!=''">
+		        		<include refid="where-list"/>
+		        	</if>
+		        </where>
+		        ORDER BY companyCode DESC
+		    )tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select> 
 </mapper>

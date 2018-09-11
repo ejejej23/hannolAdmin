@@ -1,6 +1,7 @@
 package com.sp.company;
 
 public class Company {
+	private int listNum; 		//리스트 번호
 	private int companyCode;	//업체 코드
 	private String name;		//업체명
 	private String tel;			//연락처
@@ -11,6 +12,14 @@ public class Company {
 	private String memo;		//설명
 
 	
+	public int getListNum() {
+		return listNum;
+	}
+
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+
 	public int getCompanyCode() {
 		return companyCode;
 	}

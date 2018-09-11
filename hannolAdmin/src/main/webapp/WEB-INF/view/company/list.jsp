@@ -13,7 +13,10 @@
 	.table th:nth-child(2),
 	.table td:nth-child(2),
 	.table th:nth-child(3),
-	.table td:nth-child(3){text-align:left;}
+	.table td:nth-child(3),
+	.table td:nth-child(4){text-align:left;}
+	
+	.listData_no{text-align:center;}
 	
 	
 	/**modal**/
@@ -79,6 +82,12 @@
 	});
 	
 	
+	//검색
+	function searchList(){
+		 var f = document.searchForm;
+		 f.action="<%=cp%>/company/list";
+		 f.submit();
+	}; 
 	
 	
 	//전송
@@ -103,7 +112,9 @@
 
 <div class="sub-container">
 	<div class="sub-title">
-		<h3>업체 정보</h3>
+		<h3>업체 정보
+			<small>${dataCount}개(${page}/${total_page} 페이지)</small>
+		</h3>
 	</div>
 
 	<div class="sub_contents">
@@ -112,7 +123,7 @@
 				<col style="width:6%;">
 				<col style="width:18%;">
 				<col style="">
-				<col style="width:15%;">
+				<col style="width:14%;">
 				<col style="width:15%;">
 			</colgroup>
 
@@ -127,31 +138,39 @@
 				
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>미츠바시 엘리베이터</td>
-					<td><a href="#">엘리베이터 정비 업체</a></td>
-					<td>010-5555-5555</td>
-					<td>2010-10-10</td>
-				</tr>
+				<c:forEach var="dto" items="${list}">
+					<tr>
+						<td>${dto.listNum}</td>
+						<td>${dto.name}</td>
+						<td><a href="#">${dto.memo}</a></td>
+						<td>${dto.tel}</td>
+						<td>${dto.startDate}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 
 
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-			<%-- <tr height="35">
-				<td align="center"><c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-					<c:if test="${dataCount!=0 }">${paging}</c:if></td>
-			</tr> --%>
+			<tr>
+				<td class="listData_no">
+					<c:if test="${dataCount==0}">
+						등록된 게시물이 없습니다.
+					</c:if>
+					<c:if test="${dataCount!=0}">
+						${paging}
+					</c:if>
+				</td>
+			</tr>
 		</table>
 
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+		<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/company/list';">새로고침</button>
 				</td>
 				<td align="center">
-					<form name="searchForm" action="/sp4/bbs/list" method="post">
+					<form name="searchForm" method="post">
 						<select name="searchKey" class="selectField">
 							<option value="companyName">업체명</option>
 							<option value="content">상세설명</option>
