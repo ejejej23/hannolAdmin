@@ -24,7 +24,7 @@
             <c:if test="${not empty sessionScope.staff}">
                 <span style="color:black; font-weight: bold;">${sessionScope.staff.staffName}</span>님
                 &nbsp;|&nbsp;
-                <a href="<%=cp%>/">로그아웃</a>
+                <a href="<%=cp%>/staff/logout">로그아웃</a>
                 &nbsp;|&nbsp;
                 <a href="<%=cp%>/">마이페이지</a>
             </c:if>

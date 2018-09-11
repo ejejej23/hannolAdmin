@@ -53,10 +53,6 @@ public class BudgetController {
 		map.put("start", start);
 		map.put("end", end);
 		
-		System.out.println(dataCount+"dataCount.............................................");
-		System.out.println(current_page+".............................................");
-		System.out.println(start+"////////////////////////////////////"+end);
-
 		List<Budget> list = service.listBudget(map);
 		
 		int listNum,n=0;
@@ -66,8 +62,6 @@ public class BudgetController {
 			listNum =dataCount-(start+n-1);
 			data.setListNum(listNum);
 			n++;
-			
-			System.out.println(data.getQuarter());
 		}
 		
 		String query="";
@@ -90,7 +84,7 @@ public class BudgetController {
 
 	@ResponseBody
 	@RequestMapping(value = "/budget/update")
-	public Map<String, Object> updateMagam(@RequestParam(value = "page", defaultValue = "1") int page, Budget dto,
+	public Map<String, Object> updateBudget(@RequestParam(value = "page", defaultValue = "1") int page, Budget dto,
 			HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("staff");
 
@@ -105,6 +99,8 @@ public class BudgetController {
 
 		map.put("page", page);
 
+		//test
+		System.out.println("///////////////////////////////");
 		return map;
 	}
 }

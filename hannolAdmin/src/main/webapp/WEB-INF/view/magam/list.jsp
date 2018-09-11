@@ -9,7 +9,7 @@
 
 
 $(function() {
-	$(document).on("click","button",function(){
+	$(document).on("click","button[name=updateBtn]",function(){
 		
 		var url = "<%=cp%>/magam/update";
 		var year = $(this).closest("tr").children().eq(1).text();
@@ -29,7 +29,7 @@ $(function() {
 				console.log(e.responseText);
 				$("#resultLayout").html("에러발생!");	
 			}
-		});  
+		});
 	});
 
 });

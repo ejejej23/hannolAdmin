@@ -39,7 +39,7 @@
 				      <td>${dto.usersCode}</td>
 				      <td>${dto.name}</td>
 				      <td>${dto.inputDate}</td>
-				      <td><button class="btn btn-default">수정</button></td>
+				      <td><button class="btn btn-default" name="updateBtn">수정</button></td>
 				    </tr>
 			    </c:forEach>
 		  </tbody>

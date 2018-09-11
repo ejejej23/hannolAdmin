@@ -27,7 +27,7 @@
 	</select>
 	
 	<update id="updateBudget" parameterType="map">
-		UPDATE BUDGET SET BUDGET=#{budget}, USERSCODE=#{usersCode}, INPUTDATE=SYSDATE
+		UPDATE BUDGET SET BUDGET=#{budget}, USERSCODE=#{usersCode}, CREATED=SYSDATE
 		WHERE BUDGETY=#{year} AND BUDGETQ=#{quarter} 
 	</update>
 </mapper>
