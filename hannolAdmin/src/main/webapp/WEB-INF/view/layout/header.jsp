@@ -50,7 +50,7 @@
                 <li><a href="#">재정통계표</a></li>
                 <li><a href="#">이익</a></li>
                 <li><a href="#">손해</a></li>
-                <li><a href="#">예산</a></li>
+                <li><a href="<%=cp%>/magam/list">예산</a></li>
                 <li><a href="#">현장 매출 등록</a></li>
             </ul>
         </li>
@@ -74,6 +74,7 @@
                 <li><a href="#">알림 발송</a></li>
                 <li><a href="#">쿠폰 발송</a></li>
                 <li><a href="#">등급 관리</a></li>
+                <li><a href="<%=cp%>/member/list">회원리스트</a></li>                
             </ul>
         </li>
         
@@ -99,6 +100,7 @@
             <ul>
                 <li><a href="#">가이드</a></li>
                 <li><a href="#">공연</a></li>
+                <li><a href="<%=cp%>/event/list">이벤트</a></li>
             </ul>
         </li>
         
@@ -133,7 +135,7 @@
                 <li><a href="<%=cp%>/giftshop/created">품목관리</a></li>
                 <li><a href="#">입고관리</a></li>
                 <li><a href="#">출고관리</a></li>
-                <li><a href="#">마감</a></li>
+                <li><a href="<%=cp%>/magam/list">마감</a></li>
                 <li><a href="#">구매내역</a></li>
             </ul>
         </li>
