@@ -15,6 +15,7 @@ iframe{
 <script type="text/javascript">
 	function check() {
 	    var f = document.goodsForm;
+	    
 	
 		f.action="<%=cp%>/giftshop/${mode}";
 	
