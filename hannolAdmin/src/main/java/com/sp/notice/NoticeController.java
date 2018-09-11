@@ -129,13 +129,74 @@ public class NoticeController {
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
-		
+
 		Notice dto = service.readNotice(num);
-		if(dto==null) {
-			return "redirect:/";
+		if (dto == null) {
+			return "redirect:/notice/list?" + query;
 		}
-		
+
+		dto.setContent(myUtil.htmlSymbols(dto.getContent()));
+
+		// 이전글, 다음글 가져오기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchKey", searchKey);
+		map.put("searchValue", searchValue);
+		map.put("num", num);
+
+		Notice preReadDto = service.preReadNotice(map);
+		Notice nextReadDto = service.nextReadNotice(map);
+
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+
+		model.addAttribute("preReadDto", preReadDto);
+		model.addAttribute("nextReadDto", nextReadDto);
+
 		return ".notice.article";
 	}
 
+	@RequestMapping(value = "/notice/update", method = RequestMethod.GET)
+	public String updateForm(
+			@RequestParam int num,
+			@RequestParam String page,
+			HttpSession session,
+			Model model) throws Exception {
+		
+		SessionInfo info =(SessionInfo)session.getAttribute("staff");
+		Notice dto = service.readNotice(num);
+		if(dto==null) {
+			return "redirect:/notice/list?page="+page;
+		}
+
+		if( info.getStaffIdx() != dto.getUsersCode()) {
+			return "redirect:/notice/list?page="+page;
+		}
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("mode", "update");
+		model.addAttribute("page", page);
+		
+		return ".notice.created";
+	}
+
+	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
+	public String updateUbmit(@RequestParam String page, Notice dto, @RequestParam int num) throws Exception {
+
+		dto.setNoticeCode(num);
+		service.updateNotice(dto);
+		
+		return "redirect:/notice/list?page"+page;
+	}
+
+	@RequestMapping(value = "/notice/delete")
+	public String delete(@RequestParam int num,
+			@RequestParam String page,
+			HttpSession session) throws Exception {
+
+		SessionInfo info =(SessionInfo)session.getAttribute("staff");
+		service.deleteNotice(num, info.getStaffIdx());
+		
+		return "redirect:/notice/list";
+	}
 }

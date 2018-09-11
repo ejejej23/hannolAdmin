@@ -9,4 +9,9 @@
 		WHERE staffId=#{staffId} AND working = 1
 	</select>
 
+	<select id="amIAdmin" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM USERS
+		WHERE USERSCODE = #{num} 
+	</select>
 </mapper>

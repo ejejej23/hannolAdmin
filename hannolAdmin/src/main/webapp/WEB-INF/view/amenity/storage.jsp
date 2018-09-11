@@ -17,10 +17,6 @@
 	.storage_box td span{display:block;}
 	.storage_num{position:absolute; top:10px; width:100%; font-size:12px;}
 	.storage_rant{font-size:13px;}
-	
-	
-
-
 
 </style>
 

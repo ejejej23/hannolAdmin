@@ -85,6 +85,53 @@
 		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
 		FROM STAFF S
 		JOIN NOTICE N ON S.USERSCODE=N.USERSCODE
-		WHERE NOTICECODE = #{noticeCode}
+		WHERE NOTICECODE = #{num}
 	</select>
+	
+		<!-- 이전글 -->
+	<select id="preReadNotice" resultType="com.sp.notice.Notice" 
+				parameterType="map">
+		SELECT tb.* FROM (
+			SELECT NOTICECODE, SUBJECT
+                FROM NOTICE 
+                    <where>
+                         <if test="searchValue != null and searchValue != '' ">
+			                  <include refid="where-list"/>
+		                 </if>
+		               <![CDATA[
+		                 AND (NOTICECODE > #{num})
+		                 ]]>
+	                </where>
+				ORDER BY NOTICECODE ASC
+			) tb WHERE ROWNUM=1
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadNotice" resultType="com.sp.notice.Notice" 
+				parameterType="map">
+		SELECT tb.* FROM (
+			SELECT NOTICECODE, SUBJECT
+                FROM NOTICE 
+                    <where>
+                         <if test="searchValue != null and searchValue != '' ">
+			                  <include refid="where-list"/>
+		                 </if>
+		               <![CDATA[
+		                 AND (NOTICECODE < #{num})
+		                 ]]>
+	                </where>
+				ORDER BY NOTICECODE DESC
+			) tb WHERE ROWNUM=1
+	</select>
+
+     <!-- 수정 -->
+     <update id="updateNotice" parameterType="com.sp.notice.Notice">
+         UPDATE notice SET subject=#{subject}, content=#{content}, isNotice = #{isNotice}
+                    WHERE noticeCode = #{noticeCode}
+      </update>
+      
+      <!-- 삭제 -->
+      <delete id="deleteNotice" parameterType="Integer">
+            DELETE FROM Notice WHERE noticeCode = #{num}
+      </delete>
 </mapper>

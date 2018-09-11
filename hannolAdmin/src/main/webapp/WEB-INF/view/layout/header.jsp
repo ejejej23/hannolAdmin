@@ -40,7 +40,7 @@
             <span class="dep1">공지사항</span>
             <ul>
                 <li><a href="<%=cp %>/notice/list">사용자 공지</a></li>
-                <li><a href="#">사내 공지</a></li>
+                <li><a href="<%=cp %>/noticeS/list">사내 공지</a></li>
             </ul>
         </li>
     
@@ -59,7 +59,7 @@
             <span class="dep1">시스템 관리</span>
             <ul>
                 <li><a href="#">이용권 관리</a></li>
-                <li><a href="#">할인카드 관리</a></li>
+                <li><a href="<%=cp%>/card/list">할인카드 관리</a></li>
                 <li><a href="#">쿠폰 관리</a></li>
                 <li><a href="#">이용객 현황 관리</a></li>
                 <li><a href="#">예매/예약 현황 관리</a></li>
@@ -115,7 +115,7 @@
             <span class="dep1">편의시설</span>
             <ul>
                 <li><a href="#">대여/반납</a></li>
-                <li><a href="#">보관</a></li>
+                <li><a href="<%=cp %>/amenity/storage">보관</a></li>
             </ul>
         </li>
         
@@ -130,7 +130,7 @@
         <li>
             <span class="dep1">기프트샵</span>
             <ul>
-                <li><a href="#">품목관리</a></li>
+                <li><a href="<%=cp%>/giftshop/created">품목관리</a></li>
                 <li><a href="#">입고관리</a></li>
                 <li><a href="#">출고관리</a></li>
                 <li><a href="#">마감</a></li>
@@ -141,7 +141,7 @@
         <li>
             <span class="dep1">업체 관리</span>
             <ul>
-                <li><a href="#">업체 정보</a></li>
+                <li><a href="<%=cp%>/company/list">업체 정보</a></li>
                 <li><a href="#">거래 내역</a></li>
             </ul>
         </li>

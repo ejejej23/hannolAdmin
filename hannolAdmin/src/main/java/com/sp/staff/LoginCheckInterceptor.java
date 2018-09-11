@@ -47,6 +47,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 	   클라이언트 요청이 컨트롤러에 도착하기 전에 호출 
 	       false를 리턴하면 HandlerInterceptor 또는 컨트롤러를 실행하지 않고 요청 종료
 	 */
+	
 	@Override
 	public boolean preHandle(HttpServletRequest req,
 			HttpServletResponse resp, Object handler) throws Exception {

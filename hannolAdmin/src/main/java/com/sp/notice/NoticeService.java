@@ -6,10 +6,14 @@ import java.util.Map;
 import com.sp.staff.Staff;
 
 public interface NoticeService {
-	public Staff readStaff();
-	public int insertNotice(Notice dto);
-	public int dataCount(Map<String,Object> map);
-	public List<Notice> listNotice(Map<String, Object> map);
-	public List<Notice> listOnlyNotice(Map<String, Object> map);
-	public Notice readNotice(int noticeCode);
+	public Staff readStaff() throws Exception;
+	public int insertNotice(Notice dto) throws Exception;
+	public int dataCount(Map<String,Object> map) throws Exception;
+	public List<Notice> listNotice(Map<String, Object> map) throws Exception;
+	public List<Notice> listOnlyNotice(Map<String, Object> map) throws Exception;
+	public Notice readNotice(int noticeCode) throws Exception;
+	public Notice preReadNotice(Map<String, Object> map) throws Exception;
+	public Notice nextReadNotice(Map<String, Object> map) throws Exception;
+	public int updateNotice(Notice dto) throws Exception;
+	public int deleteNotice(int noticeCode,long usersCode) throws Exception;
 }
