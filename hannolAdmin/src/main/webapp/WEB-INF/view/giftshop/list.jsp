@@ -25,6 +25,7 @@
 	<div class="giftList">
 		<div class="giftSelect">
 			<div class="itemSelect">
+				${dataCount}개 (${page}/${total_page})
 				<select class="form-control gitf-form-control">
 					<option>↑↓정렬</option>
 					<option>가격낮은순</option>
@@ -39,12 +40,12 @@
 			<div style="width: 100%;">
 				<div class="col-lg-4">
 					<div class="thumbnail">
-						<a href="<%=cp%>/giftshop/article"> 
+						<a href="${articleUrl}&goodsCode=${dto.goodsCode}"> 
 						<c:if test="${not empty dto.saveFileName}">
-							<img src="<%=cp%>/uploads/giftShopGoods/${dto.saveFileName.get(0)}" alt="" style="width: 100%">
+							<img src="<%=cp%>/uploads/giftShopGoods/${dto.saveFileName.get(0)}" onerror="this.src='<%=cp%>/resource/images/noimage.png'" style="height:250px;">
 						</c:if>
 						<c:if test="${empty dto.saveFileName}">
-							<img src="<%=cp%>/resource/images/noimage.png" alt="Lights" style="width: 100%">
+							<img src="<%=cp%>/resource/images/noimage.png" style="height:250px;">
 						</c:if>
 						 <span class="itemTitle">${dto.goodsName}</span>
 						</a>
@@ -55,7 +56,7 @@
 		</c:forEach>
 	</div>
 
-	<div style="width: 100%; text-align: center;">123</div>
+	<div style="width: 100%; text-align: center; margin: 35px auto;">${paging}</div>
 
 
 	<div class="col-xs-8 col-xs-offset-2">
@@ -69,6 +70,10 @@
 				</button>
 			</span>
 		</div>
+	</div>
+	
+	<div>
+		<button type="button" class="btn btn-Default" onclick="javascript:location.href='<%=cp%>/giftshop/created'">등록하기</button>
 	</div>
 </div>
 

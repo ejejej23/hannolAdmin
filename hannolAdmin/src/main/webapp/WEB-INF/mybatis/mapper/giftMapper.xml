@@ -29,6 +29,15 @@
 			    SELECT ROWNUM rnum, tb.* FROM(
 			        SELECT goodsCode, goodsName, price, state, gubuncode
 			        FROM goods
+			        WHERE gubuncode IN (
+			        	SELECT gubuncode FROM goodsgubun 
+			            WHERE gubuncode != 2
+			            START WITH gubuncode=2                                  
+			            CONNECT BY PRIOR gubuncode=parentcode
+			        )
+			        <if test="searchValue != null and searchValue != ''">
+			        	AND INSTR(goodsName, #{searchValue}) &gt; 0
+			        </if>
 			        ORDER BY goodsCode DESC
 			    ) tb
 			    WHERE ROWNUM &lt;= #{end}
@@ -42,5 +51,19 @@
 		    WHERE goodsCode = #{goodsCode}
 		    ORDER BY goodsImgCode
 		 )WHERE rownum=1
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+	 	SELECT COUNT(*) FROM goods
+        WHERE gubuncode IN (
+            SELECT gubuncode FROM goodsgubun 
+            WHERE gubuncode != 2
+            START WITH gubuncode=2                                  
+            CONNECT BY PRIOR gubuncode=parentcode
+        ) 
+        <if test="searchValue != null and searchValue != ''">
+        	AND INSTR(goodsName, #{searchValue}) &gt; 0
+        </if>
+        
 	</select>
 </mapper>
