@@ -16,9 +16,29 @@ iframe{
 	function check() {
 	    var f = document.goodsForm;
 	    
-	
+	    var giftName = f.goodsName.value;
+	    if(!giftName){
+	    	alert("상품명을 입력하세요. ");
+	    	f.goodsName.focus();
+	    	return false;
+	    }
+	    
+	    var price =  f.price.value;
+	    if(!price){
+	    	alert("상품 가격을 입력하세요. ");
+	    	f.price.focus();
+	    	return false;
+	    }
+	    
+	    var gubunCode =  f.gubunCode.value;
+	    if(!gubunCode){
+	    	alert("상품 구분을 선택하세요. ");
+	    	f.gubunCode.focus();
+	    	return false;
+	    }
+	    
+	    
 		f.action="<%=cp%>/giftshop/${mode}";
-	
 		return true;
 	}
 </script>
@@ -42,14 +62,14 @@ iframe{
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상품가격</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="text" name="goodsPrice" maxlength="100" class="boxTF" style="width: 95%;" value="">
+			        <input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="">
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상태</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="checkbox" name="isState" id="isNotice" value="1"> 사용
+			        <input type="checkbox" name="state" id="giftState" value="1"> 사용
 			      </td>
 			  </tr>
 			  
@@ -57,25 +77,25 @@ iframe{
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; ">구분</td>
 			      <td style="padding-left:10px;"> 
 			        <select name="gubunCode" style="padding: 5px;">
-				        <option value="1"> 이용권[대인] </option>
-				        <option value="2"> 이용권[소인] </option>
-				        <option value="3"> 이용권[우대] </option>
-				        <option value="4"> 기프티콘 </option>
-				    </select>
+			         	<option value="">::구분선택::</option>
+				        <c:forEach var="gubunDto" items="${gubunList}">
+		                    <option value="${gubunDto.GUBUNCODE }">${gubunDto.GUBUNNAME }</option>
+		                 </c:forEach>
+				    </select> 
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">썸네일사진</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="file" name="upload" class="boxTF" size="53" style="width: 95%;">
+			          <input type="file" multiple="multiple" name="upload" class="boxTF" size="53" style="width: 95%;">
 			       </td>
 			  </tr>
 			
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			        <textarea name="content" id="content" class="boxTA" style="min-width: 95%; height: 270px;"></textarea>
+			        <textarea name="content" id="content" class="boxTA" style="width: 95%; height: 270px;"></textarea>
 			      </td>
 			  </tr>
 			  

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gift">
+
+	<select id="seq" resultType="Integer">
+			SELECT goods_seq.NEXTVAL FROM dual
+	</select>
+	
+	<select id="listGubun" resultType="java.util.HashMap">
+		SELECT gubuncode, gubunname, parentcode FROM goodsgubun 
+		WHERE gubuncode != 2
+		START WITH gubuncode=2                                  
+		CONNECT BY PRIOR gubuncode=parentcode
+	</select>
+	
+	<insert id="insertGift" parameterType="com.sp.giftshop.GiftShop">
+	    INSERT INTO goods(goodsCode, goodsName, price, state, gubunCode) 
+    	VALUES (#{goodsCode}, #{goodsName}, #{price}, #{state}, #{gubunCode})
+	</insert>
+	
+	<insert id="insertFile" parameterType="com.sp.giftshop.GiftShop">
+	 	INSERT INTO goodsImg(saveFilename, originalFilename, goodsCode)
+	 	VALUES (#{saveFileName}, #{orignalFileName}, #{goodsCode})
+	</insert>
+</mapper>
