@@ -19,8 +19,28 @@
     	VALUES (#{goodsCode}, #{goodsName}, #{price}, #{state}, #{gubunCode})
 	</insert>
 	
-	<insert id="insertFile" parameterType="com.sp.giftshop.GiftShop">
-	 	INSERT INTO goodsImg(saveFilename, originalFilename, goodsCode)
-	 	VALUES (#{saveFileName}, #{orignalFileName}, #{goodsCode})
+	<insert id="insertFile" parameterType="map">
+	 	INSERT INTO goodsImg(goodsImgCode ,saveFilename, originalFilename, goodsCode)
+	 	VALUES (goodsImg_seq.NEXTVAL, #{saveFileName}, #{orignalFileName}, #{goodsCode})
 	</insert>
+	
+	<select id="ListGift" parameterType="map" resultType="com.sp.giftshop.GiftShop">
+		SELECT * FROM (
+			    SELECT ROWNUM rnum, tb.* FROM(
+			        SELECT goodsCode, goodsName, price, state, gubuncode
+			        FROM goods
+			        ORDER BY goodsCode DESC
+			    ) tb
+			    WHERE ROWNUM &lt;= #{end}
+		)WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="readGoodsImg" parameterType="Long" resultType="map">
+		 SELECT * FROM (
+		    select goodsImgCode, saveFileName, originalFileName, goodsCode
+		    FROM goodsImg
+		    WHERE goodsCode = #{goodsCode}
+		    ORDER BY goodsImgCode
+		 )WHERE rownum=1
+	</select>
 </mapper>

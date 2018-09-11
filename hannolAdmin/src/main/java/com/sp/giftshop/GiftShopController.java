@@ -1,7 +1,9 @@
 package com.sp.giftshop;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,7 +42,13 @@ public class GiftShopController {
 
 	@RequestMapping(value = "/giftshop/list")
 	public String listForm(Model model) throws Exception {
-
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", 1);
+		map.put("end", 6);
+		
+		List<GiftShop> list =  service.listGiftGoods(map);
+		model.addAttribute("list", list);
 		return ".giftshop.list";
 	}
 
