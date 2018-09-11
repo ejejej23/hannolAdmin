@@ -1,4 +1,4 @@
-package com.sp.card;
+package com.sp.card; 
 
 import java.util.List;
 import java.util.Map;
@@ -40,20 +40,88 @@ public class CardServiceImpl implements CardService{
 
 	@Override
 	public int dataCount(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.selectOne("card.dataCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 	@Override
 	public List<Card> listCard(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Card> list = null;
+		try {
+			list = dao.selectList("card.listCard", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
 	}
 
 	@Override
 	public Card readCard(int cardCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Card dto =null;
+		try {
+			dto = dao.selectOne("card.readCard", cardCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public int updateCard(Card dto, String pathname) throws Exception {
+		int result=0;
+
+		try{
+			if(dto.getCardupload()!=null && !dto.getCardupload().isEmpty()) {
+				if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0)
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				
+				String newFilename = fileManager.doFileUpload(dto.getCardupload(), pathname);
+				if (newFilename != null) {
+					dto.setOriginalFilename(dto.getCardupload().getOriginalFilename());
+					dto.setSaveFilename(newFilename);
+				}
+			}
+			if(dto.getLogoupload()!=null && !dto.getLogoupload().isEmpty()) {
+				if(dto.getLogoSaveFilename()!=null &&dto.getLogoSaveFilename().length()!=0)
+					fileManager.doFileDelete(dto.getLogoSaveFilename(), pathname);
+				
+				String newFilename = fileManager.doFileUpload(dto.getLogoupload(), pathname);
+				if (newFilename != null) {
+					dto.setLogoOriginalFilename(dto.getLogoupload().getOriginalFilename());
+					dto.setLogoSaveFilename(newFilename);
+				}
+			}
+			
+			dao.updateData("card.updateCard", dto);
+			result=1;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteCard(int cardCode, String saveFilename, String saveLogoFilename, String pathname) {
+		int result=0;
+
+		try{
+			if(saveFilename != null ) {
+				fileManager.doFileDelete(saveFilename, pathname);
+			}
+			if(saveLogoFilename != null ) {
+				fileManager.doFileDelete(saveLogoFilename, pathname);
+			}
+			
+			dao.deleteData("card.deleteCard", cardCode);
+			result=1;
+		} catch(Exception e) {
+		}
+		return result;
 	}
 
 }

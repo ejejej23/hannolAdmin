@@ -12,6 +12,7 @@ iframe{
 }
 </style>
 
+
 <script type="text/javascript">
 	function check() {
 	    var f = document.goodsForm;

@@ -14,8 +14,8 @@ public class GiftShop {
 	private long parentCode;
 	private int quantity;
 	private String content;
-	private String saveFileName;
-	private String orignalFileName;
+	private List<String> saveFileName;
+	private List<String> orignalFileName;
 	private List<MultipartFile> upload;
 
 	public long getGoodsCode() {
@@ -90,19 +90,19 @@ public class GiftShop {
 		this.content = content;
 	}
 
-	public String getSaveFileName() {
+	public List<String> getSaveFileName() {
 		return saveFileName;
 	}
 
-	public void setSaveFileName(String saveFileName) {
+	public void setSaveFileName(List<String> saveFileName) {
 		this.saveFileName = saveFileName;
 	}
 
-	public String getOrignalFileName() {
+	public List<String> getOrignalFileName() {
 		return orignalFileName;
 	}
 
-	public void setOrignalFileName(String orignalFileName) {
+	public void setOrignalFileName(List<String> orignalFileName) {
 		this.orignalFileName = orignalFileName;
 	}
 
