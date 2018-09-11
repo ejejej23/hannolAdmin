@@ -101,4 +101,15 @@ public class GiftShopServiceImpl implements GiftShopService {
 		return list;
 	}
 
+	@Override
+	public int dataCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("gift.dataCount", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 }

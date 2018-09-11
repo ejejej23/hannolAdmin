@@ -6,8 +6,10 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,25 +61,23 @@ public class CardController {
 
 		List<Card> list = service.listCard(map);
 
-		String query = "";
+		String query = "page="+current_page;
 		String listUrl = cp + "/card/list";
-		String articleUrl = cp + "/card/article?page=" + current_page;
 		if (searchValue.length() != 0) {
-			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
 
 		if (query.length() != 0) {
 			listUrl = cp + "/card/list?" + query;
-			articleUrl = cp + "/card/article?page=" + current_page + "&" + query;
 		}
 
 		String paging = util.paging(current_page, total_page, listUrl);
 
 		model.addAttribute("list", list);
-		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("query", query);
 
 		return ".card.card";
 	}
@@ -106,16 +106,26 @@ public class CardController {
 	public String updateForm(
 			@RequestParam int num,
 			@RequestParam String page,
+			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			Model model) throws Exception {
+		
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
+		}
 		
 		Card dto = service.readCard(num);
 		if(dto==null) {
-			return "redirect:/card/list?page="+page;
+			return "redirect:/card/list?"+query;
 		}
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
 		
 		return ".card.created";
 	}
@@ -123,24 +133,46 @@ public class CardController {
 	@RequestMapping(value="/card/update", method=RequestMethod.POST)
 	public String updateSubmit(
 			Card dto,
+			@RequestParam String saveFilename,
+			@RequestParam String originalFilename,
+			@RequestParam String logoSaveFilename,
+			@RequestParam String logoOriginalFilename,
 			@RequestParam String page,
+			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			HttpSession session) throws Exception {
 
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
+		}
 		
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "card";		
 		
+		dto.setSaveFilename(saveFilename);
+		dto.setOriginalFilename(originalFilename);
+		dto.setLogoSaveFilename(logoSaveFilename);
+		dto.setLogoOriginalFilename(logoOriginalFilename);
 		
 		service.updateCard(dto, pathname);		
 		
-		return "redirect:/card/list?page="+page;
+		
+		return "redirect:/card/list?"+query;
 	}
 	
 	@RequestMapping(value="/card/delete")
 	public String delete(
 			@RequestParam int num,
 			@RequestParam String page,
+			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			HttpSession session) throws Exception {
+		
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
+		}
 		
 		Card dto = service.readCard(num);
 		if(dto==null) {
@@ -152,6 +184,6 @@ public class CardController {
  	
 		service.deleteCard(num, dto.getSaveFilename(), dto.getLogoSaveFilename(), pathname);
 		
-		return "redirect:/card/list?page="+page;
+		return "redirect:/card/list?"+query;
 	}
 }
