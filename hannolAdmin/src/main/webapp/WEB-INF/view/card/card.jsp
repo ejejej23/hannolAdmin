@@ -83,15 +83,15 @@ function deleteCard(cardCode) {
 		  <c:forEach var="dto" items="${list}">
 		  <tr align="center" style="border-bottom: 1px solid #cccccc;"> 
 		      <td rowspan="2" width="30%">
-		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;"></c:if>
-		      	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;"></c:if>
+		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+		      	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
 		      </td>
-		      <td colspan="2" width="70%" height="20%" align="left" style="padding-left: 1em; padding-right: 1em;">
+		      <td colspan="2" width="70%" align="left" style="padding-left: 1em; padding-right: 1em; height: 3em;">
 		           	<h4 style="font-weight: bold;">${dto.cardName}</h4>
 		      </td>
 		  </tr>
 		  <tr style="border-bottom: 1px solid #cccccc;">
-		  	  <td width="55%" height="80%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">카드사</span>
+		  	  <td width="55%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em; height: 7em;"><span style="font-weight: bold;">카드사</span>
 					- ${dto.cardCo}
 				<span style="display:block; font-weight:bold;">이용혜택</span>- 자유이용권 ${dto.discount}% (본인에 한함. 전 놀이공원 1일, 1회)
 		      </td>
@@ -117,8 +117,8 @@ function deleteCard(cardCode) {
 						<div>
 							<div align="left" style="position: relative; float: left; width: 50%; margin-bottom: 10px;">
 								<div>
-									<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage"></c:if>
-									<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage"></c:if>
+									<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+									<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
 								</div>						
 							</div>
 							<div align="left" style="position: relative; float: left; width: 50%">
