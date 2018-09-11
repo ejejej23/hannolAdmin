@@ -32,7 +32,7 @@
 	<!-- 글개수 -->
 	<select id="dataCount" parameterType="map"
 	            resultType="Integer">
-	  SELECT NVL(COUNT(*), 0) FROM notice 
+	  SELECT NVL(COUNT(*), 0) FROM rides 
 	     <where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>
