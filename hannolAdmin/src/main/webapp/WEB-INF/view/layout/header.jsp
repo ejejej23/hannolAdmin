@@ -132,7 +132,7 @@
         <li>
             <span class="dep1">기프트샵</span>
             <ul>
-                <li><a href="<%=cp%>/giftshop/created">품목관리</a></li>
+                <li><a href="<%=cp%>/giftshop/list">품목관리</a></li>
                 <li><a href="#">입고관리</a></li>
                 <li><a href="#">출고관리</a></li>
                 <li><a href="<%=cp%>/magam/list">마감</a></li>
