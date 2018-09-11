@@ -17,7 +17,8 @@ function deleteNotice() {
 	if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 			location.href=url;
 	}
-</c:if>    
+</c:if>
+
 <c:if test="${sessionScope.staff.authority!='ROLE_ADMIN' && sessionScope.staff.staffIdx!=dto.usersCode}">
 	alert("게시물을 삭제할 수  없습니다.");
 </c:if>
