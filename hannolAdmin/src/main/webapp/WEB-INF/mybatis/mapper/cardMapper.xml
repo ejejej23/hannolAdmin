@@ -7,4 +7,55 @@
     VALUES(card_seq.NEXTVAL,#{cardName},#{startDate},#{endDate},#{memo},#{cardCo},#{discount},
     	#{saveFilename},#{originalFilename},#{logoSaveFilename, jdbcType=VARCHAR},#{logoOriginalFilename, jdbcType=VARCHAR})
 	</insert>
+	
+	<sql id="where-list">
+	  <if test="searchKey=='all'">
+	      (INSTR(cardName, #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(cardCo, #{searchValue}) &gt; 0)
+	  </if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+	  	SELECT NVL(COUNT(*), 0) FROM card 
+	     	<where>
+	     		<if test="searchValue!=null and searchValue!='' ">
+	     	    	<include refid="where-list"/>
+	     		</if>
+	     	</where>   
+	</select>
+	
+	<select id="listCard" parameterType="map" resultType="com.sp.card.Card">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT cardCode, cardName, TO_CHAR(startDate,'YYYY-MM-DD') startDate, TO_CHAR(endDate,'YYYY-MM-DD') endDate, memo, cardCo, discount, saveFilename, logoSaveFilename
+				FROM card
+				<where>
+                	<if test="searchValue != null and searchValue != ''">
+			        	<include refid="where-list"/>
+		            </if>
+	            </where>
+				ORDER BY cardCode DESC
+		<![CDATA[		
+			)tb WHERE ROWNUM <= #{end}
+		)WHERE rnum >= #{start}
+		]]>
+	</select>
+	
+	<select id="readCard" parameterType="Integer" resultType="com.sp.card.Card">
+		SELECT cardCode, cardName, TO_CHAR(startDate,'YYYY-MM-DD') startDate, TO_CHAR(endDate,'YYYY-MM-DD') endDate, 
+			memo, cardCo, discount, saveFilename, originalFilename, logoSaveFilename, logoOriginalFilename
+		FROM card
+		WHERE cardCode = #{num}
+	</select>
+	
+    <update id="updateCard" parameterType="com.sp.card.Card">
+        UPDATE card SET cardName=#{cardName}, startDate=#{startDate}, endDate=#{endDate}, memo=#{memo}, cardCo=#{cardCo}, discount=#{discount}, 
+        	saveFilename=#{saveFilename}, originalFilename=#{originalFilename}, logoSaveFilename=#{logoSaveFilename}, logoOriginalFilename=#{logoOriginalFilename}
+        WHERE cardCode = #{cardCode}
+    </update>
+    
+    <delete id="deleteCard" parameterType="Integer">
+           DELETE FROM card WHERE cardCode = #{cardCode}
+    </delete>  
 </mapper> 
