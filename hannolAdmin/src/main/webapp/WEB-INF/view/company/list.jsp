@@ -23,8 +23,9 @@
 	.modalTable th{width:110px; padding-top:13px; padding-right:20px; text-align:right; vertical-align:top;}
 	
 	.boxTF,
-	.boxTA{width:280px;}
-	.selectField{padding:3px 5px 5px; vertical-align:middle;}
+	.boxTA{width:280px; vertical-align:middle;}
+	.boxTF{padding:3px 5px;}
+	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
 	.btfTel{width:70px; text-align:center;}
 	
@@ -45,6 +46,60 @@
 	
 	
 </style>
+<script type="text/javascript">
+	var elementsName = [];
+	var elementsNameText = [];
+
+	$(function(){
+		var elements = $("form[name=companyForm] input, form[name=companyForm] textarea, form[name=companyForm] select");
+			elementsName = [];
+			elementsNameText = [];
+		
+		for(var i=0; i<elements.length; i++){
+			elementsName[i] = elements[i];
+			elementsNameText[i] = elements[i].getAttribute("data-name");
+		}
+	});
+	
+	
+	
+	/*다이얼 로그*/
+	$(function(){
+		$("#companyAdd_btn").click(function(){
+			$("#companyModel").dialog({
+				title:"업체추가",
+				width:480,
+				height:460,
+				modal:true
+			});
+		});
+		$("#companyAdd_close_btn").click(function(){
+			$("#companyModel").dialog("close");
+		});
+	});
+	
+	
+	
+	
+	//전송
+	function sendOk(){
+		var f = document.companyForm;
+		
+		//빈칸 확인
+		for(var i=0 ; i<elementsName.length ; i++){
+			if(!elementsName[i].value){
+				elementsName[i].focus();
+				alert(elementsNameText[i]+" 입력해주세요.");
+				return;
+			}
+		}
+		
+		f.action = "<%=cp%>/company/created";
+		f.submit();
+	}
+	
+	
+</script>
 
 <div class="sub-container">
 	<div class="sub-title">
@@ -96,22 +151,19 @@
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/company/list';">새로고침</button>
 				</td>
 				<td align="center">
-					<form name="searchForm" method="post">
-						<div class="col-xs-8 col-xs-offset-2">
-							<div class="input-group">
-								<input type="hidden" name="searchKey" value="all"> 
-								<input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요..."> 
-								<span class="input-group-btn">
-									<button class="btn btn-default btn-info" type="button" onclick="searchList()">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
-								</span>
-							</div>
-						</div>
+					<form name="searchForm" action="/sp4/bbs/list" method="post">
+						<select name="searchKey" class="selectField">
+							<option value="companyName">업체명</option>
+							<option value="content">상세설명</option>
+							<option value="tel">연락처</option>
+							<option value="created">거래시작일자</option>
+						</select> 
+						<input type="text" name="searchValue" class="boxTF">
+						<button type="button" class="btn" onclick="searchList()">검색</button>
 					</form>
 				</td>
 				<td align="right" width="100">
-					<button type="button" class="btn">업체추가</button>
+					<button type="button" id="companyAdd_btn" class="btn">업체추가</button>
 				</td>
 			</tr>
 		</table>
@@ -119,20 +171,20 @@
 </div>
 
 <div id="companyModel" class="modal">
-	<form>
+	<form name="companyForm" method="post">
 		<table class="modalTable">
 			<tr>
 				<th scope="row">업체명</th>
-				<td><input type="text" name="name" class="boxTF"></td>
+				<td><input type="text" name="name" class="boxTF" data-name="업체명을"></td>
 			</tr>
 			<tr>
 				<th scope="row">상세설명</th>
-				<td><textarea class="boxTA"></textarea></td>
+				<td><textarea name="memo" class="boxTA"  data-name="상세설명을"></textarea></td>
 			</tr>
 			<tr>
 				<th scope="row">연락처</th>
 				<td>
-					<select class="selectField btfTel" name="tel1">
+					<select class="selectField btfTel" name="tel1" data-name="연락처를">
 						<option value="">선택</option>
 						<option value="010">010</option>
 						<option value="010">011</option>
@@ -140,34 +192,15 @@
 						<option value="010">017</option>
 						<option value="010">018</option>
 						<option value="010">019</option>
-					</select> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4"> - <input type="text" name="tel3" class="boxTF btfTel" maxlength="4">
+					</select> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
 				</td>
 			</tr>
 		</table>
 		
 		<div class="btnBox">
-	        <button type="button" class="btn" id="btnScheduleSendOk">업체등록</button>
-	        <button type="reset" class="btn">다시입력</button>
-	        <button type="button" class="btn" id="btnScheduleSendCancel">등록취소</button>
+	        <button type="button" class="btn" onclick="sendOk();">업체등록</button>
+	        <button type="reset" class="btn">다시입력</button> 
+	        <button type="button" class="btn" id="companyAdd_close_btn">등록취소</button>
 	    </div>
 	</form>
 </div>
-
-<script>
-	/*다이얼 로그*/
-	$(function(){
-		$("#companyModel").dialog({
-			title:"업체추가",
-			width:480,
-			height:480, 
-			modal:true,
-			show:"clip",
-			hide:"clip"
-		});
-	});
-	
-	$(function(){
-		
-	});
-	
-</script>

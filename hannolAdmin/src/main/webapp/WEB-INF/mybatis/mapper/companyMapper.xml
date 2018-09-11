@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="company">
+	<!-- 업체추가 -->
+	<insert id="insertCompany" parameterType="com.sp.company.Company">
+		INSERT INTO company(companyCode, name, tel, memo) VALUES (company_seq.NEXTVAL, #{name}, #{tel}, #{memo})
+	</insert> 
+	
+	<sql id="where-list">
+		<if test="searchKey=='companyName'">
+			companyName = #{searchValue}
+		</if>
+		<if test="searchKey=='content'">
+			INSTR(content, #{searchValue}) &gt; 0
+		</if>
+		<if test="searchKey=='tel'">
+			(tel = #{searchValue} or REPLACE(tel, '-', '') = #{searchValue})
+		</if>
+		<if test="searchKey=='created'">
+			(TO_CHAR(created, 'YYYY-MM-DD') = #{searchValue} OR TO_CHAR(created, 'YYYYMMDD'))
+		</if>
+	</sql>
+	
+	<select id="dataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM company
+		<where>
+			<if test="searchValue!=null and searchValue!=''">
+				<include refid="where-list"></include>
+			</if>
+		</where>
+	</select>
+	
+	<!-- <select id="listCompany" resultType="" parameterType="map">
+	</select> -->
+</mapper>
