@@ -1,10 +1,20 @@
 package com.sp.company;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.common.MyUtil;
 
@@ -18,9 +28,76 @@ public class CompanyController {
 	
 	
 	
-	@RequestMapping(value="/company/list", method=RequestMethod.GET)
-	public String list() {
+	@RequestMapping(value="/company/list")
+	public String list(@RequestParam(value="page",  defaultValue="1") int current_page,
+			@RequestParam(value="searchKey", defaultValue="companyName") String searchKey,
+			@RequestParam(value="searchValue", defaultValue="") String searchValue,
+			HttpServletRequest req,
+			Model model) throws Exception{
 		
+		//get방식일 경우만 디코딩
+		if (req.getMethod().equalsIgnoreCase("GET")) 
+			searchValue = URLDecoder.decode(searchValue, "utf-8");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchKey", searchKey);
+		map.put("searchValue", searchValue);
+		
+		int rows = 10; //한페이지에 보여질 데이터 개수
+		int dataCount, total_page = 0;
+		dataCount = service.dataCount(map); //데이터 총 개수
+		if(dataCount!=0)	
+			total_page = util.pageCount(rows, dataCount); //총 페이지 개수
+		
+		//다른 사람이 자료를 삭제하여 전체 페이지수가 변화 된 경우
+		if(current_page > total_page)
+			total_page = current_page;
+		
+		
+		//리스트에 출력할 데이터들 가져오기
+		int start = (current_page-1)*rows+1;
+		int end = current_page*rows;
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<Company> list = service.listCompany(map);
+		
+		//리스트 번호
+		int listNum, n = 0;
+		Iterator<Company> it = list.iterator();
+		while(it.hasNext()) {
+			Company data = it.next();
+			listNum = dataCount-(start+n-1);
+			data.setListNum(listNum);
+			n++;
+		}
+		
+		String query = "";
+		String list_url;
+		String article_url;
+		//검색값이 있다면 인코딩
+		if(searchValue.length()!=0)
+			query += "searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue, "utf-8");
+		
+		String cp = req.getContextPath();
+		list_url = cp+"/company/list";
+		article_url = cp+"/company/article?page="+current_page;
+		if(query.length()!=0) {
+			list_url += "?"+query;
+			article_url += "&"+query;
+		}
+		
+		//페이징
+		String paging = util.paging(current_page, total_page, list_url);
+		
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("article_url", article_url);
+		
+	
 		return ".company.list";
 	}
 	
