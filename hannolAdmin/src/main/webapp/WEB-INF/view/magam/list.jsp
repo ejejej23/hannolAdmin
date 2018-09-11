@@ -6,12 +6,53 @@
    String cp = request.getContextPath();
 %>
 <script type="text/javascript">
-$(function() {
-	$("body").on("click","button",function(){
-		console.log("tesst");
-	}); 
-});
 
+
+$(function() {
+	$(document).on("click","button",function(){
+		
+		var url = "<%=cp%>/magam/update";
+		var year = $(this).closest("tr").children().eq(1).text();
+		var month = $(this).closest("tr").children().eq(2).text();
+	 	var query = "page="+${page}+"&year="+year+"&month="+month;
+	 	
+		// AJAX-POST
+		$.ajax({
+			type:"post"
+			,url:url	//서버의 주소
+			,data:query	//서버로 보내는 값
+			,success:function(data){
+				$("#resultLayout").html("수정완료!");
+				getList();
+			}
+			,error:function(e){
+				console.log(e.responseText);
+				$("#resultLayout").html("에러발생!");	
+			}
+		});  
+	});
+
+});
+function getList(){
+	var url = "<%=cp%>/magam/getlist";
+	var query = "page="+${page};
+	
+	$.ajax({
+		type:"post"
+		,url:url	//서버의 주소
+		,data:query	//서버로 보내는 값
+		,success:function(data){
+			$("#listLayout").html(data);
+		}
+		,error:function(e){
+			console.log(e.responseText);
+			$("#resultLayout").html("갱신에러발생!");	
+		}
+	}); 
+}
+$(function(){
+	getList(1);
+});
 </script>
 <div class="sub-container" style="width: 960px;">
     
@@ -20,54 +61,12 @@ $(function() {
 	</div> 
     
     <div>
-		<table class="table">
-			    <colgroup>
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			    </colgroup>
-    
-		  <thead class="thead-light">
-		    <tr>
-		      <th scope="col">번호</th>
-		      <th scope="col">년도</th>
-		      <th scope="col">월</th>
-		      <th scope="col">마감여부</th>
-		      <th scope="col">결제사원번호</th>
-		      <th scope="col">결제담당자</th>
-		      <th scope="col">마감일자</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  
-			  	<c:forEach var="dto" items="${list}">
-			    <tr>
-			      <th scope="row">${dto.listNum}</th>
-			      <td>${dto.year}</td>
-			      <td>${dto.month}</td>
-			      <td>${dto.isMagam == 1?"마감":"-"}&nbsp;<button id="${dto.year }-${dto.month }">변경 </button></td>
-			      <td>${dto.usersCode}</td>
-			      <td>${dto.name}</td>
-			      <td>${dto.magamDate}</td>
-			    </tr>
-			    </c:forEach>
-			    
-		  </tbody>
-		</table>
+
+
+		<div id="listLayout"></div>
 		
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-			<td align="center">
-			        <c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-			        <c:if test="${dataCount!=0 }">${paging}</c:if>
-			 </td>
-		   </tr>
-		</table>
+		<div id="resultLayout"></div>
+
 
     </div>
 </div>

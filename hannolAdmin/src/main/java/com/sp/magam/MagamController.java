@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
+import com.sp.staff.SessionInfo;
 
 @Controller("magam.magamController")
 public class MagamController {
@@ -21,11 +24,15 @@ public class MagamController {
 	private MagamService service;
 	@Autowired
 	private MyUtil myUtil;
-
+	
 	@RequestMapping(value = "/magam/list")
-	public String list(
-			@RequestParam(value = "page", defaultValue = "1") int current_page,
-			HttpServletRequest req,
+	public String list(@RequestParam(value = "page", defaultValue = "1") int page,Model model) {
+		model.addAttribute("page",page);
+		return ".magam.list";
+	}
+
+	@RequestMapping(value = "/magam/getlist")
+	public String getlist(@RequestParam(value = "page", defaultValue = "1") int current_page, HttpServletRequest req,
 			Model model) throws Exception {
 		String cp = req.getContextPath();
 
@@ -78,6 +85,36 @@ public class MagamController {
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 
-		return ".magam.list";
+		return "/magam/sub-list";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/magam/update")
+	public Map<String, Object> updateMagam(@RequestParam(value = "page", defaultValue = "1") int page, Magam dto,
+			HttpSession session) throws Exception {
+		SessionInfo info = (SessionInfo) session.getAttribute("staff");
+
+		String state = "false";
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("year", dto.getYear());
+		map.put("month", dto.getMonth());
+
+		Magam temp = service.readMagam(map);
+
+		if (temp.getIsMagam() == 0) {
+			dto.setIsMagam(1);
+		} else {
+			dto.setIsMagam(0);
+		}
+
+		dto.setUsersCode(info.getStaffIdx());
+
+		service.updateMagam(dto);
+
+		map.put("state", state);
+		map.put("page", page);
+
+		return map;
 	}
 }

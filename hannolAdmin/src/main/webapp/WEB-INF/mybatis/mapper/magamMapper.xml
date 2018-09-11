@@ -27,7 +27,7 @@
 	</select>
 	
 	<update id="updateMagam" parameterType="com.sp.magam.Magam">
-		UPDATE SET ISMAGAM =#{isMagam} 
+		UPDATE MAGAM SET ISMAGAM =#{isMagam}, USERSCODE = #{usersCode}, MAGAMDATE= SYSDATE
 		WHERE MAGAMY = #{year} AND MAGAMM = #{month}
 	</update>
 </mapper>
