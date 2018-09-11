@@ -82,7 +82,6 @@
         } 
         
     	f.action="<%=cp%>/card/${mode}";
-
         f.submit();
     }
     
@@ -133,9 +132,9 @@
 		<div class="form-group"> 
 			<label for="startDate" class="col-sm-2 control-label">기간</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 46%;" name="startDate" type="text" class="form-control" id="startDate" placeholder="시작일"  value="${dto.startDate}">
+				<input style="width: 46%;" name="startDate" type="text" class="form-control" id="startDate" placeholder="시작일(YYYY-MM-DD)"  value="${dto.startDate}">
 				~ 
-				<input style="width: 46%;" name="endDate" type="text" class="form-control" id="endDate" placeholder="종료일"  value="${dto.endDate}"> 
+				<input style="width: 46%;" name="endDate" type="text" class="form-control" id="endDate" placeholder="종료일(YYYY-MM-DD)"  value="${dto.endDate}"> 
 			</div> 
 		</div>  
 		<div class="form-group"> 
@@ -158,12 +157,25 @@
 				<input type="file" name="cardupload" class="form-control" id="cardFile" > 
 			</div> 
 		</div>
+		
 		<div class="form-group"> 
 			<label for="logoFile" class="col-sm-2 control-label">카드사 로고 첨부</label> 
 			<div class="col-sm-10"> 
 				<input type="file" name="logoupload" class="form-control" id="logoFile" > 
 			</div> 
 		</div>
+		
+		<c:if test="${mode=='update'}">
+           <c:if test="${not empty dto.saveFilename}">
+            <div class="form-group"> 
+				<label for="logoFile" class="col-sm-2 control-label">첨부된 이미지</label> 
+             		<div class="col-sm-10"> 
+                   		<img src="<%=cp%>/uploads/card/${dto.saveFilename}" width="70" height="40"> 
+                   		<img src="<%=cp%>/uploads/card/${dto.logoSaveFilename}" width="30" height="30">
+                	</div>
+           	</div> 
+          </c:if>
+       </c:if>
 		
 	 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		     <tr height="45"> 
@@ -172,7 +184,7 @@
 		        <button type="reset" class="btn">다시입력</button>
 		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 		         <c:if test="${mode=='update'}">
-		         	 <input type="hidden" name="num" value="${dto.num}">
+		         	 <input type="hidden" name="cardCode" value="${dto.cardCode}">
 		        	 <input type="hidden" name="page" value="${page}">
 		        </c:if>
 		      </td>
