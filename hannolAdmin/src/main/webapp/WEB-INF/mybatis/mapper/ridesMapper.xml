@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rides">
+	
+	<insert id="insertRides" parameterType="com.sp.rides.Rides">
+	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
+	  VALUES (rides_seq.NEXTVAL, #{subject}, #{content}, #{usersCode}, #{isNotice})
+	</insert>
+
+	<sql id="where-list">
+	  <if test="searchKey=='name'">
+	      S.name =#{searchValue}
+	  </if>
+	  <if test="searchKey=='all'">
+	      (INSTR(subject, #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(content, #{searchValue}) &gt; 0)
+	  </if>
+	  <if test="searchKey=='subject'">
+	       INSTR(subject, #{searchValue}) &gt; 0
+	  </if>
+	  <if test="searchKey=='content'">
+	      INSTR(content, #{searchValue}) &gt; 0 
+	  </if>
+	  <if test="searchKey=='created'">
+	      (TO_CHAR(N.created, 'YYYY-MM-DD') = #{searchValue}
+            OR TO_CHAR(N.created, 'YYYYMMDD') = #{searchValue})
+	  </if>
+	</sql>
+
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map"
+	            resultType="Integer">
+	  SELECT NVL(COUNT(*), 0) FROM notice 
+	     <where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	     </where>   
+	</select>
+
+	<!-- 놀이기구리스트 -->
+	<select id="listOnlyRides" parameterType="map"
+	            resultType="com.sp.rides.Rides">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
+                FROM rides r
+                JOIN facility f ON r.facilityCode = f.facilityCode
+                JOIN theme t ON f.themeCode = t.themeCode
+                JOIN genre g ON g.genreCode = r.genreCode
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+                ORDER BY facilityCode DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+
+	<!-- 글리스트 -->
+	<select id="listRides" parameterType="map"
+	            resultType="com.sp.rides.Rides">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
+                FROM rides r
+                JOIN facility f ON r.facilityCode = f.facilityCode
+                JOIN theme t ON f.themeCode = t.themeCode
+                JOIN genre g ON g.genreCode = r.genreCode
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+                ORDER BY facilityCode DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+
+	<!-- 구분 리스트 -->
+	<select id="stateGubun" parameterType="map"
+	            resultType="com.sp.rides.Rides">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
+                FROM rides r
+                JOIN facility f ON r.facilityCode = f.facilityCode
+                JOIN theme t ON f.themeCode = t.themeCode
+                JOIN genre g ON g.genreCode = r.genreCode
+
+                ORDER BY facilityCode DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+	
+	
+	
+	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
+		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
+		FROM STAFF S
+		JOIN NOTICE N ON S.USERSCODE=N.USERSCODE
+		WHERE NOTICECODE = #{noticeCode}
+	</select>
+</mapper>

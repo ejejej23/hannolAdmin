@@ -107,7 +107,7 @@
             <ul>
                 <li><a href="#">통계</a></li>
                 <li><a href="#">상태</a></li>
-                <li><a href="#">정보</a></li>
+                <li><a href="<%=cp%>/rides/list">정보</a></li>
             </ul>
         </li>
 
