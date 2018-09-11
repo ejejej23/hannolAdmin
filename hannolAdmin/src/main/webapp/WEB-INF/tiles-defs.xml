@@ -11,22 +11,6 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/main.jsp" />
 	</definition>
 	
-   <!-- 3단 관리자 -->
-	<definition name=".adminLayout" template="/WEB-INF/view/admin/layout/layout.jsp">
-	    <put-attribute name="title" value="spring" />
-	  	<put-attribute name="header" value="/WEB-INF/view/admin/layout/header.jsp" />
-		<put-attribute name="body" value="/WEB-INF/view/admin/main/main.jsp" />
-	</definition>
-	<definition name=".admin.*.*.*" extends=".adminLayout">
-		<put-attribute name="body" value="/WEB-INF/view/admin/{1}/{2}/{3}.jsp"/>
-	</definition>
-	<definition name=".admin.*.*" extends=".adminLayout">
-		<put-attribute name="body" value="/WEB-INF/view/admin/{1}/{2}.jsp"/>
-	</definition>
-	<definition name=".admin.*" extends=".adminLayout">
-    	<put-attribute name="body" value="/WEB-INF/view/admin/{1}.jsp" />
-	</definition>
-	
 	<!-- 순서가 바뀌면 안됨(* 많은것이 위에) -->
 	<definition name=".*.*.*" extends=".mainLayout">
 		<put-attribute name="body" value="/WEB-INF/view/{1}/{2}/{3}.jsp"/>
