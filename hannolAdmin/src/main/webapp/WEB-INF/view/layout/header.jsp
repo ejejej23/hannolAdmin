@@ -99,7 +99,7 @@
             <span class="dep1">스케쥴</span>
             <ul>
                 <li><a href="#">가이드</a></li>
-                <li><a href="#">공연</a></li>
+                <li><a href="<%=cp%>/show/list">공연</a></li>
                 <li><a href="<%=cp%>/event/list">이벤트</a></li>
             </ul>
         </li>
