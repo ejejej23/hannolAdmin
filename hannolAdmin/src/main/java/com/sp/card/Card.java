@@ -1,5 +1,5 @@
 package com.sp.card;
-
+ 
 import org.springframework.web.multipart.MultipartFile;
 
 public class Card {
