@@ -206,6 +206,6 @@ public class StaffController {
 	@RequestMapping(value="/staff/list")
 	public String list(Model model)throws Exception{
 		
-		return "./staff/list";
+		return ".staff.list";
 	}
 }
