@@ -16,6 +16,13 @@ function searchList() {
 	var f=document.searchForm;
 	f.submit();
 }
+
+function deleteCard(cardCode) {
+	if(confirm("삭제 하시겠습니까 ?")) {
+		var url="<%=cp%>/card/delete?num="+cardCode+"&${query}";
+		location.href=url;
+	}
+}
 </script>
 
 <style type="text/css">
@@ -79,12 +86,12 @@ function searchList() {
 		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;"></c:if>
 		      	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;"></c:if>
 		      </td>
-		      <td colspan="2" width="70%" height="10%" align="left" style="padding-left: 1em; padding-right: 1em;">
+		      <td colspan="2" width="70%" height="20%" align="left" style="padding-left: 1em; padding-right: 1em;">
 		           	<h4 style="font-weight: bold;">${dto.cardName}</h4>
 		      </td>
 		  </tr>
 		  <tr style="border-bottom: 1px solid #cccccc;">
-		  	  <td width="55%" height="90%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">카드사</span>
+		  	  <td width="55%" height="80%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">카드사</span>
 					- ${dto.cardCo}
 				<span style="display:block; font-weight:bold;">이용혜택</span>- 자유이용권 ${dto.discount}% (본인에 한함. 전 놀이공원 1일, 1회)
 		      </td>
@@ -92,8 +99,8 @@ function searchList() {
 		      <td width="15%">
 		      	 <button type="button" class="btn" onclick="cardDetail(${dto.cardCode})">상세정보</button>
 		      	 <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
-		      	 	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/update?num=${dto.cardCode}&page=${page}';">수정하기</button>
-		      	 	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/delete?num=${dto.cardCode}&page=${page}';">삭제하기</button>
+		      	 	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/update?num=${dto.cardCode}&${query}';">수정하기</button>
+		      	 	<button type="button" class="btn" onclick="deleteCard('${dto.cardCode}');">삭제하기</button>
 		      	 </c:if>
 		      	 
 		      	 <div style="display: none;" id="cardModal${dto.cardCode}" role="dialog" class="modal" tabindex="-1">

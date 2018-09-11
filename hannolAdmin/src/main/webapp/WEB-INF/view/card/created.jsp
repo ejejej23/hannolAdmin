@@ -74,12 +74,21 @@
             return;
         } 
         
+        if(${mode=='created'}){
         str = f.cardupload.value;
         if(!str) {
             alert("카드 이미지를 첨부하세요. ");
             f.content.focus();
             return;
-        } 
+        }
+        
+        str = f.logoupload.value;
+        if(!str) {
+            alert("로고 이미지를 첨부하세요. ");
+            f.content.focus();
+            return;
+        }
+        }
         
     	f.action="<%=cp%>/card/${mode}";
         f.submit();
@@ -132,9 +141,9 @@
 		<div class="form-group"> 
 			<label for="startDate" class="col-sm-2 control-label">기간</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 46%;" name="startDate" type="text" class="form-control" id="startDate" placeholder="시작일(YYYY-MM-DD)"  value="${dto.startDate}">
+				<input style="width: 46%;" name="startDate" type="text" class="form-control" id="startDate" placeholder="시작일(YYYY-MM-DD)"  value="${dto.startDate}" readonly="readonly">
 				~ 
-				<input style="width: 46%;" name="endDate" type="text" class="form-control" id="endDate" placeholder="종료일(YYYY-MM-DD)"  value="${dto.endDate}"> 
+				<input style="width: 46%;" name="endDate" type="text" class="form-control" id="endDate" placeholder="종료일(YYYY-MM-DD)"  value="${dto.endDate}" readonly="readonly"> 
 			</div> 
 		</div>  
 		<div class="form-group"> 
@@ -168,10 +177,15 @@
 		<c:if test="${mode=='update'}">
            <c:if test="${not empty dto.saveFilename}">
             <div class="form-group"> 
-				<label for="logoFile" class="col-sm-2 control-label">첨부된 이미지</label> 
+				<label for="logoFile" class="col-sm-2 control-label">첨부된 카드 이미지</label> 
              		<div class="col-sm-10"> 
-                   		<img src="<%=cp%>/uploads/card/${dto.saveFilename}" width="70" height="40"> 
-                   		<img src="<%=cp%>/uploads/card/${dto.logoSaveFilename}" width="30" height="30">
+                   		<img src="<%=cp%>/uploads/card/${dto.saveFilename}" width="70" height="40" style="padding: 1px;"> 
+                	</div>
+           	</div> 
+           	<div class="form-group"> 
+				<label for="logoFile" class="col-sm-2 control-label">첨부된 로고 이미지</label> 
+             		<div class="col-sm-10"> 
+                   		<img src="<%=cp%>/uploads/card/${dto.logoSaveFilename}" width="40" height="40" style="padding: 1px;">
                 	</div>
            	</div> 
           </c:if>
@@ -182,10 +196,16 @@
 		      <td align="center" >
 		        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 		        <button type="reset" class="btn">다시입력</button>
-		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/list?${query}';">${mode=='update'?'수정취소':'등록취소'}</button>
 		         <c:if test="${mode=='update'}">
 		         	 <input type="hidden" name="cardCode" value="${dto.cardCode}">
 		        	 <input type="hidden" name="page" value="${page}">
+		        	 <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
+		        	 <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
+		        	 <input type="hidden" name="logoSaveFilename" value="${dto.logoSaveFilename}">
+		        	 <input type="hidden" name="logoOriginalFilename" value="${dto.logoOriginalFilename}">
+		        	 <input type="hidden" name="searchKey" value="${searchKey}">
+		        	 <input type="hidden" name="searchValue" value="${searchValue}">
 		        </c:if>
 		      </td>
 		    </tr>
