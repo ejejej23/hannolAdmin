@@ -162,7 +162,16 @@ public class NoticeController {
 			@RequestParam int num,
 			@RequestParam String page,
 			HttpSession session,
+			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			Model model) throws Exception {
+		
+		searchValue = URLDecoder.decode(searchValue, "utf-8");
+
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
+		}
 		
 		SessionInfo info =(SessionInfo)session.getAttribute("staff");
 		Notice dto = service.readNotice(num);
@@ -177,6 +186,7 @@ public class NoticeController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
+		model.addAttribute("query", query);
 		
 		return ".noticeS.created";
 	}

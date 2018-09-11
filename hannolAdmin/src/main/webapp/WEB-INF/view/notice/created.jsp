@@ -79,7 +79,7 @@
 		      <td align="center" >
 		        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 		        <button type="reset" class="btn">다시입력</button>
-		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list?${query }';">${mode=='update'?'수정취소':'등록취소'}</button>
 		         <c:if test="${mode=='update'}">
 		         	 <input type="hidden" name="num" value="${dto.noticeCode}">
 		        	 <input type="hidden" name="page" value="${page}">

@@ -11,7 +11,7 @@ function deleteNotice() {
 <c:if test="${sessionScope.staff.authority=='ROLE_ADMIN' || sessionScope.staff.staffIdx==dto.usersCode}">
 	var num = "${dto.noticeCode}";
 	var page = "${page}";
-	var query = "num="+num+"&page="+page;
+	var query = "num="+num+"&${query}";
 	var url = "<%=cp%>/notice/delete?" + query;
 
 	if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
@@ -27,7 +27,7 @@ function updateNotice() {
 <c:if test="${sessionScope.staff.staffIdx==dto.usersCode}">
 	var num = "${dto.noticeCode}";
 	var page = "${page}";
-	var query = "num="+num+"&page="+page;
+	var query = "num="+num+"&${query}";
 	var url = "<%=cp%>/notice/update?" + query;
 
 	location.href=url;
