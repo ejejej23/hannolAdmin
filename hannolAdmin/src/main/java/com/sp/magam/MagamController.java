@@ -88,6 +88,7 @@ public class MagamController {
 		return "/magam/sub-list";
 	}
 
+	
 	@ResponseBody
 	@RequestMapping(value = "/magam/update")
 	public Map<String, Object> updateMagam(@RequestParam(value = "page", defaultValue = "1") int page, Magam dto,
