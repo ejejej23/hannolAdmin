@@ -54,6 +54,17 @@ function getList(){
 $(function(){
 	getList(1);
 });
+
+$(function(){
+	$("#budgetModal").dialog({
+		title:"업체추가",
+		width:480,
+		height:480, 
+		modal:true,
+		show:"clip",
+		hide:"clip"
+	});
+});
 </script>
 <div class="sub-container" style="width: 960px;">
     
@@ -70,4 +81,40 @@ $(function(){
 
 
     </div>
+    
+    <div id="budgetModal" class="modal">
+	<form>
+		<table class="modalTable">
+			<tr>
+				<th scope="row">업체명</th>
+				<td><input type="text" name="name" class="boxTF"></td>
+			</tr>
+			<tr>
+				<th scope="row">상세설명</th>
+				<td><textarea class="boxTA"></textarea></td>
+			</tr>
+			<tr>
+				<th scope="row">연락처</th>
+				<td>
+					<select class="selectField btfTel" name="tel1">
+						<option value="">선택</option>
+						<option value="010">010</option>
+						<option value="010">011</option>
+						<option value="010">016</option>
+						<option value="010">017</option>
+						<option value="010">018</option>
+						<option value="010">019</option>
+					</select> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4"> - <input type="text" name="tel3" class="boxTF btfTel" maxlength="4">
+				</td>
+			</tr>
+		</table>
+		
+		<div class="btnBox">
+	        <button type="button" class="btn" id="btnScheduleSendOk">업체등록</button>
+	        <button type="reset" class="btn">다시입력</button>
+	        <button type="button" class="btn" id="btnScheduleSendCancel">등록취소</button>
+	    </div>
+	</form>
+</div>
+    
 </div>
