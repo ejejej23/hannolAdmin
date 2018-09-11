@@ -11,10 +11,11 @@
 $(function() {
 	$(document).on("click","button",function(){
 		
-		var url = "<%=cp%>/magam/update";
+		alert("test");
+		<%-- var url = "<%=cp%>/budget/update";
 		var year = $(this).closest("tr").children().eq(1).text();
-		var month = $(this).closest("tr").children().eq(2).text();
-	 	var query = "page="+${page}+"&year="+year+"&month="+month;
+		var quarter = $(this).closest("tr").children().eq(2).text();
+	 	var query = "page="+${page}+"&year="+year+"&quarter="+quarter;
 	 	
 		// AJAX-POST
 		$.ajax({
@@ -29,12 +30,12 @@ $(function() {
 				console.log(e.responseText);
 				$("#resultLayout").html("에러발생!");	
 			}
-		});  
+		});   --%>
 	});
 
 });
 function getList(){
-	var url = "<%=cp%>/magam/getlist";
+	var url = "<%=cp%>/budget/sublist";
 	var query = "page="+${page};
 	
 	$.ajax({
@@ -42,11 +43,11 @@ function getList(){
 		,url:url	//서버의 주소
 		,data:query	//서버로 보내는 값
 		,success:function(data){
-			$("#listLayout").html(data);
+			$("#blistLayout").html(data);
 		}
 		,error:function(e){
 			console.log(e.responseText);
-			$("#resultLayout").html("갱신에러발생!");	
+			$("#bresultLayout").html("갱신에러발생!");	
 		}
 	}); 
 }
@@ -57,15 +58,15 @@ $(function(){
 <div class="sub-container" style="width: 960px;">
     
     <div class="sub-title">
-	  <h3>마감 <small>수불관리</small></h3>
+	  <h3>예산 <small>분기별 예산내역</small></h3>
 	</div> 
     
     <div>
 
 
-		<div id="listLayout"></div>
+		<div id="blistLayout"></div>
 		
-		<div id="resultLayout"></div>
+		<div id="bresultLayout"></div>
 
 
     </div>

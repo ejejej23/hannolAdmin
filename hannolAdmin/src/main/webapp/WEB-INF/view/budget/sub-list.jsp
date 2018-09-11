@@ -6,41 +6,42 @@
    String cp = request.getContextPath();
 %>
 <table class="table">
-			    <colgroup>
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			    </colgroup>
+		    <colgroup>
+		        <col style="width: 10%; text-align:center">
+		        <col style="width: 10%; text-align:center">
+		        <col style="width: 10%; text-align:center">
+		        <col style="text-align:center">
+		        <col style="width: 15%; text-align:center">
+		        <col style="width: 10%; text-align:center">
+		        <col style="width: 15%; text-align:center">
+		        <col style="width: 5%; text-align:center">
+		    </colgroup>
     
 		  <thead class="thead-light">
 		    <tr>
 		      <th scope="col">번호</th>
 		      <th scope="col">년도</th>
-		      <th scope="col">월</th>
-		      <th scope="col">마감여부</th>
+		      <th scope="col">분기</th>
+		      <th scope="col">예산금액</th>
 		      <th scope="col">결제사원번호</th>
 		      <th scope="col">결제담당자</th>
-		      <th scope="col">마감일자</th>
+		      <th scope="col">입력일자</th>
+		      <th scope="col">&nbsp;</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		  
 			  	<c:forEach var="dto" items="${list}">
 				    <tr>
 				      <th scope="row">${dto.listNum}</th>
 				      <td>${dto.year}</td>
-				      <td>${dto.month}</td>
-				      <td>${dto.isMagam == 1?"마감O":"마감X"}&nbsp;<button>변경 </button></td>
+				      <td>${dto.quarter}</td>
+				      <td>${dto.budget}</td>
 				      <td>${dto.usersCode}</td>
 				      <td>${dto.name}</td>
-				      <td>${dto.magamDate}</td>
+				      <td>${dto.inputDate}</td>
+				      <td><button class="btn btn-default">수정</button></td>
 				    </tr>
 			    </c:forEach>
-			    
 		  </tbody>
 		</table>
 		
