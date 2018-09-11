@@ -106,6 +106,7 @@ public class GiftShopController {
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("query", query);
 		
 		return ".giftshop.list";
 	}

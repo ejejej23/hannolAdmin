@@ -14,27 +14,87 @@
 .giftSelect{
 	height: 30px;
 	margin: 15px;
+	float: left;
+}
+
+.col-xs-offset-2{
+	margin: 15px 0px;
+}
+
+.btn-created{
+	margin: 0px 15px;
+	float: right;
 }
 </style>
 
+<script>
+var query="";
+
+$(function(){
+	query="${query}";
+});
+
+function searchList() {
+	var f=document.searchForm;
+	f.submit();
+}
+
+function orderList(){
+	var orderList = $('.gitf-form-control option:selected').val();
+	var data ="order="+orderList;
+	var url = "<%=cp%>/giftshop/list"
+	if(query!=''){
+		data+="&"+query;
+	}
+	
+	$.ajax({
+		type:"post"
+		,url:url
+		,data: data
+		,success:function(data) {
+			
+		}
+	    ,error:function(e) {
+	    	console.log(e.responseText);
+	    }
+	});
+}
+
+</script>
+
 <div class="sub-container" style="width: 960px;">
 	<div class="sub-title">
-		<h3>기프트샵 상품관리</h3>
+		<h3>기프트샵 상품관리 <small>${dataCount}개 (${page}/${total_page})</small></h3>
 	</div>
-
-	<div class="giftList">
+	
+	<div style="height: 30px;">
+  		<form name="searchForm" method="post" action="<%=cp%>/giftshop/list">
+          	<div class="col-xs-8 col-xs-offset-2">
+			  		<div class="input-group">
+			            <input type="hidden" name="searchKey" value="goodsName">         
+			            <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+			            <span class="input-group-btn">
+			                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
+			            </span>
+			        </div>
+			</div>
+		</form>
+		
 		<div class="giftSelect">
 			<div class="itemSelect">
-				${dataCount}개 (${page}/${total_page})
-				<select class="form-control gitf-form-control">
-					<option>↑↓정렬</option>
-					<option>가격낮은순</option>
-					<option>가격높은순</option>
-					<option>인기상품순</option>
-					<option>신상품순</option>
+				<select class="form-control gitf-form-control" onchange="orderList();">
+					<option value="">↑↓정렬</option>
+					<option value="minPrice">가격낮은순</option>
+					<option value="maxPrice">가격높은순</option>
+					<option value="likeGoods">인기상품순</option>
+					<option value="newGoods">신상품순</option>
 				</select>
 			</div>
 		</div>
+  	</div>
+
+	<div class="giftList">
+		
 
 		<c:forEach items="${list}" var="dto">
 			<div style="width: 100%;">
@@ -45,11 +105,11 @@
 							<img src="<%=cp%>/uploads/giftShopGoods/${dto.saveFileName.get(0)}" onerror="this.src='<%=cp%>/resource/images/noimage.png'" style="height:250px;">
 						</c:if>
 						<c:if test="${empty dto.saveFileName}">
-							<img src="<%=cp%>/resource/images/noimage.png" style="height:250px;">
+							<img src="<%=cp%>/resource/images/noimage.png" style="height:250px; width: 300px;">
 						</c:if>
 						 <span class="itemTitle">${dto.goodsName}</span>
 						</a>
-						<div class="itemPrice">${dto.price}원</div>
+						<div class="itemPrice"><fmt:formatNumber value="${dto.price}" type="number"/>원</div>
 					</div>
 				</div>
 			</div>
@@ -57,23 +117,10 @@
 	</div>
 
 	<div style="width: 100%; text-align: center; margin: 35px auto;">${paging}</div>
-
-
-	<div class="col-xs-8 col-xs-offset-2">
-		<div class="input-group">
-			<input type="hidden" name="search_param" value="all"
-				id="search_param"> <input type="text" class="form-control"
-				name="x" placeholder="검색할 키워드를 입력해 주세요..."> <span
-				class="input-group-btn">
-				<button class="btn btn-default btn-info" type="button">
-					<span class="glyphicon glyphicon-search"></span>
-				</button>
-			</span>
-		</div>
-	</div>
 	
 	<div>
-		<button type="button" class="btn btn-Default" onclick="javascript:location.href='<%=cp%>/giftshop/created'">등록하기</button>
+		<button type="button" class="btn btn-Default btn-refresh" onclick="javascript:location.href='<%=cp%>/giftshop/list'">새로고침</button>
+		<button type="button" class="btn btn-Default btn-created" onclick="javascript:location.href='<%=cp%>/giftshop/created'">등록하기</button>
 	</div>
 </div>
 

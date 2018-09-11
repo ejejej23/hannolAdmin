@@ -64,6 +64,5 @@
         <if test="searchValue != null and searchValue != ''">
         	AND INSTR(goodsName, #{searchValue}) &gt; 0
         </if>
-        
 	</select>
 </mapper>
