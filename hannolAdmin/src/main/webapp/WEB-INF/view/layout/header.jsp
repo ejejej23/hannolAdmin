@@ -81,7 +81,7 @@
         <li>
             <span class="dep1">직원 관리</span>
             <ul>
-                <li><a href="#">인사정보 관리</a></li>
+                <li><a href="<%=cp%>/staff/list">인사정보 관리</a></li>
                 <li><a href="#">발령 관리</a></li>
             </ul>
         </li>

@@ -202,4 +202,10 @@ public class StaffController {
 		model.put("passed", p);
 		return model;
 	}
+	
+	@RequestMapping(value="/staff/list")
+	public String list(Model model)throws Exception{
+		
+		return "./staff/list";
+	}
 }
