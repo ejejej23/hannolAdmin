@@ -14,24 +14,4 @@
 		FROM USERS
 		WHERE USERSCODE = #{num} 
 	</select>
-	
-	<!-- dataCount -->
-	<select id="dataCount">
-	
-	</select>
-	
-	<!-- 회원리스트 : 전체/검색 -->
-	<select id="listStaff" parameterType="map" resultType="com.sp.staff.Staff">
-	
-	</select>
-	
-	<!-- 유저코드주면 그걸로 회원검색 -->
-	<select id="readStaff" parameterMap="Integer" resultType="com.sp.staff.Staff">
-	
-	</select>
-	
-	<!-- 수정 : 직위/부서/테마/등등등 수정해야해. 내정보, 관리자가 인사관리 할때도 필요-->
-	<update id="updateStaff" parameterType="com.sp.staff.Staff">
-			
-	</update>
 </mapper>
