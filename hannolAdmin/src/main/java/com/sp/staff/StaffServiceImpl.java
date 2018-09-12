@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
 
-
 @Service("member.memberService")
 public class StaffServiceImpl implements StaffService {
 	@Autowired
 	private CommonDAO dao;
 
 	@Override
-	public Staff loginStaff(String staffId) {
+	public Staff loginStaff(String staffId) throws Exception {
 		Staff dto = null;
 
 		try {
@@ -28,7 +27,7 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public boolean amIAdmin(long usersCode) {
+	public boolean amIAdmin(long usersCode) throws Exception {
 		boolean amIAdmin = false;
 		try {
 			int temp = dao.selectOne("staff.amIAdmin", usersCode);
@@ -44,8 +43,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int dataCount(Map<String, Object> map) {
-		int result =0;
+	public int dataCount(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.selectOne("staff.dataCount", map);
 		} catch (Exception e) {
@@ -55,10 +54,10 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public Staff readStaff(Map<String, Object> map) {
-		Staff dto=null;
+	public Staff readStaff(int usersCode) throws Exception {
+		Staff dto = null;
 		try {
-			dto = dao.selectOne("staff.readStaff", map);
+			dto = dao.selectOne("staff.readStaff", usersCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -66,8 +65,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public List<Staff> listStaff(Map<String, Object> map) {
-		List<Staff> list =null;
+	public List<Staff> listStaff(Map<String, Object> map) throws Exception {
+		List<Staff> list = null;
 		try {
 			list = dao.selectList("staff.listStaff", map);
 		} catch (Exception e) {
@@ -77,8 +76,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int updateStaff(Staff dto) {
-		int result =0;
+	public int updateStaff(Staff dto) throws Exception {
+		int result = 0;
 		try {
 			result = dao.updateData("staff.updateStaff", dto);
 		} catch (Exception e) {
@@ -88,8 +87,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int updateUsersAuth(Map<String, Object> map) {
-		int result =0;
+	public int updateUsersAuth(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.updateData("staff.updateUsersAuth", map);
 		} catch (Exception e) {
@@ -99,8 +98,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int updateStaffAuth(Map<String, Object> map) {
-		int result =0;
+	public int updateStaffAuth(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.updateData("staff.updateStaffAuth", map);
 		} catch (Exception e) {
@@ -110,8 +109,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int readTheme(Map<String, Object> map) {
-		int result =0;
+	public int readTheme(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.selectOne("staff.readTheme", map);
 		} catch (Exception e) {
@@ -121,8 +120,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int readDepart(Map<String, Object> map) {
-		int result =0;
+	public int readDepart(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.selectOne("staff.readDepart", map);
 		} catch (Exception e) {
@@ -132,8 +131,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int readPosition(Map<String, Object> map) {
-		int result =0;
+	public int readPosition(Map<String, Object> map) throws Exception {
+		int result = 0;
 		try {
 			result = dao.selectOne("staff.readPosition", map);
 		} catch (Exception e) {

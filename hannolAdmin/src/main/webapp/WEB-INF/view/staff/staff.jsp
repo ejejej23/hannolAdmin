@@ -10,7 +10,16 @@
 function memberOk() {
 	var f = document.memberForm;
 	var str;
-
+	
+    str = f.userName.value;
+	str = str.trim();
+    if(!str) {
+        alert("이름을 입력하세요. ");
+        f.userName.focus();
+        return;
+    }
+    f.userName.value = str;
+	
 	str = f.userId.value;
 	str = str.trim();
 	if(!str) {
@@ -44,15 +53,7 @@ function memberOk() {
         f.userPwdCheck.focus();
         return;
 	}
-	
-    str = f.userName.value;
-	str = str.trim();
-    if(!str) {
-        alert("이름을 입력하세요. ");
-        f.userName.focus();
-        return;
-    }
-    f.userName.value = str;
+
 
     str = f.birth.value;
 	str = str.trim();
@@ -170,177 +171,187 @@ function userIdCheck() {
 	    	console.log(e.responseText);
 	    }
 	});
+
+}
+
+function authorityUpdate(){
+	alert("test");
 	
 }
 
 </script>
-<div class="body-container" style="width: 700px;">
-    <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> ${mode=="created"?"회원 가입":"회원 정보 수정"} </h3>
-    </div>
-    
-        <div>
-			<form name="memberForm" method="post">
-			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">아이디</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userId" id="userId" value="${dto.userId}"
-                         onchange="userIdCheck();" style="width: 95%;"
-                         ${mode=="update" ? "readonly='readonly' ":""}
-                         maxlength="15" class="boxTF" placeholder="아이디">
-			        </p>
-			        <p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
-			      </td>
-			  </tr>
-			
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">패스워드</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="password" name="userPwd" maxlength="15" class="boxTF"
-			                       style="width:95%;" placeholder="패스워드">
-			        </p>
-			        <p class="help-block">패스워드는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
-			      </td>
-			  </tr>
-			
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">패스워드 확인</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="password" name="userPwdCheck" maxlength="15" class="boxTF"
-			                       style="width: 95%;" placeholder="패스워드 확인">
-			        </p>
-			        <p class="help-block">패스워드를 한번 더 입력해주세요.</p>
-			      </td>
-			  </tr>
-			
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">이름</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userName" value="${dto.userName}" maxlength="30" class="boxTF"
-		                      style="width: 95%;"
-		                      ${mode=="update" ? "readonly='readonly' ":""}
-		                      placeholder="이름">
-			        </p>
-			      </td>
-			  </tr>
-			
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">생년월일</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="birth" value="${dto.birth}" maxlength="10" 
-			                       class="boxTF" style="width: 95%;" placeholder="생년월일">
-			        </p>
-			        <p class="help-block">생년월일은 2000-01-01 형식으로 입력 합니다.</p>
-			      </td>
-			  </tr>
-			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">이메일</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <select name="selectEmail" onchange="changeEmail();" class="selectField">
-			                <option value="">선 택</option>
-			                <option value="naver.com" ${dto.email2=="naver.com" ? "selected='selected'" : ""}>네이버 메일</option>
-			                <option value="hanmail.net" ${dto.email2=="hanmail.net" ? "selected='selected'" : ""}>한 메일</option>
-			                <option value="hotmail.com" ${dto.email2=="hotmail.com" ? "selected='selected'" : ""}>핫 메일</option>
-			                <option value="gmail.com" ${dto.email2=="gmail.com" ? "selected='selected'" : ""}>지 메일</option>
-			                <option value="direct">직접입력</option>
-			            </select>
-			            <input type="text" name="email1" value="${dto.email1}" size="13" maxlength="30"  class="boxTF">
-			            @ 
-			            <input type="text" name="email2" value="${dto.email2}" size="13" maxlength="30"  class="boxTF" readonly="readonly">
-			        </p>
-			      </td>
-		      </tr>
-		      
-			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">전화번호</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <select class="selectField" id="tel1" name="tel1" >
-			                <option value="">선 택</option>
-			                <option value="010" ${dto.tel1=="010" ? "selected='selected'" : ""}>010</option>
-			                <option value="011" ${dto.tel1=="011" ? "selected='selected'" : ""}>011</option>
-			                <option value="016" ${dto.tel1=="016" ? "selected='selected'" : ""}>016</option>
-			                <option value="017" ${dto.tel1=="017" ? "selected='selected'" : ""}>017</option>
-			                <option value="018" ${dto.tel1=="018" ? "selected='selected'" : ""}>018</option>
-			                <option value="019" ${dto.tel1=="019" ? "selected='selected'" : ""}>019</option>
-			            </select>
-			            -
-			            <input type="text" name="tel2" value="${dto.tel2}" class="boxTF" maxlength="4">
-			            -
-			            <input type="text" name="tel3" value="${dto.tel3}" class="boxTF" maxlength="4">
-			        </p>
-			      </td>
-			  </tr>
-			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">우편번호</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="zip" id="zip" value="${dto.zip}"
-			                       class="boxTF" readonly="readonly">
-			            <button type="button" class="btn" onclick="daumPostcode();">우편번호</button>          
-			        </p>
-			      </td>
-			  </tr>
-			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">주소</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="addr1" id="addr1"  value="${dto.addr1}" maxlength="50" 
-			                       class="boxTF" style="width: 95%;" placeholder="기본 주소" readonly="readonly">
-			        </p>
-			        <p style="margin-bottom: 5px;">
-			            <input type="text" name="addr2" id="addr2" value="${dto.addr2}" maxlength="50" 
-			                       class="boxTF" style="width: 95%;" placeholder="나머지 주소">
-			        </p>
-			      </td>
-			  </tr>
-			  </table>
-			
-			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-			     <tr height="45"> 
-			      <td align="center" >
-			        <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="created"?"회원가입":"정보수정"}</button>
-			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/';">${mode=="created"?"가입취소":"수정취소"}</button>
-			      </td>
-			    </tr>
-			    <tr height="30">
-			        <td align="center" style="color: blue;">${message}</td>
-			    </tr>
-			  </table>
-			</form>
-        </div>
 
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<div class="sub-container"  align="center">
+    
+    <div class="sub-title">
+	  <h3>직원 <small>상세정보</small></h3>
+	</div> 
+    
+    <div style="width: 900px; border-spacing: 0px;">
+		<form name="memberForm" method="post">
+		
+			<div style="float: left; width: 40%">	
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="usersCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;사원번호</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="usersCode" class="form-control input-sm" 
+						id="usersCode" placeholder="사원번호" value="${dto.usersCode}" readonly> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="authority" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;권한</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="authority" class="form-control input-sm" 
+						id="authority" placeholder="권한" value="${dto.authority}" readonly> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="themeName" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;테마</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="themeName" class="form-control input-sm" 
+						id="themeName" placeholder="테마명" value="${dto.themeName}" readonly> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="dpName" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;부서</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="dpName" class="form-control input-sm" 
+						id="dpName" placeholder="부서명" value="${dto.dpName}" readonly> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="positionName" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;직위</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="positionName" class="form-control input-sm" 
+						id="positionName" placeholder="직위" value="${dto.positionName}" readonly> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="staffId" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;아이디</label> 
+					<div class="col-sm-7"> 
+						<input name="userId" type="text" class="form-control input-sm" 
+						id="staffId" placeholder="아이디"  value="${dto.staffId}"
+							onchange="userIdCheck();" readonly> 
+					</div>
+				</div> 
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="name" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;이름</label> 
+					<div class="col-sm-7"> 
+						<input type="text" name="name" class="form-control input-sm" 
+						id="userName" placeholder="이름" value="${dto.name}"> 
+					</div> 
+				</div>
+				<br>
+				
+				
+				
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="birth" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;생년월일</label> 
+					<div class="col-sm-7"> 
+						<input type="text" class="form-control input-sm" id="birth" placeholder="YYYY-MM-DD" value="${dto.birth}"> 
+					</div>
+				</div>
+			  	<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="email" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;이메일</label> 
+					<div class="col-sm-7"> 
+						<input type="text" class="form-control input-sm" id="email" placeholder="이메일" value="${dto.email}"	> 
+					</div> 
+				</div>
+				
+			</div>	
+				
+		    <c:if test="${mode=='update'}">
+				<div style="width:30%; float: left;" class="text-center"> 
+			    	<img alt="" src="<%=cp%>/resource/images/person.jpg" style="padding: 10px; margin-top:10px; width:200px; height:250px;"><br>
+				</div>
+			</c:if>
+			
+		
+			<div style="clear: both"></div>
+		  	<div>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="tel2" class="col-sm-2 control-label text-right">전화번호</label> 
+					<div class="col-sm-6">  
+						<select class="input-sm" id="tel1" name="tel1">
+						  <option ${dto.tel1=="010" ? "selected='selected'" : ""}>010</option>
+						  <option ${dto.tel1=="011" ? "selected='selected'" : ""}>011</option>
+						  <option ${dto.tel1=="016" ? "selected='selected'" : ""}>016</option>
+						  <option ${dto.tel1=="017" ? "selected='selected'" : ""}>017</option>
+						  <option ${dto.tel1=="018" ? "selected='selected'" : ""}>018</option>
+						  <option ${dto.tel1=="019" ? "selected='selected'" : ""}>019</option>
+						</select>
+						- <input type="text" class="input-sm" id="tel2" name="tel2" value="${dto.tel2}">
+						- <input type="text" class="input-sm" id="tel3" name="tel3" value="${dto.tel3}"> 
+					</div> 
+				</div>
+				<br>
+				<div class="form-group" style="margin: 20px auto 0px;"> 
+					<label for="post" class="col-sm-2 control-label text-right">우편번호</label> 
+					<div class="col-sm-6"> 
+						<div class="col-sm-4">
+							<input type="text" class="form-control input-sm" id="post" name="post" value="${dto.post}" readonly="readonly" style='border:none;'> 
+						</div><div class="col-sm-2">
+							<button type="button" class="btn btn-default btn-sm" onclick="daumPostcode();">우편번호</button>
+						</div>
+					</div> 
+				</div>
+				
+				<br>			
+					
+				<div class="form-group" style="margin: 20px auto 0px; border-spacing: 0px;"> 
+					<label for="addr1" class="col-sm-2 control-label text-right">주소</label> 
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;"> 
+						<input type="text" class="form-control" id="addr1" name="addr1" placeholder="기본 주소" value="${dto.addr1}" readonly="readonly" style='border:none;'> 
+						<input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세 주소" value="${dto.addr2}"> 
+					</div> 
+				</div> 
+				
+				<br><br><br> 
+				
+				<div class="form-group" style="margin: 20px auto 0px; border-spacing: 0px;"> 
+					<label for="task" class="col-sm-2 control-label text-right">업무</label> 
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;"> 
+						<input type="text" class="form-control" id="task" name="task" placeholder="업무" value="${dto.task}" readonly="readonly" style='border:none;'> 
+					</div> 
+				</div> 
+				
+				<br><br>
+				
+				<div class="form-group" style="margin: 20px auto 0px; border-spacing: 0px;"> 
+					<label for="working" class="col-sm-2 control-label text-right">재직여부</label> 
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;"> 
+						<input type="text" class="form-control" id="working" name="working" placeholder="재직여부" value="${dto.working == 1?'재직중':'퇴사'}" readonly="readonly" style='border:none;'> 
+					</div> 
+				</div> 
+				
+				<br><br><br>
+				<table style="margin: 0px auto; border-spacing: 0px;">
+				   <tr height="30"> 
+				    <td align="center" >
+				      <button type="button" name="authorityButton" class="btn btn-default" onclick="authorityUpdate();">권한수정</button>
+				      <button type="button" name="sendButton" class="btn btn-default" onclick="memberOk();">정보수정</button>
+				      <button type="reset" class="btn btn-default">다시입력</button>
+				      <button type="button" class="btn btn-default	" onclick="javascript:location.href='<%=cp%>/staff/list?${query }';">수정취소</button>
+				    </td>
+				  </tr>
+				  <tr height="30">
+				      <td align="center" style="color: blue;">${message}</td>
+				  </tr>
+				</table>
+			
+			</div>
+			
+		</form>
+       </div>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
 <script>
     function daumPostcode() {
         new daum.Postcode({
@@ -383,5 +394,6 @@ function userIdCheck() {
             }
         }).open();
     }
-</script>
+</script>     
+     
 </div>

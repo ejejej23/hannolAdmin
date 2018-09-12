@@ -26,7 +26,7 @@
    </select>
    
 	<select id="readStaff" parameterType="map" resultType="com.sp.staff.Staff">
-		SELECT S.USERSCODE, STAFFID, NAME, TEL, BIRTH, POST, ADDR1, ADDR2, EMAIL, 
+		SELECT S.USERSCODE, STAFFID, NAME, TEL, TO_CHAR(BIRTH,'YYYY-MM-DD') BIRTH, POST, ADDR1, ADDR2, EMAIL, 
 		ORIGINALFILENAME, SAVEFILENAME, TASK, WORKING, AUTHORITY,
 		D.DPCODE, DPNAME,
 		P.POSITIONCODE, POSITIONNAME,
@@ -36,7 +36,7 @@
 		JOIN DEPARTMENT D ON D.DPCODE = S.DPCODE
 		JOIN POSITION P ON P.POSITIONCODE = S.POSITIONCODE
 		JOIN THEME T ON T.THEMECODE = S.THEMECODE
-		WHERE USERSCODE = #{usersCode}
+		WHERE S.USERSCODE = #{usersCode}
 	</select>
 	
 	<sql id="where-list">
@@ -56,7 +56,7 @@
 	<select id="listStaff" parameterType="map" resultType="com.sp.staff.Staff">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT S.USERSCODE, STAFFID, NAME, TEL, BIRTH, POST, ADDR1, ADDR2, EMAIL, 
+			    SELECT S.USERSCODE, STAFFID, NAME, TEL, TO_CHAR(BIRTH,'YYYY-MM-DD') BIRTH, POST, ADDR1, ADDR2, EMAIL, 
 				ORIGINALFILENAME, SAVEFILENAME, TASK, WORKING, AUTHORITY,
 				D.DPCODE, DPNAME,
 				P.POSITIONCODE, POSITIONNAME,
@@ -80,11 +80,9 @@
 	
 	<!-- 없을 수 있는 값은 JDBCTYPE줘야함!! 체크할것 -->
 	<update id="updateStaff" parameterType="com.sp.staff.Staff">
-		UPDATE STAFF SET NAME = #{name}, TEL = #{tel}, BIRTH = #{birth}, 
-		POST = #{post}, ADDR1 = #{addr1}, ADDR2 = #{addr2}, 
-		EMAIL = #{email}, ORIGINALFILENAME = #{originalFilename}, SAVEFILENAME = #{saveFilename}, 
-		TASK = #{task}, WORKING = #{working},
-		DPCODE = #{dpCode}, POSITIONCODE = #{positionCode}, THEMECODE = #{themeCode}
+		UPDATE STAFF SET NAME = #{name}, TEL = #{tel},
+		BIRTH = #{birth},EMAIL = #{email}, 
+		POST = #{post}, ADDR1 = #{addr1}, ADDR2 = #{addr2} 
 		WHERE USERSCODE = #{usersCode}
 	</update>
 	

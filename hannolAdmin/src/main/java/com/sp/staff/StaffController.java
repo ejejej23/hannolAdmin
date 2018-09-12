@@ -28,12 +28,6 @@ public class StaffController {
 	@Autowired
 	private MyUtil myUtil;
 
-	@RequestMapping(value = "/staff/staff", method = RequestMethod.GET)
-	public String staffForm(Model model) {
-		model.addAttribute("mode", "created");
-		return ".staff.staff";
-	}
-
 	@RequestMapping(value = "/staff/staff", method = RequestMethod.POST)
 	public String staffSubmit(Staff dto, Model model) {
 
@@ -61,7 +55,7 @@ public class StaffController {
 
 	@RequestMapping(value = "/staff/login", method = RequestMethod.POST)
 	public String loginSubmit(@RequestParam String staffId, @RequestParam String staffPwd, HttpSession session,
-			Model model) {
+			Model model)  throws Exception{
 
 		Staff dto = service.loginStaff(staffId);
 		if (dto == null || !staffPwd.equals(dto.getStaffPwd())) {
@@ -226,14 +220,14 @@ public class StaffController {
 		
 		String query = "";
 		String listUrl = cp+"/staff/list";
-		String articleUrl = cp +"/staff/article?page="+current_page;
+		String articleUrl = cp +"/staff/staff?page="+current_page;
 		if(searchValue.length()!=0) {
 			query = "searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue,"utf-8");
 		}
 		
 		if(query.length()!=0) {
 			listUrl =cp+"/staff/list?"+query;
-			articleUrl = cp+"/staff/article?page="+current_page+"&"+query;
+			articleUrl = cp+"/staff/staff?page="+current_page+"&"+query;
 		}
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -247,4 +241,37 @@ public class StaffController {
 		
 		return ".staff.list";
 	}
+	
+
+	@RequestMapping(value = "/staff/staff", method = RequestMethod.GET)
+	public String staffForm(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, HttpServletRequest req,
+			@RequestParam(value="num") int num,
+			Model model)  throws Exception{
+		searchValue = URLDecoder.decode(searchValue, "utf-8");
+
+		String query = "page=" + page;
+		if (searchValue.length() != 0) {
+			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
+		}
+		
+
+		Staff dto = service.readStaff(num);
+		if (dto == null) {
+			return "redirect:/staff/list?" + query;
+		}
+		
+		dto.setTel1(dto.getTel().substring(0, 3));
+		dto.setTel2(dto.getTel().substring(4, 8));
+		dto.setTel3(dto.getTel().substring(9));
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+		
+		model.addAttribute("mode", "update");
+		return ".staff.staff";
+	}
+
 }

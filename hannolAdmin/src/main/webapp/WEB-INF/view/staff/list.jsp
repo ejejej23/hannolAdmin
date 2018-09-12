@@ -12,8 +12,16 @@
 		var f=document.searchForm;
 		f.submit();
 	}
+	
+	$(function(){
+		$(document).on("click","button[name=detail]",function(){
+			var num = $(this).closest("tr").children().eq(1).text();
+			
+			location.href = "<%=cp%>/staff/staff?mode=update&num="+num;
+		});
+	});
 </script>
-<div class="sub-container" style="width: 960px;">
+<div class="sub-container" >
     
     <div class="sub-title">
 	  <h3>직원 <small>${dataCount}명(${page}/${total_page} 페이지)</small></h3>
@@ -36,7 +44,7 @@
     <div>
 		<table class="table">
 			    <colgroup>
-			        <col style="width: 10%; text-align:center">
+			        <col style="width: 5%; text-align:center">
 			        <col style="text-align:center">
 			        <col style="width: 10%; text-align:center">
 			        <col style="width: 10%; text-align:center">
@@ -44,6 +52,7 @@
 			        <col style="width: 10%; text-align:center">
 			        <col style="width: 20%; text-align:center">
 			        <col style="width: 15%; text-align:center">
+			        <col style="width: 10%; text-align:center">
 			    </colgroup>
     
 		  <thead class="thead-light">
@@ -56,6 +65,7 @@
 		      <th scope="col">직위</th>
 		      <th scope="col">업무</th>
 		      <th scope="col">테마</th>
+		      <th scope="col"></th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -69,6 +79,7 @@
 			      <td>${dto.positionName }</td>
 			      <td>${dto.task }</td>
 			      <td>${dto.themeName }</td>
+			      <td><button class="btn btn1" name="detail">상세</button></td>
 			    </tr>
 			    </c:forEach>
 		  </tbody>
@@ -92,9 +103,7 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
-		      	</c:if>
 		      </td>
 		   </tr>
 		</table>
