@@ -1,6 +1,7 @@
 package com.sp.schedule;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,4 +13,21 @@ public class ShowController {
       
       return ".show.list";
    }
+   
+   
+   
+   @RequestMapping(value="/show/manage", method=RequestMethod.GET)
+   public String manageShow() {
+      
+      return ".show.manage";
+   }
+   
+   @RequestMapping(value="/show/created", method=RequestMethod.GET)
+   public String createForm(Model model) {
+      
+     model.addAttribute("mode", "created");
+      
+      return ".show.created";
+   }
+   
 }
