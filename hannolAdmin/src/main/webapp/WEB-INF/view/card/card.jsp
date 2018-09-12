@@ -84,7 +84,7 @@ function deleteCard(cardCode) {
 		  <tr align="center" style="border-bottom: 1px solid #cccccc;"> 
 		      <td rowspan="2" width="30%">
 		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
-		      	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+		      	<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
 		      </td>
 		      <td colspan="2" width="70%" align="left" style="padding-left: 1em; padding-right: 1em; height: 3em;">
 		           	<h4 style="font-weight: bold;">${dto.cardName}</h4>
@@ -110,7 +110,7 @@ function deleteCard(cardCode) {
  						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
   						<span aria-hidden="true">×</span></button>
  						<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;">
- 							<c:if test="${not empty dto.logoSaveFilename}"><img src="<%=cp%>/uploads/card/${dto.logoSaveFilename}" width="20px" height="25px"></c:if> ${dto.cardCo}
+ 							<c:if test="${not empty dto.logoSaveFilename}"><img src="/hannolAdmin/uploads/card/${dto.logoSaveFilename}" width="20px" height="25px"></c:if> ${dto.cardCo}
  						</h4>
 					</div>
 					<div class="modal-body">
@@ -118,7 +118,7 @@ function deleteCard(cardCode) {
 							<div align="left" style="position: relative; float: left; width: 50%; margin-bottom: 10px;">
 								<div>
 									<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
-									<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/card/${dto.saveFilename}" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+									<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/card/${dto.saveFilename}" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
 								</div>						
 							</div>
 							<div align="left" style="position: relative; float: left; width: 50%">

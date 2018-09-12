@@ -27,6 +27,13 @@ public class CardController {
 
 	@Autowired
 	MyUtil util;
+	
+	public String imgPath(HttpSession session) {
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "card";	
+		
+		return pathname;
+	}
 
 	@RequestMapping(value = "/card/list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
@@ -91,8 +98,8 @@ public class CardController {
 
 	@RequestMapping(value = "/card/created", method = RequestMethod.POST)
 	public String createdSubmit(Card dto, HttpSession session, Model model) throws Exception {
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "card";
+
+		String pathname = imgPath(session);
 
 		int result = service.insertCard(dto, pathname);
 		if (result != 1) {
@@ -147,8 +154,7 @@ public class CardController {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
 		
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "card";		
+		String pathname = imgPath(session);		
 		
 		dto.setSaveFilename(saveFilename);
 		dto.setOriginalFilename(originalFilename);
@@ -179,8 +185,7 @@ public class CardController {
 			return "redirect:/card/list?page="+page;
 		}
 		
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "card";		
+		String pathname = imgPath(session);	
  	
 		service.deleteCard(num, dto.getSaveFilename(), dto.getLogoSaveFilename(), pathname);
 		

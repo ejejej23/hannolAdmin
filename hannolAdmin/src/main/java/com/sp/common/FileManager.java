@@ -145,6 +145,37 @@ public class FileManager {
 		return saveFilename;
 	}
 	
+	public boolean doFileCopy(String source, String target){
+		boolean result=false;
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		
+
+		try {
+			fis = new FileInputStream(source);
+			fos = new FileOutputStream(target);
+			int size;
+			byte[] b=new byte[1024];
+			while((size=fis.read(b))!=-1) {
+				fos.write(b, 0, size);
+			}
+			result=true;
+		} catch (Exception e) {
+		} finally {
+			try {
+				if(fis!=null) fis.close();
+			} catch (Exception e2) {
+			}
+			try {
+				if(fos!=null) fos.close();
+			} catch (Exception e2) {
+			}
+		}
+		
+		return result;
+	}
+	
+	
 	/**
 	 * 파일을 다운로드하는 메소드
 	 * @param saveFilename		서버에 저장된 파일이름
