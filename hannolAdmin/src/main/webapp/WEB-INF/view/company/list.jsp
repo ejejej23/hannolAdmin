@@ -68,9 +68,9 @@
 	$(function(){
 		$("#companyAdd_btn").click(function(){
 			$("#companyModel").dialog({
-				title:"${modeTitle}",
+				title:"업체추가",
 				width:480,
-				height:460,
+				height:470,
 				modal:true
 			});
 		});
@@ -81,22 +81,24 @@
 	});
 	
 	
-	//전송
+	//업체 등록
 	$(function(){
 		$("#sendOk").click(function(){
-			var url = "<%=cp%>/company/${mode}";
-			var query;
-			
+			var url = "<%=cp%>/company/created";
+
 			$.ajax({
 				type:"post",
 				url:url,
-				data:query,
+				data:$("form[name=companyForm]").serialize(),
 				dataType:"json",
-				beforSend:check,
+				beforeSend:check,
 				success:function(data){
-					
-					alert("성골");
-					
+					if(data.state=="true"){
+						formClean();
+						location.reload();
+					}else{
+						alert("업체 추가를 실패하였습니다.");	
+					}
 				},
 				error:function(e){
 					console.log(e.responseText);
@@ -114,21 +116,25 @@
 	}; 
 	
 	
-	//체크
+	//빈칸 확인
 	function check(){
-		var f = document.companyForm;
-		
-		//빈칸 확인
 		for(var i=0 ; i<elementsName.length ; i++){
 			if(!elementsName[i].value){
 				elementsName[i].focus();
 				alert(elementsNameText[i]+" 입력해주세요.");
-				return;
+				return false;
 			}
 		}
+	}	
+	
+	//폼 데이터 지움
+	function formClean(){
+		for(var i=0 ; i<elementsName.length ; i++){
+			elementsName[i].value="";
+		}
+		
+		$("#companyModel").dialog("close");
 	}
-	
-	
 </script>
 
 <div class="sub-container">
@@ -163,15 +169,14 @@
 					<tr>
 						<td>${dto.listNum}</td>
 						<td>${dto.name}</td>
-						<td><a href="#">${dto.memo}</a></td>
+						<td><a href="${article_url}">${dto.memo}</a></td>
 						<td>${dto.tel}</td>
 						<td>${dto.startDate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-
-
+		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			<tr>
 				<td class="listData_no">
@@ -184,7 +189,7 @@
 				</td>
 			</tr>
 		</table>
-
+		
 		<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
@@ -199,11 +204,11 @@
 							<option value="created">거래시작일자</option>
 						</select> 
 						<input type="text" name="searchValue" class="boxTF">
-						<button type="button" class="btn btn-info" onclick="searchList()">검색</button>
+						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
 					</form>
 				</td>
 				<td align="right" width="100">
-					<button type="button" id="companyAdd_btn" class="btn btn-default">업체추가</button>
+					<button type="button" id="companyAdd_btn" class="btn btn-info">업체추가</button>
 				</td>
 			</tr>
 		</table>

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
 
@@ -27,14 +28,14 @@ public class CompanyController {
 	private MyUtil util;
 	
 	
-	
-	@RequestMapping(value="/company/list")
+	//리스트
+	@RequestMapping(value="/company/list") 
 	public String list(@RequestParam(value="page",  defaultValue="1") int current_page,
 			@RequestParam(value="searchKey", defaultValue="companyName") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
 			HttpServletRequest req,
 			Model model) throws Exception{
-		
+
 		//get방식일 경우만 디코딩
 		if (req.getMethod().equalsIgnoreCase("GET")) 
 			searchValue = URLDecoder.decode(searchValue, "utf-8");
@@ -96,33 +97,33 @@ public class CompanyController {
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		model.addAttribute("article_url", article_url);
-		
-		model.addAttribute("mode", "created"); //리스트 뜨자마자는 created버전
-		model.addAttribute("modeTitle", "업체추가");
-		
+				
 		return ".company.list";
 	}
 	
-	/*@RequestMapping(value="/company/created", method=RequestMethod.GET)
-	public String createdForm(Model model) throws Exception{
-		System.out.println("왓따!");
-		
-		
-		return ".company.created";
-	}*/
 	
+	// 업체 정보 등록 : AJAX-JSON
 	@RequestMapping(value="/company/created", method=RequestMethod.POST)
-	public String createdSubmit(Company dto, Model model) throws Exception{
-		
-		System.out.println("왔다2");
+	@ResponseBody
+	public Map<String, Object> created(Company dto) throws Exception{
+		String state="true";
 		
 		String tel = dto.getTel1()+"-"+dto.getTel2()+"-"+dto.getTel3();
-		System.out.println(tel);
 		dto.setTel(tel);
-		service.insertCompany(dto);
+		int result = service.insertCompany(dto);
+		if(result==0)
+			state="false";
 		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
 		
-		return "redirect:/company/list";
+		return model;
+	}
+	
+	@RequestMapping(value="/company/article", method=RequestMethod.GET)
+	public String article(@RequestParam(value="page", defaultValue="1") String page) throws Exception{
+		
+		return "redirect:/company/list?page="+page;
 	}
 	
 	
