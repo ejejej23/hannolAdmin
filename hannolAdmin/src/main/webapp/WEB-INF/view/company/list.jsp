@@ -32,7 +32,7 @@
 	.btfTel{width:70px; text-align:center;}
 	
 	
-	.btnBox{margin:30px 0; text-align:center;}
+	.btnBox{margin:40px 0; text-align:center;}
 	
 	/**dialog new style**/
 	.ui-widget{font-family:"Nanum Gothic";}
@@ -64,19 +64,44 @@
 	});
 	
 	
-	
 	/*다이얼 로그*/
 	$(function(){
 		$("#companyAdd_btn").click(function(){
 			$("#companyModel").dialog({
-				title:"업체추가",
+				title:"${modeTitle}",
 				width:480,
 				height:460,
 				modal:true
 			});
 		});
+		
 		$("#companyAdd_close_btn").click(function(){
 			$("#companyModel").dialog("close");
+		});
+	});
+	
+	
+	//전송
+	$(function(){
+		$("#sendOk").click(function(){
+			<%-- var url = "<%=cp%>/company/${mode}";
+			var query;
+			
+			$.ajax({
+				type:"post",
+				url:url,
+				data:query,
+				dataType:"json",
+				beforSend:check,
+				success:function(data){
+					
+					alert("성골");
+					
+				},
+				error:function(e){
+					console.log(e.responseText);
+				} --%>
+			});
 		});
 	});
 	
@@ -89,8 +114,8 @@
 	}; 
 	
 	
-	//전송
-	function sendOk(){
+	//체크
+	function check(){
 		var f = document.companyForm;
 		
 		//빈칸 확인
@@ -101,9 +126,6 @@
 				return;
 			}
 		}
-		
-		f.action = "<%=cp%>/company/created";
-		f.submit();
 	}
 	
 	
@@ -216,7 +238,7 @@
 		</table>
 		
 		<div class="btnBox">
-	        <button type="button" class="btn btn-info" onclick="sendOk();">업체등록</button>
+	        <button type="button" class="btn btn-info" id="sendOk">업체등록</button>
 	        <button type="reset" class="btn btn-default">다시입력</button> 
 	        <button type="button" class="btn btn-default" id="companyAdd_close_btn">등록취소</button>
 	    </div>

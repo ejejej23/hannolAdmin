@@ -50,4 +50,16 @@ public class CompanyServiceImpl implements CompanyService{
 		return list;
 	}
 
+	@Override
+	public Company readCompany(int num) {
+		Company dto = null;
+		
+		try {
+			dto = dao.selectOne("company.readCompany", num);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
 }
