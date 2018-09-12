@@ -8,5 +8,6 @@ public interface GiftShopService {
 	public int insertGiftGoods(GiftShop dto, String pathname) throws Exception;
 	public int insertFile(Map<String, Object> map) throws Exception;
 	public List<GiftShop> listGiftGoods(Map<String, Object> map) throws Exception;
+	public List<GiftShop> aJaxListGiftGoods(Map<String, Object> map) throws Exception;
 	public int dataCount(Map<String,Object> map) throws Exception;
 }

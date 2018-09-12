@@ -13,7 +13,9 @@ public class GiftShop {
 	private String gubunName;
 	private long parentCode;
 	private int quantity;
+	private int likeCount;
 	private String content;
+	private String thumbnail;
 	private List<String> saveFileName;
 	private List<String> orignalFileName;
 	private List<MultipartFile> upload;
@@ -82,12 +84,28 @@ public class GiftShop {
 		this.quantity = quantity;
 	}
 
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	public String getContent() {
 		return content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public List<String> getSaveFileName() {

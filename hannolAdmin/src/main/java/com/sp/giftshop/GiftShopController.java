@@ -50,10 +50,16 @@ public class GiftShopController {
 	}
 
 	@RequestMapping(value = "/giftshop/list")
-	public String listForm(
+	public String listForm() throws Exception {
+		return ".giftshop.list";
+	}
+	
+	@RequestMapping(value = "/giftshop/aJaxList")
+	public String aJaxListForm(
 			@RequestParam(value="page", defaultValue="1") int current_page,
 			@RequestParam(value="searchKey", defaultValue="goodsName") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
+			@RequestParam(value="order", defaultValue="newGoods") String order,
 			HttpServletRequest req,
 			Model model) throws Exception {
 		
@@ -83,22 +89,21 @@ public class GiftShopController {
 		int end = current_page*rows;
 		map.put("start", start);
 		map.put("end", end);
+		map.put("order", order);
 		
-		List<GiftShop> list =  service.listGiftGoods(map);
+		List<GiftShop> list =  service.aJaxListGiftGoods(map);
 		
 		String query = "";
-		String listUrl = cp+"/giftshop/list";
 		String articleUrl = cp+"/giftshop/article?page"+current_page;
 		if(searchValue.length() != 0) {
 			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
 		
 		if(query.length() != 0) {
-			listUrl+="?"+query;
 			articleUrl+="&"+query;
 		}
 		
-		String paging = myUtil.paging(current_page, total_page, listUrl);
+		String paging = myUtil.paging(current_page, total_page);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
@@ -108,7 +113,9 @@ public class GiftShopController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("query", query);
 		
-		return ".giftshop.list";
+		return "/giftshop/list-body";
+		
 	}
+			
 
 }

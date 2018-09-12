@@ -65,4 +65,46 @@
         	AND INSTR(goodsName, #{searchValue}) &gt; 0
         </if>
 	</select>
+	
+	<sql id="where-ajax-list">
+		<if test="order=='newGoods'">
+			ORDER BY goodsCode DESC
+		</if>
+		<if test="order=='minPrice'">
+			ORDER BY price ASC
+		</if>
+		<if test="order=='maxPrice'">
+			ORDER BY price DESC
+		</if>
+		<if test="order=='likeGoods'">
+			ORDER BY likeCount DESC
+		</if>
+	</sql>
+	
+	<select id="ajaxListGift" parameterType="map" resultType="com.sp.giftshop.GiftShop">
+		SELECT * FROM (
+				    SELECT ROWNUM rnum, tb.* FROM(
+				        SELECT g.goodsCode, goodsName, price, state, gubuncode, NVL(likeGoods,0) likeCount, NVL(quantity,0) quantity
+				        FROM goods g 
+                        LEFT JOIN (
+                            select SUM(quantity) likeGoods, goodsCode from paymentInfo
+                            GROUP BY goodscode
+                        ) p ON g.goodsCode=p.goodsCode
+                        LEFT JOIN goodsCount c ON g.goodsCode = c.goodsCode
+				        WHERE gubuncode IN (
+				        	SELECT gubuncode FROM goodsgubun 
+				            WHERE gubuncode != 2
+				            START WITH gubuncode=2                                  
+				            CONNECT BY PRIOR gubuncode=parentcode
+				        )
+				        <if test="searchValue != null and searchValue != ''">
+				        	AND INSTR(goodsName, #{searchValue}) &gt; 0
+				        </if>
+				        <if test="order != null and order !=''">
+				        	<include refid="where-ajax-list"/>
+				        </if>
+				    ) tb
+				    WHERE ROWNUM &lt;= #{end}
+			)WHERE rnum &gt;=#{start}
+	</select>
 </mapper>

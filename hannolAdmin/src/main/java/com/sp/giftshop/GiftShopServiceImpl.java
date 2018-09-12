@@ -112,4 +112,25 @@ public class GiftShopServiceImpl implements GiftShopService {
 		return result;
 	}
 
+	@Override
+	public List<GiftShop> aJaxListGiftGoods(Map<String, Object> map) throws Exception {
+		
+		List<GiftShop> list = null;
+		try {
+			list = dao.selectList("gift.ajaxListGift", map);
+			
+			for(GiftShop dto : list) {
+				Map<String, Object> imgMap = null;
+				imgMap = dao.selectOne("gift.readGoodsImg", dto.getGoodsCode());
+				
+				if(imgMap != null) {
+					dto.setThumbnail((String)imgMap.get("SAVEFILENAME"));
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
 }
