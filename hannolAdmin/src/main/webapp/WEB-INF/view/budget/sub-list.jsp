@@ -5,6 +5,7 @@
 <%
    String cp = request.getContextPath();
 %>
+
 <table class="table">
 		    <colgroup>
 		        <col style="width: 10%; text-align:center">
@@ -35,7 +36,7 @@
 				      <th scope="row">${dto.listNum}</th>
 				      <td>${dto.year}</td>
 				      <td>${dto.quarter}</td>
-				      <td>${dto.budget}</td>
+				      <td><fmt:formatNumber value="${dto.budget}" type="number"/>원</td>
 				      <td>${dto.usersCode}</td>
 				      <td>${dto.name}</td>
 				      <td>${dto.inputDate}</td>

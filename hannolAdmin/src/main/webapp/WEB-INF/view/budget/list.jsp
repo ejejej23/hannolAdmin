@@ -26,31 +26,6 @@ $(function() {
 		});
 	});
 	
-	<%-- $(document).on("click","button[name=btnBudgetSendOk]",function(){
-		console.log("testtttt");
-		
-		var url = "<%=cp%>/budget/update";
-		var year = $(this).closest("tr").children().eq(1).text();
-		var quarter = $(this).closest("tr").children().eq(2).text();
-	 	var query = "page="+${page}+"&year="+year+"&quarter="+quarter;
-	 	
-		// AJAX-POST
-		$.ajax({
-			type:"post"
-			,url:url	//서버의 주소
-			,data:query	//서버로 보내는 값
-			,success:function(data){
-				$("#resultLayout").html("수정완료!");
-				getList();
-			}
-			,error:function(e){
-				console.log(e.responseText);
-				$("#resultLayout").html("에러발생!");	
-			}
-		});   
-	}); --%>
-
-	
 });
 function getList(){
 	var url = "<%=cp%>/budget/sublist";
@@ -71,10 +46,20 @@ function getList(){
 }
 
 function sendBudget(){
+	
+	
 	var url = "<%=cp%>/budget/update";
 	var year = $("#yearBudget").val();
 	var quarter =  $("#quarterBudget").val();
 	var budget =  $("#budgetAmount").val();
+
+	if(! /^(\d+)$/.test(budget)) {
+		$("#sendLayout").html("숫자만 입력 가능합니다.");
+		$("#budgetAmount").focus();
+		$("#budgetAmount").val("");
+		return false;
+	}
+	
  	var query = "page="+${page}+"&year="+year+"&quarter="+quarter+"&budget="+budget;
  	
 	// AJAX-POST
@@ -133,6 +118,8 @@ $(function(){
 		<div class="btnBox">
 	        <button type="button" class="btn" onClick="sendBudget()" id="btnBudgetSendOk">예산등록</button>
 	    </div>
+	    
+	    <div id="sendLayout"></div>
 	</form>
 </div>
     
