@@ -48,4 +48,8 @@
 		    )tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select> 
+	
+	<!-- 글보기 -->
+	<!-- <select id="readCompany" resultType="com.sp.company.Company" parameterType="Integer">
+	</select> -->
 </mapper>

@@ -6,7 +6,7 @@
 
 body {
    /*  font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif; */
-    font-size: 14px;
+    /* font-size: 14px; */
     /*line-height: 1.42857143;*/
 }
 
@@ -19,9 +19,9 @@ a {
 a:hover, a:active {
     color: #F28011;
     text-decoration: underline;
+    vertical-align:top;
 }
-
-.btn {
+.btn1 {
     color:#333333;
     font-weight:500;
     font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
@@ -32,12 +32,12 @@ a:hover, a:active {
     padding:3px 10px 5px;
     border-radius:4px;
 }
-.btn:active, .btn:focus, .btn:hover {
-    background-color:#e6e6e6;
+.btn1:active, .btn1:focus, .btn1:hover {
+    background-color:#f1f1f1;
     border-color: #adadad;
     color: #333333;
 }
-.btn[disabled], fieldset[disabled] .btn {
+.btn1[disabled], fieldset[disabled] .btn1 {
     pointer-events: none;
     cursor: not-allowed;
     filter: alpha(opacity=65);

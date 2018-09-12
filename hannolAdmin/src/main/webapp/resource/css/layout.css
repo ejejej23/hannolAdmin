@@ -116,7 +116,7 @@
 	font-weight:700;
 }
 
-ul.nav {
+ul.navMenu {
 	display:none;
 	position:absolute;
 	top:39px;
@@ -131,46 +131,47 @@ ul.nav {
 	z-index:20;
 }
 
-ul.nav > li { 
+ul.navMenu > li { 
   display: inline-block;
   margin-right:43px;
   vertical-align:top;
 }
 
-ul.nav > li.mr0{
+ul.navMenu > li.mr0{
 	margin-right:0;
 }
 
-ul.nav > li > .dep1 {
+ul.navMenu > li > .dep1 {
 	display:block;
+  	font-size:14px;
   	line-height: 40px;
   	font-weight:700;
   	color: #555;	
   	cursor:default;
 }
 
-ul.nav ul {
+ul.navMenu ul {
 	margin-bottom:30px;
 	font-size:12px;
 }
 
-ul.nav li > ul li{
+ul.navMenu li > ul li{
 	position:relative;
   	margin-left:10px;
 }
 
-ul.nav li > ul li a {
+ul.navMenu li > ul li a {
 	display:block;
   	text-decoration: none;
   	color: #565656;
 }
 
-ul.nav li > ul li a:hover {
+ul.navMenu li > ul li a:hover {
   	color: #3c3c3c;
   	font-weight:600;
 }
 
-ul.nav li > ul li a:after {
+ul.navMenu li > ul li a:after {
 	content:'-';
 	position:absolute;
 	left:-10px;
