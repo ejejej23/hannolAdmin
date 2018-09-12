@@ -1,5 +1,8 @@
 package com.sp.staff;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +41,105 @@ public class StaffServiceImpl implements StaffService {
 			System.out.println(e.toString());
 		}
 		return amIAdmin;
+	}
+
+	@Override
+	public int dataCount(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.selectOne("staff.dataCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public Staff readStaff(Map<String, Object> map) {
+		Staff dto=null;
+		try {
+			dto = dao.selectOne("staff.readStaff", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public List<Staff> listStaff(Map<String, Object> map) {
+		List<Staff> list =null;
+		try {
+			list = dao.selectList("staff.listStaff", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public int updateStaff(Staff dto) {
+		int result =0;
+		try {
+			result = dao.updateData("staff.updateStaff", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int updateUsersAuth(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.updateData("staff.updateUsersAuth", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int updateStaffAuth(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.updateData("staff.updateStaffAuth", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int readTheme(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.selectOne("staff.readTheme", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int readDepart(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.selectOne("staff.readDepart", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int readPosition(Map<String, Object> map) {
+		int result =0;
+		try {
+			result = dao.selectOne("staff.readPosition", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 }

@@ -98,15 +98,15 @@ function login() {
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.staff.staffIdx==dto.usersCode}">				    
-			          <button type="button" class="btn" onclick="updateNotice();">수정</button>
+			          <button type="button" class="btn btn-default" class="btn" onclick="updateNotice();">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.staff.staffIdx==dto.usersCode || sessionScope.staff.authority=='ROLE_ADMIN'}">				    
-			          <button type="button" class="btn" onclick="deleteNotice();">삭제</button>
+			          <button type="button" class="btn btn-default" class="btn" onclick="deleteNotice();">삭제</button>
 			       </c:if>
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list?${query}';">리스트</button>
+			        <button type="button"  class="btn btn-default" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

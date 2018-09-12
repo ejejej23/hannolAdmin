@@ -86,7 +86,7 @@
 		  <tr align="center" height="65" > 
 		      <td>
 		        &nbsp;
-		        <button type="button" onclick="sendOk();" class="btnConfirm">확인</button>
+		        <button type="button" class="btn btn-default" onclick="sendOk();" class="btnConfirm">확인</button>
 				<input type="hidden" name="mode" value="${mode}">
 		        &nbsp;
 		      </td>

@@ -34,7 +34,7 @@
 				      <th scope="row">${dto.listNum}</th>
 				      <td>${dto.year}</td>
 				      <td>${dto.month}</td>
-				      <td>${dto.isMagam == 1?"마감O":"마감X"}&nbsp;<button name="updateBtn">변경 </button></td>
+				      <td>${dto.isMagam == 1?"마감O":"마감X"}&nbsp;<button class="btn btn-default" name="updateBtn">변경 </button></td>
 				      <td>${dto.usersCode}</td>
 				      <td>${dto.name}</td>
 				      <td>${dto.magamDate}</td>

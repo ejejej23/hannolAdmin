@@ -5,24 +5,7 @@
 <%
    String cp = request.getContextPath();
 %>
-<style>
-.gitf-form-control{
-	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
-}
-.col-xs-8:after{
-	content:''; display:block; clear:both;
-}
 
-.col-xs-offset-2{
-	width: 40%;
-}
-
-.col-xs-8{
- 	float: none;
- 	margin: 10px auto;
-}
-
-</style>
 
 <script type="text/javascript">
 	function searchList() {
@@ -41,7 +24,7 @@
           	<div class="col-xs-8 col-xs-offset-2">
 			  		<div class="input-group">
 			            <input type="hidden" name="searchKey" value="all">         
-			            <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+			            <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
 			            <span class="input-group-btn">
 			                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
 			            </span>
@@ -59,8 +42,8 @@
 			        <col style="width: 10%; text-align:center">
 			        <col style="width: 10%; text-align:center">
 			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
+			        <col style="width: 20%; text-align:center">
+			        <col style="width: 15%; text-align:center">
 			    </colgroup>
     
 		  <thead class="thead-light">
@@ -103,14 +86,14 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
 		      </td>
 		      <td align="center">
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
 		      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
 		      	</c:if>
 		      </td>
 		   </tr>

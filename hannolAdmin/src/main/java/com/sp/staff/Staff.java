@@ -29,6 +29,14 @@ public class Staff {
 	private String task;
 	private String themeName;
 	
+	private int listNum;
+	
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}

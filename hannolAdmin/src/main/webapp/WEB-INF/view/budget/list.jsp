@@ -115,7 +115,7 @@ $(function(){
 		</table>
 		
 		<div class="btnBox">
-	        <button type="button" class="btn" onClick="sendBudget()" id="btnBudgetSendOk">예산등록</button>
+	        <button type="button" class="btn btn-default" onClick="sendBudget()" id="btnBudgetSendOk">예산등록</button>
 	    </div>
 	    
 	    <div id="sendLayout"></div>

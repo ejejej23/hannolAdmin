@@ -16,8 +16,13 @@
 	</select>
 	
 	   <!-- dataCount -->
-   <select id="dataCount">
+   <select id="dataCount" parameterType="map" resultType="Integer">
    		SELECT NVL(COUNT(*),0) FROM STAFF
+   		<where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	    </where> 
    </select>
    
 	<select id="readStaff" parameterType="map" resultType="com.sp.staff.Staff">
@@ -73,15 +78,44 @@
 	]]>
 	</select>
 	
+	<!-- 없을 수 있는 값은 JDBCTYPE줘야함!! 체크할것 -->
 	<update id="updateStaff" parameterType="com.sp.staff.Staff">
 		UPDATE STAFF SET NAME = #{name}, TEL = #{tel}, BIRTH = #{birth}, 
 		POST = #{post}, ADDR1 = #{addr1}, ADDR2 = #{addr2}, 
 		EMAIL = #{email}, ORIGINALFILENAME = #{originalFilename}, SAVEFILENAME = #{saveFilename}, 
-		TASK = #{task}, WORKING = #{working}, AUTHORITY = #{authority},
+		TASK = #{task}, WORKING = #{working},
 		DPCODE = #{dpCode}, POSITIONCODE = #{positionCode}, THEMECODE = #{themeCode}
 		WHERE USERSCODE = #{usersCode}
 	</update>
 	
-	<!-- 직위, 테마, 부서  : 이름받아서 코드번호 가져와야함 -->
+	<!-- 권한은 테이블 두개에 변경필요. 정보 수정과는 따로 실행할것 -->
+	<update id="updateUsersAuth" parameterType="map">
+		UPDATE USERS SET AUTHORITY = #{authority}
+		WHERE USERSCODE = #{usersCode}
+	</update>
+	
+	<update id="updateStaffAuth" parameterType="map">
+		UPDATE STAFF SET AUTHORITY = #{authority}
+		WHERE USERSCODE = #{usersCode}
+	</update>
+	
+	<!-- 테마, 부서, 직위  : 이름받아서 코드번호 가져와야함 -->
+	<select id="readTheme" parameterType="map" resultType="Integer">
+		SELECT THEMECODE 
+		FROM THEME 
+		WHERE THEMENAME = #{themeName} 
+	</select>
+	
+	<select id="readDepart" parameterType="map" resultType="Integer">
+		SELECT DPCODE 
+		FROM DEPARTMENT 
+		WHERE DPNAME = #{dpName} 
+	</select>
+	
+	<select id="readPosition" parameterType="map" resultType="Integer">
+		SELECT POSITIONCODE 
+		FROM POSITION 
+		WHERE POSITIONNAME = #{positionName} 
+	</select>
 	
 </mapper>

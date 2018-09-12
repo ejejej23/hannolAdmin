@@ -84,14 +84,14 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
 		      </td>
 		      <td align="center">
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
 		      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
 		      	</c:if>
 		      </td>
 		   </tr>

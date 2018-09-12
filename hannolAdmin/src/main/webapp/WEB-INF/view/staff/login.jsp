@@ -67,7 +67,7 @@ function sendLogin() {
                            onblur="bgLabel(this, 'lblStaffId');" style="border: none; border-bottom: 1px solid #ccc" placeholder="아이디">
 		      </td>
 		      <td rowspan="2">
-		        <button type="button" onclick="sendLogin();" class="btnConfirm">로그인</button>
+		        <button type="button"  class="btn btn-default" onclick="sendLogin();" class="btnConfirm">로그인</button>
 		      </td>
 		  </tr>
 		  <tr align="center" height="60"> 
