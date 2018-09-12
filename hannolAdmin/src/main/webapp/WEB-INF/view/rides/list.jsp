@@ -29,6 +29,12 @@
 		var f=document.searchForm;
 		f.submit();
 	}
+	
+	function stateList(){
+		var f=document.updateForm;
+		f.submit()
+	}
+
 </script>
 <div class="sub-container" style="width: 960px;">
      <div class="body-title">
@@ -36,17 +42,9 @@
     </div>  
     
     <div>
-    
-		<select class="selectField" id="state" name="state">
-			<option value="">선 택</option>
-			<option value="open" ${dto.tel1=="010" ? "selected='selected'" : ""}>010</option>
-			<option value="close" ${dto.tel1=="011" ? "selected='selected'" : ""}>011</option>
-			<option value="우천" ${dto.tel1=="018" ? "selected='selected'" : ""}>018</option>
-			<option value="고장" ${dto.tel1=="019" ? "selected='selected'" : ""}>019</option>
-		</select>
-		
 		<table class="table">
 		    <colgroup>
+		        <col style="width: 10%; text-align:center">
 		        <col style="width: 10%; text-align:center">
 		        <col style="width: 10%; text-align:center">
 		        <col style="width: 10%; text-align:center">
@@ -69,6 +67,7 @@
 		      <th scope="col">설치날짜</th>
 		      <th scope="col">제거날짜</th>
 		      <th scope="col">상태</th>
+		      <th scope="col">상세</th>
 		    </tr>
 		  </thead>
 		  
@@ -84,21 +83,32 @@
 				<td>${vo.name}</td>
 				<td>${vo.installDate}</td>
 				<td>${vo.removeDate}</td>
-				
-				<c:choose>
-					<c:when test="${vo.state==0}">
-						<td>요청</td>
-					</c:when>
-					<c:when test="${vo.state==1}">
-						<td>요청확인</td>
-					</c:when>
-					<c:when test="${vo.state==3}">
-						<td>수리중</td>
-					</c:when>
-					<c:when test="${vo.state==4}">
-						<td>수리완료</td>
-					</c:when>
-				</c:choose>
+				<td>
+					<select class="selectField" id="state" name="state">
+						<c:choose>
+							<c:when test=""></c:when>
+						</c:choose>
+					
+						<option value="">::상태구분::</option>
+						<option value="open" ${vo.gubunName=="open"? "selected='selected'":""}>open</option>
+						<option value="close" ${vo.gubunName=="close"? "selected='selected'":""}>close</option>
+						<option value="우천" ${vo.gubunName=="우천"? "selected='selected'":""}>우천</option>
+						<option value="고장" ${vo.gubunName=="고장"? "selected='selected'":""}>고장</option>
+						<option value="수리중" ${vo.gubunName=="수리중"? "selected='selected'":""}>수리중</option>
+					</select>
+				</td>
+				<td>
+					<select class="selectField" id="ridesInfo" name="ridesInfo">
+						<c:choose>
+							<c:when test=""></c:when>
+						</c:choose>
+						<option value="">::시설상세::</option>
+						<option value="0" ${vo.state=="0"? "selected='selected'":""}>요청</option>
+						<option value="1" ${vo.state=="1"? "selected='selected'":""}>요청확인</option>
+						<option value="2" ${vo.state=="2"? "selected='selected'":""}>수리중</option>
+						<option value="3" ${vo.state=="3"? "selected='selected'":""}>수리완료</option>
+					</select>
+				</td>
 				
 				</tr>
 			</c:forEach>
@@ -120,10 +130,10 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/list';">새로고침</button>
 		      </td>
 		      <td align="center">
-		      	<form name="searchForm" method="post" action="<%=cp%>/notice/list">
+		      	<%-- <form name="searchForm" method="post" action="<%=cp%>/rides/list">
 		          	<div class="col-xs-8 col-xs-offset-2">
 					  		<div class="input-group">
 					            <input type="hidden" name="searchKey" value="all">         
@@ -133,10 +143,24 @@
 					            </span>
 					        </div>
 					</div>
-				</form>
+				</form> --%>
+				
 		      </td>
+		  	  <td>
+				  <form name="updateForm" method="post" action="<%=cp%>/rides/list">
+					  <div class="col-xs-8 col-xs-offset-2">
+						  <div class="input-group">
+							  <input type="hidden" name="open" value="0">         
+							  <input type="hidden" name="close" value="1">         
+							  <input type="hidden" name="우천" value="2">         
+							  <input type="hidden" name="고장" value="3">         
+							  <input type="hidden" name="수리중" value="4">         
+						  </div>
+					  </div>
+				  </form>
+			  </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">글올리기</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
 		      </td>
 		   </tr>
 		</table>

@@ -40,7 +40,7 @@ public class RidesController {
 		int dataCount=0;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		
 		dataCount = service.dataCount(map);
 		if(dataCount != 0)
 			total_page = myUtil.pageCount(rows, dataCount);

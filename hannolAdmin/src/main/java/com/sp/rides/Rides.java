@@ -1,5 +1,7 @@
 package com.sp.rides;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Rides {
 	int facilityCode;
 	int boardingTime;

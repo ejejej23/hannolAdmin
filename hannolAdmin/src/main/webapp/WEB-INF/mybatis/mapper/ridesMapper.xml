@@ -32,7 +32,7 @@
 	<!-- 글개수 -->
 	<select id="dataCount" parameterType="map"
 	            resultType="Integer">
-	  SELECT NVL(COUNT(*), 0) FROM notice 
+	  SELECT NVL(COUNT(*), 0) FROM Rides 
 	     <where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>
@@ -61,17 +61,19 @@
 	    ) WHERE rnum >= #{start}
 	]]>
 	</select>
+	
 
 	<!-- 글리스트 -->
 	<select id="listRides" parameterType="map"
 	            resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
+			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, installDate, removeDate, state
                 FROM rides r
                 JOIN facility f ON r.facilityCode = f.facilityCode
                 JOIN theme t ON f.themeCode = t.themeCode
                 JOIN genre g ON g.genreCode = r.genreCode
+                JOIN stateGubun s ON s.gubunCode = f.gubunCode
                     <where>
                          <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
@@ -83,28 +85,6 @@
 	    ) WHERE rnum >= #{start}
 	]]>
 	</select>
-	
-	
-
-	<!-- 구분 리스트 -->
-	<select id="stateGubun" parameterType="map"
-	            resultType="com.sp.rides.Rides">
-		SELECT * FROM (
-		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
-                FROM rides r
-                JOIN facility f ON r.facilityCode = f.facilityCode
-                JOIN theme t ON f.themeCode = t.themeCode
-                JOIN genre g ON g.genreCode = r.genreCode
-
-                ORDER BY facilityCode DESC
-	<![CDATA[
-	        ) tb WHERE ROWNUM <= #{end}
-	    ) WHERE rnum >= #{start}
-	]]>
-	</select>
-	
-	
 	
 	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
 		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE

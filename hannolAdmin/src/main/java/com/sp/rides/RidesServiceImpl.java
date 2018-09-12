@@ -36,7 +36,7 @@ public class RidesServiceImpl implements RidesService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
 	@Override
 	public List<Rides> listRides(Map<String, Object> map) {
 		List<Rides> list = null;

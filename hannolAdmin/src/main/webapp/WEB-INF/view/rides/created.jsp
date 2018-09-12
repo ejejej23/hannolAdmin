@@ -49,8 +49,23 @@
 <div class="bg" style="width:100%;">
 
 <div class="total">
+	
 	<form class="form-horizontal" role="form" name="ridesForm" method="post" enctype="multipart/form-data"> 
-	<br>
+
+		<div class="form-group">
+			<label for="state" class="col-sm-2 control-label">테마</label> 
+			<div class="col-sm-10"> 
+				<select class="selectField" id="theme">
+					<option value="">::테마선택::</option>
+					<option value="toy">토이스토리</option>
+					<option value="mini">미니언즈</option>
+					<option value="princess">프린세스빌리지</option>
+					<option value="lion">라이온킹</option>
+					<option value="nimo">니모</option>
+				</select>
+			</div>
+		</div>
+
 		<div class="form-group"> 
 			<label for="nameRides" class="col-sm-2 control-label">이름</label> 
 			<div class="col-sm-10"> 
