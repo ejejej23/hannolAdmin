@@ -14,4 +14,74 @@
 		FROM USERS
 		WHERE USERSCODE = #{num} 
 	</select>
+	
+	   <!-- dataCount -->
+   <select id="dataCount">
+   		SELECT NVL(COUNT(*),0) FROM STAFF
+   </select>
+   
+	<select id="readStaff" parameterType="map" resultType="com.sp.staff.Staff">
+		SELECT S.USERSCODE, STAFFID, NAME, TEL, BIRTH, POST, ADDR1, ADDR2, EMAIL, 
+		ORIGINALFILENAME, SAVEFILENAME, TASK, WORKING, AUTHORITY,
+		D.DPCODE, DPNAME,
+		P.POSITIONCODE, POSITIONNAME,
+		T.THEMECODE, THEMENAME
+		FROM STAFF S
+		JOIN STAFFINFO SI ON S.USERSCODE = SI.USERSCODE
+		JOIN DEPARTMENT D ON D.DPCODE = S.DPCODE
+		JOIN POSITION P ON P.POSITIONCODE = S.POSITIONCODE
+		JOIN THEME T ON T.THEMECODE = S.THEMECODE
+		WHERE USERSCODE = #{usersCode}
+	</select>
+	
+	<sql id="where-list">
+	  <if test="searchKey=='name'">
+	      name =#{searchValue}
+	  </if>
+	  <if test="searchKey=='all'">
+	      (INSTR(name, #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(S.usersCode, #{searchValue}) &gt; 0)
+	  </if>
+	  <if test="searchKey=='usersCode'">
+	       INSTR(usersCode, #{searchValue}) &gt; 0
+	  </if>
+	</sql>
+	
+	<select id="listStaff" parameterType="map" resultType="com.sp.staff.Staff">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT S.USERSCODE, STAFFID, NAME, TEL, BIRTH, POST, ADDR1, ADDR2, EMAIL, 
+				ORIGINALFILENAME, SAVEFILENAME, TASK, WORKING, AUTHORITY,
+				D.DPCODE, DPNAME,
+				P.POSITIONCODE, POSITIONNAME,
+				T.THEMECODE, THEMENAME
+				FROM STAFF S
+				JOIN STAFFINFO SI ON S.USERSCODE = SI.USERSCODE
+				JOIN DEPARTMENT D ON D.DPCODE = S.DPCODE
+				JOIN POSITION P ON P.POSITIONCODE = S.POSITIONCODE
+				JOIN THEME T ON T.THEMECODE = S.THEMECODE
+                    <where>
+                         <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+	            ORDER BY S.USERSCODE DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+	
+	<update id="updateStaff" parameterType="com.sp.staff.Staff">
+		UPDATE STAFF SET NAME = #{name}, TEL = #{tel}, BIRTH = #{birth}, 
+		POST = #{post}, ADDR1 = #{addr1}, ADDR2 = #{addr2}, 
+		EMAIL = #{email}, ORIGINALFILENAME = #{originalFilename}, SAVEFILENAME = #{saveFilename}, 
+		TASK = #{task}, WORKING = #{working}, AUTHORITY = #{authority},
+		DPCODE = #{dpCode}, POSITIONCODE = #{positionCode}, THEMECODE = #{themeCode}
+		WHERE USERSCODE = #{usersCode}
+	</update>
+	
+	<!-- 직위, 테마, 부서  : 이름받아서 코드번호 가져와야함 -->
+	
 </mapper>

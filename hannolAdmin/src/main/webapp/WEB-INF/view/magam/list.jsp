@@ -7,7 +7,6 @@
 %>
 <script type="text/javascript">
 
-
 $(function() {
 	$(document).on("click","button[name=updateBtn]",function(){
 		

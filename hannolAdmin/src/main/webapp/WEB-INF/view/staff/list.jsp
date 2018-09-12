@@ -33,7 +33,7 @@
 <div class="sub-container" style="width: 960px;">
     
     <div class="sub-title">
-	  <h3>공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
+	  <h3>직원 <small>${dataCount}명(${page}/${total_page} 페이지)</small></h3>
 	</div> 
   
   	<div>
@@ -56,39 +56,40 @@
 			        <col style="width: 10%; text-align:center">
 			        <col style="text-align:center">
 			        <col style="width: 10%; text-align:center">
-			        <col style="width: 15%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
 			    </colgroup>
     
 		  <thead class="thead-light">
 		    <tr>
 		      <th scope="col">번호</th>
-		      <th scope="col">제목</th>
-		      <th scope="col">작성자</th>
-		      <th scope="col">작성일</th>
+		      <th scope="col">사원번호</th>
+		      <th scope="col">이름</th>
+		      <th scope="col">아이디</th>
+		      <th scope="col">부서</th>
+		      <th scope="col">직위</th>
+		      <th scope="col">업무</th>
+		      <th scope="col">테마</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-			  <c:forEach var="vo" items="${noticeList}">
-			    <tr>
-			      <th scope="row">공지</th>
-			      <td><a href="${articleUrl}&num=${vo.noticeCode}">${vo.subject}</a></td>
-			      <td>${vo.name}</td>
-			      <td>${vo.created}</td>
-			    </tr>
-			  </c:forEach>
-		  
 			  	<c:forEach var="dto" items="${list}">
 			    <tr>
 			      <th scope="row">${dto.listNum}</th>
-			      <td><a href="${articleUrl}&num=${dto.noticeCode}">${dto.subject}</a></td>
-			      <td>${dto.name}</td>
-			      <td>${dto.created}</td>
+			      <td>${dto.usersCode }</td>
+			      <td>${dto.name }</td>
+			      <td>${dto.staffId }</td>
+			      <td>${dto.dpName }</td>
+			      <td>${dto.positionName }</td>
+			      <td>${dto.task }</td>
+			      <td>${dto.themeName }</td>
 			    </tr>
 			    </c:forEach>
-			    
 		  </tbody>
 		</table>
-		
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
