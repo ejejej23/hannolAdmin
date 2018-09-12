@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller("schedule.showController")
 public class ShowController {
+	
+//	showGubun @ModelAttribute
+//	public List<>
+	
+	
    
    @RequestMapping(value="/show/list", method=RequestMethod.GET)
    public String list() {
@@ -28,6 +33,16 @@ public class ShowController {
      model.addAttribute("mode", "created");
       
       return ".show.created";
+   }
+   
+   
+   @RequestMapping(value="/show/created", method=RequestMethod.POST)
+   public String createSubmit(
+		   Model model) {
+	   
+	   
+	   
+	   return ".show.created";
    }
    
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="show">
+	
+	<!-- 공연 구분 -->
+<!--<select id="listShowGubun" resultType="com.sp.schedule.Show">
+		select gubunCode, gubunName from showGubun
+	</select> -->
+	
+	<insert id="insertShow" parameterType="com.sp.schedule.Show">
+		insert into show(showCode, showname, memo, originalFilename, saveFilename, gubunCode)
+		values(show_seq.nextval, #{showName}, #{memo}, #{originalFilename}, #{saveFilename}, #{gubunCode})
+	</insert>
+	
+	<insert id="insertShowTime" parameterType="map">
+		insert into showTime(showTime, showCode)
+		values(#{showTime}, #{showCode})	
+	</insert>
+
+</mapper>

@@ -11,7 +11,7 @@
         var f = document.showForm;
        var str;
         
-        str = f.showGubun.value;
+        str = f.gubunName.value;
         if(!str) {
             alert("구분을 선택하세요. ");
             f.showGubun.focus();
@@ -87,11 +87,11 @@
     
     <form role="form" name="showForm" method="post" enctype="multipart/form-data"> 
       <div class="form-group"> 
-         <label for="showGubun" class="col-sm-2 control-label">구분</label> 
+         <label for="gubunName" class="col-sm-2 control-label">구분</label> 
          <div class="col-sm-10"> 
-            <input type="radio" name="showGubun" id="" value="experience"> 체험&nbsp;
-            <input type="radio" name="showGubun" id="" value="parade"> 퍼레이드&nbsp;
-            <input type="radio" name="showGubun" id="" value="stage"> 무대공연&nbsp;
+            <input type="radio" name="gubunName" id="" value="experience"> 체험&nbsp;
+            <input type="radio" name="gubunName" id="" value="parade"> 퍼레이드&nbsp;
+            <input type="radio" name="gubunName" id="" value="stage"> 무대공연&nbsp;
          </div>  
       </div>
       <br><br>
@@ -130,10 +130,10 @@
             <td align="center" >
               <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
               <button type="reset" class="btn">다시입력</button>
-              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/${mode}';">${mode=='update'?'수정취소':'등록취소'}</button>
                <c:if test="${mode=='update'}">
-                   <input type="hidden" name="num" value="${dto.noticeCode}">
-                  <input type="hidden" name="page" value="${page}">
+                   <input type="hidden" name="num" value="">
+                  <input type="hidden" name="page" value="">
               </c:if>
             </td>
           </tr>
