@@ -35,7 +35,7 @@
 <div class="menu">
    	<p class="menu_icon"><a href="#"><span>▦</span></a></p>
    	
-    <ul class="nav">
+    <ul class="navMenu">
     	<li>
             <span class="dep1">공지사항</span>
             <ul>

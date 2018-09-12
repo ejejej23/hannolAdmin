@@ -27,21 +27,31 @@
 <div class="sub-container" style="width: 960px;">
    
    <div class="sub-title">
-     <h3>공연 스케쥴</h3> 
+     <h3>공연 리스트</h3> 
    </div> 
      
      <div>
         <form name="searchForm" method="post" action="<%=cp%>/">
              <div class="col-xs-8 col-xs-offset-2" style="width: 100%">
-              <div align="center" class="input-group" style="width:50%; float: left;">
-                     <input type="hidden" name="searchKey" value="all">         
-                     <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 공연명를 입력해 주세요">
+              <div class="input-group" style="width:70%; float: left;">
+                 <div style="float: left;">
+                    구분&nbsp;&nbsp;
+                     <select name="searchKey" class="selectField" style="height:30px;">
+                           <option value="experience">체험</option>
+                           <option value="parade">퍼레이드</option>
+                           <option value="stage">무대공연</option>
+                     </select>
+                 </div> 
+                 <div style="float: left;">&nbsp;</div> 
+                 <div style="margin-left: 10px;">
+                     <input type="text" style="height:30px; width: 50%" class="form-control" name="searchValue" placeholder="검색할 공연명를 입력해 주세요">
                      <span class="input-group-btn">
                          <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
                      </span>
+                 </div>         
              </div>
-             <div align="right" style="float: left; width: 50%">
-                <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/manage';">공연 관리</button>
+             <div align="right" style="float: left; width: 30%">
+                <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/created';">공연 등록</button>
              </div>
          </div>
       </form>
@@ -49,10 +59,7 @@
     
     <div>
       
-      
-      
-   달력<br><br><br> 
-                <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
+      gg
           
     </div>
    

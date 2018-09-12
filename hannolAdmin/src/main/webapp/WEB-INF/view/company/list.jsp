@@ -7,7 +7,7 @@
 %>
 <style>
 	/**table**/
-	.table{font-size:13px;}
+	.table{/* font-size:13px; */}
 	.table th,
 	.table td{text-align:center;}
 	.table th:nth-child(2),
@@ -27,7 +27,6 @@
 	
 	.boxTF,
 	.boxTA{width:280px; vertical-align:middle;}
-	.boxTF{padding:3px 5px;}
 	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
 	.btfTel{width:70px; text-align:center;}
@@ -167,7 +166,7 @@
 		<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
-					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/company/list';">새로고침</button>
+					<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/company/list';">새로고침</button>
 				</td>
 				<td align="center">
 					<form name="searchForm" method="post">
@@ -178,11 +177,11 @@
 							<option value="created">거래시작일자</option>
 						</select> 
 						<input type="text" name="searchValue" class="boxTF">
-						<button type="button" class="btn" onclick="searchList()">검색</button>
+						<button type="button" class="btn btn-info" onclick="searchList()">검색</button>
 					</form>
 				</td>
 				<td align="right" width="100">
-					<button type="button" id="companyAdd_btn" class="btn">업체추가</button>
+					<button type="button" id="companyAdd_btn" class="btn btn-default">업체추가</button>
 				</td>
 			</tr>
 		</table>
@@ -217,9 +216,9 @@
 		</table>
 		
 		<div class="btnBox">
-	        <button type="button" class="btn" onclick="sendOk();">업체등록</button>
-	        <button type="reset" class="btn">다시입력</button> 
-	        <button type="button" class="btn" id="companyAdd_close_btn">등록취소</button>
+	        <button type="button" class="btn btn-info" onclick="sendOk();">업체등록</button>
+	        <button type="reset" class="btn btn-default">다시입력</button> 
+	        <button type="button" class="btn btn-default" id="companyAdd_close_btn">등록취소</button>
 	    </div>
 	</form>
 </div>
