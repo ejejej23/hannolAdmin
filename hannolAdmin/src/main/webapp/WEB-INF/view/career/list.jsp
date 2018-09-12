@@ -17,7 +17,7 @@
     <div class="sub-title">
 	  <h3>공지 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
 	</div> 
-  
+ 
   	<div>
   		<form name="searchForm" method="post" action="<%=cp%>/notice/list">
           	<div class="col-xs-8 col-xs-offset-2">
