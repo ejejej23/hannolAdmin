@@ -70,7 +70,7 @@ function deleteCard(cardCode) {
     	<div class="col-xs-8 col-xs-offset-2">
 			<div class="input-group">
 				<input type="hidden" name="searchKey" value="all">         
-			    <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+			    <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
 			    <span class="input-group-btn">
 			    	<button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
 				</span>
@@ -97,10 +97,10 @@ function deleteCard(cardCode) {
 		      </td>
 		      
 		      <td width="15%">
-		      	 <button type="button" class="btn" onclick="cardDetail(${dto.cardCode})">상세정보</button>
+		      	 <button type="button" class="btn btn-info" onclick="cardDetail(${dto.cardCode})">상세정보</button>
 		      	 <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
-		      	 	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/update?num=${dto.cardCode}&${query}';">수정하기</button>
-		      	 	<button type="button" class="btn" onclick="deleteCard('${dto.cardCode}');">삭제하기</button>
+		      	 	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/update?num=${dto.cardCode}&${query}';">수정하기</button>
+		      	 	<button type="button" class="btn btn-default" onclick="deleteCard('${dto.cardCode}');">삭제하기</button>
 		      	 </c:if>
 		      	 
 		      	 <div style="display: none;" id="cardModal${dto.cardCode}" role="dialog" class="modal" tabindex="-1">
@@ -110,7 +110,7 @@ function deleteCard(cardCode) {
  						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
   						<span aria-hidden="true">×</span></button>
  						<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;">
- 							<c:if test="${not empty dto.logoSaveFilename}"><img src="/hannolAdmin/uploads/card/${dto.logoSaveFilename}" width="20px" height="25px"></c:if> ${dto.cardCo}
+ 							<c:if test="${not empty dto.logoSaveFilename}"><img src="/hannolAdmin/uploads/card/${dto.logoSaveFilename}" width="25px" height="30px"></c:if> ${dto.cardCo}
  						</h4>
 					</div>
 					<div class="modal-body">
@@ -127,7 +127,6 @@ function deleteCard(cardCode) {
 								<span style="font-weight: bold; display: block;">이용혜택</span>
 								<span style="display: block;">- 자유이용권 ${dto.discount}%</span>
 								<span style="display: block;">(본인에 한함. 전 놀이공원 1일, 1회)</span>
-								<br>
 								<span style="display: block;">${dto.startDate} ~ ${dto.endDate}</span>
 							</div>
 						</div>
@@ -150,14 +149,14 @@ function deleteCard(cardCode) {
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/list';">새로고침</button>
 		      </td>
 		      <td align="center">
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
 		      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/card/created';">글올리기</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/created';">글올리기</button>
 		      	</c:if>
 		      </td>
 		   </tr>
