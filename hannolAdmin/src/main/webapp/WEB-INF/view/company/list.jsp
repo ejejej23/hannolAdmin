@@ -84,7 +84,7 @@
 	//전송
 	$(function(){
 		$("#sendOk").click(function(){
-			<%-- var url = "<%=cp%>/company/${mode}";
+			var url = "<%=cp%>/company/${mode}";
 			var query;
 			
 			$.ajax({
@@ -100,7 +100,7 @@
 				},
 				error:function(e){
 					console.log(e.responseText);
-				} --%>
+				}
 			});
 		});
 	});
