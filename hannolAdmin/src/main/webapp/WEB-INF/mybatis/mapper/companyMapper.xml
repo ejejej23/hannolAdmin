@@ -50,9 +50,9 @@
 	</select> 
 	
 	<!-- 글보기 -->
-	<!-- <select id="readCompany" resultType="com.sp.company.Company" parameterType="Integer">
+	<select id="readCompany" resultType="com.sp.company.Company" parameterType="Integer">
 		SELECT companyCode, name, tel, startDate, memo
 		FROM company
 		WHERE companyCode = #{num}
-	</select> --> 
+	</select>
 </mapper>
