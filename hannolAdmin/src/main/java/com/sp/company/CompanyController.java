@@ -97,7 +97,9 @@ public class CompanyController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("article_url", article_url);
 		
-	
+		model.addAttribute("mode", "created"); //리스트 뜨자마자는 created버전
+		model.addAttribute("modeTitle", "업체추가");
+		
 		return ".company.list";
 	}
 	

@@ -51,5 +51,8 @@
 	
 	<!-- 글보기 -->
 	<!-- <select id="readCompany" resultType="com.sp.company.Company" parameterType="Integer">
-	</select> -->
+		SELECT companyCode, name, tel, startDate, memo
+		FROM company
+		WHERE companyCode = #{num}
+	</select> --> 
 </mapper>
