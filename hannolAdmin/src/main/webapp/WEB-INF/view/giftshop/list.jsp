@@ -44,12 +44,18 @@ function searchList() {
 function orderList(){
 	var orderList = $('.gitf-form-control option:selected').val();
 	
-	if(dataQuery !='' && dataQuery.indexOf("&order=") == -1){
-		dataQuery=dataQuery+"&order="+orderList;
-	}else if(dataQuery !='' && dataQuery.indexOf("&order=")>=0){
-		var index = dataQuery.indexOf("&order=");
-		var str = dataQuery.substring(0,index).trim();
-		dataQuery=str+"&order="+orderList;
+	if(dataQuery != ''){
+		if(dataQuery.indexOf("order=") == -1){
+			dataQuery=dataQuery+"&order="+orderList;
+		}else{
+			var index = dataQuery.indexOf("order=");
+			if(index == 0){
+				dataQuery="order="+orderList;
+			}else{
+				var str = dataQuery.substring(0,index).trim();
+				dataQuery=str+"&order="+orderList;
+			}
+		}
 	}else{
 		dataQuery="order="+orderList;
 	}
