@@ -5,7 +5,17 @@
 <%
    String cp=request.getContextPath();
 %>
+<link rel="stylesheet" href="<%=cp%>/resource/css/tabs.css" type="text/css">
 <style>
+.alert-info {
+    border: 1px solid #9acfea;
+    border-radius: 4px;
+    background-color: #d9edf7;
+    color: #31708f;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 .gitf-form-control{
    background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
 }
@@ -21,22 +31,80 @@
     float: none;
     margin: 10px auto;
 }
-
 </style>
+<script type="text/javascript">
+$(function() {
+	$("#tab-all").addClass("active");
+	// 1 페이지 이동
+	
+	$("ul.tabs li").click(function() {
+		var tab = $(this).attr("data-tab");
+		
+		$("ul.tabs li").each(function() {
+			$(this).removeClass("active");
+		});
+		
+		$("#tab-"+tab).addClass("active");
+		
+		// 1페이지 이동
+	});
+});
+
+function listPage(page) {
+	var $tab = $(".tabs");
+	var tab = $tab.attr("data-tab");
+	var url = "<%=cp%>/show/" + tab + "/list";
+	
+	var query = "pageNo="+page;
+	var search = $("form[name=searchForm]").serialize();
+	query += query + "&" + search;
+	
+//	ajaxHTML(url, "get", query);
+}
+
+// ajax 공통함수
+function ajaxHTML(url, type, query) {
+	$.ajax({
+		type:type,
+		url:url,
+		data:query,
+		success:function(data){
+			if($.trim(data)=="error"){
+				listPage(1);
+				return;
+			}
+			$("#tab-content").html(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status==403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+
+</script>
+
 
 <div class="sub-container" style="width: 960px;">
    
    <div class="sub-title">
      <h3>공연 리스트</h3> 
    </div> 
-     
+   
      <div>
         <form name="searchForm" method="post" action="<%=cp%>/">
              <div class="col-xs-8 col-xs-offset-2" style="width: 100%">
               <div class="input-group" style="width:70%; float: left;">
                  <div style="float: left;">
-                    구분&nbsp;&nbsp;
                      <select name="searchKey" class="selectField" style="height:30px;">
+                           <option value="all">전체</option>
                            <option value="experience">체험</option>
                            <option value="parade">퍼레이드</option>
                            <option value="stage">무대공연</option>
@@ -56,11 +124,17 @@
          </div>
       </form>
      </div>
-    
-    <div>
-      
-      gg
-          
+     
+   <div>
+       <div style="clear: both;">
+           <ul class="tabs">
+		       <li id="tab-all" data-tab="all">전체</li>
+		       <li id="tab-experience" data-tab="experience">체험</li>
+		       <li id="tab-parade" data-tab="parade">퍼레이드</li>
+		       <li id="tab-stage" data-tab="stage">무대공연</li>
+		   </ul>
+	   </div>
+	   <div id="tab-content" style="clear:both; padding: 20px 10px 0px;"></div>
     </div>
    
    

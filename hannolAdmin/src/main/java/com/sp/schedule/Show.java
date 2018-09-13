@@ -7,8 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class Show {
 	private int listNum;
 	private int showCode;
+	private int facilityCode;
 	private int gubunCode;
 	private String gubunName;
+	private String facilityName;
 	private String showName;
 	private String memo;
 	private String originalFilename;
@@ -16,6 +18,18 @@ public class Show {
 	private MultipartFile upload;
 	private List<String> showTime; 
 	
+	public int getFacilityCode() {
+		return facilityCode;
+	}
+	public void setFacilityCode(int facilityCode) {
+		this.facilityCode = facilityCode;
+	}
+	public String getFacilityName() {
+		return facilityName;
+	}
+	public void setFacilityName(String facilityName) {
+		this.facilityName = facilityName;
+	}
 	public int getListNum() {
 		return listNum;
 	}
