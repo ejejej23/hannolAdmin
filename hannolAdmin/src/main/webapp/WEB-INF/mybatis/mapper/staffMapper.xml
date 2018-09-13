@@ -145,4 +145,8 @@
 		WHERE POSITIONNAME = #{positionName} 
 	</select>
 	
+	<delete id="deleteCareer" parameterType="Integer">
+		DELETE FROM CAREER WHERE USERSCODE = #{usersCode}
+	</delete>
+	
 </mapper>

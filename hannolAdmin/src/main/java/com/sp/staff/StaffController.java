@@ -249,9 +249,11 @@ public class StaffController {
 		dto.setTel3(dto.getTel().substring(9));
 		
 		//재직중이면 퇴사일자 빈칸으로 하기
-		boolean compare = dto.getInDate().compareTo(dto.getOutDate())>0;
-		if(compare) {
-			dto.setOutDate("");
+		if(dto.getInDate() !=null && dto.getOutDate()!=null) {
+			boolean compare = dto.getInDate().compareTo(dto.getOutDate())>0;
+			if(compare) {
+				dto.setOutDate("");
+			}
 		}
 
 		model.addAttribute("dto", dto);

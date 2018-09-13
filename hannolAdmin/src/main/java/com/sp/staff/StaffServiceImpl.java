@@ -82,6 +82,7 @@ public class StaffServiceImpl implements StaffService {
 			result = dao.updateData("staff.updateStaff", dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			throw e;
 		}
 		return result;
 	}
@@ -97,6 +98,7 @@ public class StaffServiceImpl implements StaffService {
 			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			throw e;
 		}
 		return result;
 	}

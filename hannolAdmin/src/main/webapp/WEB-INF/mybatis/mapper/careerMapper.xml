@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="career">
+	<insert id="insertCareer" parameterType="com.sp.career.Career">
+		INSERT CAREER INTO (CAREERCODE, MEMO, DPCODE, POSITIONCODE, USERSCODE, CAREERDATE)
+		VALUES(CAREER_SEQ.NEXTVAL, #{memo}, #{dpCode}, #{positionCode}, #{usersCode}, #{careerDate})
+	</insert>
+	
+	<select id="readCareer" parameterType="map" resultType="com.sp.career.Career">
+		SELECT CAREERCODE, TO_CHAR(CAREERDATE,'YYYY-MM-DD') CAREERDATE, C.MEMO, 
+		C.DPCODE, C.POSITIONCODE, C.USERSCODE,
+		DPNAME, POSITIONNAME, NAME,
+		EPCODE, GUBUN, E.MEMO AS EMEMO, EPDATE,
+		TASK, T.THEMECODE, T.THEMENAME
+		FROM CAREER C
+		JOIN DEPARTMENT D ON D.DPCODE = C.DPCODE
+		JOIN POSITION P ON P.POSITIONCODE = C.POSITIONCODE
+		JOIN STAFF S ON S.USERSCODE = C.USERSCODE
+        JOIN EMPLOYED E ON E.USERSCODE = S.USERSCODE
+        JOIN THEME T ON T.THEMECODDE = S.THEMECODE
+		WHERE C.USERSCODE = #{usersCode}
+	</select>
+	
+	
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map"
+	            resultType="Integer">
+	  SELECT NVL(COUNT(*), 0) FROM CAREER 
+	  WHERE USERSCODE = #{usersCode}
+	</select>
+	
+	<select id="listCareer" parameterType="Integer" resultType="com.sp.career.Career">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT ROWNUM, C.CAREERCODE, TO_CHAR(C.CAREERDATE,'YYYY-MM-DD') CAREERDATE, C.MEMO, 
+				C.DPCODE, C.POSITIONCODE, C.USERSCODE,
+				D.DPNAME, P.POSITIONNAME, S.NAME, T.THEMECODE,
+				E.EPCODE, E.GUBUN, E.MEMO AS EMEMO, E.EPDATE,
+				S.TASK
+				FROM CAREER C
+				JOIN DEPARTMENT D ON D.DPCODE = C.DPCODE
+				JOIN POSITION P ON P.POSITIONCODE = C.POSITIONCODE
+				JOIN STAFF S ON S.USERSCODE = C.USERSCODE
+		        JOIN EMPLOYED E ON E.USERSCODE = S.USERSCODE
+		        JOIN THEME T ON T.THEMECODE = S.THEMECODE
+				WHERE C.USERSCODE = #{usersCode}
+				ORDER BY E.EPDATE DESC, CAREERDATE DESC
+				<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >=#{start}
+	   			 ]]>
+	</select>
+</mapper>
