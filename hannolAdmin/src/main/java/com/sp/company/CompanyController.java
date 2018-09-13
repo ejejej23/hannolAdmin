@@ -121,9 +121,31 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value="/company/article", method=RequestMethod.GET)
-	public String article(@RequestParam(value="page", defaultValue="1") String page) throws Exception{
+	@ResponseBody
+	public Map<String, Object> article(@RequestParam(value="num") int num,
+			@RequestParam(value="page", defaultValue="1") String page) throws Exception{
 		
-		return "redirect:/company/list?page="+page;
+		String state = "true";
+		
+		//글정보 받아오기
+		Company dto = null;
+		dto = service.readCompany(num);
+		if(dto==null)
+			state = "false";
+		else {
+			//전화번호
+			String []tel = dto.getTel().split("-");
+			dto.setTel1(tel[0]);
+			dto.setTel2(tel[1]);
+			dto.setTel3(tel[2]);
+		}
+		
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("dto", dto);
+		
+		return model;
 	}
 	
 	

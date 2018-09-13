@@ -18,6 +18,8 @@
 	
 	.listData_no{text-align:center;}
 	
+	.noLine{border:0 none;}
+	
 	
 	/**modal**/
 	.modalTable{width:100%; margin-top:20px; color:#444444;}
@@ -107,6 +109,58 @@
 		});
 	});
 	
+	//글 정보 보기
+	$(function(){
+		$(".articleVeiw").click(function(){
+			//다이얼로그
+			$("#companyModel").dialog({
+				title:"업체정보",
+				width:480,
+				height:470,
+				modal:true
+			});
+			
+			
+			var num = $(this).attr("data-artileNum"); //업체 코드
+			
+			var url = "<%=cp%>/company/article";
+			var query = "num="+num;
+			
+			$.ajax({
+				type:"get",
+				url:url,
+				data:query,
+				dataType:"json",
+				success:function(data){
+					
+					$("#companyModel input[name=name]").val(data.dto.name);
+					$("#companyModel textarea[name=memo]").val(data.dto.memo);
+					$("#companyModel input[name=tel1]").val(data.dto.tel1);
+					$("#companyModel input[name=tel2]").val(data.dto.tel2);
+					$("#companyModel input[name=tel3]").val(data.dto.tel3);
+					
+					$("#companyModel input, #companyModel textarea, #companyModel select").prop("disabled", true).addClass("noLine");
+
+					$("#companyModel input[name=tel1]").val("011").prop("selected", true);
+					console.log(data.dto.tel1 == "010");
+					
+					
+					
+					
+					
+					
+					
+					
+				},
+				error:function(e){
+					alert("실패");
+					console.log(e.responseText);
+				}
+			});
+			
+		});
+	});
+	
 	
 	//검색
 	function searchList(){
@@ -150,7 +204,7 @@
 				<col style="width:6%;">
 				<col style="width:18%;">
 				<col style="">
-				<col style="width:14%;">
+				<col style="width:13%;">
 				<col style="width:15%;">
 			</colgroup>
 
@@ -169,7 +223,7 @@
 					<tr>
 						<td>${dto.listNum}</td>
 						<td>${dto.name}</td>
-						<td><a href="${article_url}">${dto.memo}</a></td>
+						<td class="articleVeiw" data-artileNum="${dto.companyCode}"><a href="#">${dto.memo}</a></td>
 						<td>${dto.tel}</td>
 						<td>${dto.startDate}</td>
 					</tr>
@@ -223,10 +277,6 @@
 				<td><input type="text" name="name" class="boxTF" data-name="업체명을"></td>
 			</tr>
 			<tr>
-				<th scope="row">상세설명</th>
-				<td><textarea name="memo" class="boxTA"  data-name="상세설명을"></textarea></td>
-			</tr>
-			<tr>
 				<th scope="row">연락처</th>
 				<td>
 					<select class="selectField btfTel" name="tel1" data-name="연락처를">
@@ -239,6 +289,10 @@
 						<option value="010">019</option>
 					</select> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
 				</td>
+			</tr>
+			<tr> 
+				<th scope="row">상세설명</th>
+				<td><textarea name="memo" class="boxTA"  data-name="상세설명을"></textarea></td>
 			</tr>
 		</table>
 		
