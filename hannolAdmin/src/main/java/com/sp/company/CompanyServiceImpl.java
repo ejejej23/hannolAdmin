@@ -62,4 +62,28 @@ public class CompanyServiceImpl implements CompanyService{
 		return dto;
 	}
 
+	@Override
+	public int updateCompany(Company dto) {
+		int result = 0;
+		
+		try {
+			result = dao.updateData("company.updateCompany", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteCompany(int num) {
+		int result = 0;
+		
+		try {
+			result = dao.deleteData("company.deleteCompany", num);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

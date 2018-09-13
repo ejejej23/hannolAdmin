@@ -8,4 +8,6 @@ public interface CompanyService {
 	public int dataCount(Map<String, Object> map);
 	public List<Company> listCompany(Map<String, Object> map);
 	public Company readCompany(int num);
+	public int updateCompany(Company dto);
+	public int deleteCompany(int num);
 }

@@ -55,4 +55,15 @@
 		FROM company
 		WHERE companyCode = #{num}
 	</select>
+	
+	<!-- 업체 수정 -->
+	<update id="updateCompany" parameterType="com.sp.company.Company">
+		UPDATE company SET name = #{name}, tel = #{tel}, memo = #{memo} 
+		WHERE companyCode = #{companyCode}
+	</update>
+	
+	<!-- 업체 삭제 -->
+	<delete id="deleteCompany" parameterType="Integer">
+		DELETE FROM company WHERE companyCode = #{companyCode}
+	</delete>
 </mapper>

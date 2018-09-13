@@ -120,10 +120,10 @@ public class CompanyController {
 		return model;
 	}
 	
+	// 업체 정보 보기 : AJAX-JSON
 	@RequestMapping(value="/company/article", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> article(@RequestParam(value="num") int num,
-			@RequestParam(value="page", defaultValue="1") String page) throws Exception{
+	public Map<String, Object> article(@RequestParam(value="num") int num) throws Exception{
 		
 		String state = "true";
 		
@@ -144,6 +144,47 @@ public class CompanyController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		model.put("dto", dto);
+		
+		return model;
+	}
+	
+	// 업체 수정 : AJAX-JSON
+	@RequestMapping(value="/company/update", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> update(Company dto, 
+			@RequestParam(value="companyCode2") int companyCode) throws Exception{
+		
+		String state = "true";
+		
+		//전화번호
+		String tel = dto.getTel1()+"-"+dto.getTel2()+"-"+dto.getTel3();
+		dto.setTel(tel);
+		dto.setCompanyCode(companyCode); 
+		
+		//수정
+		int result = service.updateCompany(dto);
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	// 업체 삭제 : AJAX-JSON
+	@RequestMapping(value="/company/delete", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam(value="companyCode") int companyCode) throws Exception{
+		
+		String state = "true";
+		
+		int result = service.deleteCompany(companyCode);
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
 		
 		return model;
 	}

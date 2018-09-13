@@ -19,6 +19,8 @@
 	.listData_no{text-align:center;}
 	
 	.noLine{border:0 none;}
+	.btfTel.noLine{width:36px; padding-left:0; padding-right:0;}
+	
 	
 	
 	/**modal**/
@@ -31,10 +33,12 @@
 	.boxTA{width:280px; vertical-align:middle;}
 	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
-	.btfTel{width:70px; text-align:center;}
+	.btfTel{width:60px; text-align:center;}
 	
 	
 	.btnBox{margin:40px 0; text-align:center;}
+	.btnBox .btn{margin:0 3px;}
+	
 	
 	/**dialog new style**/
 	.ui-widget{font-family:"Nanum Gothic";}
@@ -48,7 +52,7 @@
 	.ui-dialog{padding:0;}
 	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 	
-	
+
 </style>
 <script type="text/javascript">
 	var elementsName = [];
@@ -65,27 +69,52 @@
 		}
 	});
 	
-	
+
+    /*버튼모음*/
+    var sendOk = '<button type="button" class="btn btn-info" id="sendOk">업체등록</button>';
+    var updateBtn = '<button type="button" class="btn btn-info" id="updateBtn">업체수정</button>';
+    var updateOk = '<button type="button" class="btn btn-info" id="updateOk">수정완료</button>';
+	var deleteBtn = '<button type="button" class="btn btn-default" id="deleteBtn">업체삭제</button>';
+	var resetBtn = '<button type="reset" class="btn btn-default">다시입력</button>';
+	var closeBtn = '<button type="button" class="btn btn-default" id="companyAdd_close_btn">취소</button>';
+
+	var infoHiddenBox  = '<tr class="infoHidden">';
+		infoHiddenBox += '	<th scope="row">거래시작일</th>';
+		infoHiddenBox += '	<td><input type="text" name="startDate" class="boxTF articleHidden"></td>';
+		infoHiddenBox += '</tr>'
+		infoHiddenBox += '<tr class="infoHidden">';
+		infoHiddenBox += '	<th scope="row">업체코드</th>';
+		infoHiddenBox += '	<td><input type="text" name="companyCode" class="boxTF"></td>';
+		infoHiddenBox += '</tr>';
+
+		
 	/*다이얼 로그*/
-	$(function(){
-		$("#companyAdd_btn").click(function(){
+	$(function() {
+		$("#companyAdd_btn").click(function() {
 			$("#companyModel").dialog({
-				title:"업체추가",
-				width:480,
-				height:470,
-				modal:true
+				title : "업체추가",
+				width : 480,
+				height : 470,
+				modal : true,
+				open : function() {
+					$(".btnBox").empty();
+					$(".btnBox").append(sendOk, resetBtn, closeBtn); 
+					$("#companyAdd_close_btn").text("등록취소");
+					
+					$(".infoHidden").remove();
+				}
 			});
 		});
-		
-		$("#companyAdd_close_btn").click(function(){
+
+		$("body").on("click", "#companyAdd_close_btn", function() {
 			$("#companyModel").dialog("close");
 		});
 	});
-	
+
 	
 	//업체 등록
-	$(function(){
-		$("#sendOk").click(function(){
+	$(function() {
+		$("body").on("click", "#sendOk", function() {
 			var url = "<%=cp%>/company/created";
 
 			$.ajax({
@@ -96,8 +125,9 @@
 				beforeSend:check,
 				success:function(data){
 					if(data.state=="true"){
+						alert("업체 추가를 성공였습니다.");
 						formClean();
-						location.reload();
+						location.href="<%=cp%>/company/list";
 					}else{
 						alert("업체 추가를 실패하였습니다.");	
 					}
@@ -109,6 +139,7 @@
 		});
 	});
 	
+	
 	//글 정보 보기
 	$(function(){
 		$(".articleVeiw").click(function(){
@@ -116,11 +147,24 @@
 			$("#companyModel").dialog({
 				title:"업체정보",
 				width:480,
-				height:470,
-				modal:true
+				height:570,
+				modal:true,
+				open:function(){
+					var isHidden = $("input[name=companyCode]").val();
+					if(!isHidden)
+						$(".modalTable tbody").prepend(infoHiddenBox); 
+					
+					//버튼
+					$(".btnBox").empty();
+					$(".btnBox").append(updateBtn, deleteBtn, closeBtn); 
+				},
+				close:function(){	
+					formClean();
+					$("#companyModel input, #companyModel textarea").prop("disabled", false).removeClass("noLine");
+				}
 			});
-			
-			
+	
+
 			var num = $(this).attr("data-artileNum"); //업체 코드
 			
 			var url = "<%=cp%>/company/article";
@@ -132,28 +176,22 @@
 				data:query,
 				dataType:"json",
 				success:function(data){
-					
-					$("#companyModel input[name=name]").val(data.dto.name);
-					$("#companyModel textarea[name=memo]").val(data.dto.memo);
-					$("#companyModel input[name=tel1]").val(data.dto.tel1);
-					$("#companyModel input[name=tel2]").val(data.dto.tel2);
-					$("#companyModel input[name=tel3]").val(data.dto.tel3);
-					
-					$("#companyModel input, #companyModel textarea, #companyModel select").prop("disabled", true).addClass("noLine");
-
-					$("#companyModel input[name=tel1]").val("011").prop("selected", true);
-					console.log(data.dto.tel1 == "010");
-					
-					
-					
-					
-					
-					
-					
-					
+					if(data.state=="true"){						
+						$("#companyModel input[name=companyCode]").val(data.dto.companyCode);
+						$("#companyModel input[name=name]").val(data.dto.name);
+						$("#companyModel input[name=tel1]").val(data.dto.tel1);
+						$("#companyModel input[name=tel2]").val(data.dto.tel2);
+						$("#companyModel input[name=tel3]").val(data.dto.tel3);
+						$("#companyModel input[name=startDate]").val(data.dto.startDate);
+						$("#companyModel textarea[name=memo]").val(data.dto.memo);
+						
+						$("#companyModel input, #companyModel textarea").prop("disabled", true).addClass("noLine");
+						
+					}else{
+						alert("업체정보를 불러오지 못했습니다.");
+					}
 				},
 				error:function(e){
-					alert("실패");
 					console.log(e.responseText);
 				}
 			});
@@ -161,6 +199,70 @@
 		});
 	});
 	
+	
+	//업체 수정
+	$(function(){
+		$("body").on("click", "#updateBtn",function(){		
+			$("#deleteBtn").remove();  
+			$("#updateBtn").after(updateOk).remove(); 
+			$(".noLine").not("input[name=startDate], input[name=companyCode]").prop("disabled", false).removeClass("noLine");
+		});
+		
+		//업체 수정 완료
+		$("body").on("click", "#updateOk",function(){	
+			var url = "<%=cp%>/company/update";
+			var query = $("form[name=companyForm]").serialize()+"&companyCode2="+$("#companyModel input[name=companyCode]").val();
+			
+			$.ajax({
+				type:"post",
+				url:url,
+				data:query,
+				dataType:"json",
+				beforeSend:check,
+				success:function(data){
+					if(data.state=="true"){
+						alert("업체 수정이 되었습니다.");
+						formClean();
+						location.reload();
+					}else{
+						alert("업체 수정을 실패하였습니다.");	
+					}
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	});
+	
+	//업체 삭제
+	$(function(){
+		$("body").on("click", "#deleteBtn", function(){
+			if(confirm("업체를 삭제하시겠습니까?")){
+				var url = "<%=cp%>/company/delete";
+				var query = "companyCode="+$(".modalTable input[name=companyCode]").val();
+				
+				$.ajax({
+					url:url,
+					data:query,
+					dataType:"json",
+					success:function(data){
+						if(data.state=="true"){
+							alert("업체 삭제가 되었습니다.");
+							formClean();
+							location.reload();
+						}else{
+							alert("업체 삭제를 실패하였습니다.");	
+						}
+					},
+					error:function(e){
+						console.log(e.responseText);
+					}
+				});	
+			}
+		});
+	});
+
 	
 	//검색
 	function searchList(){
@@ -216,7 +318,6 @@
 					<th scope="col">연락처</th>
 					<th scope="col">거래시작일자</th>
 				</tr>
-				
 			</thead>
 			<tbody>
 				<c:forEach var="dto" items="${list}">
@@ -279,15 +380,7 @@
 			<tr>
 				<th scope="row">연락처</th>
 				<td>
-					<select class="selectField btfTel" name="tel1" data-name="연락처를">
-						<option value="">선택</option>
-						<option value="010">010</option>
-						<option value="010">011</option>
-						<option value="010">016</option>
-						<option value="010">017</option>
-						<option value="010">018</option>
-						<option value="010">019</option>
-					</select> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
+					<input type="text" name="tel1" class="boxTF btfTel" maxlength="3" data-name="연락처를"> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
 				</td>
 			</tr>
 			<tr> 
