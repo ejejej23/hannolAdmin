@@ -1,5 +1,7 @@
 package com.sp.career;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sp.common.MyUtil;	
+import com.sp.common.MyUtil;
+import com.sp.staff.Staff;	
 
 @Controller("career.careerController")
 public class CareerController {
@@ -96,5 +100,31 @@ public class CareerController {
 		map.put("usersCode", usersCode);
 
 		return map;
+	}
+	
+	@RequestMapping(value = "/career/info", method = RequestMethod.GET)
+	public String infoForm(@RequestParam(value = "page", defaultValue = "1") int page,
+			HttpServletRequest req,
+			@RequestParam(value="usersCode", defaultValue="0") int usersCode,
+			@RequestParam(value = "careerCode") int careerCode) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("usersCode", usersCode);
+		map.put("careerCode", careerCode);
+		
+		String query = "page=" + page+"&usersCode="+usersCode;
+
+		Career dto = service.readCareer(map);
+		
+		if (dto == null) {
+			return "redirect:/career/list?" + query;
+		}
+		
+		map.put("dto", dto);
+		map.put("page", page);
+		map.put("query", query);
+
+		map.put("mode", "update");
+		return ".career.info";
 	}
 }

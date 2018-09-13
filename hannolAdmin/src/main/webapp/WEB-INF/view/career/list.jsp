@@ -8,28 +8,16 @@
 <script type="text/javascript">
 
 $(function() {
-	<%-- $(document).on("click","button[name=infoBtn]",function(){
+	 $(document).on("click","button[name=infoBtn]",function(){
 		
-		var url = "<%=cp%>/career/info";
 		var usersCode = $(this).closest("tr").children().eq(1).text();
-		var careerCode = $(this).closest("tr").children().eq(2).text();
+		var careerCode = $(this).closest("tr").children().eq(3).text();
 	 	var query = "page="+${page}+"&usersCode="+usersCode+"&careerCode="+careerCode;
 	 	
-		// AJAX-POST
-		$.ajax({
-			type:"post"
-			,url:url	//서버의 주소
-			,data:query	//서버로 보내는 값
-			,success:function(data){
-				$("#resultLayout").html("수정완료!");
-				getList();
-			}
-			,error:function(e){
-				console.log(e.responseText);
-				$("#resultLayout").html("에러발생!");	
-			}
-		});
-	}); --%>
+		var url = "<%=cp%>/career/info?"+query;
+	 	
+	 	location.href = url;
+	}); 
 
 });
 function searchList(){
