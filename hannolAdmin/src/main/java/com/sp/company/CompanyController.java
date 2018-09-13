@@ -110,6 +110,7 @@ public class CompanyController {
 		
 		String tel = dto.getTel1()+"-"+dto.getTel2()+"-"+dto.getTel3();
 		dto.setTel(tel);
+		
 		int result = service.insertCompany(dto);
 		if(result==0)
 			state="false";

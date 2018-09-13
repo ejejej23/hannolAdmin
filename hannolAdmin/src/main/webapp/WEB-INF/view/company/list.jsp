@@ -31,6 +31,7 @@
 	
 	.boxTF,
 	.boxTA{width:280px; vertical-align:middle;}
+	.boxTA[disabled]{background-color:#f8f8f8; padding:10px 15px;}
 	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
 	.btfTel{width:60px; text-align:center;}
