@@ -159,6 +159,20 @@ public class GiftShopController {
 		model.addAttribute("dataQuery", dataQuery);
 		return ".giftshop.article";
 	}
+	
+	@RequestMapping(value="/giftshop/updateGift")
+	public String updateForm(int goodsCode, Model model) throws Exception{
+		
+		GiftShop giftDTO = service.readGoods(goodsCode);
+		if(giftDTO==null) {
+			return "redirect:/giftshop/list";
+		}
+		
+		model.addAttribute("mode", "update");
+		model.addAttribute("dto", giftDTO);
+		
+		return ".giftshop.created";
+	}
 			
 
 }

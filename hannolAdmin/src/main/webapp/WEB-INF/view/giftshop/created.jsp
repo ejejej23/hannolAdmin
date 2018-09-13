@@ -56,21 +56,27 @@ iframe{
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상품명</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="text" name="goodsName" maxlength="100" class="boxTF" style="width: 95%;" value="">
+			        <input type="text" name="goodsName" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.goodsName }">
 			      </td>
 			  </tr>
 			
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상품가격</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="">
+			        <input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.price }">
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상태</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="checkbox" name="state" id="giftState" value="1"> 사용
+			      <c:if test="${mode=='update' }">
+			      	<input type="checkbox" name="state" id="giftState" value="1" ${dto.state=='1': 'checked' : ''}>
+			      </c:if>
+			      <c:if test="${mode=='created' }">
+			      	<input type="checkbox" name="state" id="giftState" value="1"> 사용
+			      </c:if>
+			        
 			      </td>
 			  </tr>
 			  
