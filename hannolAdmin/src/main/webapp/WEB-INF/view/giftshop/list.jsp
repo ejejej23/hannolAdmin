@@ -28,9 +28,15 @@
 </style>
 
 <script>
-var dataQuery ="";
+var dataQuery ="${dataQuery}";
 $(function(){
 	listPage(1, "");
+	
+	$(".nav-link").click(function(){
+		 $('.nav-item').removeClass('active');
+		$(this).parent(".nav-item").addClass("active");
+		
+	});
 });
 
 function searchList() {
@@ -92,12 +98,38 @@ function listPage(page, query){
 	});
 }
 
+
+
 </script>
 
 <div class="sub-container" style="width: 960px;">
 	<div class="sub-title">
 		<h3>기프트샵 상품관리</h3>
 	</div>
+	
+	<div>
+		<ul class="nav nav-tabs">
+		  <li class="nav-item active">
+		    <a class="nav-link" href="#">전체</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#">프린세스빌리지</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#">라이언킹</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#">미니언즈</a>
+		  </li>
+		   <li class="nav-item">
+		    <a class="nav-link" href="#">토이스토리</a>
+		  </li>
+		   <li class="nav-item">
+		    <a class="nav-link" href="#">니모</a>
+		  </li>
+		</ul>
+				
+    </div>
 	
 	<div style="height: 30px;">
           	<div class="col-xs-8 col-xs-offset-2">

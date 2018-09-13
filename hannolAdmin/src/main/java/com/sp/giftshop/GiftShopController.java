@@ -94,7 +94,7 @@ public class GiftShopController {
 		List<GiftShop> list =  service.aJaxListGiftGoods(map);
 		
 		String query = "";
-		String articleUrl = cp+"/giftshop/article?page"+current_page;
+		String articleUrl = cp+"/giftshop/article?page="+current_page+"&order="+order;
 		if(searchValue.length() != 0) {
 			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
@@ -115,6 +115,12 @@ public class GiftShopController {
 		
 		return "/giftshop/list-body";
 		
+	}
+	
+	@RequestMapping(value = "/giftshop/article")
+	public String article(Model model) throws Exception {
+		model.addAttribute("dto", null);
+		return ".giftshop.article";
 	}
 			
 

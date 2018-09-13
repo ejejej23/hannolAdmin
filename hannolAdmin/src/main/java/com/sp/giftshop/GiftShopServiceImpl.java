@@ -75,6 +75,7 @@ public class GiftShopServiceImpl implements GiftShopService {
 		return result;
 	}
 
+	//List불러오기 version.1
 	@Override
 	public List<GiftShop> listGiftGoods(Map<String, Object> map) throws Exception {
 		List<GiftShop> list = null;
