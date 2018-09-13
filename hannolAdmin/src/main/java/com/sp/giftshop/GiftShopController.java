@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
 
@@ -32,9 +33,10 @@ public class GiftShopController {
 	public String createdForm(Model model) throws Exception {
 
 		List<String> gubunList = service.gubunList();
-
-		model.addAttribute("mode", "created");
+		
 		model.addAttribute("gubunList", gubunList);
+		model.addAttribute("mode", "created");
+		
 		return ".giftshop.created";
 	}
 
@@ -160,7 +162,7 @@ public class GiftShopController {
 		return ".giftshop.article";
 	}
 	
-	@RequestMapping(value="/giftshop/updateGift")
+	@RequestMapping(value="/giftshop/update", method=RequestMethod.GET)
 	public String updateForm(int goodsCode, Model model) throws Exception{
 		
 		GiftShop giftDTO = service.readGoods(goodsCode);
@@ -168,10 +170,40 @@ public class GiftShopController {
 			return "redirect:/giftshop/list";
 		}
 		
+		List<String> gubunList = service.gubunList();
+		model.addAttribute("gubunList", gubunList);
+		
 		model.addAttribute("mode", "update");
 		model.addAttribute("dto", giftDTO);
 		
 		return ".giftshop.created";
+	}
+	
+	@RequestMapping(value="/giftshop/update", method=RequestMethod.POST)
+	public String updateSubject(int goodsCode, HttpSession session, GiftShop dto, Model model) throws Exception{
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root+"uploads"+File.separator+"giftShopGoods";
+		
+		service.updateGiftGoods(dto, pathname);
+		return "redirect:/giftshop/article?goodsCode="+goodsCode;
+	}
+	
+	
+	@RequestMapping(value="/giftshop/deleteFile")
+	@ResponseBody
+	public  Map<String, Object> removeFile(String codeType, int code){
+		Map<String, Object> map = new HashMap<>();
+		map.put("codeType", codeType);
+		map.put("code", code);
+		
+		try {
+			service.deleteFiles(map);
+			map.put("state", "success");
+		} catch (Exception e) {
+			map.put("state", "fail");
+		}
+		
+		return map;
 	}
 			
 

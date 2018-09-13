@@ -66,7 +66,7 @@
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 			    <td width="300" align="left">
-			          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/giftshop/updateGift?goodsCode=${dto.goodsCode}';">수정</button>
+			          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/giftshop/update?goodsCode=${dto.goodsCode}';">수정</button>
 			    </td>
 			
 			    <td align="right">

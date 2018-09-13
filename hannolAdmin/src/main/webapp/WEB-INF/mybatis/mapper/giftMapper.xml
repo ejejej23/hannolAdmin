@@ -136,4 +136,28 @@
 		LEFT JOIN goodsInfo gi ON g.goodsCode = gi.goodsCode
 		WHERE g.goodsCode = #{goodsCode}
 	</select>
+	
+	<sql id="where-file">
+		<if test="codeType=='img'">
+			WHERE goodsImgCode=#{code}
+		</if>
+			<if test="codeType=='goods'">
+			WHERE goodsCode=#{code}
+		</if>
+	</sql>
+	
+	<delete id="DeleteFile" parameterType="map">
+		DELETE FROM goodsImg
+		<include refid="where-file"/>
+	</delete>
+	
+	<update id="updateGift" parameterType="com.sp.giftshop.GiftShop">
+		UPDATE goods SET goodsName=#{goodsName}, price=#{price}, state=#{state}, gubunCode=#{gubunCode}
+		WHERE goodsCode=#{goodsCode}
+	</update>
+	
+	<update id="updateGiftInfo" parameterType="com.sp.giftshop.GiftShop">
+		UPDATE goodsInfo SET memo=#{content}, insertDate=SYSDATE
+		WHERE goodsCode=#{goodsCode}
+	</update>
 </mapper>

@@ -171,4 +171,46 @@ public class GiftShopServiceImpl implements GiftShopService {
 		return dto;
 	}
 
+	@Override
+	public int deleteFiles(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("gift.DeleteFile", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
+	@Override
+	public int updateGiftGoods(GiftShop dto, String pathname) throws Exception {
+		int result = 0;
+		try {
+			dao.updateData("gift.updateGift", dto);
+			dao.updateData("gift.updateGiftInfo", dto);
+			
+			if (!dto.getUpload().isEmpty()) {
+				for (MultipartFile mf : dto.getUpload()) {
+					if (mf.isEmpty())
+						continue;
+
+					String saveFileName = fileManager.doFileUpload(mf, pathname);
+					if (saveFileName != null) {
+						String orignalFileName = mf.getOriginalFilename();
+						Map<String, Object> map = new HashMap<>();
+						map.put("orignalFileName", orignalFileName);
+						map.put("saveFileName", saveFileName);
+						map.put("goodsCode", dto.getGoodsCode());
+						insertFile(map);
+					}
+				}
+			}
+			
+			result=1;
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 }
