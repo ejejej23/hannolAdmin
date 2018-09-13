@@ -45,32 +45,32 @@
 	}
 	
 	
-	/* //선택박스에서 선택한 값들
-	function selectSt(){
+	//선택박스에서 선택한 값들
+/* 	function selectSt(){
 		var selection = $("#ridesInfo option:selected").text();
-		alert(selection);
-	}
-	
-	if(test!==null){
-		alert(test);
+		//alert(selection);
+	} */
+/* 	
+	if(test!=null){
+		//alert(test);
 		$("input[name=chk]:checked.val()")=$("select[name=ridesInfo].val()");
-	}
+	} */
 	
 	//체크박스에서 체크한 값들
 	function chkSingle(){
 		$("input[name=chk]:checked").each(function(){
 			var test = $(this).parent().next().next().next().next().next().next().next().text();
-			alert(test);
+			//alert(test);
 			
 		});
 	}
 	
-	//체크된 여부
+/* 	//체크된 여부
 	if(test.length==0){
-		alert("변경될 부분을 체크하세요");
+		//alert("변경될 부분을 체크하세요");
 		//return;
-	}
-	 */
+	} */
+	 
 	//체크된 값들을 배열에 담는다
 /* 	var lists=[];
 	$("input[name=chk]:checked").each(function(i){
@@ -78,34 +78,50 @@
 		lists.push($(this).test);
 	}
 	 */
+	 
+/* 	 var lists = [];
+	  $("input[name='confirm']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+	   lists.push($(this).val());
+	  });
+	  data:{'confirm':lists},
+	  var allData = { "userId": userId, "checkArray": checkboxValues };
+					{"selection":selection, "lists":lists}
+
+*/
 	//ajax로 값들을 보낸다
-/* 	$(function(){
-		/* $("#btnSend").click(function(){
-			function selectSt(){
-				var selection = $("#ridesInfo option:selected").text();
-			}
-			var url="test.jsp?";
-			var query="selections="+selection;
+	$(function(){
+		 $("#btnSend").click(function(){
+			 
+			var selection = $("#ridesInfo option:selected").text();
 			
-			$.ajax({
-				type:"POST",
-				url:url,
-				dataType:"json",
-				data:query,
-				beforeSend:checkk,
-				success:function(data){
-					alert(data);
-				}
-			}); */
-/* 		});
-		
-		function checkk(data){
+			var lists = new Array();
+			$("input[name='chk']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+				lists.push($(this).parent().next().text());
+			});
 			
-		}
-	});
-	 */
+			// check 된 애들의 개수
+				var url="<%=cp%>/rides/update";
+				var num = $(this).parent().next();
+
+				var query = {"selection":selection, "lists":lists};
+				console.log(query);
 	
-	 */
+				$.ajax({
+					type:"POST",
+					url:url,
+					dataType:"json",
+					data:query,
+					success:function(data){
+						$("#resultLayout").html("수정완료!");
+					}
+					,error:function(e){
+						console.log(e.responseText);
+						$("#resultLayout").html("에러발생!");	
+					}
+				}); 
+		});
+		
+	});
 	
 </script>
 <div class="sub-container" style="width: 960px;">
@@ -114,7 +130,7 @@
     </div>  
     
     <div>
-    <select class="selectField" id="ridesInfo" name="ridesInfo" onchange="selectSt();">
+    <select class="selectField" id="ridesInfo" name="ridesInfo">
 		<option value="">::상태선택::</option>
 		<option value="open">open</option>
 		<option value="close">close</option>
@@ -202,40 +218,22 @@
 		      <td align="left" width="100">
 		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/list';">새로고침</button>
 		      </td>
-		      <td align="center">
-		      	<%-- <form name="searchForm" method="post" action="<%=cp%>/rides/list">
-		          	<div class="col-xs-8 col-xs-offset-2">
-					  		<div class="input-group">
-					            <input type="hidden" name="searchKey" value="all">         
-					            <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
-					            <span class="input-group-btn">
-					                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
-					            </span>
-					        </div>
-					</div>
-				</form> --%>
-				
-		      </td>
-		  	  <td>
-				  <form name="updateForm" method="post" action="<%=cp%>/rides/list">
-					  <div class="col-xs-8 col-xs-offset-2">
-						  <div class="input-group">
-							  <input type="hidden" name="open" value="0">         
-							  <input type="hidden" name="close" value="1">         
-							  <input type="hidden" name="우천" value="2">         
-							  <input type="hidden" name="고장" value="3">         
-							  <input type="hidden" name="수리중" value="4">         
-						  </div>
-					  </div>
-				  </form>
-			  </td>
+
 		      <td align="right" width="100">
-	<!-- 	          <button id="btnSend" type="button" class="btn1">변경하기</button> -->
+	 	          <button id="btnSend" type="button" class="btn1">변경하기</button>
 		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
 		      </td>
 		   </tr>
 		</table>
+		 <div>
+
+
+		<div id="listLayout"></div>
 		
+		<div id="resultLayout"></div>
+
+
+    </div>
     </div>
 
 </div>   

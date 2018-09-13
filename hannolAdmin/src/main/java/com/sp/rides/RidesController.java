@@ -1,6 +1,5 @@
 package com.sp.rides;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -101,4 +100,36 @@ public class RidesController {
 
 		return ".rides.list";
 	}
+
+
+	@RequestMapping(value="/rides/update")
+	public Map<String,Object> update(@RequestParam(value="lists[]")  String[] lists,
+			@RequestParam(value="selection") String selection) {
+		
+		System.out.println(lists.length+"////////////////////////////////////////////////////////");
+		if(lists.length==0) {
+			System.out.println("선택된 체크가 없음");
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		Rides dto1 = new Rides();
+		
+		for(int i=0; i<lists.length; i++) {
+			System.out.println(lists[i]);
+			//dto1.setGubunCode(lists[i]);
+			service.updateRides(dto1);
+		}
+		
+		/*for(int i=0; i<lists.length; i++) {
+			service.updateRides(dto);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("selection", )
+		
+		*/
+		return map;
+	}
+
 }
