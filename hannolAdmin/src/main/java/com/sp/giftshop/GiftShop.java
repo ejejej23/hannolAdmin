@@ -1,6 +1,7 @@
 package com.sp.giftshop;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ public class GiftShop {
 	private int likeCount;
 	private String content;
 	private String thumbnail;
+	private List<Map<String, Object>> fileList;
 	private List<String> saveFileName;
 	private List<String> orignalFileName;
 	private List<MultipartFile> upload;
@@ -106,6 +108,14 @@ public class GiftShop {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	public List<Map<String, Object>> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<Map<String, Object>> fileList) {
+		this.fileList = fileList;
 	}
 
 	public List<String> getSaveFileName() {

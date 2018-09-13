@@ -50,8 +50,24 @@ public class GiftShopController {
 	}
 
 	@RequestMapping(value = "/giftshop/list")
-	public String listForm(Model model) throws Exception {
+	public String listForm(
+			@RequestParam(value="page", defaultValue="1") String page,
+			@RequestParam(value="searchKey", defaultValue="goodsName") String searchKey,
+			@RequestParam(value="searchValue", defaultValue="") String searchValue,
+			@RequestParam(value="order", defaultValue="newGoods") String order,
+			@RequestParam(value="thema", defaultValue="0") int thema,
+			Model model) throws Exception {
 		List<String> listGubun = service.gubunList();
+	
+		
+		model.addAttribute("page", page);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("order", order);
+		model.addAttribute("dataPage", page);
+		model.addAttribute("thema", thema);
+		
+		
 		model.addAttribute("listGubun", listGubun);
 		
 		return ".giftshop.list";
@@ -99,7 +115,7 @@ public class GiftShopController {
 		List<GiftShop> list =  service.aJaxListGiftGoods(map);
 		
 		String query = "";
-		String articleUrl = cp+"/giftshop/article?page="+current_page+"&order="+order;
+		String articleUrl = cp+"/giftshop/article?page="+current_page+"&order="+order+"&thema="+thema;
 		if(searchValue.length() != 0) {
 			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
@@ -123,8 +139,24 @@ public class GiftShopController {
 	}
 	
 	@RequestMapping(value = "/giftshop/article")
-	public String article(Model model) throws Exception {
-		model.addAttribute("dto", null);
+	public String article(
+			@RequestParam(value="page", defaultValue="1") String page,
+			@RequestParam(value="searchKey", defaultValue="goodsName") String searchKey,
+			@RequestParam(value="searchValue", defaultValue="") String searchValue,
+			@RequestParam(value="order", defaultValue="newGoods") String order,
+			@RequestParam(value="thema", defaultValue="0") int thema,
+			int goodsCode, Model model) throws Exception {
+		
+		String dataQuery = "page="+page+"&order="+order+"&thema="+thema;
+		
+		if(searchValue.length() != 0) {
+			dataQuery+="&searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue, "utf-8");
+		}
+		
+		GiftShop giftDTO = service.readGoods(goodsCode);
+		
+		model.addAttribute("dto", giftDTO);
+		model.addAttribute("dataQuery", dataQuery);
 		return ".giftshop.article";
 	}
 			

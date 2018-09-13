@@ -28,10 +28,39 @@
 </style>
 
 <script>
-var dataQuery ="${dataQuery}";
+var dataQuery ="";
 var giftThema =0;
+var giftsearchKey = "${searchKey}";
+var giftsearchValue = "${searchValue}";
+var giftorder = "${order}";
+var giftthema = "${thema}";
+
 $(function(){
-	listPage(1, "");
+	$('.nav-item').removeClass('active');
+	$(".nav-item").each(function(){
+		if( $(this).attr("data-gift-gubun") == giftthema){
+			$(this).addClass("active");
+			return;
+		}
+	});
+	
+	$(".gitf-form-control option").each(function(){
+		if($(this).val()==giftorder){
+			$(this).attr("selected","selected");
+			return;
+		}
+	});
+	
+	if(searchValue != ''){
+		dataQuery = "searchKey="+giftsearchKey+"&searchValue="+encodeURIComponent(giftsearchValue);
+	}
+	if(dataQuery != ''){
+		dataQuery+="&order="+giftorder+"&thema="+giftthema;
+	}else{
+		dataQuery="order="+giftorder+"&thema="+giftthema;
+	}
+	
+	listPage("${page}", dataQuery);
 	
 	$(".nav-link").click(function(){
 		$('.nav-item').removeClass('active');
@@ -39,6 +68,10 @@ $(function(){
 		
 		giftThema = $(this).parent(".nav-item").data("gift-gubun");
 		dataQuery = "";
+		$("#searchValue").val("");
+		$('.gitf-form-control option').attr("selected", false);
+		$('.gitf-form-control option:eq(0)').attr("selected", "selected");
+		
 		listPage(1, dataQuery);
 	});
 });
@@ -54,20 +87,16 @@ function searchList() {
 function orderList(){
 	var orderList = $('.gitf-form-control option:selected').val();
 	
-	if(dataQuery != ''){
-		if(dataQuery.indexOf("order=") == -1){
-			dataQuery=dataQuery+"&order="+orderList;
-		}else{
-			var index = dataQuery.indexOf("order=");
-			if(index == 0){
-				dataQuery="order="+orderList;
-			}else{
-				var str = dataQuery.substring(0,index).trim();
-				dataQuery=str+"&order="+orderList;
-			}
-		}
+	if(dataQuery.indexOf("order=") == -1){
+		dataQuery=dataQuery+"&order="+orderList;
 	}else{
-		dataQuery="order="+orderList;
+		var index = dataQuery.indexOf("order=");
+		if(index == 0){
+			dataQuery="order="+orderList;
+		}else{
+			var str = dataQuery.substring(0,index).trim();
+			dataQuery=str+"&order="+orderList;
+		}
 	}
 	
 	listPage(1, dataQuery);
@@ -139,7 +168,7 @@ function listPage(page, query){
 		<div class="giftSelect">
 			<div class="itemSelect">
 				<select class="form-control gitf-form-control" onchange="orderList();">
-					<option value="newGoods" selected="selected">신상품순</option>
+					<option value="newGoods">신상품순</option>
 					<option value="minPrice">가격낮은순</option>
 					<option value="maxPrice">가격높은순</option>
 					<option value="likeGoods">인기상품순</option>

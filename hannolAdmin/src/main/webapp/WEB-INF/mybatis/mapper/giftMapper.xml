@@ -19,6 +19,11 @@
     	VALUES (#{goodsCode}, #{goodsName}, #{price}, #{state}, #{gubunCode})
 	</insert>
 	
+	<insert id="insertGiftInfo" parameterType="com.sp.giftshop.GiftShop">
+	    INSERT INTO goodsInfo(memo, goodsCode) 
+    	VALUES (#{content},  #{goodsCode})
+	</insert>
+	
 	<insert id="insertFile" parameterType="map">
 	 	INSERT INTO goodsImg(goodsImgCode ,saveFilename, originalFilename, goodsCode)
 	 	VALUES (goodsImg_seq.NEXTVAL, #{saveFileName}, #{orignalFileName}, #{goodsCode})
@@ -51,6 +56,13 @@
 		    WHERE goodsCode = #{goodsCode}
 		    ORDER BY goodsImgCode
 		 )WHERE rownum=1
+	</select>
+	
+	<select id="ListGoodsImg" parameterType="Long" resultType="map">
+	    select goodsImgCode, saveFileName, originalFileName, goodsCode
+	    FROM goodsImg
+	    WHERE goodsCode = #{goodsCode}
+	    ORDER BY goodsImgCode
 	</select>
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
@@ -110,5 +122,18 @@
 				    ) tb
 				    WHERE ROWNUM &lt;= #{end}
 			)WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="readGift" parameterType="Integer" resultType="com.sp.giftshop.GiftShop">
+		SELECT g.goodsCode, goodsName, price, state, g.gubuncode, gubunName, memo as content, NVL(likeGoods,0) likeCount, NVL(quantity,0) quantity
+		FROM goods g 
+		LEFT JOIN (
+		    select SUM(quantity) likeGoods, goodsCode from paymentInfo
+		    GROUP BY goodscode
+		) p ON g.goodsCode=p.goodsCode
+		LEFT JOIN goodsCount c ON g.goodsCode = c.goodsCode
+		LEFT JOIN goodsGubun b ON g.gubuncode = b.gubuncode
+		LEFT JOIN goodsInfo gi ON g.goodsCode = gi.goodsCode
+		WHERE g.goodsCode = #{goodsCode}
 	</select>
 </mapper>

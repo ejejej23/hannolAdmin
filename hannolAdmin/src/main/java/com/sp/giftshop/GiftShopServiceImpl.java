@@ -40,6 +40,7 @@ public class GiftShopServiceImpl implements GiftShopService {
 			dto.setGoodsCode(seq);
 
 			result = dao.insertData("gift.insertGift", dto);
+			dao.insertData("gift.insertGiftInfo", dto);
 
 			if (!dto.getUpload().isEmpty()) {
 				for (MultipartFile mf : dto.getUpload()) {
@@ -132,6 +133,42 @@ public class GiftShopServiceImpl implements GiftShopService {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public GiftShop readGoods(int goodsCode) throws Exception {
+		GiftShop dto = null;
+		try {
+			dto = dao.selectOne("gift.readGift", goodsCode);
+			
+			if(dto != null) {
+				List<Map<String, Object>> imgMap = null;
+				imgMap = dao.selectList("gift.ListGoodsImg", dto.getGoodsCode());
+				
+				if(imgMap != null) {
+					dto.setFileList(imgMap);
+					/*
+					List<String> originalFileList = new ArrayList<>();
+					List<String> saveFileList = new ArrayList<>();
+					for(int i=0; i<imgMap.size(); i++) {
+						String org = (String)imgMap.get(i).get("ORIGINALFILENAME");
+						String save = (String)imgMap.get(i).get("SAVEFILENAME");
+						originalFileList.add(org);
+						saveFileList.add(save);
+					}
+					
+					dto.setOrignalFileName(originalFileList);
+					dto.setSaveFileName(saveFileList);
+					*/
+				}
+				
+			}
+			
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return dto;
 	}
 
 }
