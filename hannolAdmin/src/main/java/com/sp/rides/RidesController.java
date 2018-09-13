@@ -1,11 +1,13 @@
 package com.sp.rides;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.common.MyUtil;
+import com.sp.staff.SessionInfo;
 
 @Controller("rides.ridesController")
 public class RidesController {
@@ -26,8 +29,22 @@ public class RidesController {
 	private MyUtil myUtil;
 	
 	@RequestMapping(value="/rides/created", method=RequestMethod.GET)
-	public String created() {
+	public String createdForm(Model model) throws Exception{
+		
+		model.addAttribute("mode","created");
+		
 		return ".rides.created";
+	}
+	
+	@RequestMapping(value="/rides/created", method=RequestMethod.POST)
+	public String createdSubmit(Rides dto, HttpSession session) throws Exception{
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("staff");
+		
+		dto.setUsersCode(info.getStaffIdx());
+		service.insertRides(dto);
+		
+		return "redirect:/rides/list";
 	}
 	
 	@RequestMapping(value="/rides/list")

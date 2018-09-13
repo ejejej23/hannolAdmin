@@ -5,7 +5,7 @@
 	
 	<insert id="insertRides" parameterType="com.sp.rides.Rides">
 	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
-	  VALUES (rides_seq.NEXTVAL, #{subject}, #{content}, #{usersCode}, #{isNotice})
+	  VALUES (rides_seq.NEXTVAL, #{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
 	</insert>
 
 	<sql id="where-list">

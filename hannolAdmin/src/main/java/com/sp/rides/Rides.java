@@ -1,8 +1,7 @@
 package com.sp.rides;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class Rides {
+	private long usersCode;
 	int facilityCode;
 	int boardingTime;
 	int passengers;
@@ -21,6 +20,13 @@ public class Rides {
 	String removeDate;
 	int state;
 	
+	
+	public long getUsersCode() {
+		return usersCode;
+	}
+	public void setUsersCode(long usersCode) {
+		this.usersCode = usersCode;
+	}
 	public String getGubunName() {
 		return gubunName;
 	}
