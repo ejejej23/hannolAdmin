@@ -69,50 +69,53 @@
 		<div class="form-group"> 
 			<label for="nameRides" class="col-sm-2 control-label">이름</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="nameRides" placeholder="이름"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="nameRides" placeholder="이름"  value="${dto.name}"> 
 			</div> 
 		</div> 
 		<div class="form-group"> 
 			<label for="operatingHours" class="col-sm-2 control-label">운영시간</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="operatingHours" placeholder="운영시간"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="operatingHours" placeholder="운영시간"  value="${dto.name}"> 
 			</div> 
 		</div>
 		<div class="form-group"> 
 			<label for="ridingHours" class="col-sm-2 control-label">탑승시간</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="ridingHours" placeholder="탑승시간"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="ridingHours" placeholder="탑승시간"  value="${dto.boardingTime}"> 
 			</div> 
 		</div>
 		<div class="form-group"> 
 			<label for="ridingNum" class="col-sm-2 control-label">탑승인원</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="ridingNum" placeholder="탑승인원"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="ridingNum" placeholder="탑승인원"  value="${dto.passengers}"> 
 			</div> 
 		</div>
 		<div class="form-group"> 
 			<label for="heightLimit" class="col-sm-2 control-label">키 제한</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="heightLimit" placeholder="키제한"  value="${dto.subject}"> 
+				<input style="float:left; width: 20%;" name="name" type="text" class="form-control" id="minHeight" placeholder="최소 키(cm)"  value="${dto.minHeight}"> 
+				<p style="float:left;">&nbsp;~&nbsp;</p>
+				<input style="float:left; width: 20%;" name="name" type="text" class="form-control" id="maxHeight" placeholder="최대 키(cm)"  value="${dto.maxHeight}"> 
 			</div> 
+			
 		</div>
 		<div class="form-group"> 
 			<label for="limit" class="col-sm-2 control-label">제한</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="limit" placeholder="제한"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="limit" placeholder="제한"  value="${dto.limit}"> 
 			</div> 
 		</div>
 		<div class="form-group"> 
 			<label for="position" class="col-sm-2 control-label">위치</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="position" placeholder="위치"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="position" placeholder="위치"  value="${dto.limit}"> 
 			</div> 
 		</div>
 
 		<div class="form-group"> 
 			<label for="locationEx" class="col-sm-2 control-label">위치설명</label> 
 			<div class="col-sm-10"> 
-				<input style="width: 50%;" name="name" type="text" class="form-control" id="locationEx" placeholder="위치설명"  value="${dto.subject}"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="locationEx" placeholder="위치설명"  value="${dto.limit}"> 
 			</div> 
 		</div>
 		

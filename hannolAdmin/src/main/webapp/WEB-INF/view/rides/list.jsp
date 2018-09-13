@@ -35,6 +35,78 @@
 		f.submit()
 	}
 
+	//전체 체크박스
+	function checkAll(){
+		if($("#chkAll").is(':checked')){
+			$("input[name=chk]").prop("checked",true);
+		}else{
+			$("input[name=chk]").prop("checked",false);
+		}
+	}
+	
+	
+	/* //선택박스에서 선택한 값들
+	function selectSt(){
+		var selection = $("#ridesInfo option:selected").text();
+		alert(selection);
+	}
+	
+	if(test!==null){
+		alert(test);
+		$("input[name=chk]:checked.val()")=$("select[name=ridesInfo].val()");
+	}
+	
+	//체크박스에서 체크한 값들
+	function chkSingle(){
+		$("input[name=chk]:checked").each(function(){
+			var test = $(this).parent().next().next().next().next().next().next().next().text();
+			alert(test);
+			
+		});
+	}
+	
+	//체크된 여부
+	if(test.length==0){
+		alert("변경될 부분을 체크하세요");
+		//return;
+	}
+	 */
+	//체크된 값들을 배열에 담는다
+/* 	var lists=[];
+	$("input[name=chk]:checked").each(function(i){
+		var test = $(this).parent().next().next().next().next().next().next().next().text();
+		lists.push($(this).test);
+	}
+	 */
+	//ajax로 값들을 보낸다
+/* 	$(function(){
+		/* $("#btnSend").click(function(){
+			function selectSt(){
+				var selection = $("#ridesInfo option:selected").text();
+			}
+			var url="test.jsp?";
+			var query="selections="+selection;
+			
+			$.ajax({
+				type:"POST",
+				url:url,
+				dataType:"json",
+				data:query,
+				beforeSend:checkk,
+				success:function(data){
+					alert(data);
+				}
+			}); */
+/* 		});
+		
+		function checkk(data){
+			
+		}
+	});
+	 */
+	
+	 */
+	
 </script>
 <div class="sub-container" style="width: 960px;">
      <div class="body-title">
@@ -42,6 +114,14 @@
     </div>  
     
     <div>
+    <select class="selectField" id="ridesInfo" name="ridesInfo" onchange="selectSt();">
+		<option value="">::상태선택::</option>
+		<option value="open">open</option>
+		<option value="close">close</option>
+		<option value="우천">우천</option>
+		<option value="고장">고장</option>
+		<option value="수리중">수리중</option>
+	</select>
 		<table class="table">
 		    <colgroup>
 		        <col style="width: 10%; text-align:center">
@@ -58,7 +138,7 @@
 		  <thead class="thead-light">
 		    <tr>
 		      <th scope="col">
-				  <input type="checkbox" name="chkAll" value="chkAll">
+				  <input type="checkbox" name="chkAll" id="chkAll" value="chkAll" onclick="checkAll();">
 		      </th>
 		      <th scope="col">시설번호</th>
 		      <th scope="col">테마</th>
@@ -74,42 +154,32 @@
 		  <tbody>
 			<c:forEach var="vo" items="${list}">
 				<tr>
-				  <th scope="row">
-					  <input type="checkbox" name="chk" value="chk">
-				  </th>
-				  <td><a href="${articleUrl}&num=${vo.facilityCode}">${vo.facilityCode}</a></td>
-				<td>${vo.themeName}</td>
-				<td>${vo.genreName}</td>
-				<td>${vo.name}</td>
-				<td>${vo.installDate}</td>
-				<td>${vo.removeDate}</td>
-				<td>
-					<select class="selectField" id="state" name="state">
-						<c:choose>
-							<c:when test=""></c:when>
-						</c:choose>
-					
-						<option value="">::상태구분::</option>
-						<option value="open" ${vo.gubunName=="open"? "selected='selected'":""}>open</option>
-						<option value="close" ${vo.gubunName=="close"? "selected='selected'":""}>close</option>
-						<option value="우천" ${vo.gubunName=="우천"? "selected='selected'":""}>우천</option>
-						<option value="고장" ${vo.gubunName=="고장"? "selected='selected'":""}>고장</option>
-						<option value="수리중" ${vo.gubunName=="수리중"? "selected='selected'":""}>수리중</option>
-					</select>
-				</td>
-				<td>
-					<select class="selectField" id="ridesInfo" name="ridesInfo">
-						<c:choose>
-							<c:when test=""></c:when>
-						</c:choose>
-						<option value="">::시설상세::</option>
-						<option value="0" ${vo.state=="0"? "selected='selected'":""}>요청</option>
-						<option value="1" ${vo.state=="1"? "selected='selected'":""}>요청확인</option>
-						<option value="2" ${vo.state=="2"? "selected='selected'":""}>수리중</option>
-						<option value="3" ${vo.state=="3"? "selected='selected'":""}>수리완료</option>
-					</select>
-				</td>
-				
+					<th scope="row">
+						<input type="checkbox" name="chk" value="chk" onclick="chkSingle();">
+					</th>
+						<td>${vo.facilityCode}</td>
+						<td>${vo.themeName}</td>
+						<td>${vo.genreName}</td>
+						<td>${vo.name}</td>
+						<td>${vo.installDate}</td>
+						<td class="st">${vo.removeDate}</td>
+						<td>${vo.gubunName}</td>
+						<td>
+							<c:choose>
+								<c:when test="${vo.state==0}">
+									요청
+								</c:when>
+								<c:when test="${vo.state==1}">
+									요청확인
+								</c:when>
+								<c:when test="${vo.state==2}">
+									수리중
+								</c:when>
+								<c:when test="${vo.state==3}">
+									수리완료
+								</c:when>
+							</c:choose>
+						</td>
 				</tr>
 			</c:forEach>
 			
@@ -160,6 +230,7 @@
 				  </form>
 			  </td>
 		      <td align="right" width="100">
+	<!-- 	          <button id="btnSend" type="button" class="btn1">변경하기</button> -->
 		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
 		      </td>
 		   </tr>
