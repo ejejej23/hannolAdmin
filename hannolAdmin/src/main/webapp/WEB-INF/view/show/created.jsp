@@ -11,10 +11,10 @@
         var f = document.showForm;
        var str;
         
-        str = f.gubunName.value;
+        str = f.gubunCode.value;
         if(!str) {
             alert("구분을 선택하세요. ");
-            f.showGubun.focus();
+            f.gubunCode.focus();
             return;
         } 
         
@@ -41,7 +41,7 @@
            } 
         }
         
-       var showTimes=document.getElementsByName("showTime");
+/*        var showTimes=document.getElementsByName("showTime");
        for(var i=0; i<showTimes.length; i++) {
             if(!showTimes[i].value) {
                 alert("시간을 입력하세요. ");
@@ -54,13 +54,13 @@
                    return;
                 }
              }
-       }
+       } */
         
-       f.action="<%=cp%>/";
-        f.submit();
+       f.action="<%=cp%>/show/${mode}";
+       f.submit();
     }
     
-    var cnt=1;
+/*     var cnt=1;
     function addText() {
        var spbut= document.getElementById("showTime");
        if(cnt==5) {
@@ -75,7 +75,7 @@
        spbut.appendChild(txt);
        spbut.appendChild(document.createTextNode(" "));
        cnt++;
-    }
+    } */
     
     
 </script>
@@ -89,9 +89,9 @@
       <div class="form-group"> 
          <label for="gubunName" class="col-sm-2 control-label">구분</label> 
          <div class="col-sm-10"> 
-            <input type="radio" name="gubunName" id="" value="experience"> 체험&nbsp;
-            <input type="radio" name="gubunName" id="" value="parade"> 퍼레이드&nbsp;
-            <input type="radio" name="gubunName" id="" value="stage"> 무대공연&nbsp;
+            <input type="radio" name="gubunCode" id="" value="1"> 체험&nbsp;
+            <input type="radio" name="gubunCode" id="" value="2"> 퍼레이드&nbsp;
+            <input type="radio" name="gubunCode" id="" value="3"> 무대공연&nbsp;
          </div>  
       </div>
       <br><br>
@@ -108,12 +108,12 @@
          </div>  
       </div>
       <div class="form-group"> 
-         <label for="fileName" class="col-sm-2 control-label">사진</label> 
+         <label for="upload" class="col-sm-2 control-label">사진</label> 
          <div class="col-sm-10"> 
             <input type="file" name="upload" class="form-control">
          </div>  
       </div>
-      <div class="form-group"> 
+<!--       <div class="form-group"> 
          <label for="showTime" class="col-sm-2 control-label">공연시간</label>  
          <div>
                <span id="showTime" style="text-align: left; margin-left: 15px;">  
@@ -122,15 +122,16 @@
             
                 <input type="button" value="추가" onclick="addText();" class="btn"/>
          </div> 
-      </div>
+      </div> 
                 <div align="center">(공연 시간은 연속적으로 입력하세요)</div> <br><br>
+      -->
       
        <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
            <tr height="45"> 
             <td align="center" >
               <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
               <button type="reset" class="btn">다시입력</button>
-              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/${mode}';">${mode=='update'?'수정취소':'등록취소'}</button>
+              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/manage';">${mode=='update'?'수정취소':'등록취소'}</button>
                <c:if test="${mode=='update'}">
                    <input type="hidden" name="num" value="">
                   <input type="hidden" name="page" value="">

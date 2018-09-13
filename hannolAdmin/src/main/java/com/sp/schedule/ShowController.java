@@ -1,5 +1,10 @@
 package com.sp.schedule;
 
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +16,8 @@ public class ShowController {
 //	showGubun @ModelAttribute
 //	public List<>
 	
+	@Autowired
+	private ShowService service;
 	
    
    @RequestMapping(value="/show/list", method=RequestMethod.GET)
@@ -38,11 +45,15 @@ public class ShowController {
    
    @RequestMapping(value="/show/created", method=RequestMethod.POST)
    public String createSubmit(
-		   Model model) {
+		   Show dto,
+		   HttpSession session) throws Exception{
+	   // 저장 경로
+	   String root = session.getServletContext().getRealPath("/");
+	   String pathname = root + File.separator + "uploads" + File.separator + "show";
 	   
+	   service.insertShow(dto, pathname);
 	   
-	   
-	   return ".show.created";
+	   return "redirect:/show/manage";
    }
    
 }
