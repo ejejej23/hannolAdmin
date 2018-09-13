@@ -138,7 +138,11 @@ public class StaffServiceImpl implements StaffService {
 	public int inoutStaff(Map<String, Object> map) throws Exception {
 		int result =0;
 		try {
-			result = dao.updateData("staff.inoutStaff", map);
+			
+			dao.insertData("staff.inoutStaff", map);
+			dao.updateData("staff.updateWorking", map);
+			
+			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

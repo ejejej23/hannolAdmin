@@ -94,10 +94,20 @@ function authorityUpdate(){
 	});
 }
 
+function inoutUpdate(){
+	$("#inoutModal").dialog({
+		title:"입사/퇴사처리",
+		width:300,
+		height:300, 
+		modal:true,
+		show:"clip",
+		hide:"clip"
+	});
+}
+
 function sendAuth(){
 	
 	var authority = $("#staffAuth option:selected").val();
-	console.log("///"+authority);
 	
 	var url = "<%=cp%>/staff/updateAuth";
 		var query = "usersCode=" + ${dto.usersCode}+"&authority=" + authority;
@@ -114,6 +124,7 @@ function sendAuth(){
 				}else{
 					$("#authority").val("일반직원");
 				}
+				
 				$("#authorityModal").dialog("close");
 			}
 			,error : function(e) {
@@ -125,33 +136,49 @@ function sendAuth(){
 	
 function sendInout(){
 	
-    str = $("#memoAuth").val();
-    
-    if(!str) {
-        $("#setMemoAuth").html("사유를 입력하세요. ");
-        $("#memoAuth").focus();
+	var str="";
+
+    str = $("#inoutDate").val();
+    if(!str || !isValidDateFormat(str)) {
+        alert("날짜형식를 확인하세요[YYYY-MM-DD]. ");
+        $("#inoutDate").val("");
+        $("#inoutDate").focus();
         return;
     }
 	
-	var authority = $("#staffAuth").val();
-	var memo = $("#memoAuth").val();
+    str = $("#memoInout").val();
+    
+    if(!str) {
+        $("#setMemoInout").html("사유를 입력하세요. ");
+        $("#memoInout").focus();
+        return;
+    }
 	
-	var url = "<%=cp%>/staff/updateAuth";
-		var query = "usersCode=" + $
-		{
-			dto.usersCode
-		}
-		+"&authority=" + authority + "&memo=" + memo;
+	var staffInout = $("#staffInout").val();
+	var inoutDate = $("#inoutDate").val();
+	var memoInout = $("#memoInout").val();
+	
+	var url = "<%=cp%>/staff/updateInout";
+		var query = "usersCode=" + ${dto.usersCode}+"&gubun="+staffInout+"&inoutDate=" + inoutDate + "&memo=" + memoInout;
 
 		$.ajax({
-			type : "post",
-			url : url //서버의 주소
-			,
-			data : query //서버로 보내는 값
-			,
-			dataType : "json",
-			success : function(data) {
-				$("#resultStaff").html("권한수정완료!");
+			type : "post"
+			,url : url //서버의 주소
+			,data : query //서버로 보내는 값
+			,dataType : "json"
+			,success : function(data) {
+				$("#resultStaff").html("입사/퇴사 처리완료!");
+				
+				//입사퇴사일 변경 , 재직여부 표시변경
+				if(data.working == 1){
+					$("#working").html("재직중");
+					$("#inDate").html(data.epDate);
+				}else{
+					$("#working").html("퇴사");
+					$("#outDate").html(data.epDate);
+				}
+				
+				$("#inoutModal").dialog("close");
 			},
 			error : function(e) {
 				alert(e.responseText);
@@ -416,28 +443,30 @@ function sendInout(){
 			<form name="inoutForm">
 				<table class="modalTable">
 					<tr>
-						<th scope="row">입사/퇴사</th>
-						<td><select class="input-sm" id="staffInout" name="staffAuth">
-								<option>관리자</option>
-								<option>일반직원</option>
+						<th scope="row">구분</th>
+						<td><select class="input-sm" id="staffInout" name="staffInout">
+								<option value="1">입사</option>
+								<option value="0">퇴사</option>
 						</select></td>
 					</tr>
 					<tr>
+						<th scope="row">처리일</th>
+						<td><input type="text" name="inoutDate" id="inoutDate" class="boxTF" placeholder="YYYY-MM-DD"></td>
+					</tr>
+					<tr>
 						<th scope="row">사유</th>
-						<td><textarea name="memo" id="memoInout" rows="5" cols="20"
+						<td><textarea name="memo" id="memoInout" rows="5" cols="22" class="boxTF"
 								style="resize: none;"></textarea></td>
 					</tr>
 				</table>
 
 				<div class="btnBox">
-					<button type="button" class="btn btn-default" onClick="sendAuth()"
-						id="btnAuthSendOk">권한수정</button>
+					<button type="button" class="btn btn-default" onClick="sendInout()"
+						id="btnInoutSendOk">확인</button>
 				</div>
 
-				<div id="setMemoAuth"></div>
+				<div id="setMemoInout"></div>
 
-
-				<div id="sendLayout"></div>
 			</form>
 		</div>
 

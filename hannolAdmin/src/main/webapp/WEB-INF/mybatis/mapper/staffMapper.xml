@@ -116,11 +116,15 @@
 		WHERE USERSCODE = #{usersCode}
 	</update>
 	
-	<!-- 입사/퇴사 변경 -->
+	<!-- 입사/퇴사 변경 + working상태변경 -->
 	<insert id="inoutStaff" parameterType="map">
 		INSERT INTO EMPLOYED(EPCODE, GUBUN, MEMO, EPDATE, USERSCODE)
-		VALUES(EMPLOYED_SEQ, #{gubun}, #{memo}, #{epDate}, #{usersCode});
+		VALUES(EMPLOYED_SEQ.NEXTVAL, #{gubun}, #{memo}, #{epDate}, #{usersCode})
 	</insert>
+	
+	<update id="updateWorking" parameterType="map">
+		UPDATE STAFF SET WORKING = #{working} WHERE USERSCODE = #{usersCode}
+	</update>
 	
 	<!-- 테마, 부서, 직위  : 이름받아서 코드번호 가져와야함 -->
 	<select id="readTheme" parameterType="map" resultType="Integer">

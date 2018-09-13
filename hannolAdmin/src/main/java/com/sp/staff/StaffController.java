@@ -247,6 +247,12 @@ public class StaffController {
 		dto.setTel1(dto.getTel().substring(0, 3));
 		dto.setTel2(dto.getTel().substring(4, 8));
 		dto.setTel3(dto.getTel().substring(9));
+		
+		//재직중이면 퇴사일자 빈칸으로 하기
+		boolean compare = dto.getInDate().compareTo(dto.getOutDate())>0;
+		if(compare) {
+			dto.setOutDate("");
+		}
 
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
@@ -288,6 +294,36 @@ public class StaffController {
 		
 		service.updateStaffAuth(map);
 
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/staff/updateInout")
+	public Map<String, Object> updateInout(
+			@RequestParam(value="usersCode") int usersCode,
+			@RequestParam(value="gubun") int gubun,
+			@RequestParam(value="inoutDate") String inoutDate,
+			@RequestParam(value="memo") String memo
+			) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gubun", gubun);
+		map.put("usersCode", usersCode);
+		map.put("epDate", inoutDate);
+		map.put("memo", memo);
+		
+		
+		//working, 입퇴사 변경
+		if(gubun == 1) {
+			//입사 : working>1, 입사기록 남기기
+			map.put("working", 1);
+			service.inoutStaff(map);			
+		}else {
+			//퇴사 : working>0, 퇴사기록 남기기
+			map.put("working", 0);
+			service.inoutStaff(map);
+		}
+		
 		return map;
 	}
 }
