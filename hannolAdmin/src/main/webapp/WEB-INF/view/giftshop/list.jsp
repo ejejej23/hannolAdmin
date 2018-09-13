@@ -29,13 +29,17 @@
 
 <script>
 var dataQuery ="${dataQuery}";
+var giftThema =0;
 $(function(){
 	listPage(1, "");
 	
 	$(".nav-link").click(function(){
-		 $('.nav-item').removeClass('active');
+		$('.nav-item').removeClass('active');
 		$(this).parent(".nav-item").addClass("active");
 		
+		giftThema = $(this).parent(".nav-item").data("gift-gubun");
+		dataQuery = "";
+		listPage(1, dataQuery);
 	});
 });
 
@@ -74,7 +78,6 @@ function listPage(page, query){
 	if (query === undefined || query === null) {
 		query = dataQuery;
 	}
-	console.log(query);
 	
 	var url = "<%=cp%>/giftshop/aJaxList"
 	var data = "page="+page;
@@ -82,6 +85,8 @@ function listPage(page, query){
 	if(query!=''){
 		data+="&"+query;
 	}
+	
+	data+="&thema="+giftThema;
 	
 	
 	$.ajax({
@@ -109,24 +114,14 @@ function listPage(page, query){
 	
 	<div>
 		<ul class="nav nav-tabs">
-		  <li class="nav-item active">
-		    <a class="nav-link" href="#">전체</a>
+		<li class="nav-item active" data-gift-gubun="0">
+		    <a class="nav-link">전체</a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">프린세스빌리지</a>
+		<c:forEach items="${listGubun}" var="gubun">
+		  <li class="nav-item" data-gift-gubun="${gubun.GUBUNCODE}">
+		    <a class="nav-link">${gubun.GUBUNNAME}</a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">라이언킹</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">미니언즈</a>
-		  </li>
-		   <li class="nav-item">
-		    <a class="nav-link" href="#">토이스토리</a>
-		  </li>
-		   <li class="nav-item">
-		    <a class="nav-link" href="#">니모</a>
-		  </li>
+		  </c:forEach>
 		</ul>
 				
     </div>

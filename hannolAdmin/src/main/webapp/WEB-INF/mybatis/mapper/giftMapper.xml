@@ -55,12 +55,7 @@
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 	 	SELECT COUNT(*) FROM goods
-        WHERE gubuncode IN (
-            SELECT gubuncode FROM goodsgubun 
-            WHERE gubuncode != 2
-            START WITH gubuncode=2                                  
-            CONNECT BY PRIOR gubuncode=parentcode
-        ) 
+        <include refid="where-thema-list"/>
         <if test="searchValue != null and searchValue != ''">
         	AND INSTR(goodsName, #{searchValue}) &gt; 0
         </if>
@@ -81,6 +76,20 @@
 		</if>
 	</sql>
 	
+	<sql id="where-thema-list">
+		<if test="thema==0">
+			 WHERE gubuncode IN (
+	        	SELECT gubuncode FROM goodsgubun 
+	            WHERE gubuncode != 2
+	            START WITH gubuncode=2                                  
+	            CONNECT BY PRIOR gubuncode=parentcode
+	         )
+		</if>
+		<if test="thema!=0">
+			 WHERE gubuncode = #{thema}
+		</if>
+	</sql>
+	
 	<select id="ajaxListGift" parameterType="map" resultType="com.sp.giftshop.GiftShop">
 		SELECT * FROM (
 				    SELECT ROWNUM rnum, tb.* FROM(
@@ -91,12 +100,7 @@
                             GROUP BY goodscode
                         ) p ON g.goodsCode=p.goodsCode
                         LEFT JOIN goodsCount c ON g.goodsCode = c.goodsCode
-				        WHERE gubuncode IN (
-				        	SELECT gubuncode FROM goodsgubun 
-				            WHERE gubuncode != 2
-				            START WITH gubuncode=2                                  
-				            CONNECT BY PRIOR gubuncode=parentcode
-				        )
+				        <include refid="where-thema-list"/>
 				        <if test="searchValue != null and searchValue != ''">
 				        	AND INSTR(goodsName, #{searchValue}) &gt; 0
 				        </if>

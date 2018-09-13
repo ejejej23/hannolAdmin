@@ -50,7 +50,10 @@ public class GiftShopController {
 	}
 
 	@RequestMapping(value = "/giftshop/list")
-	public String listForm() throws Exception {
+	public String listForm(Model model) throws Exception {
+		List<String> listGubun = service.gubunList();
+		model.addAttribute("listGubun", listGubun);
+		
 		return ".giftshop.list";
 	}
 	
@@ -60,6 +63,7 @@ public class GiftShopController {
 			@RequestParam(value="searchKey", defaultValue="goodsName") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
 			@RequestParam(value="order", defaultValue="newGoods") String order,
+			int thema,
 			HttpServletRequest req,
 			Model model) throws Exception {
 		
@@ -75,6 +79,7 @@ public class GiftShopController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchKey", searchKey);
 		map.put("searchValue", searchValue);
+		map.put("thema", thema);
 		
 		dataCount = service.dataCount(map);
 		if(dataCount != 0) {
