@@ -27,8 +27,15 @@ public class RidesServiceImpl implements RidesService{
 
 	@Override
 	public int updateRides(Rides dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			dao.updateData("rides.updateRides", dto);
+			result=1;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+
+		}
+		return result;
 	}
 
 	@Override

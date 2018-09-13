@@ -106,7 +106,6 @@ public class RidesController {
 	public Map<String,Object> update(@RequestParam(value="lists[]")  String[] lists,
 			@RequestParam(value="selection") String selection) {
 		
-		System.out.println(lists.length+"////////////////////////////////////////////////////////");
 		if(lists.length==0) {
 			System.out.println("선택된 체크가 없음");
 		}
@@ -117,18 +116,14 @@ public class RidesController {
 		
 		for(int i=0; i<lists.length; i++) {
 			System.out.println(lists[i]);
-			//dto1.setGubunCode(lists[i]);
+			int code = Integer.parseInt(lists[i]);  
+			dto1.setGubunCode(code);
 			service.updateRides(dto1);
 		}
 		
-		/*for(int i=0; i<lists.length; i++) {
-			service.updateRides(dto);
-		}
+		System.out.println("다 갔다왔당~!");
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("selection", )
 		
-		*/
 		return map;
 	}
 

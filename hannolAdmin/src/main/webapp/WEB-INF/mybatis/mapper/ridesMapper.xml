@@ -64,8 +64,7 @@
 	
 
 	<!-- 글리스트 -->
-	<select id="listRides" parameterType="map"
-	            resultType="com.sp.rides.Rides">
+	<select id="listRides" parameterType="map" resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
 			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, installDate, removeDate, state
@@ -86,10 +85,7 @@
 	]]>
 	</select>
 	
-	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
-		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
-		FROM STAFF S
-		JOIN NOTICE N ON S.USERSCODE=N.USERSCODE
-		WHERE NOTICECODE = #{noticeCode}
-	</select>
+	<update id="updateRides" parameterType="com.sp.rides.Rides">
+		UPDATE rides SET gubunName=#{gubunName} WHERE gubunCode=#{gubunCode}
+	</update>
 </mapper>
