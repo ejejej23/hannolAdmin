@@ -38,7 +38,6 @@ function getList(){
 			$("#blistLayout").html(data);
 		}
 		,error:function(e){
-			console.log(e.responseText);
 			$("#bresultLayout").html("갱신에러발생!");	
 		}
 	}); 
@@ -98,28 +97,28 @@ $(function(){
     </div>
     
     <div id="budgetModal" class="modal">
-	<form>
-		<table class="modalTable">
-			<tr>
-				<th scope="row">년도</th>
-				<td><input type="text" name="year" id="yearBudget" class="boxTF" readonly></td>
-			</tr>
-			<tr>
-				<th scope="row">분기</th>
-				<td><input type="text" name="quarter" id="quarterBudget" class="boxTF" readonly></td>
-			</tr>
-			<tr>
-				<th scope="row">예산 금액</th>
-				<td><input type="text" name="budget" id="budgetAmount" class="boxTF"></td>
-			</tr>
-		</table>
-		
-		<div class="btnBox">
-	        <button type="button" class="btn btn-default" onClick="sendBudget()" id="btnBudgetSendOk">예산등록</button>
-	    </div>
-	    
-	    <div id="sendLayout"></div>
-	</form>
-</div>
+		<form name="budgetForm">
+			<table class="modalTable">
+				<tr>
+					<th scope="row">년도</th>
+					<td><input type="text" name="year" id="yearBudget" class="boxTF" readonly></td>
+				</tr>
+				<tr>
+					<th scope="row">분기</th>
+					<td><input type="text" name="quarter" id="quarterBudget" class="boxTF" readonly></td>
+				</tr>
+				<tr>
+					<th scope="row">예산 금액</th>
+					<td><input type="text" name="budget" id="budgetAmount" class="boxTF"></td>
+				</tr>
+			</table>
+			
+			<div class="btnBox">
+		        <button type="button" class="btn btn-default" onClick="sendBudget()" id="btnBudgetSendOk">예산등록</button>
+		    </div>
+		    
+		    <div id="sendLayout"></div>
+		</form>
+	</div>
     
 </div>

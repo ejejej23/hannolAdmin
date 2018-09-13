@@ -18,6 +18,10 @@ public class Staff {
 	private String email;
 	private String originalFilename;
 	private String saveFilename;
+	
+	private String inDate;
+	private String outDate;
+	
 	private int working;
 	private int dpCode;
 	private int positionCode;
@@ -186,6 +190,18 @@ public class Staff {
 	}
 	public void setThemeName(String themeName) {
 		this.themeName = themeName;
+	}
+	public String getInDate() {
+		return inDate;
+	}
+	public void setInDate(String inDate) {
+		this.inDate = inDate;
+	}
+	public String getOutDate() {
+		return outDate;
+	}
+	public void setOutDate(String outDate) {
+		this.outDate = outDate;
 	}
 	
 

@@ -29,7 +29,7 @@ public class StaffController {
 	private MyUtil myUtil;
 
 	@RequestMapping(value = "/staff/staff", method = RequestMethod.POST)
-	public String staffSubmit(Staff dto, Model model) {
+	public String staffSubmit(Staff dto, Model model) throws Exception {
 
 		/*
 		 * int result=service.insertMember(dto); if(result==1) { StringBuffer sb=new
@@ -49,13 +49,13 @@ public class StaffController {
 	}
 
 	@RequestMapping(value = "/staff/login", method = RequestMethod.GET)
-	public String loginForm() {
+	public String loginForm() throws Exception {
 		return ".staff.login";
 	}
 
 	@RequestMapping(value = "/staff/login", method = RequestMethod.POST)
 	public String loginSubmit(@RequestParam String staffId, @RequestParam String staffPwd, HttpSession session,
-			Model model)  throws Exception{
+			Model model) throws Exception {
 
 		Staff dto = service.loginStaff(staffId);
 		if (dto == null || !staffPwd.equals(dto.getStaffPwd())) {
@@ -86,7 +86,7 @@ public class StaffController {
 	}
 
 	@RequestMapping(value = "/staff/logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session) throws Exception {
 		// 세션에 저장된 정보 지우기
 		session.removeAttribute("staff");
 
@@ -97,7 +97,7 @@ public class StaffController {
 	}
 
 	@RequestMapping(value = "/staff/pwd", method = RequestMethod.GET)
-	public String pwdForm(String dropout, Model model) {
+	public String pwdForm(String dropout, Model model) throws Exception {
 
 		if (dropout == null) {
 			model.addAttribute("mode", "update");
@@ -109,8 +109,8 @@ public class StaffController {
 	}
 
 	@RequestMapping(value = "/staff/pwd", method = RequestMethod.POST)
-	public String pwdSubmit(@RequestParam String staffPwd, @RequestParam String mode, Model model,
-			HttpSession session) {
+	public String pwdSubmit(@RequestParam String staffPwd, @RequestParam String mode, Model model, HttpSession session)
+			throws Exception {
 		/*
 		 * SessionInfo info=(SessionInfo)session.getAttribute("member");
 		 * 
@@ -144,21 +144,6 @@ public class StaffController {
 		 * "update");
 		 */
 		return ".staff.staff";
-	}
-
-	@RequestMapping(value = "/staff/update", method = RequestMethod.POST)
-	public String updateSubmit(Staff dto, Model model) {
-
-		/*
-		 * service.updateMember(dto);
-		 * 
-		 * StringBuffer sb=new StringBuffer(); sb.append(dto.getUserName()+
-		 * "님의 회원정보가 정상적으로 변경되었습니다.<br>"); sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
-		 * 
-		 * model.addAttribute("title", "회원 정보 수정"); model.addAttribute("message",
-		 * sb.toString());
-		 */
-		return ".staff.complete";
 	}
 
 	@RequestMapping(value = "/staff/staffIdCheck", method = RequestMethod.POST)
@@ -211,67 +196,98 @@ public class StaffController {
 
 		int listNum, n = 0;
 		Iterator<Staff> it = list.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Staff data = it.next();
-			listNum = dataCount - (start+n-1);
+			listNum = dataCount - (start + n - 1);
 			data.setListNum(listNum);
 			n++;
 		}
-		
+
 		String query = "";
-		String listUrl = cp+"/staff/list";
-		String articleUrl = cp +"/staff/staff?page="+current_page;
-		if(searchValue.length()!=0) {
-			query = "searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue,"utf-8");
+		String listUrl = cp + "/staff/list";
+		String articleUrl = cp + "/staff/staff?page=" + current_page;
+		if (searchValue.length() != 0) {
+			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
-		
-		if(query.length()!=0) {
-			listUrl =cp+"/staff/list?"+query;
-			articleUrl = cp+"/staff/staff?page="+current_page+"&"+query;
+
+		if (query.length() != 0) {
+			listUrl = cp + "/staff/list?" + query;
+			articleUrl = cp + "/staff/staff?page=" + current_page + "&" + query;
 		}
-		
+
 		String paging = myUtil.paging(current_page, total_page, listUrl);
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
-		
+
 		return ".staff.list";
 	}
-	
 
 	@RequestMapping(value = "/staff/staff", method = RequestMethod.GET)
 	public String staffForm(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, HttpServletRequest req,
-			@RequestParam(value="num") int num,
-			Model model)  throws Exception{
+			@RequestParam(value = "num") int num, Model model) throws Exception {
 		searchValue = URLDecoder.decode(searchValue, "utf-8");
 
 		String query = "page=" + page;
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
-		
 
 		Staff dto = service.readStaff(num);
 		if (dto == null) {
 			return "redirect:/staff/list?" + query;
 		}
-		
+
 		dto.setTel1(dto.getTel().substring(0, 3));
 		dto.setTel2(dto.getTel().substring(4, 8));
 		dto.setTel3(dto.getTel().substring(9));
-		
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
-		
+
 		model.addAttribute("mode", "update");
 		return ".staff.staff";
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/staff/update", method = RequestMethod.POST)
+	public Map<String, Object> updateSubmit(Staff dto) throws Exception {
+
+		String tel = dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3();
+		dto.setTel(tel);
+
+		service.updateStaff(dto);
+
+		StringBuffer sb = new StringBuffer();
+		sb.append(dto.getName() + "님의 회원정보가 정상적으로 변경되었습니다.<br>");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mode", "updateInfo");
+		map.put("message", sb.toString());
+		map.put("usersCode", dto.getUsersCode());
+
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/staff/updateAuth")
+	public Map<String, Object> updateAuth(
+			@RequestParam(value="usersCode") int usersCode,
+			@RequestParam(value="authority") String authority) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("usersCode", usersCode);
+		map.put("authority", authority);
+		
+		service.updateStaffAuth(map);
+
+		return map;
+	}
 }

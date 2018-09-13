@@ -87,21 +87,14 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int updateUsersAuth(Map<String, Object> map) throws Exception {
-		int result = 0;
-		try {
-			result = dao.updateData("staff.updateUsersAuth", map);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		return result;
-	}
-
-	@Override
 	public int updateStaffAuth(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
-			result = dao.updateData("staff.updateStaffAuth", map);
+			
+			dao.updateData("staff.updateStaffAuth", map);
+			dao.updateData("staff.updateUsersAuth", map);
+			
+			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -135,6 +128,17 @@ public class StaffServiceImpl implements StaffService {
 		int result = 0;
 		try {
 			result = dao.selectOne("staff.readPosition", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int inoutStaff(Map<String, Object> map) throws Exception {
+		int result =0;
+		try {
+			result = dao.updateData("staff.inoutStaff", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
