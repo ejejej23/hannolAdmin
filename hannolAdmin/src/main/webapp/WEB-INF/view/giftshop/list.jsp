@@ -51,7 +51,7 @@ $(function(){
 		}
 	});
 	
-	if(searchValue != ''){
+	if(giftsearchValue != ''){
 		dataQuery = "searchKey="+giftsearchKey+"&searchValue="+encodeURIComponent(giftsearchValue);
 	}
 	if(dataQuery != ''){

@@ -24,6 +24,11 @@
     	VALUES (#{content},  #{goodsCode})
 	</insert>
 	
+	<insert id="insertGiftCount" parameterType="com.sp.giftshop.GiftShop">
+	    INSERT INTO goodsCount(goodsCode, quantity) 
+    	VALUES (#{goodsCode}, #{quantity})
+	</insert>
+	
 	<insert id="insertFile" parameterType="map">
 	 	INSERT INTO goodsImg(goodsImgCode ,saveFilename, originalFilename, goodsCode)
 	 	VALUES (goodsImg_seq.NEXTVAL, #{saveFileName}, #{orignalFileName}, #{goodsCode})

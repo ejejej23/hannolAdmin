@@ -41,6 +41,7 @@ public class GiftShopServiceImpl implements GiftShopService {
 
 			result = dao.insertData("gift.insertGift", dto);
 			dao.insertData("gift.insertGiftInfo", dto);
+			dao.insertData("gift.insertGiftCount", dto);
 
 			if (!dto.getUpload().isEmpty()) {
 				for (MultipartFile mf : dto.getUpload()) {
