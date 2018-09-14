@@ -145,9 +145,10 @@ public class CareerController {
 	public String createForm(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest req,
 			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode, Model model) throws Exception {
 
+		System.out.println(usersCode +"/////////////////////////////");
 		Staff isExist = temp.readStaff(usersCode);
 		if(isExist==null) {
-			return "redirect:/career/list";
+			//return "redirect:/career/list";
 		}
 		
 		String query = "page=" + page + "&usersCode=" + usersCode;

@@ -14,6 +14,7 @@ $(function() {
 		var careerCode = $(this).closest("tr").children().eq(3).text();
 		var epCode = $(this).closest("tr").children().eq(4).text();
 	 	var query = "page="+${page}+"&usersCode="+usersCode+"&careerCode="+careerCode;
+	 	$("#code").html(usersCode);
 	 	
 		var url = "<%=cp%>/career/info?"+query;
 	 	
@@ -41,7 +42,7 @@ function searchList(){
 		,data:query	//서버로 보내는 값
 		,success:function(data){
 			$("#listLayout").html(data);
-			$("#codeLayout").html("검색번호 : "+usersCode);
+			$("#codeLayout").html(usersCode);
 		}
 		,error:function(e){
 			console.log(e.responseText);
@@ -53,9 +54,9 @@ $(function(data){
 	searchList();
 });
 function createForm(){
-	var usersCode = $("#searchValue").val();
+	var usersCode = $("#codeLayout").text();
 	
-	location.href = "<%=cp%>/career/create?usersCode=${usersCode}"; 
+	location.href = "<%=cp%>/career/create?usersCode="+usersCode; 
 }
 
 $(function(){
@@ -86,7 +87,7 @@ function sendTheme(){
 		,data:query	//서버로 보내는 값
 		,success:function(data){
 			$("#resultLayout").html("수정완료!");
-			$("#themeLayout").html("테마변경 : "+data.themeName);
+			$("#themeLayout").html("테마배치 : "+data.themeName);
 		}
 		,error:function(e){
 			console.log(e.responseText);
@@ -120,7 +121,7 @@ function sendTheme(){
     
     <div>
 
-		<div id="codeLayout"></div>
+		검색결과 : <span id="codeLayout"></span>
 		<div id="listLayout"></div>
 		<div id="themeLayout"></div>
 		
