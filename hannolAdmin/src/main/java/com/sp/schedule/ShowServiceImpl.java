@@ -1,6 +1,5 @@
 package com.sp.schedule;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,16 +59,44 @@ public class ShowServiceImpl implements ShowService {
 	}
 	
 	@Override
-	public int dataCount(Map<String, Object> map) throws Exception {
-		 
-		return 0;
+	public List<Show> listShow(Map<String, Object> map) throws Exception {
+		List<Show> list = null;
+		try {
+			list = dao.selectList("show.listShow", map);
+			
+			for(Show s : list) {
+				List<String> showTime = listShowTime(s.getShowInfoCode());
+				s.setShowTime(showTime);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
 	}
 
+	
 	@Override
-	public List<Show> listShow(Map<String, Object> map) throws Exception {
-		 
-		return null;
+	public List<String> listShowTime(Integer showInfoCode) throws Exception {
+		List<String> list = null;
+		try {
+			list = dao.selectList("show.listShowTime", showInfoCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
 	}
+	
+	@Override
+	public int dataCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("show.dataCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 
 	@Override
 	public Show readShow(int showCode) throws Exception {
@@ -82,6 +109,7 @@ public class ShowServiceImpl implements ShowService {
 		 
 		return 0;
 	}
+
 
 
 }

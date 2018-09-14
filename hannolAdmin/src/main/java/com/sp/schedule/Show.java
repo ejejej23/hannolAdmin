@@ -9,26 +9,54 @@ public class Show {
 	private int showCode;
 	private int facilityCode;
 	private int gubunCode;
+	private int showInfoCode;
 	private String gubunName;
-	private String facilityName;
 	private String showName;
 	private String memo;
 	private String originalFilename;
 	private String saveFilename;
+	private String startdate;
+	private String enddate;
+	private String runningTime;
+	private String name;	// facility
 	private MultipartFile upload;
 	private List<String> showTime; 
 	
+	public String getStartdate() {
+		return startdate;
+	}
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+	public String getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+	public String getRunningTime() {
+		return runningTime;
+	}
+	public void setRunningTime(String runningTime) {
+		this.runningTime = runningTime;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getShowInfoCode() {
+		return showInfoCode;
+	}
+	public void setShowInfoCode(int showInfoCode) {
+		this.showInfoCode = showInfoCode;
+	}
 	public int getFacilityCode() {
 		return facilityCode;
 	}
 	public void setFacilityCode(int facilityCode) {
 		this.facilityCode = facilityCode;
-	}
-	public String getFacilityName() {
-		return facilityName;
-	}
-	public void setFacilityName(String facilityName) {
-		this.facilityName = facilityName;
 	}
 	public int getListNum() {
 		return listNum;

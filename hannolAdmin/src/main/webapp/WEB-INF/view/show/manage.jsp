@@ -35,7 +35,7 @@
 <script type="text/javascript">
 $(function() {
 	$("#tab-all").addClass("active");
-	// 1 페이지 이동
+	listPage(1);
 	
 	$("ul.tabs li").click(function() {
 		var tab = $(this).attr("data-tab");
@@ -45,21 +45,20 @@ $(function() {
 		});
 		
 		$("#tab-"+tab).addClass("active");
-		
-		// 1페이지 이동
+		listPage(1);
 	});
 });
 
 function listPage(page) {
-	var $tab = $(".tabs");
+	var $tab = $(".tabs .active");
 	var tab = $tab.attr("data-tab");
-	var url = "<%=cp%>/show/" + tab + "/list";
+	var gubunCode = $tab.attr("data-gubuncode");
+	var url = "<%=cp%>/show/" + gubunCode + "/list";
 	
 	var query = "pageNo="+page;
 	var search = $("form[name=searchForm]").serialize();
-	query += query + "&" + search;
-	
-//	ajaxHTML(url, "get", query);
+	query += "&" + search;
+	ajaxHTML(url, "get", query);
 }
 
 // ajax 공통함수
@@ -88,7 +87,18 @@ function ajaxHTML(url, type, query) {
 	});
 }
 
-
+function insertShowInfo() {
+	var checked = $("input[name=showRadio]:checked");
+	if(!checked.val()) {
+		alert('공연을 선택하세요');
+		return;
+	}
+	
+	var showCode = checked.attr("data-showCode");
+	
+	var url = '<%=cp%>/show/detail/created?showCode=' + showCode;
+	location.href = url;
+}
 </script>
 
 
@@ -128,15 +138,26 @@ function ajaxHTML(url, type, query) {
    <div>
        <div style="clear: both;">
            <ul class="tabs">
-		       <li id="tab-all" data-tab="all">전체</li>
-		       <li id="tab-experience" data-tab="experience">체험</li>
-		       <li id="tab-parade" data-tab="parade">퍼레이드</li>
-		       <li id="tab-stage" data-tab="stage">무대공연</li>
+		       <li id="tab-all" data-tab="all" data-gubuncode="0">전체</li>
+		       <li id="tab-experience" data-tab="experience" data-gubuncode="1">체험</li>
+		       <li id="tab-parade" data-tab="parade" data-gubuncode="2">퍼레이드</li>
+		       <li id="tab-stage" data-tab="stage" data-gubuncode="3">무대공연</li>
 		   </ul>
 	   </div>
 	   <div id="tab-content" style="clear:both; padding: 20px 10px 0px;"></div>
     </div>
    
-   
+   <table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+		<tr height="40">
+			<td align="left" width="100">
+				<button type="button" class="btn"
+					onclick="javascript:location.href='<%=cp%>/show/manage';">새로고침</button>
+			</td>
+
+			<td align="right" width="100">
+				<button type="button" class="btn" onclick="insertShowInfo();">상세정보 등록</button>
+			</td>
+		</tr>
+	</table>
    
 </div>

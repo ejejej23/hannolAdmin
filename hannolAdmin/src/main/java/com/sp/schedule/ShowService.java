@@ -17,6 +17,7 @@ public interface ShowService {
 
 	// 공연 시간
 	public int insertShowTime(Map<String, Object> map) throws Exception;
+	public List<String> listShowTime(Integer showInfoCode) throws Exception;
 	
 	// 공연 삭제 -> 공연시간 삭제 -> 공연상세 삭제 -> 공연 일정 삭제
 	

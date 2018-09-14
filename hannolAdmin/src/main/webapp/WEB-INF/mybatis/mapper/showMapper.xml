@@ -17,5 +17,67 @@
 		insert into showTime(showTime, showCode)
 		values(#{showTime}, #{showCode})	
 	</insert>
+	
+	
+	<!-- 일단 리스트만 나오도록 -->
+	<select id="listShow" parameterType="map" resultType="com.sp.schedule.Show">
+	select * from (
+   		select rownum rnum, tb.* from (
+				select g.gubuncode, gubunname, s.showcode, showname, memo, originalfilename, 
+				    savefilename, showinfocode, to_char(startdate, 'yyyy-mm-dd') startdate, to_char(enddate, 'yyyy-mm-dd') enddate, runningtime, i.facilitycode, name
+				from show s 
+				join showGubun g
+				    on s.gubuncode = g.gubuncode
+				left outer join (
+				    select showinfocode, startdate, enddate, runningtime, showcode, facilitycode, name
+				    from
+				        (select rownum, showinfocode, startdate, enddate, runningtime, showcode, shi.facilitycode, name 
+				            from showinfo shi join facility fa
+				                on shi.facilitycode = fa.facilitycode
+				            order by startdate desc)
+				    where rownum = 1
+				) i
+				    on s.showcode = i.showcode 
+				<if test="gubunCode!=null">
+					where g.gubunCode = #{gubunCode}
+				</if>
+<![CDATA[
+		) tb where rownum <= #{end}
+	)where rnum >= #{start}	
+]]>
+	</select>
+	
+	<select id="listShowTime" parameterType="Integer" resultType="String">
+		select starttime 
+		from showstarttime
+		where schcode in (
+		    select schcode 
+		    from showSch
+		    where showinfocode = #{showInfoCode})
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select nvl(count(*), 0)
+		from show s 
+		join showGubun g
+		    on s.gubuncode = g.gubuncode
+		left outer join (
+		    select showinfocode, startdate, enddate, runningtime, showcode, facilitycode, name
+		    from
+		        (select rownum, showinfocode, startdate, enddate, runningtime, showcode, shi.facilitycode, name 
+		            from showinfo shi join facility fa
+		                on shi.facilitycode = fa.facilitycode
+		            order by startdate desc)
+		    where rownum = 1
+		) i
+		    on s.showcode = i.showcode
+		<if test="gubunCode!=null">
+			where g.gubunCode = #{gubunCode}
+		</if>
+	</select>
+	
+
+	<sql id="where-list">
+	</sql>
 
 </mapper>
