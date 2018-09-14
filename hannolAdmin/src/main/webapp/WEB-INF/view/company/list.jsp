@@ -7,7 +7,6 @@
 %>
 <style>
 	/**table**/
-	.table{/* font-size:13px; */}
 	.table th,
 	.table td{text-align:center;}
 	.table th:nth-child(2),
@@ -31,7 +30,7 @@
 	
 	.boxTF,
 	.boxTA{width:280px; vertical-align:middle;}
-	.boxTA[disabled]{background-color:#f8f8f8; padding:10px 15px;}
+	.boxTA[disabled]{background-color:#ececec; padding:10px 15px;}
 	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
 	.btfTel{width:60px; text-align:center;}
@@ -292,6 +291,17 @@
 		
 		$("#companyModel").dialog("close");
 	}
+	
+	//연락처 숫자만
+	$(function(){
+		$(".boxTF.btfTel").keypress(function(){
+			if(event.keyCode<48 || event.keyCode>57){
+				event.preventDefault(); //발생된 이벤트 취소
+				
+			}
+				
+		});
+	});
 </script>
 
 <div class="sub-container">
@@ -381,7 +391,7 @@
 			<tr>
 				<th scope="row">연락처</th>
 				<td>
-					<input type="text" name="tel1" class="boxTF btfTel" maxlength="3" data-name="연락처를"> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
+					<input type="text" name="tel1" id="tel1" class="boxTF btfTel" maxlength="3" data-name="연락처를"> - <input type="text" name="tel2" class="boxTF btfTel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" data-name="연락처를" class="boxTF btfTel" maxlength="4">
 				</td>
 			</tr>
 			<tr> 

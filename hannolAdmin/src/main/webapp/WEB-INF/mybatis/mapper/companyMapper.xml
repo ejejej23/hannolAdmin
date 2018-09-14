@@ -51,7 +51,7 @@
 	
 	<!-- 글보기 -->
 	<select id="readCompany" resultType="com.sp.company.Company" parameterType="Integer">
-		SELECT companyCode, name, tel, startDate, memo
+		SELECT companyCode, name, tel, TO_CHAR(startDate, 'YYYY"년" MM"월" DD"일"  AM HH"시" MI"분"') startDate, memo
 		FROM company
 		WHERE companyCode = #{num}
 	</select>
