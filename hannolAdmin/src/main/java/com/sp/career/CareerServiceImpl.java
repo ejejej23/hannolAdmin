@@ -42,6 +42,7 @@ public class CareerServiceImpl implements CareerService {
 			result = dao.insertData("career.insertCareer", dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			throw e;
 		}
 		return result;
 	}
@@ -61,7 +62,7 @@ public class CareerServiceImpl implements CareerService {
 	public int deleteCareer(int usersCode) throws Exception {
 		int result =0;
 		try {
-			result = dao.deleteData("deleteCareer", usersCode);
+			result = dao.deleteData("career.deleteCareer", usersCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -73,6 +74,28 @@ public class CareerServiceImpl implements CareerService {
 		int result =0;
 		try {
 			result = dao.selectOne("career.dataCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int updateTheme(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("career.updateTheme", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public String selectThemeName(int themeCode) throws Exception {
+		String result =null;
+		try {
+			result=dao.selectOne("career.selectThemeName", themeCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

@@ -137,7 +137,7 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public int inoutStaff(Map<String, Object> map) throws Exception {
+	public int insertInoutStaff(Map<String, Object> map) throws Exception {
 		int result =0;
 		try {
 			

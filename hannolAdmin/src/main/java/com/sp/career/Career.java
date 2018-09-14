@@ -4,10 +4,10 @@ public class Career {
 //발령처리하고 로그쌓기
 	private int listNum;
 	private long usersCode;
-	private int careerCode;
-	private int dpCode;
-	private int positionCode;
-	private int themeCode;
+	private Integer careerCode;
+	private Integer dpCode;
+	private Integer positionCode;
+	private Integer themeCode;
 	
 	private String dpName;
 	private String positionName;
@@ -26,29 +26,41 @@ public class Career {
 	private int gubun;
 	private String memoInout;
 	private String epDate;
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}
 	public void setUsersCode(long usersCode) {
 		this.usersCode = usersCode;
 	}
-	public int getCareerCode() {
+	public Integer getCareerCode() {
 		return careerCode;
 	}
-	public void setCareerCode(int careerCode) {
+	public void setCareerCode(Integer careerCode) {
 		this.careerCode = careerCode;
 	}
-	public int getDpCode() {
+	public Integer getDpCode() {
 		return dpCode;
 	}
-	public void setDpCode(int dpCode) {
+	public void setDpCode(Integer dpCode) {
 		this.dpCode = dpCode;
 	}
-	public int getPositionCode() {
+	public Integer getPositionCode() {
 		return positionCode;
 	}
-	public void setPositionCode(int positionCode) {
+	public void setPositionCode(Integer positionCode) {
 		this.positionCode = positionCode;
+	}
+	public Integer getThemeCode() {
+		return themeCode;
+	}
+	public void setThemeCode(Integer themeCode) {
+		this.themeCode = themeCode;
 	}
 	public String getDpName() {
 		return dpName;
@@ -62,6 +74,12 @@ public class Career {
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
 	}
+	public String getThemeName() {
+		return themeName;
+	}
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
 	public String getCareerDate() {
 		return careerDate;
 	}
@@ -74,11 +92,23 @@ public class Career {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	public String getEmemo() {
+		return ememo;
+	}
+	public void setEmemo(String ememo) {
+		this.ememo = ememo;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getTask() {
+		return task;
+	}
+	public void setTask(String task) {
+		this.task = task;
 	}
 	public int getEpCode() {
 		return epCode;
@@ -103,36 +133,6 @@ public class Career {
 	}
 	public void setEpDate(String epDate) {
 		this.epDate = epDate;
-	}
-	public String getTask() {
-		return task;
-	}
-	public void setTask(String task) {
-		this.task = task;
-	}
-	public int getThemeCode() {
-		return themeCode;
-	}
-	public void setThemeCode(int themeCode) {
-		this.themeCode = themeCode;
-	}
-	public String getThemeName() {
-		return themeName;
-	}
-	public void setThemeName(String themeName) {
-		this.themeName = themeName;
-	}
-	public String getEmemo() {
-		return ememo;
-	}
-	public void setEmemo(String ememo) {
-		this.ememo = ememo;
-	}
-	public int getListNum() {
-		return listNum;
-	}
-	public void setListNum(int listNum) {
-		this.listNum = listNum;
 	}
 	
 	

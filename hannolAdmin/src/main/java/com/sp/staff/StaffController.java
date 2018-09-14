@@ -319,11 +319,11 @@ public class StaffController {
 		if(gubun == 1) {
 			//입사 : working>1, 입사기록 남기기
 			map.put("working", 1);
-			service.inoutStaff(map);			
+			service.insertInoutStaff(map);			
 		}else {
 			//퇴사 : working>0, 퇴사기록 남기기
 			map.put("working", 0);
-			service.inoutStaff(map);
+			service.insertInoutStaff(map);
 		}
 		
 		return map;

@@ -1,13 +1,12 @@
 package com.sp.career;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,25 +17,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
-import com.sp.staff.Staff;	
+import com.sp.staff.Staff;
+import com.sp.staff.StaffService;
 
 @Controller("career.careerController")
 public class CareerController {
 	@Autowired
 	private CareerService service;
 	@Autowired
+	private StaffService temp;
+	@Autowired
 	private MyUtil myUtil;
 
 	@RequestMapping(value = "/career/list")
-	public String list(@RequestParam(value = "page", defaultValue = "1") int page,Model model) throws Exception {
-		model.addAttribute("page",page);
+	public String list(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode,
+			Model model) throws Exception {
+		model.addAttribute("page", page);
+		model.addAttribute("usersCode", usersCode);
+		
 		return ".career.list";
 	}
 
 	@RequestMapping(value = "/career/getlist")
 	public String sublist(@RequestParam(value = "page", defaultValue = "1") int current_page, HttpServletRequest req,
-			@RequestParam(value="usersCode", defaultValue="0") int usersCode,
-			Model model) throws Exception {
+			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode, Model model) throws Exception {
 		String cp = req.getContextPath();
 
 		int rows = 10; // 한 화면에 보여주는 게시물 수
@@ -61,9 +66,17 @@ public class CareerController {
 		map.put("start", start);
 		map.put("end", end);
 		
+		
+		String isStaff="true";
+		Staff isExist = temp.readStaff(usersCode);
+		if(isExist==null) {
+			isStaff="false";
+		}
+		model.addAttribute("isStaff",isStaff);
+
 		// 글 리스트
 		List<Career> list = service.listCareer(map);
-		
+
 		// 리스트의 번호
 		int listNum, n = 0;
 		Iterator<Career> it = list.iterator();
@@ -78,7 +91,7 @@ public class CareerController {
 		String listUrl = cp + "/career/list";
 
 		if (query.length() != 0) {
-			listUrl = cp + "/career/list?" + query;	
+			listUrl = cp + "/career/list?" + query;
 		}
 
 		String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -101,30 +114,93 @@ public class CareerController {
 
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/career/info", method = RequestMethod.GET)
-	public String infoForm(@RequestParam(value = "page", defaultValue = "1") int page,
-			HttpServletRequest req,
-			@RequestParam(value="usersCode", defaultValue="0") int usersCode,
-			@RequestParam(value = "careerCode") int careerCode) throws Exception {
-		
+	public String infoForm(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest req,
+			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode,
+			@RequestParam(value = "careerCode", defaultValue = "0") int careerCode, Model model) throws Exception {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("usersCode", usersCode);
 		map.put("careerCode", careerCode);
-		
-		String query = "page=" + page+"&usersCode="+usersCode;
+
+		String query = "page=" + page + "&usersCode=" + usersCode;
 
 		Career dto = service.readCareer(map);
-		
+
 		if (dto == null) {
 			return "redirect:/career/list?" + query;
 		}
-		
-		map.put("dto", dto);
-		map.put("page", page);
-		map.put("query", query);
 
-		map.put("mode", "update");
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+		model.addAttribute("usersCode", usersCode);
+
+		model.addAttribute("mode", "info");
 		return ".career.info";
+	}
+
+	@RequestMapping(value = "/career/create", method = RequestMethod.GET)
+	public String createForm(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest req,
+			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode, Model model) throws Exception {
+
+		Staff isExist = temp.readStaff(usersCode);
+		if(isExist==null) {
+			return "redirect:/career/list";
+		}
+		
+		String query = "page=" + page + "&usersCode=" + usersCode;
+
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+		model.addAttribute("usersCode", usersCode);
+
+		model.addAttribute("mode", "create");
+		return ".career.info";
+	}
+
+	@RequestMapping(value = "/career/create", method = RequestMethod.POST)
+	public String createdSubmit(Career dto) throws Exception {
+		
+		//코드들이 0이면 null처리해주기
+		Integer temp = null;
+		if(dto.getDpCode()==0) {
+			dto.setDpCode(temp);
+		}
+		if(dto.getPositionCode()==0) {
+			dto.setPositionCode(temp);
+		}
+
+		service.insertCareer(dto);
+
+		return "redirect:/career/list";
+	}
+	
+	@RequestMapping(value = "/career/delete")
+	public String delete(@RequestParam int careerCode,
+			@RequestParam String page,
+			HttpSession session) throws Exception {
+
+		service.deleteCareer(careerCode);
+		
+		return "redirect:/career/list";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/career/themeUpdate")
+	public Map<String, Object> updateTheme(@RequestParam(value = "usersCode") int usersCode,
+			int themeCode
+			) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("usersCode", usersCode);
+		map.put("themeCode", themeCode);
+		
+		service.updateTheme(map);
+		String themeName = service.selectThemeName(themeCode);
+		map.put("themeName", themeName);
+		
+		return map;
 	}
 }

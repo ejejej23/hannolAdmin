@@ -101,11 +101,11 @@ $(function(){
 			<table class="modalTable">
 				<tr>
 					<th scope="row">년도</th>
-					<td><input type="text" name="year" id="yearBudget" class="boxTF" readonly></td>
+					<td><input type="text" name="year" id="yearBudget" class="boxTF" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th scope="row">분기</th>
-					<td><input type="text" name="quarter" id="quarterBudget" class="boxTF" readonly></td>
+					<td><input type="text" name="quarter" id="quarterBudget" class="boxTF" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th scope="row">예산 금액</th>

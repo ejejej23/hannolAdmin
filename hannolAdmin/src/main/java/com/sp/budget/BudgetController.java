@@ -99,8 +99,6 @@ public class BudgetController {
 
 		map.put("page", page);
 
-		//test
-		System.out.println("///////////////////////////////");
 		return map;
 	}
 }

@@ -9,5 +9,7 @@ public interface CareerService {
 	public List<Career> listCareer(Map<String, Object> map) throws Exception;
 	public int insertCareer(Career dto) throws Exception;
 	public int updateCareer(Career dto) throws Exception;
+	public int updateTheme(Map<String,Object> map) throws Exception;
 	public int deleteCareer(int usersCode) throws Exception;
+	public String selectThemeName(int themeCode) throws Exception;
 }

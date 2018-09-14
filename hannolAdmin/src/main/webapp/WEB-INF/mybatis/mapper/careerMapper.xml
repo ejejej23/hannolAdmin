@@ -3,21 +3,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="career">
 	<insert id="insertCareer" parameterType="com.sp.career.Career">
-		INSERT CAREER INTO (CAREERCODE, MEMO, DPCODE, POSITIONCODE, USERSCODE, CAREERDATE)
-		VALUES(CAREER_SEQ.NEXTVAL, #{memo}, #{dpCode}, #{positionCode}, #{usersCode}, #{careerDate})
+		INSERT INTO CAREER (CAREERCODE, MEMO, DPCODE, POSITIONCODE, USERSCODE, CAREERDATE)
+		VALUES(CAREER_SEQ.NEXTVAL, #{memo}, #{dpCode, jdbcType=INTEGER},
+		 #{positionCode, jdbcType=INTEGER}, #{usersCode}, #{careerDate})
 	</insert>
 	
 	<select id="readCareer" parameterType="map" resultType="com.sp.career.Career">
 		SELECT CAREERCODE, TO_CHAR(CAREERDATE,'YYYY-MM-DD') CAREERDATE, C.MEMO, 
 		C.DPCODE, C.POSITIONCODE, C.USERSCODE,
 		DPNAME, POSITIONNAME, NAME,
-		EPCODE, GUBUN, E.MEMO AS EMEMO, EPDATE,
 		TASK, T.THEMECODE, T.THEMENAME
 		FROM CAREER C
 		JOIN DEPARTMENT D ON D.DPCODE = C.DPCODE
 		JOIN POSITION P ON P.POSITIONCODE = C.POSITIONCODE
 		JOIN STAFF S ON S.USERSCODE = C.USERSCODE
-        JOIN EMPLOYED E ON E.USERSCODE = S.USERSCODE
         JOIN THEME T ON T.THEMECODE = S.THEMECODE
 		WHERE C.USERSCODE = #{usersCode} AND CAREERCODE = #{careerCode}
 	</select>
@@ -35,20 +34,30 @@
 		    SELECT ROWNUM rnum, tb.* FROM (
 			    SELECT ROWNUM, C.CAREERCODE, TO_CHAR(C.CAREERDATE,'YYYY-MM-DD') CAREERDATE, C.MEMO, 
 				C.DPCODE, C.POSITIONCODE, C.USERSCODE,
-				D.DPNAME, P.POSITIONNAME, S.NAME, T.THEMECODE,
-				E.EPCODE, E.GUBUN, E.MEMO AS EMEMO, E.EPDATE,
+				D.DPNAME, P.POSITIONNAME, S.NAME, T.THEMECODE, T.THEMENAME,
 				S.TASK
 				FROM CAREER C
 				JOIN DEPARTMENT D ON D.DPCODE = C.DPCODE
 				JOIN POSITION P ON P.POSITIONCODE = C.POSITIONCODE
 				JOIN STAFF S ON S.USERSCODE = C.USERSCODE
-		        JOIN EMPLOYED E ON E.USERSCODE = S.USERSCODE
 		        JOIN THEME T ON T.THEMECODE = S.THEMECODE
 				WHERE C.USERSCODE = #{usersCode}
-				ORDER BY E.EPDATE DESC, CAREERDATE DESC
+				ORDER BY CAREERDATE DESC
 				<![CDATA[
 	        ) tb WHERE ROWNUM <= #{end}
 	    ) WHERE rnum >=#{start}
 	   			 ]]>
+	</select>
+	
+	<delete id="deleteCareer" parameterType="Integer">
+		DELETE FROM CAREER WHERE CAREERCODE = #{careerCode}
+	</delete>
+	
+	<update id="updateTheme" parameterType="map">
+		UPDATE STAFF SET THEMECODE = #{themeCode} WHERE USERSCODE = #{usersCode}
+	</update>
+	
+	<select id="selectThemeName" parameterType="Integer" resultType="String">
+		SELECT THEMENAME FROM THEME WHERE THEMECODE = #{themeCode}
 	</select>
 </mapper>
