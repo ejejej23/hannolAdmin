@@ -29,12 +29,16 @@ public class RidesServiceImpl implements RidesService{
 	public int updateRides(Rides dto) {
 		int result = 0;
 		try {
+			System.out.println("update하러 들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+
 			dao.updateData("rides.updateRides", dto);
 			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 
 		}
+		System.out.println("getList간다~~~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+
 		return result;
 	}
 

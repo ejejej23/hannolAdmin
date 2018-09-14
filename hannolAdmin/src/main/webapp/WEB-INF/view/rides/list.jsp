@@ -65,54 +65,52 @@
 		});
 	}
 	
-/* 	//체크된 여부
-	if(test.length==0){
-		//alert("변경될 부분을 체크하세요");
-		//return;
-	} */
-	 
-	//체크된 값들을 배열에 담는다
-/* 	var lists=[];
-	$("input[name=chk]:checked").each(function(i){
-		var test = $(this).parent().next().next().next().next().next().next().next().text();
-		lists.push($(this).test);
+	$(function(){
+		getList(1);
+	});
+	
+	function getList(){
+		var url = "<%=cp%>/rides/getlist";
+		var query = "page="+${page};
+		
+		$.ajax({
+			type:"post"
+			,url:url	//서버의 주소
+			,data:query	//서버로 보내는 값
+			,success:function(data){
+				$("#listLayout").html(data);
+			}
+			,error:function(e){
+				console.log(e.responseText);
+				$("#resultLayout").html("갱신에러발생!");	
+			}
+		}); 
 	}
-	 */
-	 
-/* 	 var lists = [];
-	  $("input[name='confirm']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
-	   lists.push($(this).val());
-	  });
-	  data:{'confirm':lists},
-	  var allData = { "userId": userId, "checkArray": checkboxValues };
-					{"selection":selection, "lists":lists}
 
-*/
 	//ajax로 값들을 보낸다
 	$(function(){
 		 $("#btnSend").click(function(){
 			 
-			var selection = $("#ridesInfo option:selected").text();
+			var selCode = $("#ridesInfo option:selected").attr("data-num");
 			
 			var lists = new Array();
 			$("input[name='chk']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
 				lists.push($(this).parent().next().text());
 			});
-			
+
 			// check 된 애들의 개수
 				var url="<%=cp%>/rides/update";
 				var num = $(this).parent().next();
-
-				var query = {"selection":selection, "lists":lists};
+				var query = {"selCode":selCode, "lists":lists};
 				console.log(query);
 	
 				$.ajax({
 					type:"POST",
 					url:url,
-					dataType:"json",
 					data:query,
 					success:function(data){
-						$("#resultLayout").html("수정완료!");
+						//$("#resultLayout").html("수정완료!");
+						getList();
 					}
 					,error:function(e){
 						console.log(e.responseText);
@@ -120,120 +118,33 @@
 					}
 				}); 
 		});
-		
 	});
+	
 	
 </script>
 <div class="sub-container" style="width: 960px;">
+
      <div class="body-title">
-        <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>
+     	<h3>어트랙션 정보</h3>
+        <%-- <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3> --%>
     </div>  
     
-    <div>
-    <select class="selectField" id="ridesInfo" name="ridesInfo">
-		<option value="">::상태선택::</option>
-		<option value="open">open</option>
-		<option value="close">close</option>
-		<option value="우천">우천</option>
-		<option value="고장">고장</option>
-		<option value="수리중">수리중</option>
-	</select>
-		<table class="table">
-		    <colgroup>
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
-		    </colgroup>
-    
-		  <thead class="thead-light">
-		    <tr>
-		      <th scope="col">
-				  <input type="checkbox" name="chkAll" id="chkAll" value="chkAll" onclick="checkAll();">
-		      </th>
-		      <th scope="col">시설번호</th>
-		      <th scope="col">테마</th>
-		      <th scope="col">장르</th>
-		      <th scope="col">어트랙션명</th>
-		      <th scope="col">설치날짜</th>
-		      <th scope="col">제거날짜</th>
-		      <th scope="col">상태</th>
-		      <th scope="col">상세</th>
-		    </tr>
-		  </thead>
-		  
-		  <tbody>
-			<c:forEach var="vo" items="${list}">
-				<tr>
-					<th scope="row">
-						<input type="checkbox" name="chk" value="chk" onclick="chkSingle();">
-					</th>
-						<td>${vo.facilityCode}</td>
-						<td>${vo.themeName}</td>
-						<td>${vo.genreName}</td>
-						<td>${vo.name}</td>
-						<td>${vo.installDate}</td>
-						<td class="st">${vo.removeDate}</td>
-						<td>${vo.gubunName}</td>
-						<td>
-							<c:choose>
-								<c:when test="${vo.state==0}">
-									요청
-								</c:when>
-								<c:when test="${vo.state==1}">
-									요청확인
-								</c:when>
-								<c:when test="${vo.state==2}">
-									수리중
-								</c:when>
-								<c:when test="${vo.state==3}">
-									수리완료
-								</c:when>
-							</c:choose>
-						</td>
-				</tr>
-			</c:forEach>
-			
-		  </tbody>
-		  
-		</table>
-		
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-			<td align="center">
-			        <c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-			        <c:if test="${dataCount!=0 }">${paging}</c:if>
-			 </td>
-		   </tr>
-		</table>
-		
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-		   <tr height="40">
-		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/list';">새로고침</button>
-		      </td>
-
-		      <td align="right" width="100">
-	 	          <button id="btnSend" type="button" class="btn1">변경하기</button>
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
-		      </td>
-		   </tr>
-		</table>
-		 <div>
-
+	 <div>
 
 		<div id="listLayout"></div>
 		
 		<div id="resultLayout"></div>
-
-
+			<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+				<tr height="40">
+					<td align="left" width="100">
+					    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/list';">새로고침</button>
+					</td>
+					
+					<td align="right" width="100">
+						<button id="btnSend" type="button" class="btn1">변경하기</button>
+						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
+					</td>
+				</tr>
+			</table>
     </div>
-    </div>
-
 </div>   

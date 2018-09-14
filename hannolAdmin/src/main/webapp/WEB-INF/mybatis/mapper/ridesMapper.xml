@@ -64,7 +64,7 @@
 	
 
 	<!-- 글리스트 -->
-	<select id="listRides" parameterType="map" resultType="com.sp.rides.Rides">
+	<select id="listRides" resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
 			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, installDate, removeDate, state
@@ -72,7 +72,7 @@
                 JOIN facility f ON r.facilityCode = f.facilityCode
                 JOIN theme t ON f.themeCode = t.themeCode
                 JOIN genre g ON g.genreCode = r.genreCode
-                JOIN stateGubun s ON s.gubunCode = f.gubunCode
+                JOIN stateGubun s ON s.gubunCode = r.gubunCode
                     <where>
                          <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
@@ -86,6 +86,6 @@
 	</select>
 	
 	<update id="updateRides" parameterType="com.sp.rides.Rides">
-		UPDATE rides SET gubunName=#{gubunName} WHERE gubunCode=#{gubunCode}
+		UPDATE rides SET gubunCode=#{gubunCode} WHERE facilityCode=#{facilityCode}
 	</update>
 </mapper>

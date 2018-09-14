@@ -46,10 +46,24 @@ public class RidesController {
 		return "redirect:/rides/list";
 	}
 	
-	@RequestMapping(value="/rides/list")
+	@RequestMapping(value = "/rides/list")
+	public String list(@RequestParam(value = "page", defaultValue = "1") int page,Model model) {
+		System.out.println("ㅣist들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+
+		model.addAttribute("page",page);
+		return ".rides.list";
+	}
+	
+	@RequestMapping(value="/rides/getlist")
 	public String list(@RequestParam(value="page",defaultValue="1") int current_page,
 						HttpServletRequest req, Model model) throws Exception{
 		String cp = req.getContextPath();
+		
+		
+		
+		System.out.println("getList들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+		
+		
 		
 		int rows =10;
 		int total_page=0;
@@ -98,33 +112,30 @@ public class RidesController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("total_page", total_page);
 
-		return ".rides.list";
+		return "/rides/sub-list";
 	}
 
 
 	@RequestMapping(value="/rides/update")
-	public Map<String,Object> update(@RequestParam(value="lists[]")  String[] lists,
-			@RequestParam(value="selection") String selection) {
-		
+	public String update(@RequestParam(value="lists[]")  String[] lists,
+			@RequestParam(value="selCode") int selCode) {
 		if(lists.length==0) {
 			System.out.println("선택된 체크가 없음");
 		}
 		
-		Map<String, Object> map = new HashMap<>();
-		
-		Rides dto1 = new Rides();
+		Rides dto = new Rides();
 		
 		for(int i=0; i<lists.length; i++) {
 			System.out.println(lists[i]);
 			int code = Integer.parseInt(lists[i]);  
-			dto1.setGubunCode(code);
-			service.updateRides(dto1);
+			dto.setFacilityCode(code);
+			dto.setGubunCode(selCode);
+			service.updateRides(dto);
 		}
 		
 		System.out.println("다 갔다왔당~!");
 		
-		
-		return map;
+		return ".rides.list";
 	}
 
 }
