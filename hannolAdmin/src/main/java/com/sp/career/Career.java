@@ -26,6 +26,7 @@ public class Career {
 	private int gubun;
 	private String memoInout;
 	private String epDate;
+	
 	public int getListNum() {
 		return listNum;
 	}

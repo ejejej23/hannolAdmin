@@ -102,4 +102,37 @@ public class CareerServiceImpl implements CareerService {
 		return result;
 	}
 
+	@Override
+	public List<Career> themeList() {
+		List<Career> list=null;
+		try {
+			list = dao.selectList("career.themeList");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Career> dpList() {
+		List<Career> list=null;
+		try {
+			list = dao.selectList("career.dpList");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Career> positionList() {
+		List<Career> list=null;
+		try {
+			list = dao.selectList("career.positionList");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

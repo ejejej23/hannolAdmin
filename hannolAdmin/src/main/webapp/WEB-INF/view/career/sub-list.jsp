@@ -69,10 +69,9 @@
 					<td>
 						<select class="input-sm" id="themeCode" name="themeCode">
 							 <option value="0">:::::::: 선택 ::::::::</option>
-			                 <option value="1">프린세스빌리지</option>
-			                 <option value="2">토이스토리</option>
-			                 <option value="3">미니언즈</option>
-			                 <option value="4">전체</option>
+							 <c:forEach var="vo" items="${themeList }">
+								<option value="${vo.themeCode }">${vo.themeName }</option>
+							 </c:forEach>
 		                </select>
 					</td>
 				</tr>
