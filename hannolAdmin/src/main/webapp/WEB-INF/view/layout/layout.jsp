@@ -14,6 +14,11 @@
 <meta charset="UTF-8">
 <title>spring</title>
 
+<link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/lib/moment.min.js" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/fullcalendar.min.css" />
+<script type="text/javascript" src="<c:url value='/resource/fullcalendar/fullcalendar.min.js'/>"></script>
+
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css"/>
 <link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
