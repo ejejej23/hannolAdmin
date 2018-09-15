@@ -36,7 +36,7 @@
 			<c:forEach var="vo" items="${list}">
 				<tr>
 					<th scope="row">${vo.gubunName}</th>
-					<td>${vo.showName}</td>
+					<td><a href="${articleUrl}?showCode=${vo.showCode}&pageNo=${pageNo}&tab=${tab}">${vo.showName}</a></td>
 					<td>${vo.startdate}</td>
 					<td>${vo.enddate}</td>
 					<td>

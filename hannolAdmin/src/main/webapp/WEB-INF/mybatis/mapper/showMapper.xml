@@ -76,8 +76,19 @@
 		</if>
 	</select>
 	
+	<select id="readShow" parameterType="Integer" resultType="com.sp.schedule.Show">
+		select g.gubuncode, gubunname, showCode, showname, memo, originalfilename, savefilename
+		from show s join showGubun g
+		on s.gubuncode = g.gubuncode
+		where showCode = #{showCode}
+	</select>
 
 	<sql id="where-list">
 	</sql>
+	
+	<update id="updateShow" parameterType="com.sp.schedule.Show">
+		update show set showName = #{showName}, memo = #{memo}, originalFilename = #{originalFilename}, saveFilename = #{saveFilename}, gubunCode = #{gubunCode}
+		where showCode = #{showCode}
+	</update>
 
 </mapper>
