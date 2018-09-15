@@ -16,6 +16,38 @@ function updateShow() {
 	var url = '<%=cp%>/show/update?showCode=${dto.showCode}&tab=${tab}&pageNo=${pageNo}';
 	location.href = url;
 }
+
+$(function() {
+	var url = "<%=cp%>/show/showDetail";
+	var query = "showCode=${dto.showCode}";
+	ajaxHTML(url, "get", query);
+});
+
+//ajax 공통함수
+function ajaxHTML(url, type, query) {
+	$.ajax({
+		type:type,
+		url:url,
+		data:query,
+		success:function(data){
+			if($.trim(data)=="error"){
+				listPage(1);
+				return;
+			}
+			$("#showDetail").html(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status==403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
     
 </script>
 
@@ -44,6 +76,11 @@ function updateShow() {
       	<div class="col-sm-2">내용</div>
          <div class="col-sm-10">${dto.memo}</div>  
       </div>
+      
+      <!-- 공연 상세정보 -->
+      <br><br>
+      <div id="showDetail" style="padding-top: 100px;"></div>
+      
 <!--       <div class="form-group"> 
          <label for="showTime" class="col-sm-2 control-label">공연시간</label>  
          <div>

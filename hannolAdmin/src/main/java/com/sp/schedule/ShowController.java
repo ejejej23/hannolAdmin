@@ -144,7 +144,7 @@ public class ShowController {
 		return ".show.article";
 	}
 	
-	// 공연 수정
+	// 공연 수정 폼
 	@RequestMapping(value="/show/update", method=RequestMethod.GET)
 	public String updateForm(
 			@RequestParam(required=true) int showCode,
@@ -162,6 +162,7 @@ public class ShowController {
 	}
 	
 	
+	// 공연 수정
 	@RequestMapping(value="/show/update", method=RequestMethod.POST)
 	public String updateSubmit(
 			@RequestParam(required=true, defaultValue="all") String tab,
@@ -175,6 +176,16 @@ public class ShowController {
 		service.updateShow(dto, pathname);
 		
 		return "redirect:/show/manage?tab="+tab+"&pageNo="+page;
+	}
+	
+	// 공연 상세 정보
+	@RequestMapping(value="/show/showDetail")
+	public String detailArticle(
+			@RequestParam(value="showCode") int showCode) {
+		
+		
+		
+		return "show/showDetail";
 	}
 
 }
