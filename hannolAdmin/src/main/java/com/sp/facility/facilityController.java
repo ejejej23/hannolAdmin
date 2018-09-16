@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
-import com.sp.staff.SessionInfo;
 
 @Controller("facility.facilityController")
 public class facilityController {
@@ -39,9 +38,8 @@ public class facilityController {
 	@RequestMapping(value="/facility/created", method=RequestMethod.POST)
 	public String createdSubmit(Facility dto, HttpSession session) throws Exception{
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("staff");
-		
-		dto.setUsersCode(info.getStaffIdx());
+		/*SessionInfo info=(SessionInfo)session.getAttribute("staff");*/
+		/*dto.setUsersCode(info.getStaffIdx());*/
 		service.insertFacility(dto);
 		
 		return "redirect:/rides/list";

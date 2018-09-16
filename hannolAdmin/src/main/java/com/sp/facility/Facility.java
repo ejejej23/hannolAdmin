@@ -3,6 +3,7 @@ package com.sp.facility;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Facility {
+	private long usersCode;
 	int facilityCode;
 	String name;
 	int state;
@@ -16,9 +17,22 @@ public class Facility {
 	int gubunCode;
 	int themeCode;
 	int listNum;
+	String themeName;
 	private MultipartFile upload;
 	private MultipartFile upload2;
 	
+	public long getUsersCode() {
+		return usersCode;
+	}
+	public void setUsersCode(long usersCode) {
+		this.usersCode = usersCode;
+	}
+	public String getThemeName() {
+		return themeName;
+	}
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
 	public MultipartFile getUpload2() {
 		return upload2;
 	}
