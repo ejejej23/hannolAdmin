@@ -105,6 +105,13 @@
         </li>
         
         <li>
+            <span class="dep1">시설</span>
+            <ul>
+                <li><a href="<%=cp%>/facility/list">관리</a></li>
+            </ul>
+        </li>
+        
+        <li>
             <span class="dep1">놀이기구</span>
             <ul>
                 <li><a href="#">통계</a></li>
