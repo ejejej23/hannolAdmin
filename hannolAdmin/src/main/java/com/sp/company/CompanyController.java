@@ -52,7 +52,7 @@ public class CompanyController {
 		
 		//다른 사람이 자료를 삭제하여 전체 페이지수가 변화 된 경우
 		if(current_page > total_page)
-			total_page = current_page;
+			current_page = total_page;
 		
 		
 		//리스트에 출력할 데이터들 가져오기

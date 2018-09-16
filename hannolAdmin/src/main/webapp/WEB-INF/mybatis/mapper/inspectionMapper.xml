@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inspection">
+	<!-- 시설 종류 가져오기 -->
+	<select id="listFacGubun" resultType="map">
+		SELECT gubunCode, name FROM facGubun
+	</select>
+	
+	<!-- 시설 종류별 시설 가져오기 -->
+	<select id="listFacility" resultType="map" parameterType="Integer">
+		SELECT facilityCode, name FROM facility
+		 WHERE gubunCode = #{gubunCode}
+	</select>
+	
+	<!-- 점검 추가 -->
+	<insert id="insertInspection" parameterType="com.sp.maintenance.Inspection">
+		INSERT INTO checks(checkCode, checkDate, memo, state, facilityCode) VALUES (check_seq.NEXTVAL, #{checkDate}, #{memo}, #{state}, #{facilityCode})
+	</insert>
+	
+	<!-- 검색 -->
+	<sql id="where-list">
+		<if test="searchKey=='kind'">
+			INSTR(g.name, #{searchValue}) &gt; 0
+		</if>
+		<if test="searchKey=='name'">
+			INSTR(lower(f.name), lower(#{searchValue})) &gt; 0
+		</if>
+		<if test="searchKey=='content'">
+			INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0
+		</if>
+	</sql>
+	
+	<!-- 데이터 개수 -->
+	<select id="dataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM (
+		    SELECT g.name facGubunName, f.name facilityName, c.memo, c.state, checkDate
+		    FROM checks c
+		    LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
+		    LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		    <where>
+				<if test="searchValue!=null and searchValue!=''">
+					<include refid="where-list"/>
+				</if>
+			</where>
+		)
+	</select>
+	
+	<!-- 점검 리스트 -->
+	<select id="listInspection" resultType="com.sp.maintenance.Inspection" parameterType="map">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT checkCode, g.name facGubunName, f.name facilityName, c.memo, c.state, TO_CHAR(checkDate, 'YYYY-MM-DD') checkDate
+		        FROM checks c
+		        LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
+		        LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		        <where>
+		        	<if test="searchValue!=null and searchValue!=''">
+		        		<include refid="where-list"/>
+		        	</if>
+		        </where>
+		        ORDER BY checkCode DESC
+		    )tb WHERE ROWNUM &lt;= #{end}
+		)WHERE rnum &gt;= #{start}
+	</select>
+	
+	<!-- 점검 글보기 -->
+	<select id="readInspection" resultType="com.sp.maintenance.Inspection" parameterType="Integer">
+		SELECT checkCode, g.name facGubunName, f.name facilityName, c.memo, c.state, checkDate
+		FROM checks c
+		LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
+		LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		WHERE checkCode = #{num}
+	</select>
+</mapper>

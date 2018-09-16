@@ -7,8 +7,10 @@
 %>
 <style>
 	/**table**/
+	.table{table-layout:fixed;}
 	.table th,
 	.table td{text-align:center;}
+	.table td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
 	.table th:nth-child(2),
 	.table td:nth-child(2),
 	.table th:nth-child(3),
@@ -30,7 +32,7 @@
 	
 	.boxTF,
 	.boxTA{width:280px; vertical-align:middle;}
-	.boxTA[disabled]{background-color:#ececec; padding:10px 15px;}
+	.boxTA[disabled]{background-color:#f3f3f3; padding:10px 15px;}
 	.selectField{padding:5px; vertical-align:middle;}
 	.boxTF.btfName{width:120px;}
 	.btfTel{width:60px; text-align:center;}
@@ -125,11 +127,11 @@
 				beforeSend:check,
 				success:function(data){
 					if(data.state=="true"){
-						alert("업체 추가를 성공였습니다.");
+						alert("업체 등록이 되었습니다.");
 						formClean();
 						location.href="<%=cp%>/company/list";
 					}else{
-						alert("업체 추가를 실패하였습니다.");	
+						alert("업체 등록을 실패하였습니다.");	
 					}
 				},
 				error:function(e){
@@ -296,7 +298,12 @@
 	$(function(){
 		$(".boxTF.btfTel").keypress(function(){
 			if(event.keyCode<48 || event.keyCode>57){
-				event.preventDefault(); //발생된 이벤트 취소
+				try{ 
+					event.preventDefault(); //발생된 이벤트를 취소
+						
+				}catch (e) {
+					event.returnValue = false; //ie낮은 버전 이벤트 취소
+				}
 				
 			}
 				
