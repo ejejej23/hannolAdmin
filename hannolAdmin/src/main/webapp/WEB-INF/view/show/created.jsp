@@ -33,6 +33,13 @@
         }
      
         var mode = "${mode}";
+        str = f.upload.value;
+        if(mode=="created"  && !str) {
+        	alert("사진을 선택하세요. ");
+            f.upload.focus();
+            return;
+        } 
+        
         if(mode=="created" || mode=="update" && f.upload.value != "") {
            if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {   
               alert("파일을 선택하세요. ");
@@ -89,30 +96,39 @@
       <div class="form-group"> 
          <label for="gubunName" class="col-sm-2 control-label">구분</label> 
          <div class="col-sm-10"> 
-            <input type="radio" name="gubunCode" id="" value="1"> 체험&nbsp;
-            <input type="radio" name="gubunCode" id="" value="2"> 퍼레이드&nbsp;
-            <input type="radio" name="gubunCode" id="" value="3"> 무대공연&nbsp;
+            <input type="radio" name="gubunCode" id="" value="1" ${dto.gubunCode=="1" ? "checked" : ""}> 체험&nbsp;
+            <input type="radio" name="gubunCode" id="" value="2" ${dto.gubunCode=="2" ? "checked" : ""}> 퍼레이드&nbsp;
+            <input type="radio" name="gubunCode" id="" value="3" ${dto.gubunCode=="3" ? "checked" : ""}> 무대공연&nbsp;
          </div>  
       </div>
       <br><br>
       <div class="form-group"> 
          <label for="showName" class="col-sm-2 control-label">공연명</label> 
          <div class="col-sm-10"> 
-            <input name="showName" type="text" class="form-control" id="showName" placeholder="공연명"  value=""> 
+            <input name="showName" type="text" class="form-control" id="showName" placeholder="공연명"  value="${dto.showName}"> 
          </div> 
       </div> 
       <div class="form-group"> 
          <label for="memo" class="col-sm-2 control-label">내용</label> 
          <div class="col-sm-10"> 
-            <textarea name="memo" id="memo" class="form-control" rows="5" placeholder="설명"></textarea>
+            <textarea name="memo" id="memo" class="form-control" rows="5" placeholder="설명">${dto.memo}</textarea>
          </div>  
       </div>
       <div class="form-group"> 
          <label for="upload" class="col-sm-2 control-label">사진</label> 
          <div class="col-sm-10"> 
-            <input type="file" name="upload" class="form-control">
+            <input type="file" name="upload" class="form-control" >
          </div>  
       </div>
+      
+      <c:if test="${mode=='update'}">
+	      <div class="form-group"> 
+	         <label class="col-sm-2 control-label">등록 사진</label> 
+	         <div class="col-sm-10"> 
+	            <img src="<%=cp%>/uploads/show/${dto.saveFilename}" alt="image/*" width="100" height="100" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'">
+	         </div>  
+	      </div>
+      </c:if>
 <!--       <div class="form-group"> 
          <label for="showTime" class="col-sm-2 control-label">공연시간</label>  
          <div>
@@ -130,11 +146,14 @@
            <tr height="45"> 
             <td align="center" >
               <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-              <button type="reset" class="btn">다시입력</button>
-              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/manage';">${mode=='update'?'수정취소':'등록취소'}</button>
+              <c:if test="${mode=='created'}"><button type="reset" class="btn">다시입력</button></c:if>
+              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/manage?tab=${tab}';">${mode=='update'?'수정취소':'등록취소'}</button>
                <c:if test="${mode=='update'}">
-                   <input type="hidden" name="num" value="">
-                  <input type="hidden" name="page" value="">
+                  <input type="hidden" name="tab" value="${tab}">
+                  <input type="hidden" name="pageNo" value="${pageNo}">
+                  <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
+                  <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
+                  <input type="hidden" name="showCode" value="${dto.showCode}">
               </c:if>
             </td>
           </tr>

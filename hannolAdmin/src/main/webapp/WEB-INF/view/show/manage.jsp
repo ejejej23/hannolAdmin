@@ -34,8 +34,10 @@
 </style>
 <script type="text/javascript">
 $(function() {
-	$("#tab-all").addClass("active");
-	listPage(1);
+	var pageNo = ${pageNo};
+	
+	$("#tab-${tab}").addClass("active");
+	listPage(pageNo);
 	
 	$("ul.tabs li").click(function() {
 		var tab = $(this).attr("data-tab");
@@ -55,7 +57,7 @@ function listPage(page) {
 	var gubunCode = $tab.attr("data-gubuncode");
 	var url = "<%=cp%>/show/" + gubunCode + "/list";
 	
-	var query = "pageNo="+page;
+	var query = "pageNo="+page+"&tab="+tab;
 	var search = $("form[name=searchForm]").serialize();
 	query += "&" + search;
 	ajaxHTML(url, "get", query);
@@ -96,7 +98,7 @@ function insertShowInfo() {
 	
 	var showCode = checked.attr("data-showCode");
 	
-	var url = '<%=cp%>/show/detail/created?showCode=' + showCode;
+	var url = '<%=cp%>/show/article?showCode=' + showCode;
 	location.href = url;
 }
 </script>

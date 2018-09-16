@@ -25,6 +25,7 @@ public class ShowServiceImpl implements ShowService {
 		try {
 			MultipartFile mf = dto.getUpload();
 			String saveFilename = fileManager.doFileUpload(mf, pathname);
+//			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
 			if(saveFilename != null) {
 				String originalFilename = mf.getOriginalFilename();
 				dto.setSaveFilename(saveFilename);
@@ -100,14 +101,38 @@ public class ShowServiceImpl implements ShowService {
 
 	@Override
 	public Show readShow(int showCode) throws Exception {
-		 
-		return null;
+		Show dto = null;
+		try {
+			dto = dao.selectOne("show.readShow", showCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
 	}
 
 	@Override
 	public int updateShow(Show dto, String pathname) throws Exception {
-		 
-		return 0;
+		int result = 0;
+		
+		try {
+			// 업로드한 파일이 존재한 경우
+			String newSaveFileName = fileManager.doFileUpload(dto.getUpload(), pathname);
+			
+			if(newSaveFileName != null) {
+				// 이전 파일 지우기
+				if(dto.getSaveFilename().length()!=0) {
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				}
+				dto.setSaveFilename(newSaveFileName);
+				dto.setOriginalFilename(dto.getUpload().getOriginalFilename());
+			}
+			
+			result = dao.updateData("show.updateShow", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
 	}
 
 

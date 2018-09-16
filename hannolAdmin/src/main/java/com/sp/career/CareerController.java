@@ -33,6 +33,7 @@ public class CareerController {
 	public String list(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode,
 			Model model) throws Exception {
+		
 		model.addAttribute("page", page);
 		model.addAttribute("usersCode", usersCode);
 		
@@ -95,12 +96,16 @@ public class CareerController {
 		}
 
 		String paging = myUtil.paging(current_page, total_page, listUrl);
+		
+		//테마리스트값 가져가기
+		List<Career> themeList = service.themeList();
 
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("themeList", themeList);
 
 		return "/career/sub-list";
 	}
@@ -145,6 +150,10 @@ public class CareerController {
 	public String createForm(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest req,
 			@RequestParam(value = "usersCode", defaultValue = "0") int usersCode, Model model) throws Exception {
 
+		//부서, 직위리스트값 가져가기
+		List<Career> dpList = service.dpList();
+		List<Career> positionList = service.positionList();
+		
 		Staff isExist = temp.readStaff(usersCode);
 		if(isExist==null) {
 			//return "redirect:/career/list";
@@ -155,6 +164,8 @@ public class CareerController {
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		model.addAttribute("usersCode", usersCode);
+		model.addAttribute("dpList", dpList);
+		model.addAttribute("positionList", positionList);
 
 		model.addAttribute("mode", "create");
 		return ".career.info";
@@ -198,6 +209,7 @@ public class CareerController {
 		map.put("themeCode", themeCode);
 		
 		service.updateTheme(map);
+		
 		String themeName = service.selectThemeName(themeCode);
 		map.put("themeName", themeName);
 		

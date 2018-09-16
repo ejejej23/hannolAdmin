@@ -74,10 +74,9 @@ function sendOk() {
 						<c:if test="${mode=='create'}">
 							<select class="input-sm" id="dpCode" name="dpCode">
 				                 <option value="0">:::::::: 선택 ::::::::</option>
-				                 <option value="1">마케팅</option>
-				                 <option value="2">영업</option>
-				                 <option value="3">관리</option>
-				                 <option value="4">가이드</option>
+				                 <c:forEach var="vo" items="${dpList }">
+									<option value="${vo.dpCode }">${vo.dpName }</option>
+								 </c:forEach>
 			               </select>
 						</c:if>
 						<c:if test="${mode=='info'}">
@@ -93,10 +92,9 @@ function sendOk() {
 						<c:if test="${mode=='create'}">
 							<select class="input-sm" id="positionCode" name="positionCode">
 								 <option value="0">:::::::: 선택 ::::::::</option>
-				                 <option value="1">사장</option>
-				                 <option value="2">팀장</option>
-				                 <option value="3">사원</option>
-				                 <option value="4">아르바이트</option>
+				                 <c:forEach var="vo" items="${positionList }">
+									<option value="${vo.positionCode }">${vo.positionName }</option>
+								 </c:forEach>
 			               </select>
 						</c:if>
 						<c:if test="${mode=='info'}">

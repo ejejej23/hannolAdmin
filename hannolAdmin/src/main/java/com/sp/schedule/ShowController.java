@@ -59,13 +59,23 @@ public class ShowController {
 	
 	// 공연 리스트
 	@RequestMapping(value = "/show/manage", method = RequestMethod.GET)
-	public String manageShow() {
+	public String manageShow(
+			@RequestParam(value="tab", defaultValue="all") String tab,
+			@RequestParam(value="pageNo", defaultValue="1") int page,
+			Model model) {
+		
+		// model - tab
+		model.addAttribute("tab", tab);
+		model.addAttribute("pageNo", page);
+		
 		return ".show.manage";
 	}
 	
+	// 공연 리스트 - tab list
 	@RequestMapping(value="/show/{gubunCode}/list", method=RequestMethod.GET)
 	public String showList(
 			@PathVariable String gubunCode,
+			@RequestParam(value="tab", defaultValue="all") String tab,
 			@RequestParam(value="searchKey", defaultValue="all") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
 			@RequestParam(value="pageNo", defaultValue="1") int current_page,
@@ -86,7 +96,6 @@ public class ShowController {
 		map.put("searchValue", searchValue);
 		if(!gubunCode.equals("0")) {
 			map.put("gubunCode", gubunCode); ///////////////////////////////////////////// 
-		
 		}
 		
 		dataCount = service.dataCount(map);
@@ -103,31 +112,80 @@ public class ShowController {
 		
 		List<Show> list = service.listShow(map);
 		
+		String cp = req.getContextPath();
 		String paging = myUtil.paging(current_page, total_page);
+		String articleUrl = cp + "/show/article";
 		
 		model.addAttribute("list", list);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("pageNo", current_page);
 		model.addAttribute("paging", paging);
 		model.addAttribute("total_page", total_page);
+		model.addAttribute("articleUrl", articleUrl);
+		model.addAttribute("tab", tab);
 		
 		return "show/showList";
 	}
 	
 	
-	// 공연 상세 정보 
-	@RequestMapping(value = "/show/detail/created", method = RequestMethod.GET)
-	public String createDetailShowForm(
+	// 공연 정보 
+	@RequestMapping(value="/show/article", method = RequestMethod.GET)
+	public String article(
 			@RequestParam(required=true) int showCode,
-			Model model) {
-
+			@RequestParam(required=true, defaultValue="all") String tab,
+			@RequestParam(value="pageNo", defaultValue="1") String page,
+			Model model) throws Exception {
 		
-		// 순수한 공연 하나의 정보 구하고 model 에 담기
-		
-		model.addAttribute("mode", "created");
+		Show dto = service.readShow(showCode);
+		model.addAttribute("dto", dto);
+		model.addAttribute("pageNo", page);
+		model.addAttribute("tab", tab);
 
 		return ".show.article";
 	}
 	
+	// 공연 수정 폼
+	@RequestMapping(value="/show/update", method=RequestMethod.GET)
+	public String updateForm(
+			@RequestParam(required=true) int showCode,
+			@RequestParam(required=true, defaultValue="all") String tab,
+			@RequestParam(value="pageNo", defaultValue="1") String page,
+			Model model) throws Exception {
+		
+		Show dto = service.readShow(showCode);
+		model.addAttribute("dto", dto);
+		model.addAttribute("mode", "update");
+		model.addAttribute("tab", tab);
+		model.addAttribute("pageNo", page);
+		
+		return ".show.created";
+	}
+	
+	
+	// 공연 수정
+	@RequestMapping(value="/show/update", method=RequestMethod.POST)
+	public String updateSubmit(
+			@RequestParam(required=true, defaultValue="all") String tab,
+			@RequestParam(value="pageNo") String page,
+			HttpSession session,
+			Show dto) throws Exception {
+		// 저장 경로
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + File.separator + "uploads" + File.separator + "show";
+		
+		service.updateShow(dto, pathname);
+		
+		return "redirect:/show/manage?tab="+tab+"&pageNo="+page;
+	}
+	
+	// 공연 상세 정보
+	@RequestMapping(value="/show/showDetail")
+	public String detailArticle(
+			@RequestParam(value="showCode") int showCode) {
+		
+		
+		
+		return "show/showDetail";
+	}
 
 }

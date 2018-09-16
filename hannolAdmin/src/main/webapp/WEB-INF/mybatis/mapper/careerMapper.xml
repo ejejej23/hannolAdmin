@@ -60,4 +60,19 @@
 	<select id="selectThemeName" parameterType="Integer" resultType="String">
 		SELECT THEMENAME FROM THEME WHERE THEMECODE = #{themeCode}
 	</select>
+	
+	<select id="themeList" resultType="com.sp.career.Career">
+		SELECT THEMECODE, THEMENAME 
+		FROM THEME
+	</select>
+	
+	<select id="dpList" resultType="com.sp.career.Career">
+		SELECT DPCODE, DPNAME 
+		FROM DEPARTMENT
+	</select>
+	
+	<select id="positionList" resultType="com.sp.career.Career">
+		SELECT POSITIONCODE, POSITIONNAME 
+		FROM POSITION
+	</select>
 </mapper>

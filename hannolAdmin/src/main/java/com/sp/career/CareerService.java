@@ -12,4 +12,8 @@ public interface CareerService {
 	public int updateTheme(Map<String,Object> map) throws Exception;
 	public int deleteCareer(int usersCode) throws Exception;
 	public String selectThemeName(int themeCode) throws Exception;
+	
+	public List<Career> themeList();
+	public List<Career> dpList();
+	public List<Career> positionList();
 }
