@@ -136,5 +136,34 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public List<Show> listShowDate(int showInfoCode) throws Exception {
+		List<Show> list = null;
+//		try {
+//			list = dao.selectList("show.listShowDate", showInfoCode);
+//			
+//			for(Show s : list) {
+//				List<ShowSchedule> scheduleList = listShowTimeWithDate(s.getSchCode());
+//				s.setScheduleList(scheduleList);
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+		return list;
+	}
+
+
+	@Override
+	public List<ShowSchedule> listShowTimeWithDate(int schCode) throws Exception {
+		List<ShowSchedule> list = null;
+//		try {
+//			list = dao.selectList("show.listShowTimeWithDate", schCode);
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+		return list;
+	}
+
+
 
 }

@@ -47,6 +47,7 @@
 ]]>
 	</select>
 	
+	<!-- 공연의 최근 상세 정보에 해당하는 시작 시간 리스트 -->
 	<select id="listShowTime" parameterType="Integer" resultType="String">
 		select starttime 
 		from showstarttime
@@ -55,6 +56,25 @@
 		    from showSch
 		    where showinfocode = #{showInfoCode})
 	</select>
+
+
+	<!--  -->
+
+	<!-- 공연상세코드에 해당하는 공연 일정 리스트 -->
+	<select id="listShowDate" parameterType="Integer" resultType="com.sp.schedule.Show">
+		select schCode, to_char(screenDate, 'yyyy-mm-dd') screenDate
+		from showSch
+		where showInfoCode = #{showInfoCode};
+	</select>
+	
+	<!-- 공연 일정 코드에 해당하는 시작시간, 비고 리스트 -->
+	<select id="listShowTimeWithDate" parameterType="Integer" resultType="com.sp.schedule.ShowSchedule">
+		select startTime, note 
+		from showStarttime 
+		where schCode = #{schCode};
+	</select>
+	
+	
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		select nvl(count(*), 0)

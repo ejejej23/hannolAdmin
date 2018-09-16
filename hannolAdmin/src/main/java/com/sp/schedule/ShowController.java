@@ -181,8 +181,10 @@ public class ShowController {
 	// 공연 상세 정보
 	@RequestMapping(value="/show/showDetail")
 	public String detailArticle(
-			@RequestParam(value="showCode") int showCode) {
+			@RequestParam(value="showCode") int showCode,
+			Model model) {
 		
+//		List<Show> list = service.listShowDate();
 		
 		
 		return "show/showDetail";

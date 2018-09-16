@@ -7,6 +7,8 @@ public interface ShowService {
 	// 공연 구분
 //	public Map<String, Object> listShowGubun() throws Exception;
 	
+	// 삭제 고민..
+	
 	// 공연
 	public int insertShow(Show dto, String pathname) throws Exception;	// 공연 사진 저장 때문에 pathname 필요하다.
 	public int dataCount(Map<String, Object> map) throws Exception;
@@ -18,10 +20,10 @@ public interface ShowService {
 	// 공연 시간
 	public int insertShowTime(Map<String, Object> map) throws Exception;
 	public List<String> listShowTime(Integer showInfoCode) throws Exception;
-	
-	// 공연 삭제 -> 공연시간 삭제 -> 공연상세 삭제 -> 공연 일정 삭제
-	
+
 	// 공연 상세
+	public List<Show> listShowDate(int showInfoCode) throws Exception;
+	public List<ShowSchedule> listShowTimeWithDate(int schCode) throws Exception;
 	
 	// 공연 일정
 }
