@@ -1,4 +1,4 @@
-package com.sp.rides;
+package com.sp.facility;
 
 import java.util.List;
 import java.util.Map;
@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
 
-@Service("rides.ridesService")
-public class RidesServiceImpl implements RidesService{
+@Service("facility.facilityService")
+public class FacilityServiceImpl implements FacilityService{
 	
 	@Autowired
 	private CommonDAO dao;
 	
 	@Override
-	public int insertRides(Rides dto) {
+	public int insertFacility(Facility dto) {
 		int result=0;
 		try {
-			dao.insertData("rides.insertRides",dto);
+			dao.insertData("facility.insertFacility",dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -26,12 +26,12 @@ public class RidesServiceImpl implements RidesService{
 	}
 
 	@Override
-	public int updateRides(Rides dto) {
+	public int updateFacility(Facility dto) {
 		int result = 0;
 		try {
 			System.out.println("update하러 들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
 
-			dao.updateData("rides.updateRides", dto);
+			dao.updateData("facility.updateFacility", dto);
 			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -43,16 +43,16 @@ public class RidesServiceImpl implements RidesService{
 	}
 
 	@Override
-	public int deleteRides(int num) {
+	public int deleteFacility(int num) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	@Override
-	public List<Rides> listRides(Map<String, Object> map) {
-		List<Rides> list = null;
+	public List<Facility> listFacility(Map<String, Object> map) {
+		List<Facility> list = null;
 		try {
-			list = dao.selectList("rides.listRides",map);
+			list = dao.selectList("facility.listFacility",map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -71,10 +71,10 @@ public class RidesServiceImpl implements RidesService{
 	}
 
 	@Override
-	public Rides readRides(int num) {
-		Rides dto=null;
+	public Facility readFacility(int num) {
+		Facility dto=null;
 		try {
-			dto=dao.selectOne("rides.readRides",num);
+			dto=dao.selectOne("facility.readFacility",num);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

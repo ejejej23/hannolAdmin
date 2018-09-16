@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="rides">
+<mapper namespace="facility">
 	
-	<insert id="insertRides" parameterType="com.sp.rides.Rides">
+	<insert id="insertFacility" parameterType="com.sp.facility.Facility">
 	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
 	  VALUES (rides_seq.NEXTVAL, #{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
 	</insert>
@@ -32,7 +32,7 @@
 	<!-- 글개수 -->
 	<select id="dataCount" parameterType="map"
 	            resultType="Integer">
-	  SELECT NVL(COUNT(*), 0) FROM Rides 
+	  SELECT NVL(COUNT(*), 0) FROM Facility 
 	     <where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>
@@ -40,16 +40,15 @@
 	     </where>   
 	</select>
 
-	<!-- 놀이기구리스트 -->
-	<select id="listOnlyRides" parameterType="map"
-	            resultType="com.sp.rides.Rides">
+	<!-- 시설리스트 -->
+	<select id="listFacility" parameterType="map"
+	            resultType="com.sp.facility.Facility">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
-                FROM rides r
-                JOIN facility f ON r.facilityCode = f.facilityCode
-                JOIN theme t ON f.themeCode = t.themeCode
-                JOIN genre g ON g.genreCode = r.genreCode
+			    select facilityCode, name, themeName, state, installDate, removeDate, saveMainFilename, 
+				saveLocFilename, memo 
+				from facility f
+				join theme t on f.themeCode=t.themeCode
                     <where>
                          <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
@@ -64,10 +63,10 @@
 	
 
 	<!-- 글리스트 -->
-	<select id="listRides" resultType="com.sp.rides.Rides">
+	<select id="listRides" resultType="com.sp.facility.Facility">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, TO_CHAR(installDate, 'YYYY"년" MM"월" DD"일"')installDate, removeDate, state
+			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, installDate, removeDate, state
                 FROM rides r
                 JOIN facility f ON r.facilityCode = f.facilityCode
                 JOIN theme t ON f.themeCode = t.themeCode
@@ -85,7 +84,16 @@
 	]]>
 	</select>
 	
-	<update id="updateRides" parameterType="com.sp.rides.Rides">
+	<update id="updateFacility" parameterType="com.sp.facility.Facility">
 		UPDATE rides SET gubunCode=#{gubunCode} WHERE facilityCode=#{facilityCode}
 	</update>
+	
+	<select id="readFacility" resultType="com.sp.facility.Facility" parameterType="Integer">
+		select facilityCode, name, themeName, state, installDate, removeDate, saveMainFilename, 
+		saveLocFilename, memo 
+		from facility f
+		join theme t on f.themeCode=t.themeCode
+		where facilityCode=#{facilityCode}
+	</select>
+	
 </mapper>

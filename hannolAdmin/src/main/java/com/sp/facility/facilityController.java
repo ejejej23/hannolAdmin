@@ -1,4 +1,4 @@
-package com.sp.rides;
+package com.sp.facility;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,57 +14,50 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
 import com.sp.staff.SessionInfo;
 
-@Controller("rides.ridesController")
-public class RidesController {
+@Controller("facility.facilityController")
+public class facilityController {
 	
 	@Autowired
-	private RidesService service;
+	private FacilityService service;
 	
 	@Autowired
 	private MyUtil myUtil;
 	
-	@RequestMapping(value="/rides/created", method=RequestMethod.GET)
+	@RequestMapping(value="/facility/created", method=RequestMethod.GET)
 	public String createdForm(Model model) throws Exception{
 		
 		model.addAttribute("mode","created");
 		
-		return ".rides.created";
+		return ".facility.created";
 	}
 	
-	@RequestMapping(value="/rides/created", method=RequestMethod.POST)
-	public String createdSubmit(Rides dto, HttpSession session) throws Exception{
+	@RequestMapping(value="/facility/created", method=RequestMethod.POST)
+	public String createdSubmit(Facility dto, HttpSession session) throws Exception{
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("staff");
 		
 		dto.setUsersCode(info.getStaffIdx());
-		service.insertRides(dto);
+		service.insertFacility(dto);
 		
 		return "redirect:/rides/list";
 	}
 	
-	@RequestMapping(value = "/rides/list")
-	public String list(@RequestParam(value = "page", defaultValue = "1") int page,Model model) {
-		System.out.println("ㅣist들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+	@RequestMapping(value = "/facility/list")
+	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpServletRequest req, Model model) throws Exception{
 
-		model.addAttribute("page",page);
-		return ".rides.list";
-	}
-	
-	@RequestMapping(value="/rides/getlist")
-	public String list(@RequestParam(value="page",defaultValue="1") int current_page,
-						HttpServletRequest req, Model model) throws Exception{
 		String cp = req.getContextPath();
-		
+
 		int rows =10;
 		int total_page=0;
 		int dataCount=0;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		dataCount = service.dataCount(map);
 		if(dataCount != 0)
 			total_page = myUtil.pageCount(rows, dataCount);
@@ -77,59 +70,57 @@ public class RidesController {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<Rides> ridesList=service.listRides(map);
+		List<Facility> facilityList=service.listFacility(map);
 		
 		// 리스트의 번호
 		int listNum, n = 0;
-		Iterator<Rides> it = ridesList.iterator();
+		Iterator<Facility> it = facilityList.iterator();
 		while (it.hasNext()) {
-			Rides data = it.next();
+			Facility data = it.next();
 			listNum = dataCount - (start + n - 1);
 			data.setListNum(listNum);
 			n++;
 		}
 		
 		String query = "";
-		String listUrl = cp + "/rides/list";
-		String articleUrl = cp + "/rides/article?page=" + current_page;
+		String listUrl = cp + "/facility/list";
+		String articleUrl = cp + "/facility/article?page=" + current_page;
 
 		if (query.length() != 0) {
-			listUrl = cp + "/rides/list?" + query;
-			articleUrl = cp + "/rides/article?page=" + current_page + "&" + query;
+			listUrl = cp + "/facility/list?" + query;
+			articleUrl = cp + "/facility/article?page=" + current_page + "&" + query;
 		}
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 
-		model.addAttribute("list",ridesList);
+		
+		model.addAttribute("list",facilityList);
 		model.addAttribute("page", current_page);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);
 		model.addAttribute("total_page", total_page);
-
-		return "/rides/sub-list";
+		
+		return ".facility.list";
 	}
-
-
-	@RequestMapping(value="/rides/update")
-	public String update(@RequestParam(value="lists[]")  String[] lists,
-			@RequestParam(value="selCode") int selCode) {
-		if(lists.length==0) {
-			System.out.println("선택된 체크가 없음");
+	// 시설 정보 보기 : AJAX-JSON
+	@RequestMapping(value="/facility/article", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> article(@RequestParam(value="num") int num) throws Exception{
+		String state = "true";
+		
+		//글정보 받아오기
+		Facility dto = null;
+		dto = service.readFacility(num);
+		if(dto==null) {
+			state = "false";
 		}
 		
-		Rides dto = new Rides();
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("vo", dto);
 		
-		for(int i=0; i<lists.length; i++) {
-			System.out.println(lists[i]);
-			int code = Integer.parseInt(lists[i]);  
-			dto.setFacilityCode(code);
-			dto.setGubunCode(selCode);
-			service.updateRides(dto);
-		}
-		
-		System.out.println("다 갔다왔당~!");
-		
-		return ".rides.list";
+		return model;
 	}
-
+	
+	
 }
