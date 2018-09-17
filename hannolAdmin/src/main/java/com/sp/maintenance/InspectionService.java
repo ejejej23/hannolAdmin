@@ -10,4 +10,6 @@ public interface InspectionService {
 	public int dataCount(Map<String, Object> map);
 	public List<Inspection> listInspection(Map<String, Object> map);
 	public Inspection readInspection(int num);
+	public int updateInspection(Inspection dto);
+	public int deleteInspection(int num);
 }

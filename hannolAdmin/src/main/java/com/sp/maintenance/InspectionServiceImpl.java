@@ -86,4 +86,28 @@ public class InspectionServiceImpl implements InspectionService{
 		return dto;
 	}
 
+	@Override
+	public int updateInspection(Inspection dto) {
+		int result = 0;
+		
+		try {
+			result = dao.updateData("inspection.updateInspection", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteInspection(int num) {
+		int result = 0;
+		
+		try {
+			result = dao.deleteData("inspection.deleteInspection", num);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

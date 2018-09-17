@@ -18,17 +18,35 @@
 		INSERT INTO checks(checkCode, checkDate, memo, state, facilityCode) VALUES (check_seq.NEXTVAL, #{checkDate}, #{memo}, #{state}, #{facilityCode})
 	</insert>
 	
+	<!-- 상태 검색 -->
+	<sql id="statewhere-list">
+		<if test="searchState==null or searchState==''">
+			c.state IN (1, 0)
+		</if>
+		<if test="searchState=='1'">
+			c.state = '1'
+		</if>
+		<if test="searchState=='0'">
+			c.state = '0'
+		</if>
+	</sql>
+	
 	<!-- 검색 -->
 	<sql id="where-list">
 		<if test="searchKey=='kind'">
-			INSTR(g.name, #{searchValue}) &gt; 0
+			AND (INSTR(g.name, #{searchValue}) &gt; 0)
 		</if>
 		<if test="searchKey=='name'">
-			INSTR(lower(f.name), lower(#{searchValue})) &gt; 0
+			AND (INSTR(lower(f.name), lower(#{searchValue})) &gt; 0)
 		</if>
 		<if test="searchKey=='content'">
-			INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0
+			AND (INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0)
 		</if>
+	</sql>
+	
+	<!-- 날짜 검색 -->
+	<sql id="datewhere-list">
+		AND (checkDate &gt;= #{searchStartDate} and checkDate&lt;=#{searchEndDate})
 	</sql>
 	
 	<!-- 데이터 개수 -->
@@ -38,9 +56,15 @@
 		    FROM checks c
 		    LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
 		    LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
-		    <where>
+			<where>
+				<include refid="statewhere-list"/> 
+		
 				<if test="searchValue!=null and searchValue!=''">
 					<include refid="where-list"/>
+				</if>
+			
+				<if test="searchStartDate!=null and searchStartDate!=''">
+					<include refid="datewhere-list"/> 
 				</if>
 			</where>
 		)
@@ -58,18 +82,36 @@
 		        	<if test="searchValue!=null and searchValue!=''">
 		        		<include refid="where-list"/>
 		        	</if>
-		        </where>
-		        ORDER BY checkCode DESC
+		    
+					<if test="searchState!=null and searchState!=''">
+						<include refid="statewhere-list"/> 
+					</if>
+					
+					<if test="searchStartDate!=null and searchStartDate!=''">
+						<include refid="datewhere-list"/> 
+					</if>
+				</where>
+		        ORDER BY checkDate DESC
 		    )tb WHERE ROWNUM &lt;= #{end}
 		)WHERE rnum &gt;= #{start}
 	</select>
 	
 	<!-- 점검 글보기 -->
 	<select id="readInspection" resultType="com.sp.maintenance.Inspection" parameterType="Integer">
-		SELECT checkCode, g.name facGubunName, f.name facilityName, c.memo, c.state, checkDate
+		SELECT checkCode, g.gubunCode, g.name facGubunName, f.facilityCode, f.name facilityName, c.memo, c.state, TO_CHAR(checkDate, 'YYYY-MM-DD') checkDate
 		FROM checks c
 		LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
 		LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
 		WHERE checkCode = #{num}
 	</select>
+	
+	<!-- 점검 수정 -->
+	<update id="updateInspection" parameterType="com.sp.maintenance.Inspection">
+		UPDATE checks SET checkDate = #{checkDate}, state = #{state}, memo = #{memo} WHERE checkCode = #{checkCode}
+	</update>
+	
+	<!-- 점검 삭제 -->
+	<delete id="deleteInspection" parameterType="Integer">
+		DELETE FROM checks WHERE checkCode = #{num}
+	</delete>
 </mapper>

@@ -33,9 +33,14 @@ public class InspectionController {
 	public String list(@RequestParam (value="page", defaultValue="1") int current_page,
 			@RequestParam (value="searchKey", defaultValue="kind") String searchKey,
 			@RequestParam (value="searchValue", defaultValue="") String searchValue,
+			@RequestParam(value="searchState", defaultValue="") String searchState,
+			@RequestParam(value="searchStartDate", defaultValue="") String searchStartDate,
+			@RequestParam(value="searchEndDate", defaultValue="") String searchEndDate,
 			HttpServletRequest req,
 			Model model) throws Exception{
-		
+			
+		System.out.println(searchStartDate);
+		System.out.println(searchEndDate);
 		//get방식일 경우만 디코딩딩
 		if(req.getMethod().equalsIgnoreCase("GET"))
 			searchValue = URLDecoder.decode(searchValue, "utf-8");
@@ -44,6 +49,9 @@ public class InspectionController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchKey", searchKey);
 		map.put("searchValue", searchValue);
+		map.put("searchState", searchState);
+		map.put("searchStartDate",searchStartDate);
+		map.put("searchEndDate", searchEndDate);
 		
 		int rows = 10; //한페이지에 보여일 데이터 개수
 		int dataCount, total_page = 0;
@@ -159,6 +167,39 @@ public class InspectionController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		model.put("dto", dto);
+		
+		return model;
+	}
+	
+	//글수정 : AJAX-JSON
+	@RequestMapping(value="/inspection/update", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> update(Inspection dto) throws Exception{
+		
+		String state = "true";
+		
+		int result = service.updateInspection(dto);
+		if(result==0) 
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		return model;
+	}
+	
+	//글삭제 : AJAX-JSON
+	@RequestMapping(value="/inspection/delete", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam(value="checkCode") int checkCode) throws Exception{
+		
+		String state = "true";
+		
+		int result = service.deleteInspection(checkCode);
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
 		
 		return model;
 	}
