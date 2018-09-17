@@ -33,7 +33,7 @@ public class InspectionController {
 	public String list(@RequestParam (value="page", defaultValue="1") int current_page,
 			@RequestParam (value="searchKey", defaultValue="kind") String searchKey,
 			@RequestParam (value="searchValue", defaultValue="") String searchValue,
-			@RequestParam(value="searchState", defaultValue="") String searchState,
+			@RequestParam(value="searchState", defaultValue="2") String searchState,
 			@RequestParam(value="searchStartDate", defaultValue="") String searchStartDate,
 			@RequestParam(value="searchEndDate", defaultValue="") String searchEndDate,
 			HttpServletRequest req,

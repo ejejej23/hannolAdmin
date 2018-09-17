@@ -20,34 +20,35 @@
 	
 	<!-- 상태 검색 -->
 	<sql id="statewhere-list">
-		<if test="searchState==null or searchState==''">
-			c.state IN (1, 0)
+		<if test="searchState==2">
+			(c.state IN (1, 0))
 		</if>
-		<if test="searchState=='1'">
-			c.state = '1'
+		<if test="searchState==1">
+			(c.state = '1')
 		</if>
-		<if test="searchState=='0'">
-			c.state = '0'
-		</if>
-	</sql>
-	
-	<!-- 검색 -->
-	<sql id="where-list">
-		<if test="searchKey=='kind'">
-			AND (INSTR(g.name, #{searchValue}) &gt; 0)
-		</if>
-		<if test="searchKey=='name'">
-			AND (INSTR(lower(f.name), lower(#{searchValue})) &gt; 0)
-		</if>
-		<if test="searchKey=='content'">
-			AND (INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0)
+		<if test="searchState==0"> 
+			(c.state = '0')
 		</if>
 	</sql>
 	
 	<!-- 날짜 검색 -->
 	<sql id="datewhere-list">
-		AND (checkDate &gt;= #{searchStartDate} and checkDate&lt;=#{searchEndDate})
+		and (checkDate &gt;= #{searchStartDate} and checkDate&lt;=#{searchEndDate})
 	</sql>
+	
+	<!-- 검색 -->
+	<sql id="where-list">
+		<if test="searchKey=='kind'">
+			and (INSTR(g.name, #{searchValue}) &gt; 0)
+		</if>
+		<if test="searchKey=='name'">
+			and (INSTR(lower(f.name), lower(#{searchValue})) &gt; 0)
+		</if>
+		<if test="searchKey=='content'">
+			and (INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0)
+		</if>
+	</sql>
+	
 	
 	<!-- 데이터 개수 -->
 	<select id="dataCount" resultType="Integer" parameterType="map">
@@ -78,15 +79,13 @@
 		        FROM checks c
 		        LEFT OUTER JOIN facility f ON c.facilityCode = f.facilityCode
 		        LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
-		        <where>
-		        	<if test="searchValue!=null and searchValue!=''">
-		        		<include refid="where-list"/>
-		        	</if>
-		    
-					<if test="searchState!=null and searchState!=''">
-						<include refid="statewhere-list"/> 
+		     	<where>
+					<include refid="statewhere-list"/> 
+		
+					<if test="searchValue!=null and searchValue!=''">
+						<include refid="where-list"/>
 					</if>
-					
+				
 					<if test="searchStartDate!=null and searchStartDate!=''">
 						<include refid="datewhere-list"/> 
 					</if>

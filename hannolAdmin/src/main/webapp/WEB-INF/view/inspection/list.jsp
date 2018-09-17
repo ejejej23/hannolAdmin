@@ -25,10 +25,13 @@
 	
 	/*search*/
 	.datepickerBox{display:inline-block;}
-	.datepickerBox .datepicker{width:140px;} 
+	.datepickerBox .datepicker{width:175px;}  
 	input[type=radio].boxR{margin:0 0px 0 11px; vertical-align:middle;} 
 	input[type=radio].boxR:first-child{margin-left:0;} 
 	 
+	.datepicker + img{width:22px; margin:0px 0px 0px -31px; padding-left:8px; border-left:1px solid #dddddd; cursor:pointer;}
+
+
 	/**modal**/
 	.modalTable{width:100%; margin-top:20px; color:#444444;}
 	.modalTable th,
@@ -150,7 +153,7 @@
 	
 	//datepicker
 	$(function(){
-		$(".datepicker").datepicker({
+		$("input[name=checkDate]").datepicker({
 			dateFormat:'yy-mm-dd',
 			showOn:"both",
 	        buttonImage:"<%=cp%>/resource/images/date24.png",
@@ -160,14 +163,43 @@
 	        maxDate:0
 		});
 		
-		$(".datepicker").next("img").css({
-				"margin":"-1px 0px 0px -31px", 
-				"width":"23px", 
-				"cursor":"pointer", 
-				"border-left":"1px solid #dddddd", 
-				"padding-left":"8px"});  	
+		//검색 시작날짜
+		$("input[name=searchStartDate]").datepicker({
+			dateFormat:'yy-mm-dd',
+			showOn:"both",
+	        buttonImage:"<%=cp%>/resource/images/date24.png",
+	        buttonImageOnly:true,
+	        showAnim:"slideDown",
+	        buttonText:"선택",
+	        maxDate:0,
+	        onSelect:function(selected){
+	        	if(!$("input[name=searchEndDate]").val()){ 
+	        		$("input[name=searchEndDate]").val(selected); 
+	        	}
+	        		
+	        	$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
+	        
+	        }
+		}); 
+		//검색 마지막 날짜
+		$("input[name=searchEndDate]").datepicker({
+			dateFormat:'yy-mm-dd',
+			showOn:"both",
+	        buttonImage:"<%=cp%>/resource/images/date24.png",
+	        buttonImageOnly:true,
+	        showAnim:"slideDown",
+	        buttonText:"선택",
+	        maxDate:0, 
+	        onSelect:function(selected){
+	        	if(!$("input[name=searchStartDate]").val()){
+	        		$("input[name=searchStartDate]").val(selected);
+	        	}   
+	        	
+		        $("input[name=searchStartDate]").datepicker("option", "maxDate", selected);
+	        	
+	        }
+		});	
 	});
-	
 	
 	
 	//점검 등록
@@ -361,9 +393,9 @@
 				<tr>
 					<th>상태</th> 
 					<td> 
-						<input type="radio" name="searchState" value="" class="boxR" checked="checked"> 전체
+						<input type="radio" name="searchState" value="2" class="boxR" checked="checked"> 전체
 						<input type="radio" name="searchState" value="1" class="boxR"> 양호
-						<input type="radio" name="searchState" value="0" class="boxR"> 주의 
+						<input type="radio" name="searchState" value="0" class="boxR"> 주의  
 					</td>   
 				</tr> 
 				<tr height="40">
@@ -371,14 +403,7 @@
 					<td>
 						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly"></span> ~ 
 						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"></span>
-						<select name="" class="selectField">
-							<option value="">::</option> 
-							<option value="">오늘</option>
-							<option value="">일주일</option>
-							<option value="">한달</option>
-							<option value="">일년</option>
-						</select> 
-					</td> 
+					</td>  
 				</tr>
 				<tr>
 					<th>검색</th> 
