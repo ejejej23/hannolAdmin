@@ -19,11 +19,12 @@ public interface ShowService {
 
 	// 공연 시간
 	public int insertShowTime(Map<String, Object> map) throws Exception;
-	public List<String> listShowTime(Integer showInfoCode) throws Exception;
+	public List<String> listShowTime(int showInfoCode) throws Exception;
 
 	// 공연 상세
-	public List<Show> listShowDate(int showInfoCode) throws Exception;
-	public List<ShowSchedule> listShowTimeWithDate(int schCode) throws Exception;
+	public List<ShowInfo> listShowInfo(int showCode) throws Exception;
+	public List<ShowSchedule> listShowSchedule(int showInfoCode) throws Exception;
+	public List<ShowStartTime> listShowStartTime(int schCode) throws Exception;
 	
 	// 공연 일정
 }

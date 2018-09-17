@@ -10,11 +10,7 @@ public class Show {
 	private int facilityCode;
 	private int gubunCode;
 	private int showInfoCode;
-	
-//	private int schCode;						// 일정코드
-//	private String screenDate;					// 상영날짜
-//	private List<ShowSchedule> scheduleList;	// 시작시간, 비고 리스트
-	
+
 	private String gubunName;
 	private String showName;
 	private String memo;
@@ -27,27 +23,14 @@ public class Show {
 	private MultipartFile upload;
 	private List<String> showTime; 
 	
+	private List<ShowInfo> showInfoList;
 	
-	
-//	
-//	public int getSchCode() {
-//		return schCode;
-//	}
-//	public void setSchCode(int schCode) {
-//		this.schCode = schCode;
-//	}
-//	public String getScreenDate() {
-//		return screenDate;
-//	}
-//	public void setScreenDate(String screenDate) {
-//		this.screenDate = screenDate;
-//	}
-//	public List<ShowSchedule> getScheduleList() {
-//		return scheduleList;
-//	}
-//	public void setScheduleList(List<ShowSchedule> scheduleList) {
-//		this.scheduleList = scheduleList;
-//	}
+	public List<ShowInfo> getShowInfoList() {
+		return showInfoList;
+	}
+	public void setShowInfoList(List<ShowInfo> showInfoList) {
+		this.showInfoList = showInfoList;
+	}
 	public String getStartdate() {
 		return startdate;
 	}

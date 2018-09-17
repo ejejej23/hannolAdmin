@@ -77,7 +77,7 @@ public class ShowServiceImpl implements ShowService {
 
 	
 	@Override
-	public List<String> listShowTime(Integer showInfoCode) throws Exception {
+	public List<String> listShowTime(int showInfoCode) throws Exception {
 		List<String> list = null;
 		try {
 			list = dao.selectList("show.listShowTime", showInfoCode);
@@ -137,32 +137,48 @@ public class ShowServiceImpl implements ShowService {
 
 
 	@Override
-	public List<Show> listShowDate(int showInfoCode) throws Exception {
-		List<Show> list = null;
-//		try {
-//			list = dao.selectList("show.listShowDate", showInfoCode);
-//			
-//			for(Show s : list) {
-//				List<ShowSchedule> scheduleList = listShowTimeWithDate(s.getSchCode());
-//				s.setScheduleList(scheduleList);
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.toString());
-//		}
+	public List<ShowInfo> listShowInfo(int showCode) throws Exception {
+		List<ShowInfo> list = null;
+		try {
+			list = dao.selectList("show.listShowInfo", showCode);
+			for(ShowInfo si : list) {
+				List<ShowSchedule> sList = listShowSchedule(si.getShowInfoCode());
+				si.setShowScheduleList(sList);
+				List<String> showtimeList = listShowTime(si.getShowInfoCode());
+				si.setShowTime(showtimeList);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 		return list;
 	}
-
 
 	@Override
-	public List<ShowSchedule> listShowTimeWithDate(int schCode) throws Exception {
+	public List<ShowSchedule> listShowSchedule(int showInfoCode) throws Exception {
 		List<ShowSchedule> list = null;
-//		try {
-//			list = dao.selectList("show.listShowTimeWithDate", schCode);
-//		} catch (Exception e) {
-//			System.out.println(e.toString());
-//		}
+		try {
+			list = dao.selectList("show.listShowSchedule", showInfoCode);
+			for(ShowSchedule ss : list) {
+				List<ShowStartTime> slist = listShowStartTime(ss.getSchCode());
+				ss.setShowStartTimeList(slist);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 		return list;
 	}
+
+	@Override
+	public List<ShowStartTime> listShowStartTime(int schCode) throws Exception {
+		List<ShowStartTime> list = null;
+		try {
+			list = dao.selectList("show.listShowStartTime", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 
 
 

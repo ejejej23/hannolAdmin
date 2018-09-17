@@ -18,7 +18,6 @@
 		values(#{showTime}, #{showCode})	
 	</insert>
 	
-	
 	<!-- 일단 리스트만 나오도록 -->
 	<select id="listShow" parameterType="map" resultType="com.sp.schedule.Show">
 	select * from (
@@ -47,7 +46,7 @@
 ]]>
 	</select>
 	
-	<!-- 공연의 최근 상세 정보에 해당하는 시작 시간 리스트 -->
+	<!-- 공연상세코드에 해당하는 시작 시간 리스트 -->
 	<select id="listShowTime" parameterType="Integer" resultType="String">
 		select starttime 
 		from showstarttime
@@ -56,25 +55,40 @@
 		    from showSch
 		    where showinfocode = #{showInfoCode})
 	</select>
-
-
-	<!--  -->
-
-	<!-- 공연상세코드에 해당하는 공연 일정 리스트 -->
-	<select id="listShowDate" parameterType="Integer" resultType="com.sp.schedule.Show">
+	
+	
+	
+	
+	
+	
+	
+	<!-- 하나의 공연코드 - 공연상세 리스트 -->
+	<select id="listShowInfo" parameterType="Integer" resultType="com.sp.schedule.ShowInfo">
+		select showInfoCode, to_char(startDate, 'yyyy-mm-dd') startDate, to_char(endDate, 'yyyy-mm-dd') endDate, 
+		    runningTime, f.facilityCode, name
+		from showInfo s join facility f
+		on s.facilityCode = f.facilityCode
+		where showCode = #{showCode}
+	</select>
+	
+	<!-- 하나의 공연상세코드 - 공연일정 리스트 -->
+	<select id="listShowSchedule" parameterType="Integer" resultType="com.sp.schedule.ShowSchedule">
 		select schCode, to_char(screenDate, 'yyyy-mm-dd') screenDate
 		from showSch
-		where showInfoCode = #{showInfoCode};
+		where showInfoCode = #{showInfoCode}
 	</select>
 	
-	<!-- 공연 일정 코드에 해당하는 시작시간, 비고 리스트 -->
-	<select id="listShowTimeWithDate" parameterType="Integer" resultType="com.sp.schedule.ShowSchedule">
-		select startTime, note 
-		from showStarttime 
-		where schCode = #{schCode};
+	<!-- 하나의 일정코드 - 공연-시작시간 리스트 -->
+	<select id="listShowStartTime" parameterType="Integer" resultType="com.sp.schedule.ShowStartTime">
+		select sStartCode, startTime, note
+		from showStartTime
+		where schCode = #{schCode}
 	</select>
 	
 	
+	
+	
+
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		select nvl(count(*), 0)

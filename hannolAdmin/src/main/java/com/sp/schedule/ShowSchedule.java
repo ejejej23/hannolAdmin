@@ -1,19 +1,28 @@
 package com.sp.schedule;
 
+import java.util.List;
+
 public class ShowSchedule {
-	String startTime;
-	String note;
+	int schCode;
+	String screenDate;
+	List<ShowStartTime> showStartTimeList;
 	
-	public String getStartTime() {
-		return startTime;
+	public int getSchCode() {
+		return schCode;
 	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setSchCode(int schCode) {
+		this.schCode = schCode;
 	}
-	public String getNote() {
-		return note;
+	public String getScreenDate() {
+		return screenDate;
 	}
-	public void setNote(String note) {
-		this.note = note;
+	public void setScreenDate(String screenDate) {
+		this.screenDate = screenDate;
+	}
+	public List<ShowStartTime> getShowStartTimeList() {
+		return showStartTimeList;
+	}
+	public void setShowStartTimeList(List<ShowStartTime> showStartTimeList) {
+		this.showStartTimeList = showStartTimeList;
 	}
 }

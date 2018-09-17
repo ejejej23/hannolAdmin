@@ -161,7 +161,6 @@ public class ShowController {
 		return ".show.created";
 	}
 	
-	
 	// 공연 수정
 	@RequestMapping(value="/show/update", method=RequestMethod.POST)
 	public String updateSubmit(
@@ -182,10 +181,12 @@ public class ShowController {
 	@RequestMapping(value="/show/showDetail")
 	public String detailArticle(
 			@RequestParam(value="showCode") int showCode,
-			Model model) {
-		
-//		List<Show> list = service.listShowDate();
-		
+			Model model) throws Exception {
+		// 공연에 대한 공연상세 리스트
+			// ㄴ 공연상세에 대한 공연일정 리스트
+				// ㄴ 공연일정에 대한 공연시작시간 리스트
+		List<ShowInfo> list = service.listShowInfo(showCode);
+		model.addAttribute("list", list);
 		
 		return "show/showDetail";
 	}
