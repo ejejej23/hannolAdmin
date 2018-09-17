@@ -8,26 +8,27 @@
 
 
 <script type="text/javascript">
-		var dataset = [
+	var dataset = [
     <c:forEach var="listview" items="${listview}" varStatus="status">
-    <c:if test="${listview.tsstartdate != ''}">
-        {"id":'<c:out value="${listview.tsno}" />'
-        ,"title":'<c:out value="${listview.tstitle}" />'
-        ,"start":"<c:out value="${listview.tsstartdate}" />"
-        <c:if test="${listview.tsenddate != ''}">
-            ,"end":"<c:out value="${listview.tsenddate}" />"
-        </c:if>
-        } <c:if test="${!status.last}">,</c:if>
-    </c:if>
-</c:forEach>
+	    <c:if test="${listview.tsstartdate != ''}">
+	        {"id":'<c:out value="${listview.tsno}" />'
+	        ,"title":'<c:out value="${listview.tstitle}" />'
+	        ,"start":"<c:out value="${listview.tsstartdate}" />"
+	        <c:if test="${listview.tsenddate != ''}">
+	            ,"end":"<c:out value="${listview.tsenddate}" />"
+	        </c:if>
+	        } <c:if test="${!status.last}">,</c:if>
+	    </c:if>
+	</c:forEach>
 ];
 
 $(document).ready(function() {
 $('#calendar').fullCalendar({
+
     header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,basicWeek,basicDay'
+         right: 'month,basicWeek,basicDay' 
     },
     defaultDate: new Date(),
     navLinks: true, 
@@ -63,26 +64,24 @@ $(function(){
 });
 
 function sendGuide(){
-	<%-- var url = "<%=cp%>/career/themeUpdate";
-	var usersCode = ${usersCode};
-	var themeCode = $("#themeCode").val();
+	var url = "<%=cp%>/guide/insertGuide";
 	
- 	var query = "page="+${page}+"&usersCode="+usersCode+"&themeCode="+themeCode;
+ 	var query = $("#insertForm").serialize();
  	
 	// AJAX-POST
-	$.ajax({
+	 $.ajax({
 		type:"post"
 		,url:url	//서버의 주소
 		,data:query	//서버로 보내는 값
+		,dataType:"json"
 		,success:function(data){
-			$("#resultLayout").html("수정완료!");
-			$("#themeLayout").html("테마배치 : "+data.themeName);
+			$("#resultLayout").html("추가완료!");
 		}
 		,error:function(e){
 			console.log(e.responseText);
 			$("#resultLayout").html("에러발생!");	
 		}
-	});  --%>
+	});   
 }
 
 	$(function() {
@@ -92,6 +91,10 @@ function sendGuide(){
 			buttonImage : "<%=cp%>/resource/images/calendar.gif",
 			buttonImageOnly : true,
 			showMonthAfterYear : true
+			,onClose: function( selectedDate ) {
+	              $("#endDate").datepicker( "option", "minDate", selectedDate );
+	           }
+
 		})
 	})
 	
@@ -102,6 +105,10 @@ function sendGuide(){
 			buttonImage : "<%=cp%>/resource/images/calendar.gif",
 			buttonImageOnly : true,
 			showMonthAfterYear : true
+			,onClose: function( selectedDate ) {
+	               $("#startDate").datepicker( "option", "maxDate", selectedDate );
+	           }
+
 		})
 	})
 </script>
@@ -120,16 +127,18 @@ function sendGuide(){
                 <button type="button" name="insertBtn" class="btn btn-default">일정추가</button>
           
     </div>
+    
+    <div id="resultLayout"></div>
    
 </div>
 
 	<div id="insertModal" class="modal">
-		<form name="insertForm">
+		<form name="insertForm" id="insertForm">
 			<table class="modalTable">
 				<tr>
 					<th scope="row">가이드 선택</th>
 					<td>
-						<select class="input-sm" id="guideCode" name="guideCode">
+						<select class="input-sm" id="usersCode" name="usersCode">
 							 <option value="0">::::::::: 선택 :::::::::</option>
 							 <c:forEach var="vo" items="${staffList }">
 							 	<option value="${vo.usersCode }">${vo.usersCode } : ${vo.name }</option>
@@ -152,7 +161,7 @@ function sendGuide(){
 				<tr>
 					<th scope="row">구분</th>
 					<td>
-						<select class="input-sm" id="gubunCode" name="gubunCode" >
+						<select class="input-sm" id="timezone" name="timezone" >
 							 <option value="0">::::::::: 선택 :::::::::</option>
 							 <option value="1">오전</option>
 							 <option value="2">오후</option>
@@ -179,7 +188,7 @@ function sendGuide(){
 					</td>
 				</tr>
 			</table>
-			
+
 			<div class="btnBox">
 		        <button type="button" class="btn btn-default" onClick="sendGuide()" id="btnSendOk">확인</button>
 		    </div>

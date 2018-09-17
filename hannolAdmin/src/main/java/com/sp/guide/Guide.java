@@ -8,6 +8,7 @@ public class Guide {
 	private int timezone;
 	private String startDate;
 	private String endDate;
+	private String workDate;
 	private String role;
 	private String memo;
 	
@@ -23,6 +24,14 @@ public class Guide {
 	//예약자정보
 	private String memberId;
 	private String memberName;
+	
+	
+	public String getWorkDate() {
+		return workDate;
+	}
+	public void setWorkDate(String workDate) {
+		this.workDate = workDate;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}

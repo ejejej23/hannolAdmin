@@ -7,4 +7,13 @@
 		FROM STAFF 
 		WHERE DPCODE=4 AND POSITIONCODE=4
 	</select>
+	
+	<insert id="insertGuide" parameterType="com.sp.guide.Guide">
+		INSERT INTO GUIDE(SCHCODE, GUIDENAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE)
+		VALUES(GUIDE_SEQ.NEXTVAL, #{name}, #{timezone}, #{workDate}, #{role}, #{memo}, #{usersCode})
+	</insert>
+	
+	<select id="getName" parameterType="Integer" resultType="String">
+		SELECT NAME FROM STAFF WHERE USERSCODE= #{usersCode}
+	</select>
 </mapper>
