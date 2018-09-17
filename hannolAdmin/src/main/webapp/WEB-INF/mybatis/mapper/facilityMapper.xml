@@ -4,8 +4,8 @@
 <mapper namespace="facility">
 	
 	<insert id="insertFacility" parameterType="com.sp.facility.Facility">
-	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
-	  VALUES (rides_seq.NEXTVAL, #{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
+	  INSERT INTO facility(facilityCode,name, state, installDate, removeDate, saveMainFilename, originalMainFilename, saveLocFilename, originalLocFilename, memo, gubunCode, themeCode) 
+	  VALUES (facility_seq.NEXTVAL, #{name}, #{state}, #{installDate}, #{removeDate}, #{saveMainFilename, jdbcType=VARCHAR}, #{originalMainFilename, jdbcType=VARCHAR}, #{saveLocFilename, jdbcType=VARCHAR}, #{originalLocFilename, jdbcType=VARCHAR}, #{memo}, #{gubunCode}, #{themeCode})
 	</insert>
 
 	<sql id="where-list">

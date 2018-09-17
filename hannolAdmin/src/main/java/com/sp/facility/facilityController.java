@@ -38,11 +38,14 @@ public class facilityController {
 	@RequestMapping(value="/facility/created", method=RequestMethod.POST)
 	public String createdSubmit(Facility dto, HttpSession session) throws Exception{
 		
-		/*SessionInfo info=(SessionInfo)session.getAttribute("staff");*/
-		/*dto.setUsersCode(info.getStaffIdx());*/
+		System.out.println(dto.getGubunCode()+" "+dto.getThemeCode()+" "+ dto.getName()+" "+dto.getState()+" "+dto.getInstallDate()+" 리무브데이트 : "+dto.getRemoveDate()+" "+dto.getMemo()+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		
+		if(dto.getRemoveDate().equals(null))
+			dto.setRemoveDate("해당없음");
+		
 		service.insertFacility(dto);
 		
-		return "redirect:/rides/list";
+		return "redirect:/facility/list";
 	}
 	
 	@RequestMapping(value = "/facility/list")
