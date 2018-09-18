@@ -195,7 +195,7 @@
 	        		$("input[name=searchStartDate]").val(selected);
 	        	}   
 	        	
-	        	 $("input[name=searchEndDate]").datepicker("option", "minDate", selected);
+	        	 //$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
 	        	 $("input[name=searchStartDate]").datepicker("option", "maxDate", selected); 
 	        	
 	        }
