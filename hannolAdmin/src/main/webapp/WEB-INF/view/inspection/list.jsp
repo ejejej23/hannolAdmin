@@ -25,7 +25,7 @@
 	
 	/*search*/
 	.datepickerBox{display:inline-block;}
-	.datepickerBox .datepicker{width:175px;}  
+	.datepickerBox .datepicker{width:203px;}   
 	input[type=radio].boxR{margin:0 0px 0 11px; vertical-align:middle;} 
 	input[type=radio].boxR:first-child{margin-left:0;} 
 	 
@@ -174,7 +174,7 @@
 	        maxDate:0,
 	        onSelect:function(selected){
 	        	if(!$("input[name=searchEndDate]").val()){ 
-	        		$("input[name=searchEndDate]").val(selected); 
+	        		$("input[name=searchEndDate]").val(selected);  
 	        	}
 	        		
 	        	$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
@@ -195,7 +195,8 @@
 	        		$("input[name=searchStartDate]").val(selected);
 	        	}   
 	        	
-		        $("input[name=searchStartDate]").datepicker("option", "maxDate", selected);
+	        	 $("input[name=searchEndDate]").datepicker("option", "minDate", selected);
+	        	 $("input[name=searchStartDate]").datepicker("option", "maxDate", selected); 
 	        	
 	        }
 		});	
@@ -393,29 +394,29 @@
 				<tr>
 					<th>상태</th> 
 					<td> 
-						<input type="radio" name="searchState" value="2" class="boxR" checked="checked"> 전체
-						<input type="radio" name="searchState" value="1" class="boxR"> 양호
-						<input type="radio" name="searchState" value="0" class="boxR"> 주의  
+						<input type="radio" name="searchState" value="2" class="boxR" checked="checked" <c:if test="${searchState=='3'}">checked="checked"</c:if>> 전체
+						<input type="radio" name="searchState" value="1" class="boxR" <c:if test="${searchState=='1'}">checked="checked"</c:if>> 양호
+						<input type="radio" name="searchState" value="0" class="boxR" <c:if test="${searchState=='0'}">checked="checked"</c:if>> 주의   
 					</td>   
 				</tr> 
 				<tr height="40">
 					<th>날짜</th>
 					<td>
-						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly"></span> ~ 
-						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"></span>
+						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
+						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
 					</td>  
 				</tr>
 				<tr>
 					<th>검색</th> 
 					<td>
 						<select name="searchKey" class="selectField">
-							<option value="kind">분류</option>
-							<option value="name">시설명</option> 
-							<option value="content">점검내역</option>
-						</select> 
-						<input type="text" name="searchValue" class="boxTF">
+							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
+							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
+							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>점검내역</option>
+						</select>  
+						<input type="text" name="searchValue" class="boxTF" value="${searchValue}"> 
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
-					</td> 
+					</td>  
 				</tr>
 			</table>
 		</form>

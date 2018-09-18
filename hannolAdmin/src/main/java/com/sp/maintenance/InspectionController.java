@@ -117,6 +117,12 @@ public class InspectionController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("article_url", article_url);
 		
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("searchStartDate", searchStartDate);
+		model.addAttribute("searchEndDate", searchEndDate);
+		model.addAttribute("searchState", searchState);
+		
 		return ".inspection.list";
 	}
 	
