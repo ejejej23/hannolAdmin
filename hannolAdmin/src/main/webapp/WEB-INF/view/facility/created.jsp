@@ -126,7 +126,7 @@
 			<label for="saveMainFilename" class="col-sm-2 control-label">시설사진</label> 
 
 			<div class="col-sm-10"> 
-            	<input style="width: 50%;" type="file" multiple="multiple" name="upload" class="boxTF" size="53" style="width: 95%;">
+            	<input style="width: 50%;" type="file" name="upload1" class="form-control" size="53" style="width: 95%;">
 			</div> 
 
 		</div>
@@ -135,7 +135,7 @@
 			<label for="saveLocFilename" class="col-sm-2 control-label">시설위치사진</label> 
 
 			<div class="col-sm-10"> 
-            	<input style="width: 50%;" type="file" multiple="multiple" name="upload" class="boxTF" size="53" style="width: 95%;">
+            	<input style="width: 50%;" type="file" name="upload2" class="form-control" size="53" style="width: 95%;">
 			</div> 
 
 		</div>

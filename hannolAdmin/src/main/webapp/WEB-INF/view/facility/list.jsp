@@ -50,7 +50,10 @@
 	.ui-dialog{padding:0;}
 	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 	
-
+	.facilityImage{
+		width: 11em;
+		height: 11em;
+	}
 </style>
 
 <script type="text/javascript">
@@ -191,8 +194,8 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 <div class="sub-container" style="width: 960px;">
 
      <div class="body-title">
-     	<h3>시설 관리</h3>
-       <%--  <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>--%>    
+     	<h3>시설 관리<small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
+        <%-- <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3>  --%>   
      </div>  
     
 	 <div>
@@ -201,6 +204,7 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 		  <thead class="thead-light">
 		    <tr>
 		      <th scope="col">시설번호</th>
+		      <th scope="col">시설구분</th>
 		      <th scope="col">시설명</th>
 		      <th scope="col">테마명</th>
 		      <th scope="col">시설상태</th>
@@ -215,10 +219,11 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 		  <tbody>
 			<c:forEach var="vo" items="${list}">
 				<tr>
-					<td>${vo.facilityCode}</td>
+					<td style="width: 60px;">${vo.facilityCode}</td>
+					<td>${vo.gubunName}</td>
 					<td class="articleView" data-name="${vo.facilityCode}"><a href="#">${vo.name}</a></td>
 					<td>${vo.themeName}</td>
-					<td>
+					<td style="width: 70px;">
 						<c:choose>
 							<c:when test="${vo.state==0}">
 								양호
@@ -236,8 +241,19 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 					</td>
 					<td>${vo.installDate}</td>
 					<td>${vo.removeDate}</td>
-					<td>${vo.saveMainFilename}</td>
-					<td>${vo.saveLocFilename}</td>
+					<td>
+						<c:if test="${empty vo.saveMainFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG"  class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+						<c:if test="${not empty vo.saveMainFilename}"><img src="/hannolAdmin/uploads/facility/${vo.saveMainFilename}" class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+					</td>
+					<td>
+						<c:if test="${empty vo.saveLocFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+						<c:if test="${not empty vo.saveLocFilename}"><img src="/hannolAdmin/uploads/facility/${vo.saveLocFilename}" class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+										
+					</td>
 					<td>${vo.memo}</td>
 				</tr>
 			</c:forEach>
@@ -294,27 +310,32 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 		<table class="modalTable">
 			<tr>
 				<th scope="row">시설번호</th>
-				<td><input type="text" name="facilityCode" class="facilityCode" data-name="업체명을"></td>
+				<td><input type="text" name="facilityCode" class="facilityCode" ></td>
+			</tr>
+			<tr>
+				<th scope="row">시설구분</th>
+				<td><input type="text" name="gubunName" class="gubunName"></td>
 			</tr>
 			<tr>
 				<th scope="row">시설명</th>
-				<td><input type="text" name="name" class="name" data-name="업체명을"></td>
+				<td><input type="text" name="name" class="name"></td>
 			</tr>
 			<tr>
 				<th scope="row">테마명</th>
-				<td><input type="text" name="themeName" class="themeName" data-name="업체명을"></td>
+				<td><input type="text" name="themeName" class="themeName"></td>
 			</tr>
+
 			<tr>
 				<th scope="row">시설상태</th>
-				<td><input type="text" name="state" class="state" data-name="업체명을"></td>
+				<td><input type="text" name="state" class="state"></td>
 			</tr>
 			<tr>
 				<th scope="row">설치일자</th>
-				<td><input type="text" name="installDate" class="installDate" data-name="업체명을" readonly="readonly"></td>
+				<td><input type="text" name="installDate" class="installDate" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<th scope="row">제거일자</th>
-				<td><input type="text" name="removeDate" class="removeDate" data-name="업체명을" readonly="readonly"></td>
+				<td><input type="text" name="removeDate" class="removeDate"  readonly="readonly"></td>
 			</tr>
 			<tr>
 				<th scope="row">시설사진</th>
@@ -326,7 +347,7 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 			</tr>
 			<tr> 
 				<th scope="row">설명</th>
-				<td><textarea name="memo" class="memo"  data-name="상세설명을"></textarea></td>
+				<td><textarea name="memo" class="memo"></textarea></td>
 			</tr>
 		</table>
 		

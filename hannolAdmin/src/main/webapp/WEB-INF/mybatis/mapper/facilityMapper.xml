@@ -45,10 +45,11 @@
 	            resultType="com.sp.facility.Facility">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    select facilityCode, name, themeName, state, installDate, removeDate, saveMainFilename, 
+			    select facilityCode, g.name gubunName, f.name, themeName, state, TO_CHAR(installDate, 'YYYY"-" MM"-" DD"-"')installDate, TO_CHAR(removeDate, 'YYYY"-" MM"-" DD"-"')removeDate, saveMainFilename, 
 				saveLocFilename, memo 
 				from facility f
 				join theme t on f.themeCode=t.themeCode
+				join facGubun g on f.gubunCode = g.gubunCode 
                     <where>
                          <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
@@ -63,7 +64,7 @@
 	
 
 	<!-- 글리스트 -->
-	<select id="listRides" resultType="com.sp.facility.Facility">
+	<select id="list" resultType="com.sp.facility.Facility">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
 			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, installDate, removeDate, state

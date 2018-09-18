@@ -1,5 +1,6 @@
 package com.sp.facility;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,23 +38,21 @@ public class facilityController {
 	
 	@RequestMapping(value="/facility/created", method=RequestMethod.POST)
 	public String createdSubmit(Facility dto, HttpSession session) throws Exception{
+		String root= session.getServletContext().getRealPath("/");
 		
-		System.out.println(dto.getGubunCode()+" "+dto.getThemeCode()+" "+ dto.getName()+" "+dto.getState()+" "+dto.getInstallDate()+" 리무브데이트 : "+dto.getRemoveDate()+" "+dto.getMemo()+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		
-		if(dto.getRemoveDate().equals(null))
-			dto.setRemoveDate("해당없음");
-		
-		service.insertFacility(dto);
+		String pathname = root+File.separator+"uploads"+File.separator+"facility";
+		service.insertFacility(dto,pathname);
 		
 		return "redirect:/facility/list";
 	}
 	
 	@RequestMapping(value = "/facility/list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
-			HttpServletRequest req, Model model) throws Exception{
+			HttpServletRequest req, Model model,HttpSession session) throws Exception{
 
 		String cp = req.getContextPath();
-
+		String root= session.getServletContext().getRealPath("/");
+		String pathname = root+File.separator+"uploads"+File.separator+"facility";
 		int rows =10;
 		int total_page=0;
 		int dataCount=0;
@@ -71,7 +70,7 @@ public class facilityController {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<Facility> facilityList=service.listFacility(map);
+		List<Facility> facilityList=service.listFacility(map,pathname);
 		
 		// 리스트의 번호
 		int listNum, n = 0;
@@ -92,7 +91,6 @@ public class facilityController {
 			articleUrl = cp + "/facility/article?page=" + current_page + "&" + query;
 		}
 		String paging = myUtil.paging(current_page, total_page, listUrl);
-
 		
 		model.addAttribute("list",facilityList);
 		model.addAttribute("page", current_page);
@@ -103,6 +101,7 @@ public class facilityController {
 		
 		return ".facility.list";
 	}
+	
 	// 시설 정보 보기 : AJAX-JSON
 	@RequestMapping(value="/facility/article", method=RequestMethod.GET)
 	@ResponseBody

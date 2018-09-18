@@ -15,12 +15,19 @@ public class Facility {
 	String originalLocFilename;
 	String memo;
 	int gubunCode;
+	String gubunName;
 	int themeCode;
 	int listNum;
 	String themeName;
-	private MultipartFile upload;
+	private MultipartFile upload1;
 	private MultipartFile upload2;
 	
+	public String getGubunName() {
+		return gubunName;
+	}
+	public void setGubunName(String gubunName) {
+		this.gubunName = gubunName;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}
@@ -39,11 +46,11 @@ public class Facility {
 	public void setUpload2(MultipartFile upload2) {
 		this.upload2 = upload2;
 	}
-	public MultipartFile getUpload() {
-		return upload;
+	public MultipartFile getUpload1() {
+		return upload1;
 	}
-	public void setUpload(MultipartFile upload) {
-		this.upload = upload;
+	public void setUpload1(MultipartFile upload1) {
+		this.upload1 = upload1;
 	}
 	public int getListNum() {
 		return listNum;
