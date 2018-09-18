@@ -51,7 +51,7 @@
 		        <if test="searchValue != null and searchValue != ''">
 		        	AND INSTR(goodsName, #{searchValue}) &gt; 0
 		        </if>
-		         ORDER BY state DESC
+		         ORDER BY state DESC, gubuncode ASC
 		    ) tb WHERE rownum &lt;= #{end}
 		) WHERE rnum &gt;=#{start}
 	</select>
