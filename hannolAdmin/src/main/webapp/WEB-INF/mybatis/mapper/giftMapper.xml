@@ -80,16 +80,16 @@
 	
 	<sql id="where-ajax-list">
 		<if test="order=='newGoods'">
-			ORDER BY goodsCode DESC
+			ORDER BY state DESC, goodsCode DESC 
 		</if>
 		<if test="order=='minPrice'">
-			ORDER BY price ASC
+			ORDER BY state DESC, price ASC
 		</if>
 		<if test="order=='maxPrice'">
-			ORDER BY price DESC
+			ORDER BY state DESC, price DESC
 		</if>
 		<if test="order=='likeGoods'">
-			ORDER BY likeCount DESC
+			ORDER BY state DESC, likeCount DESC
 		</if>
 	</sql>
 	

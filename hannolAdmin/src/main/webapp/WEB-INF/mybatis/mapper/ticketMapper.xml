@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ticket">
+	<select id="listGubun" resultType="java.util.HashMap">
+		SELECT gubuncode, gubunname, parentcode FROM goodsgubun 
+		WHERE gubuncode != 1
+		START WITH gubuncode=1                                  
+		CONNECT BY PRIOR gubuncode=parentcode
+	</select>
+	
+	<select id="seq" resultType="Integer">
+			SELECT goods_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertTicket" parameterType="com.sp.ticket.Ticket">
+		INSERT INTO goods(goodsCode, goodsName, price, state, gubunCode) 
+    	VALUES (#{goodsCode}, #{goodsName}, #{goodsPrice}, #{state}, #{gubunCode})
+	</insert>
+	
+	<insert id="insertTicketInfo" parameterType="com.sp.ticket.Ticket">
+	    INSERT INTO goodsInfo(memo, goodsCode) 
+    	VALUES (#{content, jdbcType=VARCHAR},  #{goodsCode})
+	</insert>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM goods
+        WHERE gubuncode IN (
+            SELECT gubuncode FROM goodsgubun 
+            WHERE gubuncode != 1
+            START WITH gubuncode=1                                  
+            CONNECT BY PRIOR gubuncode=parentcode
+        )
+        <if test="searchValue != null and searchValue != ''">
+        	AND INSTR(goodsName, #{searchValue}) &gt; 0
+        </if>
+	</select>
+	
+	<select id="listTicket" parameterType="map" resultType="com.sp.ticket.Ticket">
+		SELECT * FROM(
+		    SELECT rownum rnum, tb.* FROM (
+		        SELECT goodsCode, goodsName, price as goodsPrice, state, g.gubunCode, gubunName, parentCode
+		        FROM goods g
+		        LEFT JOIN GOODSGUBUN b ON g.gubunCode = b.gubunCode
+		        WHERE g.gubuncode IN (
+		            SELECT gubuncode FROM goodsgubun 
+		            WHERE gubuncode != 1
+		            START WITH gubuncode=1                                  
+		            CONNECT BY PRIOR gubuncode=parentcode
+		        )
+		        <if test="searchValue != null and searchValue != ''">
+		        	AND INSTR(goodsName, #{searchValue}) &gt; 0
+		        </if>
+		         ORDER BY state DESC
+		    ) tb WHERE rownum &lt;= #{end}
+		) WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="readTicket" parameterType="Long" resultType="com.sp.ticket.Ticket">
+		SELECT goodsCode, goodsName, price as goodsPrice, state, g.gubunCode, gubunName, parentCode
+        FROM goods g
+        LEFT JOIN GOODSGUBUN b ON g.gubunCode = b.gubunCode
+        WHERE goodsCode = #{goodsCode}
+	</select>
+	
+	<update id="updateTicket" parameterType="com.sp.ticket.Ticket">
+		UPDATE goods 
+		SET goodsName=#{goodsName}, price=#{goodsPrice}, state=#{state}, gubunCode=#{gubunCode} 
+    	WHERE goodsCode=#{goodsCode}
+	</update>
+</mapper>
