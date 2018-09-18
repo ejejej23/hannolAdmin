@@ -191,4 +191,16 @@ public class ShowController {
 		return "show/showDetail";
 	}
 
+	// 공연 상세정보 추가
+	@RequestMapping(value="/show/insertShowDetail")
+	public String createShowInfoForm(Model model) throws Exception {
+		
+		model.addAttribute("mode", "created");
+		
+		return "show/createdShowDetail";
+	}
+	
+	
+	
+	
 }

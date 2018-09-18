@@ -28,13 +28,13 @@
 				join showGubun g
 				    on s.gubuncode = g.gubuncode
 				left outer join (
-				    select showinfocode, startdate, enddate, runningtime, showcode, facilitycode, name
-				    from
-				        (select rownum, showinfocode, startdate, enddate, runningtime, showcode, shi.facilitycode, name 
-				            from showinfo shi join facility fa
-				                on shi.facilitycode = fa.facilitycode
-				            order by startdate desc)
-				    where rownum = 1
+					select rownum, showinfocode, startdate, enddate, runningtime, showcode, shi.facilitycode, name 
+                    from showinfo shi join facility fa
+                        on shi.facilitycode = fa.facilitycode
+                    where (showcode, startdate) in (
+                        select showcode, max(startdate) from showinfo group by showcode
+                    )
+                    order by startdate desc     
 				) i
 				    on s.showcode = i.showcode 
 				<if test="gubunCode!=null">
@@ -54,11 +54,8 @@
 		    select schcode 
 		    from showSch
 		    where showinfocode = #{showInfoCode})
+		order by starttime asc
 	</select>
-	
-	
-	
-	
 	
 	
 	
@@ -69,6 +66,7 @@
 		from showInfo s join facility f
 		on s.facilityCode = f.facilityCode
 		where showCode = #{showCode}
+		order by startDate desc
 	</select>
 	
 	<!-- 하나의 공연상세코드 - 공연일정 리스트 -->
@@ -76,6 +74,7 @@
 		select schCode, to_char(screenDate, 'yyyy-mm-dd') screenDate
 		from showSch
 		where showInfoCode = #{showInfoCode}
+		order by screenDate
 	</select>
 	
 	<!-- 하나의 일정코드 - 공연-시작시간 리스트 -->
@@ -83,6 +82,7 @@
 		select sStartCode, startTime, note
 		from showStartTime
 		where schCode = #{schCode}
+		order by startTime
 	</select>
 	
 	

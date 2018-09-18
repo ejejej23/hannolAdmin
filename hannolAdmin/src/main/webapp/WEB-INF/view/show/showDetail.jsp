@@ -5,7 +5,10 @@
 <%
 	String cp = request.getContextPath();
 %>
+
 <script>
+
+// 아래 스크립트 article.jsp 로 가져가면 페이지 처음 로딩 시 에는 없는 객체이므로 이벤트 적용이 안된다.!!!!!!!!
 $(function() {
 	$(".toggle").click(function() {
 		var showInfoCode = $(this).attr("data-showInfoCode");
@@ -20,13 +23,16 @@ $(function() {
 		}
 	});
 });
+   
 </script>
+
+
 
 <div>
 <hr> 
 	<div class="sub-title">
 	<br><br><br>
-	     <h3>상세 정보</h3>
+	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" class="btn" onclick="insertShowInfo();">+</button>
     </div>
 
 	<c:forEach items="${list}" var="dto">
@@ -34,7 +40,7 @@ $(function() {
 		<div>	
 			<div class="form-group">
 				<div class="col-sm-2">시작  ~ 종료</div>
-				<div class="col-sm-4"><mark>${dto.startDate} ~ ${dto.endDate}</mark></div> 
+				<div class="col-sm-4"><mark>${dto.startDate} ~ <input type="text" name="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
 				<div class="col-sm-2">상영시간</div>
 				<div class="col-sm-4"><mark>${dto.runningTime}분</mark></div>
 			</div><br>
@@ -74,16 +80,20 @@ $(function() {
 					
 					</table>
 				</div>
-			</div><br>
-		</div><br>
+			</div><br><br>
+		</div>
+		<br><br>
 	</c:forEach>	
 	
-	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		<tr height="35">
-			<td align="center"><c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-				<c:if test="${dataCount!=0 }">${paging}</c:if></td>
-		</tr>
-	</table>
+	<c:if test="${empty list}">
+		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+			<tr height="100">
+				<td align="center">
+					등록된 상세정보가 없습니다.
+				</td>
+			</tr>
+		</table>
+	</c:if>
 
 </div>
 

@@ -23,6 +23,22 @@ $(function() {
 	ajaxHTML(url, "get", query);
 });
 
+function insertShowInfo() {
+	var url = '<%=cp%>/show/insertShowDetail';
+	var query = "showCode=${dto.showCode}";
+	
+	var enddate = $("input[name='endDate']"); // 2018-08-11
+	if(!enddate) {
+		var today = dateToString(new Date());
+		var diff = getDiffDays(today, enddate.val());
+		if(diff > 0) {
+			alert('일정이 진행중이므로 추가할 수 없습니다.');
+			return;
+		}
+	}
+	
+	ajaxHTML(url, "get", query);
+}
 //ajax 공통함수
 function ajaxHTML(url, type, query) {
 	$.ajax({
@@ -48,7 +64,7 @@ function ajaxHTML(url, type, query) {
 		}
 	});
 }
-    
+ 
 </script>
 
 <div class="sub-container" style="width: 960px;">
