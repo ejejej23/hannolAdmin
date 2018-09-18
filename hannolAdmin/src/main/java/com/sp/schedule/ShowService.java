@@ -27,4 +27,7 @@ public interface ShowService {
 	public List<ShowStartTime> listShowStartTime(int schCode) throws Exception;
 	
 	// 공연 일정
+	
+	// 예약 가능 시설
+	public List<Map<String, Object>> listAvailableFacility(Map<String, Object> map) throws Exception;
 }

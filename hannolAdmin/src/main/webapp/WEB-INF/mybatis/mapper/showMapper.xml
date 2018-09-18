@@ -87,9 +87,6 @@
 	
 	
 	
-	
-
-	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		select nvl(count(*), 0)
 		from show s 
@@ -124,5 +121,28 @@
 		update show set showName = #{showName}, memo = #{memo}, originalFilename = #{originalFilename}, saveFilename = #{saveFilename}, gubunCode = #{gubunCode}
 		where showCode = #{showCode}
 	</update>
+
+
+
+	<!-- 예약 가능한 공연장 목록 -->
+	<select id="listAvailableFacility" parameterType="map" resultType="map">
+		select facilitycode, name 
+		from facility
+		where gubuncode = 3
+		and facilitycode not in (
+		    select shi.facilitycode
+		    from showinfo shi join facility fa
+		        on shi.facilitycode = fa.facilitycode
+		    where (showcode, startdate) in (
+		        select showcode, max(startdate) from showinfo group by showcode) 
+<![CDATA[		 
+		    and ((startdate <= #{startDate} and enddate >= #{startDate}) or (startdate <= #{endDate} and enddate >= #{endDate}))
+		)
+]]>		
+	</select>
+	
+	
+	
+	
 
 </mapper>

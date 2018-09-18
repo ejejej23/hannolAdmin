@@ -180,6 +180,18 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public List<Map<String, Object>> listAvailableFacility(Map<String, Object> map) throws Exception {
+		List<Map<String, Object>> list = null;
+		try {
+			list = dao.selectList("show.listAvailableFacility", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+
 
 
 }

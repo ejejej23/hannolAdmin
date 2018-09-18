@@ -200,6 +200,22 @@ public class ShowController {
 		return "show/createdShowDetail";
 	}
 	
+	@RequestMapping(value="/show/facilityList")
+	public String facilityList(
+			@RequestParam(value="startDate") String startDate,
+			@RequestParam(value="endDate") String endDate,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
+		// 서비스에서 받아서 오기
+		List<Map<String, Object>> list = service.listAvailableFacility(map);
+		model.addAttribute("list", list);
+		
+		return "show/facilityList";
+	}
 	
 	
 	
