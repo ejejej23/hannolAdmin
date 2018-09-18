@@ -61,7 +61,10 @@ $(function() {
 				<div class="col-sm-10 toggle" id="toggleButton${dto.showInfoCode}" data-showInfoCode="${dto.showInfoCode}">일정 보기 ▼</div><br>
 				<div class="col-sm-10" id="moreScheduleLayout${dto.showInfoCode}" style="display: none;">
 					<table  style="width: 80%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
-					
+						<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+					      <td width="30%">상영날짜</td>
+					      <td width="70%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
+						</tr>
 						<c:forEach items="${dto.showScheduleList}" var="vo">
 							  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
 							      <td width="30%">${vo.screenDate}</td>
@@ -73,16 +76,16 @@ $(function() {
 							  </tr>
 						</c:forEach>
 						<c:if test="${empty dto.showScheduleList}">
-							<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;">
+							<tr align="left" height="30em" style="border-bottom: 1px solid #cccccc;">
+								<td></td>
 								<td>등록된 일정이 없습니다.</td>
 							</tr> 
 						</c:if>
-					
 					</table>
 				</div>
-			</div><br><br>
+			</div><br>
 		</div>
-		<br><br>
+		<br><br><br><br><br><br>
 	</c:forEach>	
 	
 	<c:if test="${empty list}">
