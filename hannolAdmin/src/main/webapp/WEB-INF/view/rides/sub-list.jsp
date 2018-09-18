@@ -25,7 +25,6 @@
 		        <col style="width: 10%; text-align:center">
 		        <col style="width: 10%; text-align:center">
 		        <col style="width: 10%; text-align:center">
-		        <col style="width: 10%; text-align:center">
 		    </colgroup>
     
 		  <thead class="thead-light">
@@ -34,11 +33,10 @@
 				  <input type="checkbox" name="chkAll" id="chkAll" value="chkAll" onclick="checkAll();">
 		      </th>
 		      <th scope="col">시설번호</th>
+		      <th scope="col">상세번호</th>
 		      <th scope="col">테마</th>
 		      <th scope="col">장르</th>
 		      <th scope="col">어트랙션명</th>
-		      <th scope="col">설치날짜</th>
-		      <th scope="col">제거날짜</th>
 		      <th scope="col">상태</th>
 		      <th scope="col">상세</th>
 		    </tr>
@@ -51,11 +49,11 @@
 						<input type="checkbox" name="chk" value="chk" onclick="chkSingle();">
 					</th>
 						<td>${vo.facilityCode}</td>
+						<td>${vo.ridesInfoCode}</td>
 						<td>${vo.themeName}</td>
 						<td>${vo.genreName}</td>
+						<%-- <td><a href="${articleUrl}&num=${vo.ridesInfoCode}">${vo.name}</a></td> --%>
 						<td>${vo.name}</td>
-						<td>${vo.installDate}</td>
-						<td class="st">${vo.removeDate}</td>
 						<td>${vo.gubunName}</td>
 						<td>
 							<c:choose>
@@ -90,4 +88,3 @@
 		</table>
 
 	</div>
-		

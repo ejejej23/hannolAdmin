@@ -51,8 +51,8 @@
 	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 	
 	.facilityImage{
-		width: 11em;
-		height: 11em;
+		width: 9em;
+		height: 9em;
 	}
 </style>
 
@@ -94,6 +94,7 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 	};
 	
 	
+	//모달의 모달
 	$(function(){
 		$(".picture1").click(function(){
 			$("#picture1Model").dialog({

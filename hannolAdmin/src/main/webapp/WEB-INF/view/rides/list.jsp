@@ -9,15 +9,12 @@
 .gitf-form-control{
 	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
 }
-
 .col-xs-8:after{
 	content:''; display:block; clear:both;
 }
-
 .col-xs-offset-2{
 	width: 40%;
 }
-
 .col-xs-8{
  	float: none;
  	margin: 10px auto;
@@ -34,7 +31,6 @@
 		var f=document.updateForm;
 		f.submit()
 	}
-
 	//전체 체크박스
 	function checkAll(){
 		if($("#chkAll").is(':checked')){
@@ -86,7 +82,6 @@
 			}
 		}); 
 	}
-
 	//ajax로 값들을 보낸다
 	$(function(){
 		 $("#btnSend").click(function(){
@@ -97,7 +92,6 @@
 			$("input[name='chk']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
 				lists.push($(this).parent().next().text());
 			});
-
 			// check 된 애들의 개수
 				var url="<%=cp%>/rides/update";
 				var num = $(this).parent().next();
@@ -141,7 +135,7 @@
 					</td>
 					
 					<td align="right" width="100">
-						<button id="btnSend" type="button" class="btn1">변경하기</button>
+						<button id="btnSend" type="button" class="btn1">상태변경</button>
 						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
 					</td>
 				</tr>

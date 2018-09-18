@@ -3,11 +3,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rides">
 	
-	<insert id="insertRides" parameterType="com.sp.rides.Rides">
+<!-- 	<insert id="insertRides" parameterType="com.sp.rides.Rides">
 	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
 	  VALUES (rides_seq.NEXTVAL, #{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
 	</insert>
-
+ -->
 	<sql id="where-list">
 	  <if test="searchKey=='name'">
 	      S.name =#{searchValue}
@@ -32,7 +32,7 @@
 	<!-- 글개수 -->
 	<select id="dataCount" parameterType="map"
 	            resultType="Integer">
-	  SELECT NVL(COUNT(*), 0) FROM Rides 
+	 SELECT NVL(COUNT(*), 0) FROM facility where gubunCode=1
 	     <where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>
@@ -41,11 +41,11 @@
 	</select>
 
 	<!-- 놀이기구리스트 -->
-	<select id="listOnlyRides" parameterType="map"
+<!-- 	<select id="listOnlyRides" parameterType="map"
 	            resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
+			    SELECT f.facilityCode, t.themeName, g.genreName, f.name, installDate, removeDate, state
                 FROM rides r
                 JOIN facility f ON r.facilityCode = f.facilityCode
                 JOIN theme t ON f.themeCode = t.themeCode
@@ -60,21 +60,25 @@
 	        ) tb WHERE ROWNUM <= #{end}
 	    ) WHERE rnum >= #{start}
 	]]>
-	</select>
+	</select> -->
 	
 
 	<!-- 글리스트 -->
 	<select id="listRides" resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			    SELECT r.facilityCode, s.gubunName, t.themeName, g.genreName, f.name, TO_CHAR(installDate, 'YYYY"년" MM"월" DD"일"')installDate, removeDate, state
-                FROM rides r
-                JOIN facility f ON r.facilityCode = f.facilityCode
-                JOIN theme t ON f.themeCode = t.themeCode
-                JOIN genre g ON g.genreCode = r.genreCode
-                JOIN stateGubun s ON s.gubunCode = r.gubunCode
-                    <where>
-                         <if test="searchValue != null and searchValue != ''">
+			       select f.facilityCode, themeName, g.genreName, f.name, s.gubunName, i.state, i.ridesInfoCode  
+			       from facility f
+			            left join rides r on f.facilityCode = r.facilityCode
+			            left join theme t on t.themeCode = f.themeCode
+			            left join genre g on r.genreCode = g.genreCode 
+			            left join facGubun b on f.gubunCode=b.gubunCode 
+			            left join ridesInfo i on i.facilityCode = f.facilityCode
+			            left join stateGubun s on r.gubunCode = s.gubunCode
+			       where f.gubunCode=1
+
+	                   <where>
+                        <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
 		                 </if>
 	                </where>

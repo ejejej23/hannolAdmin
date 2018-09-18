@@ -18,10 +18,11 @@ public class RidesServiceImpl implements RidesService{
 	public int insertRides(Rides dto) {
 		int result=0;
 		try {
-			dao.insertData("rides.insertRides",dto);
+			result=dao.insertData("rides.insertRides",dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		System.out.println(result+"insert결과다 이게~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return result;
 	}
 

@@ -106,6 +106,8 @@ public class RidesController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("total_page", total_page);
 
+		System.out.println("getlist도 지나감~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
 		return "/rides/sub-list";
 	}
 

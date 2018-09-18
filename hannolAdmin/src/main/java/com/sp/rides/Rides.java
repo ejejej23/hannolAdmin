@@ -1,26 +1,37 @@
 package com.sp.rides;
 
 public class Rides {
-	private long usersCode;
-	int facilityCode;
 	int boardingTime;
 	int passengers;
 	int minHeight;
 	int maxHeight;
-	String limit;
 	int congestion;
+	String limit;
+	int state;
 	int genreCode;
-	int gubunCode;
+	int gubunCode;//상태구분코드(고장, 수리중, 우천...)
+
+	int ridesInfoCode;
+	private long usersCode;
+	int facilityCode;
 	String gubunName;
 	String name;
 	int listNum;
 	String themeName;
 	String genreName;
-	String installDate;
-	String removeDate;
-	int state;
 	
-	
+	public int getRidesInfoCode() {
+		return ridesInfoCode;
+	}
+	public void setRidesInfoCode(int ridesInfoCode) {
+		this.ridesInfoCode = ridesInfoCode;
+	}
+	public int getGubunCode() {
+		return gubunCode;
+	}
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}
@@ -44,18 +55,6 @@ public class Rides {
 	}
 	public void setGenreName(String genreName) {
 		this.genreName = genreName;
-	}
-	public String getInstallDate() {
-		return installDate;
-	}
-	public void setInstallDate(String installDate) {
-		this.installDate = installDate;
-	}
-	public String getRemoveDate() {
-		return removeDate;
-	}
-	public void setRemoveDate(String removeDate) {
-		this.removeDate = removeDate;
 	}
 	public String getThemeName() {
 		return themeName;
@@ -116,12 +115,6 @@ public class Rides {
 	}
 	public void setGenreCode(int genreCode) {
 		this.genreCode = genreCode;
-	}
-	public int getGubunCode() {
-		return gubunCode;
-	}
-	public void setGubunCode(int gubunCode) {
-		this.gubunCode = gubunCode;
 	}
 	public String getName() {
 		return name;
