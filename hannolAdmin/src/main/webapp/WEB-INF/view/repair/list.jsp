@@ -11,7 +11,8 @@
 	.table th,
 	.table td{text-align:center;}
 	.table td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
-	.table td:nth-child(4){text-align:left;}
+	.table td:nth-child(5){text-align:left;}  
+	.table td:nth-child(6){text-align:right;}   
 	
 	.listData_no{text-align:center;}
 	
@@ -31,14 +32,351 @@
 	 
 	.datepicker + img{width:22px; margin:0px 0px 0px -31px; padding-left:8px; border-left:1px solid #dddddd; cursor:pointer;}
 
+	/**modal**/
+	.modalTable{width:100%; margin-top:20px; color:#444444;}
+	.modalTable th,
+	.modalTable td{padding:10px 0;} 
+	.modalTable th{width:110px; padding-top:13px; padding-right:20px; text-align:right; vertical-align:top;}
+	
+	.boxTF,
+	.boxTA,
+	.modalTable .selectField{width:280px; vertical-align:middle;}
+	.boxTF[readonly]{background-color:#ffffff;}
+	.boxTA[disabled]{background-color:#f3f3f3; padding:10px 15px;}
+	.selectField{padding:5px; vertical-align:middle;}
+	.boxTF.btfName{width:120px;}
+	.btfTel{width:60px; text-align:center;}
+	
+	
+	.btnBox{margin:40px 0; text-align:center;}
+	.btnBox .btn{margin:0 3px;}
+	
+	.modalTable input[type=radio],
+	.modalTable label{margin:0 3px 0 0; vertical-align:middle; font-weight:500;}
+	.modalTable #badState{margin-left:8px;}
+	
+	.warning{color:#e52806;}
+	
+	
+	
+	/**dialog new style**/
+	.ui-widget{font-family:"Nanum Gothic";}
+	.ui-widget input, 
+	.ui-widget select, 
+	.ui-widget textarea, 
+	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
+	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
+	.ui-dialog .ui-dialog-title{font-size:16px;}
+	.ui-dialog .ui-dialog-titlebar{padding:11px 1em;}
+	.ui-dialog{padding:0;}
+	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
+	
 </style>
 <script type="text/javascript">
+	var elementsName = [];
+	var elementsNameText = [];
+	
+	$(function(){
+		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("input[type=radio]"); 
+		
+		for(var i=0; i<elements.length; i++){
+			elementsName[i] = elements[i];
+			elementsNameText[i] = elements[i].getAttribute("data-name");
+		}
+	});	
+	
+	/*버튼모음*/
+    var createdOk = '<button type="button" class="btn btn-info" id="createdOk">수리등록</button>';
+    var updateBtn = '<button type="button" class="btn btn-info" id="updateBtn">수리수정</button>';
+    var updateOk = '<button type="button" class="btn btn-info" id="updateOk">수정완료</button>';
+	var deleteBtn = '<button type="button" class="btn btn-default" id="deleteBtn">수리삭제</button>';
+	var resetBtn = '<button type="reset" class="btn btn-default">다시입력</button>';
+	var closeBtn = '<button type="button" class="btn btn-default" id="modalCloseBtn">취소</button>';
+	var hiddenBtn = '<input type="hidden" name="checkCode"/>';
+	
+	
+	/*다이얼 로그*/
+	$(function() {
+		//수리 추가
+		$("#createdBtn").click(function() {
+			$("#modal").dialog({
+				title : "수리추가",
+				width : 480,
+				height : 570, 
+				modal : true,
+				open : function(){ 
+					$(".btnBox").empty();
+					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
+					$("#modalCloseBtn").text("등록취소");
+				}
+			});
+		});
+	
+		$("body").on("click", "#modalCloseBtn", function() {
+			$("#modal").dialog("close");
+		});
+			
+		//시설 분류 선택할 때 마다 시설리스트 가져오기
+		$("select[name=facGubun]").change(function(){
+			var gubunCode = $(this).children("option:selected").val(); 
+			
+			var url = "<%=cp%>/repair/facility";
+			var query = "gubunCode="+gubunCode;
+			
+			$.ajax({
+				type:"get",
+				url:url,
+				data:query,
+				dataType:"json",
+				success:function(data){
+					$("select[name=facilityCode]").empty();
+					
+					if(data.facList.length==0){
+						$("select[name=facilityCode]").append("<option value=''>없음</option>");	
+					}else{						
+						for(var i=0; i<data.facList.length ; i++){
+							$("select[name=facilityCode]").append("<option value='"+data.facList[i].FACILITYCODE+"'>"+data.facList[i].NAME+"</option>");	
+						}
+					}				
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}				
+			});	
+		});
+	});	
+		
+	//datepicker
+	$(function(){
+		$("input[name=repairDate]").datepicker({
+			dateFormat:'yy-mm-dd',
+			showOn:"both",
+	        buttonImage:"<%=cp%>/resource/images/date24.png",
+	        buttonImageOnly:true,
+	        showAnim:"slideDown",
+	        buttonText:"선택",
+	        maxDate:0
+		});
+		
+		//검색 시작날짜
+		$("input[name=searchStartDate]").datepicker({
+			dateFormat:'yy-mm-dd',
+			showOn:"both",
+	        buttonImage:"<%=cp%>/resource/images/date24.png",
+	        buttonImageOnly:true,
+	        showAnim:"slideDown",
+	        buttonText:"선택",
+	        maxDate:0,
+	        onSelect:function(selected){
+	        	if(!$("input[name=searchEndDate]").val()){ 
+	        		$("input[name=searchEndDate]").val(selected);  
+	        	}
+	        		
+	        	$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
+	        
+	        }
+		}); 
+		//검색 마지막 날짜
+		$("input[name=searchEndDate]").datepicker({
+			dateFormat:'yy-mm-dd',
+			showOn:"both",
+	        buttonImage:"<%=cp%>/resource/images/date24.png",
+	        buttonImageOnly:true,
+	        showAnim:"slideDown",
+	        buttonText:"선택",
+	        maxDate:0, 
+	        onSelect:function(selected){
+	        	if(!$("input[name=searchStartDate]").val()){
+	        		$("input[name=searchStartDate]").val(selected);
+	        	}   
+	        	
+	        	 //$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
+	        	 $("input[name=searchStartDate]").datepicker("option", "maxDate", selected); 
+	        }
+		});	
+	});
+	
+	//수리 등록
+	$(function(){
+		$("body").on("click", "#createdOk", function(){
+			var url = "<%=cp%>/repair/created";
+			var query = $("form[name=formData]").serialize();
+			
+			$.ajax({
+				type:"post",
+				url:url,
+				data:query,
+				dataType:"json",
+				beforeSend:check,
+				success:function(data){
+					if(data.state=="true"){
+						alert("수리 등록이 되었습니다.");
+						formClean();
+						location.href="<%=cp%>/repair/list";
+					}else{
+						alert("수리 등록을 실패하셨습니다.");
+					}
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	});
+	
+	//글 정보 보기
+	$(function(){
+		$("body").on("click", ".articleVeiw", function(){
+			//다이얼로그
+			$("#modal").dialog({
+				title : "수리정보",
+				width : 480,
+				height : 570, 
+				modal : true,
+				open:function(){
+					//버튼
+					$(".btnBox").empty();
+					$(".btnBox").append(updateBtn, deleteBtn, closeBtn, hiddenBtn); 
+				},
+				close:function(){
+					formClean();
+					$("#modal input, #modal textarea, #modal select").prop("disabled", false).removeClass("noLine");
+					$(".stateView").removeClass("stateView"); 
+				}
+			});
+			
+			var num = $(this).attr("data-artilenum"); //수리 코드
+			$("input[name=repairCode]").val(num);
+			
+			var url = "<%=cp%>/repair/article";
+			var query = "num="+num;
+			
+			$.ajax({
+				type:"get",
+				url:url,
+				data:query,
+				dataType:"json",
+				success:function(data){
+					if(data.state=="true"){
+						$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
+						$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
+						$("#modal select[name=companyCode]").val(data.dto.companyCode);
+						$("#modal input[name=repairDate ]").val(data.dto.repairDate);
+						$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
+						$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
+						$("#modal textarea[name=memo]").val(data.dto.memo); 
+						
+						$("#modal input, #modal textarea, #modal select").not("input[type=hidden]").prop("disabled", true).addClass("noLine");
+					}else{ 
+						alert("수리 정보를 불러오지 못했습니다.");
+					}
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	});
+	
+	//수리정보 수정
+	$(function(){
+		$("body").on("click", "#updateBtn",function(){
+			$("#deleteBtn").remove();  
+			$("#updateBtn").after(updateOk).remove(); 
+			$(".noLine").not("select[name=facGubun], select[name=facilityCode]").prop("disabled", false).removeClass("noLine");
+			$(".stateView").removeClass("stateView");  
+		});
+		
+		//수리정보 수정 완료
+		$("body").on("click", "#updateOk",function(){
+			var url = "<%=cp%>/repair/update";
+			var query = $("form[name=formData]").serialize();
+			 
+			$.ajax({
+				type:"post",
+				url:url,
+				data:query,
+				dataType:"json",
+				beforeSend:check,
+				success:function(data){
+					if(data.state=="true"){
+						alert("수리 수정이 되었습니다.");
+						formClean();
+						location.reload();
+					}else{
+						alert("수리 수정을 실패하였습니다.");	
+					}
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	});
+	
+	
+	
+	//글 삭제
+	$(function(){
+		$("body").on("click", "#deleteBtn", function(){	
+			if(confirm("수리를 삭제하시겠습니까?")){
+				var url = "<%=cp%>/repair/delete";
+				var query = "checkCode="+$("#modal input[name=checkCode]").val();
+	
+				$.ajax({
+					url:url,
+					data:query,
+					dataType:"json",
+					success:function(data){
+						if(data.state=="true"){
+							alert("수리정보가 삭제 되었습니다.");
+							formClean();
+							location.reload();
+						}else{
+							alert("수리정보 삭제를 실패하였습니다.");	
+						}
+					},
+					error:function(e){
+						console.log(e.responseText);
+					}
+				});	
+			}			
+		});
+	});
+	
+	//검색
+	function searchList(){
+		var f = document.searchForm;
+		f.action = "<%=cp%>/repair/list"; 
+		f.submit();
+	}
+	
+	//빈칸 확인
+	function check(){
+		for(var i=0 ; i<elementsName.length ; i++){
+			if(!elementsName[i].value){
+				elementsName[i].focus();
+				alert(elementsNameText[i]+" 입력해주세요.");
+				return false;
+			}
+		}
+	}
+	
+	//폼 데이터 지움
+	function formClean(){
+		for(var i=0 ; i<elementsName.length ; i++){
+			elementsName[i].value="";
+		}
+		
+		$("#modal").dialog("close");
+	}
+
 </script>
 
 <div class="sub-container">
 	<div class="sub-title">
 		<h3>수리
-			<small>15개(2/10페이지)</small> 
+			<small>${dataCount}개(${page}/${total_page}페이지)</small> 
 		</h3>
 	</div>
 
@@ -48,9 +386,10 @@
 				<tr>
 					<th>상태</th> 
 					<td> 
-						<input type="radio" name="searchState" value="2" class="boxR" checked="checked" <c:if test="${searchState=='3'}">checked="checked"</c:if>> 전체
-						<input type="radio" name="searchState" value="1" class="boxR" <c:if test="${searchState=='1'}">checked="checked"</c:if>> 양호
-						<input type="radio" name="searchState" value="0" class="boxR" <c:if test="${searchState=='0'}">checked="checked"</c:if>> 주의   
+						<input type="radio" name="searchState" value="3" class="boxR" checked="checked" <c:if test="${searchState=='3'}">checked="checked"</c:if>> 전체
+						<input type="radio" name="searchState" value="0" class="boxR" <c:if test="${searchState=='0'}">checked="checked"</c:if>> 요청
+						<input type="radio" name="searchState" value="1" class="boxR" <c:if test="${searchState=='1'}">checked="checked"</c:if>> 요청확인   
+						<input type="radio" name="searchState" value="2" class="boxR" <c:if test="${searchState=='2'}">checked="checked"</c:if>> 수리완료   
 					</td>   
 				</tr> 
 				<tr height="40">
@@ -66,7 +405,7 @@
 						<select name="searchKey" class="selectField">
 							<option value="kind">분류</option>
 							<option value="name">시설명</option> 
-							<option value="content">점검내역</option>
+							<option value="content">수리내역</option>
 						</select>  
 						<input type="text" name="searchValue" class="boxTF"> 
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
@@ -78,12 +417,13 @@
 		<table class="table">
 			<colgroup>
 				<col style="width:5%;">
-				<col style="width:12%;">
-				<col style="width:15%;">
+				<col style="width:10%;">
+				<col style="width:10%;">
+				<col style="width:13%;">
 				<col style="">
-				<col style="width:15%;">
-				<col style="width:8%;">
-				<col style="width:15%;">
+				<col style="width:10%;"> 
+				<col style="width:9%;">
+				<col style="width:12%;">
 			</colgroup>
 
 			<thead class="thead-light">
@@ -91,6 +431,7 @@
 					<th scope="col">번호</th>
 					<th scope="col">분류</th>
 					<th scope="col">시설명</th>
+					<th scope="col">업체명</th>
 					<th scope="col">수리내역</th>
 					<th scope="col">비용</th>
 					<th scope="col">상태</th>
@@ -98,15 +439,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>프린세스 빌리지</td>
-					<td>oo어트랙션명</td>
-					<td class="articleVeiw"><a href="#">브레이크 고장</a></td>
-					<td>30,000</td>
-					<td>요청중</td>
-					<td>2017-01-02</td>
-				</tr>
+				<c:forEach var="dto" items="${list}">
+					<tr>
+						<td>${dto.listNum}</td>
+						<td>${dto.facGubunName}</td>
+						<td>${dto.facilityName}</td>
+						<td>${dto.companyName}</td>
+						<td class="articleVeiw" data-artilenum="${dto.repairCode}"><a href="#">${dto.memo}</a></td>
+						<td>${dto.cost}</td>
+						<td>
+							<c:if test="${dto.state==0}">요청</c:if>
+							<c:if test="${dto.state==1}">요청중</c:if>
+							<c:if test="${dto.state==2}">요청완료</c:if> 
+						</td>
+						<td>${dto.repairDate}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		
@@ -126,10 +474,10 @@
 		<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
-					<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/inspection/list';">새로고침</button>
+					<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/repair/list';">새로고침</button>
 				</td>
 				<td align="right" width="100">
-					<button type="button" id="createdBtn" class="btn btn-info">점검추가</button>
+					<button type="button" id="createdBtn" class="btn btn-info">수리추가</button>
 				</td>
 			</tr>
 		</table>
@@ -163,24 +511,39 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">점검일자</th>
-				<td><input type="text" name="checkDate" class="boxTF datepicker" data-name="점검일자를" readonly="readonly"></td>  
+				<th scope="row">업체</th>
+				<td>
+					<select name="companyCode" class="selectField" data-name="업체를">
+						<c:forEach var="list" items="${companyList}">
+							<option value="${list.COMPANYCODE}">${list.NAME}</option>
+						</c:forEach>
+					</select> 
+				</td>
 			</tr> 
 			<tr>
+				<th scope="row">수리일자</th>
+				<td><input type="text" name="repairDate" class="boxTF datepicker" data-name="수리일자를" readonly="readonly"></td>  
+			</tr> 
+			<tr> 
+				<th scope="row">비용</th>
+				<td><input name="cost" class="boxTF"  data-name="비용을"></td>
+			</tr>
+			<tr>
 				<th scope="row">상태</th>
-				<td>
-					<input type="radio" name="state" id="goodState" value="1" checked="checked"><label for="goodState">양호 </label>
-					<input type="radio" name="state" id="badState" value="0"><label for="badState">주의요함</label>   
+				<td>   
+					<input type="radio" name="state" id="requestState" value="0" checked="checked"><label for="requestState">요청</label>  
+					<input type="radio" name="state" id="requestOkState" value="1"><label for="requestOkState">요청확인</label>  
+					<input type="radio" name="state" id="repairOkState" value="2"><label for="repairOkState">수리완료</label> 
 				</td>
 			</tr>
 			<tr> 
-				<th scope="row">점검내역</th>
-				<td><textarea name="memo" class="boxTA"  data-name="점검내역을"></textarea></td>
+				<th scope="row">수리내역</th>
+				<td><textarea name="memo" class="boxTA"  data-name="수리내역을"></textarea></td>
 			</tr>
 		</table>
 		
 		<div class="btnBox">
-	        <button type="button" class="btn btn-info" id="createdOk">점검등록</button>
+	        <button type="button" class="btn btn-info" id="createdOk">수리등록</button>
 	        <button type="reset" class="btn btn-default">다시입력</button> 
 	        <button type="button" class="btn btn-default" id="modalCloseBtn">등록취소</button>
 	    </div>

@@ -101,7 +101,7 @@
 	
 	/*다이얼 로그*/
 	$(function() {
-		//점검 추가
+		//시설 추가
 		$("#createdBtn").click(function() {
 			$("#modal").dialog({
 				title : "점검추가",
@@ -111,7 +111,7 @@
 				open : function(){ 
 					$(".btnBox").empty();
 					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
-					$("#companyAdd_close_btn").text("등록취소");
+					$("#modalCloseBtn").text("등록취소");
 				}
 			});
 		});
@@ -208,7 +208,6 @@
 		$("body").on("click", "#createdOk", function(){
 			var url = "<%=cp%>/inspection/created";
 			var query = $("form[name=formData]").serialize();
-			console.log(query);
 			
 			$.ajax({
 				type:"post",
@@ -307,11 +306,11 @@
 				beforeSend:check,
 				success:function(data){
 					if(data.state=="true"){
-						alert("업체 수정이 되었습니다.");
+						alert("점검 수정이 되었습니다.");
 						formClean();
 						location.reload();
 					}else{
-						alert("업체 수정을 실패하였습니다.");	
+						alert("점검 수정을 실패하였습니다.");	
 					}
 				},
 				error:function(e){
@@ -326,7 +325,7 @@
 	//글 삭제
 	$(function(){
 		$("body").on("click", "#deleteBtn", function(){	
-			if(confirm("업체를 삭제하시겠습니까?")){
+			if(confirm("점검를 삭제하시겠습니까?")){
 				var url = "<%=cp%>/inspection/delete";
 				var query = "checkCode="+$("#modal input[name=checkCode]").val();
 	
@@ -394,7 +393,7 @@
 				<tr>
 					<th>상태</th> 
 					<td> 
-						<input type="radio" name="searchState" value="2" class="boxR" checked="checked" <c:if test="${searchState=='3'}">checked="checked"</c:if>> 전체
+						<input type="radio" name="searchState" value="2" class="boxR" checked="checked" <c:if test="${searchState=='2'}">checked="checked"</c:if>> 전체
 						<input type="radio" name="searchState" value="1" class="boxR" <c:if test="${searchState=='1'}">checked="checked"</c:if>> 양호
 						<input type="radio" name="searchState" value="0" class="boxR" <c:if test="${searchState=='0'}">checked="checked"</c:if>> 주의   
 					</td>   

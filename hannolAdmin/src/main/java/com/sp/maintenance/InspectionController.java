@@ -39,8 +39,6 @@ public class InspectionController {
 			HttpServletRequest req,
 			Model model) throws Exception{
 			
-		System.out.println(searchStartDate);
-		System.out.println(searchEndDate);
 		//get방식일 경우만 디코딩딩
 		if(req.getMethod().equalsIgnoreCase("GET"))
 			searchValue = URLDecoder.decode(searchValue, "utf-8");
@@ -133,9 +131,7 @@ public class InspectionController {
 		
 		//시설 구분별 시설 리스트
 		List<Map<String, Object>> facList = service.listFacility(gubunCode);
-		
-		System.out.println(facList);
-		
+				
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("facList", facList);
 		
@@ -209,10 +205,4 @@ public class InspectionController {
 		
 		return model;
 	}
-	
-	
-	
-	
-	
-
 }

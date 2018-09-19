@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repair">
+	<!-- 시설 종류 가져오기 -->
+	<select id="listFacGubun" resultType="map">
+		SELECT gubunCode, name FROM facGubun
+	</select>
+	
+	<!-- 시설 종류별 시설 가져오기 -->
+	<select id="listFacility" resultType="map" parameterType="Integer">
+		SELECT facilityCode, name FROM facility
+		 WHERE gubunCode = #{gubunCode}
+	</select> 
+	
+	<!-- 시설 종류 가져오기 -->
+	<select id="listCompany" resultType="map">
+		SELECT companyCode, name FROM company
+	</select>
+	
+	<!-- 수리 추가 -->
+	<insert id="insertRepair" parameterType="com.sp.repair.Repair">
+		INSERT INTO repair(repairCode, repairDate, cost, memo, state, facilityCode, companyCode) VALUES (repair_seq.NEXTVAL, #{repairDate}, #{cost}, #{memo}, #{state}, #{facilityCode}, #{companyCode})
+	</insert>
+	
+	<!-- 상태 검색 -->
+	<!-- <sql id="statewhere-list">
+		<if test="searchState==2">
+			(c.state IN (1, 0))
+		</if>
+		<if test="searchState==1">
+			(c.state = '1')
+		</if>
+		<if test="searchState==0"> 
+			(c.state = '0')
+		</if>
+	</sql> -->
+	
+	<!-- 날짜 검색 -->
+	<!-- <sql id="datewhere-list">
+		and (repairDate &gt;= #{searchStartDate} and repairDate&lt;=#{searchEndDate})
+	</sql> -->
+	
+	<!-- 검색 -->
+	<!-- <sql id="where-list">
+		<if test="searchKey=='kind'">
+			and (INSTR(g.name, #{searchValue}) &gt; 0)
+		</if>
+		<if test="searchKey=='name'">
+			and (INSTR(lower(f.name), lower(#{searchValue})) &gt; 0)
+		</if>
+		<if test="searchKey=='content'">
+			and (INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0)
+		</if>
+	</sql> -->
+	
+	
+	<!-- 데이터 개수 -->
+	<select id="dataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM (
+		    SELECT g.name facGubunName, f.name facilityName, c.name companyName, r.cost, r.memo, r.state, repairDate
+		    FROM repair r
+		    LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
+		    LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		    LEFT OUTER JOIN company c ON r.companyCode = c.companyCode
+			<!-- <where>
+				<include refid="statewhere-list"/> 
+		
+				<if test="searchValue!=null and searchValue!=''">
+					<include refid="where-list"/>
+				</if>
+			
+				<if test="searchStartDate!=null and searchStartDate!=''">
+					<include refid="datewhere-list"/> 
+				</if>
+			</where> -->
+		)
+	</select>
+	
+	<!-- 점검 리스트 -->
+	<select id="listRepair" resultType="com.sp.repair.Repair" parameterType="map">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+			  	SELECT repairCode, g.name facGubunName, f.name facilityName, c.name companyName, r.cost, r.memo, r.state, TO_CHAR(repairDate, 'YYYY-MM-DD') repairDate
+		 	 	FROM repair r
+		        LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
+		        LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		        LEFT OUTER JOIN company c ON r.companyCode = c.companyCode
+		     	<!-- <where>
+					<include refid="statewhere-list"/> 
+		
+					<if test="searchValue!=null and searchValue!=''">
+						<include refid="where-list"/>
+					</if>
+				
+					<if test="searchStartDate!=null and searchStartDate!=''">
+						<include refid="datewhere-list"/> 
+					</if>
+				</where> -->
+		        ORDER BY r.repairCode DESC, f.gubunCode DESC, repairDate DESC 
+		    )tb WHERE ROWNUM &lt;= #{end}
+		)WHERE rnum &gt;= #{start}
+	</select>
+	
+	<!-- 점검 글보기 -->
+	<select id="readRepair" resultType="com.sp.repair.Repair" parameterType="Integer">
+		SELECT r.repairCode, g.gubunCode, g.name facGubunName, f.facilityCode, f.name facilityName, c.companyCode, c.name companyName, r.memo, r.state, TO_CHAR(repairDate, 'YYYY-MM-DD') repairDate
+		FROM repair r
+		LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
+		LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
+		LEFT OUTER JOIN company c ON r.companyCode = c.companyCode
+		WHERE r.repairCode = #{num}
+	</select>
+	
+	<!-- 점검 수정 -->
+	<!-- <update id="updateInspection" parameterType="com.sp.maintenance.Inspection">
+		UPDATE checks SET repairDate = #{repairDate}, state = #{state}, memo = #{memo} WHERE checkCode = #{checkCode}
+	</update> -->
+	
+	<!-- 점검 삭제 -->
+	<!-- <delete id="deleteInspection" parameterType="Integer">
+		DELETE FROM checks WHERE checkCode = #{num}
+	</delete> -->
+</mapper>

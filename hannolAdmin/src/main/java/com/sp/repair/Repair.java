@@ -1,15 +1,28 @@
 package com.sp.repair;
 
 public class Repair {
-	private int repairCode;		//수리코드
-	private String repairDate; 	//수리일자
-	private String memo;		//설명
-	private int cost;			//비용
-	private int state;			//상태
-	private int facilityCode;	//시설코드
-	private int companyCode;	//업체코드
-
+	private int listNum; // 리스트번호
+	private int repairCode; // 수리코드
+	private String repairDate; // 수리일자
+	private String memo; // 설명
+	private int cost; // 비용
+	private int state; // 상태
+	private int facGubunCode; // 시설코드
+	private String facGubunName; // 시설이름
+	private int facilityCode; // 시설코드
+	private String facilityName; // 시설이름
+	private int companyCode; // 업체코드
+	private String companyName; // 업체이름
 	
+
+	public int getListNum() {
+		return listNum;
+	}
+
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+
 	public int getRepairCode() {
 		return repairCode;
 	}
@@ -50,6 +63,22 @@ public class Repair {
 		this.state = state;
 	}
 
+	public int getFacGubunCode() {
+		return facGubunCode;
+	}
+
+	public void setFacGubunCode(int facGubunCode) {
+		this.facGubunCode = facGubunCode;
+	}
+
+	public String getFacGubunName() {
+		return facGubunName;
+	}
+
+	public void setFacGubunName(String facGubunName) {
+		this.facGubunName = facGubunName;
+	}
+
 	public int getFacilityCode() {
 		return facilityCode;
 	}
@@ -58,11 +87,27 @@ public class Repair {
 		this.facilityCode = facilityCode;
 	}
 
+	public String getFacilityName() {
+		return facilityName;
+	}
+
+	public void setFacilityName(String facilityName) {
+		this.facilityName = facilityName;
+	}
+
 	public int getCompanyCode() {
 		return companyCode;
 	}
 
 	public void setCompanyCode(int companyCode) {
 		this.companyCode = companyCode;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 }
