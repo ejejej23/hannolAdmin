@@ -184,18 +184,20 @@ public class CareerController {
 		}
 
 		service.insertCareer(dto);
+		long usersCode = dto.getUsersCode();
 
-		return "redirect:/career/list";
+		return "redirect:/career/list?usersCode="+usersCode;
 	}
 	
 	@RequestMapping(value = "/career/delete")
 	public String delete(@RequestParam int careerCode,
 			@RequestParam String page,
+			@RequestParam int usersCode,
 			HttpSession session) throws Exception {
 
 		service.deleteCareer(careerCode);
 		
-		return "redirect:/career/list";
+		return "redirect:/career/list?usersCode="+usersCode;
 	}
 	
 	@ResponseBody

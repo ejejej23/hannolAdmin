@@ -134,4 +134,5 @@
       <delete id="deleteNotice" parameterType="Integer">
             DELETE FROM Notice WHERE noticeCode = #{num}
       </delete>
+      
 </mapper>

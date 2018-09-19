@@ -16,4 +16,18 @@
 	<select id="getName" parameterType="Integer" resultType="String">
 		SELECT NAME FROM STAFF WHERE USERSCODE= #{usersCode}
 	</select>
+	
+	<select id="guideList" resultType="com.sp.guide.Guide">
+		SELECT SCHCODE, GUIDENAME AS NAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE
+		FROM GUIDE
+	</select>
+	
+	<select id="readInfo" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT G.SCHCODE, GUIDENAME, TIMEZONE, TO_CHAR(WORKDATE,'YYYY-MM-DD') WORKDATE, ROLE, MEMO, G.USERSCODE,
+		GB.USERSCODE AS USERSCODEM, BOOKCODE, TO_CHAR(BOOKDATE,'YYYY-MM-DD') BOOKDATE, TEL, NAME AS NAMEM
+		FROM GUIDE G
+		LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+		WHERE G.SCHCODE = #{schCode}
+	</select>
+
 </mapper>

@@ -15,23 +15,12 @@ public class Guide {
 	//예약관련
 	private int bookCode;
 	private String bookDate;
-	private String useDate;
-	private int eTimezone;//예약한 타임구분. 오전/오후
 	private String tel;
-	private String eName;
-	private String state;
 	
 	//예약자정보
-	private String memberId;
-	private String memberName;
+	private String nameM;
+	private long usersCodeM;
 	
-	
-	public String getWorkDate() {
-		return workDate;
-	}
-	public void setWorkDate(String workDate) {
-		this.workDate = workDate;
-	}
 	public long getUsersCode() {
 		return usersCode;
 	}
@@ -68,6 +57,12 @@ public class Guide {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	public String getWorkDate() {
+		return workDate;
+	}
+	public void setWorkDate(String workDate) {
+		this.workDate = workDate;
+	}
 	public String getRole() {
 		return role;
 	}
@@ -92,47 +87,23 @@ public class Guide {
 	public void setBookDate(String bookDate) {
 		this.bookDate = bookDate;
 	}
-	public String getUseDate() {
-		return useDate;
-	}
-	public void setUseDate(String useDate) {
-		this.useDate = useDate;
-	}
-	public int geteTimezone() {
-		return eTimezone;
-	}
-	public void seteTimezone(int eTimezone) {
-		this.eTimezone = eTimezone;
-	}
 	public String getTel() {
 		return tel;
 	}
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String geteName() {
-		return eName;
+	public String getNameM() {
+		return nameM;
 	}
-	public void seteName(String eName) {
-		this.eName = eName;
+	public void setNameM(String nameM) {
+		this.nameM = nameM;
 	}
-	public String getState() {
-		return state;
+	public long getUsersCodeM() {
+		return usersCodeM;
 	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public String getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-	public String getMemberName() {
-		return memberName;
-	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+	public void setUsersCodeM(long usersCodeM) {
+		this.usersCodeM = usersCodeM;
 	}
 	
 }

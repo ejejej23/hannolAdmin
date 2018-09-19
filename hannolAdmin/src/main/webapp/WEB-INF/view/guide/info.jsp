@@ -8,10 +8,8 @@
 
 <script type="text/javascript">
 function deleteCareer(data) {
-		var careerCode = data;
-		var page = "${page}";
-		var query = "careerCode="+careerCode+"&usersCode=${usersCode}&${query}";
-		var url = "<%=cp%>/career/delete?" + query;
+		var query = "${query}";
+		var url = "<%=cp%>/guide/delete?" + query;
 		
 		if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 				location.href=url;
@@ -19,7 +17,8 @@ function deleteCareer(data) {
 }
 
 function sendOk() {
-    var f = document.infoForm;
+	
+    <%-- var f = document.infoForm;
 
 	var str = f.careerDate.value;
     if(!str || !isValidDateFormat(str)) {
@@ -30,17 +29,16 @@ function sendOk() {
     }
 	var s = $("#dpCode option:selected").val();
 
-	f.action="<%=cp%>/career/create?usersCode=${usersCode}";
-    f.submit();
+	f.action="<%=cp%>/guide/createBook";
+    f.submit(); --%>
 }
-
 </script>
 
 <div class="sub-container" align="center">
 
 	<div class="sub-title">
 		<h3>
-			발령 <small>상세정보</small>
+			가이드 <small>상세정보</small>
 		</h3>
 	</div>
 
@@ -49,63 +47,51 @@ function sendOk() {
 
 			<div style="float: left; width: 40%">
 				<div class="form-group" style="margin: 80px auto 0px;">
-					<label for="usersCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;사원번호</label>
+					<label for="usersCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;일정코드</label>
 					<div class="col-sm-7">
-						<input type="text" name="usersCode" class="form-control input-sm"
-							id="usersCode" placeholder="사원번호" value="${usersCode}"
+						<input type="text" name="schCode" class="form-control input-sm"
+							id="schCode" placeholder="스케쥴코드" value="${dto.schCode}"
 							readonly="readonly">
 					</div>
 				</div>
 				<br>
 				
 				<div class="form-group" style="margin: 20px auto 0px;">
-					<label for="careerCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;발령코드</label>
+					<label for="workDate" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;근무일자</label>
 					<div class="col-sm-7">
-						<input type="text" name="careerCode" class="form-control input-sm"
-							id="careerCode" placeholder="발령코드는 입력후 자동생성됨" value="${dto.careerCode}" disabled="disabled"
+						<input type="text" name="workDate" class="form-control input-sm"
+							id="workDate" placeholder="근무일자" value="${dto.workDate}" disabled="disabled"
 							readonly="readonly">
 					</div>
 				</div>
 				
 				<br>
 				<div class="form-group" style="margin: 20px auto 0px;">
-					<label for="dpCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;부서</label>
+					<label for="timezone" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;구분</label>
 					<div class="col-sm-7">
-						<c:if test="${mode=='create'}">
-							<select class="input-sm" id="dpCode" name="dpCode">
-				                 <option value="0">:::::::: 선택 ::::::::</option>
-				                 <c:forEach var="vo" items="${dpList }">
-									<option value="${vo.dpCode }">${vo.dpName }</option>
-								 </c:forEach>
-			               </select>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" name="dpName" class="form-control input-sm"
-								id="dpName" placeholder="부서명" value="${dto.dpName}" readonly="readonly">
-						</c:if>
+							<input type="text" name="timezone" class="form-control input-sm"
+								id="timezone" placeholder="(오전/오후)" value="${dto.timezone==1?'오전':'오후'}" readonly="readonly">
 					</div>
 				</div>
 				<br>
 				<div class="form-group" style="margin: 20px auto 0px;">
-					<label for="positionCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;직위</label>
+					<label for="role" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;역할</label>
 					<div class="col-sm-7">
-						<c:if test="${mode=='create'}">
-							<select class="input-sm" id="positionCode" name="positionCode">
-								 <option value="0">:::::::: 선택 ::::::::</option>
-				                 <c:forEach var="vo" items="${positionList }">
-									<option value="${vo.positionCode }">${vo.positionName }</option>
-								 </c:forEach>
-			               </select>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" name="positionName"
-								class="form-control input-sm" id="positionName" placeholder="직위"
-								value="${dto.positionName}" readonly="readonly">
-						</c:if>
+							<input type="text" name="role"
+								class="form-control input-sm" id="role" placeholder="역할"
+								value="${dto.role}" readonly="readonly">
 					</div>
 				</div>
 				<br>
-
+				<div class="form-group" style="margin: 20px auto 0px;">
+					<label for="memo" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;상세정보</label>
+					<div class="col-sm-7">
+							<input type="text" name="memo"
+								class="form-control input-sm" id="memo" placeholder="상세정보"
+								value="${dto.memo}" readonly="readonly">
+					</div>
+				</div>
+				<br>
 			</div>
 
 				<div style="width: 30%; float: left;" class="text-center">
@@ -119,16 +105,36 @@ function sendOk() {
 
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="task" class="col-sm-2 control-label text-right">업무</label>
+					<label for="nameM" class="col-sm-2 control-label text-right">예약자이름</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
 						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="task"
-								placeholder="업무" value="${dto.task}"
+							<input type="text" class="form-control" name="nameM"
+								placeholder="예약자이름" value="${dto.nameM}"
 								style='border: none;'>
 						</c:if>
 						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="task" 
-								placeholder="업무" value="${dto.task}" readonly="readonly"
+							<input type="text" class="form-control" id="nameM" 
+								placeholder="예약자이름" value="${dto.nameM}" readonly="readonly"
+								style='border: none;'>
+						</c:if>
+					</div>
+				</div>
+
+				<br>
+				<br>
+				
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="tel" class="col-sm-2 control-label text-right">예약자 연락처</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+						<c:if test="${mode=='create'}">
+							<input type="text" class="form-control" name="tel"
+								placeholder="연락처" value="${dto.tel}" 
+								style='border: none;'>
+						</c:if>
+						<c:if test="${mode=='info'}">
+							<input type="text" class="form-control" id="tel"
+								placeholder="연락처" value="${dto.tel}" readonly="readonly"
 								style='border: none;'>
 						</c:if>
 					</div>
@@ -139,36 +145,16 @@ function sendOk() {
 
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="careerDate" class="col-sm-2 control-label text-right">발령일자</label>
+					<label for="bookDate" class="col-sm-2 control-label text-right">예약일자</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
 						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="careerDate" id="inputDate"
-								placeholder="YYYY-MM-DD" value="${dto.careerDate}" 
+							<input type="text" class="form-control" name="bookDate" id="inputDate"
+								placeholder="YYYY-MM-DD" value="${dto.bookDate}" 
 								style='border: none;'>
 						</c:if>
 						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="careerDate" 
-								placeholder="발령일자" value="${dto.careerDate}" readonly="readonly"
-								style='border: none;'>
-						</c:if>
-					</div>
-				</div>
-
-				<br>
-				<br>
-
-				<div class="form-group"
-					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="careerDate" class="col-sm-2 control-label text-right">메모</label>
-					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="memo"
-								placeholder="메모" value="${dto.memo}" 
-								style='border: none;'>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="memo"
-								placeholder="메모" value="${dto.memo}" readonly="readonly"
+							<input type="text" class="form-control" id="bookDate" 
+								placeholder="예약일자" value="${dto.bookDate}" readonly="readonly"
 								style='border: none;'>
 						</c:if>
 					</div>
@@ -176,6 +162,10 @@ function sendOk() {
 				
 				<br><br>
 				<br>
+				
+				<input type="hidden" id="usersCode" name="usersCode" value="${dto.usersCode }">
+				<input type="hidden" id="usersCodeM" name="usersCodeM" value="${dto.usersCodeM }">
+				
 
 				<table style="margin: 0px auto; border-spacing: 0px;">
 					<tr height="30">
@@ -187,7 +177,7 @@ function sendOk() {
 							</c:if>
 							<c:if test="${mode=='info'}">
 								<button type="button" name="sendButton" class="btn btn-default"
-									onclick="deleteCareer('${dto.careerCode}');">삭제</button>
+									onclick="deleteCareer('${dto.schCode}');">삭제</button>
 							</c:if>
 							<button type="button" class="btn btn-default	"
 								onclick="javascript:location.href='<%=cp%>/career/list?${query }';">리스트</button>

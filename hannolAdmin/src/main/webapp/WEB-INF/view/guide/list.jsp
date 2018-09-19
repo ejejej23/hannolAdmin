@@ -9,16 +9,12 @@
 
 <script type="text/javascript">
 	var dataset = [
-    <c:forEach var="listview" items="${listview}" varStatus="status">
-	    <c:if test="${listview.tsstartdate != ''}">
-	        {"id":'<c:out value="${listview.tsno}" />'
-	        ,"title":'<c:out value="${listview.tstitle}" />'
-	        ,"start":"<c:out value="${listview.tsstartdate}" />"
-	        <c:if test="${listview.tsenddate != ''}">
-	            ,"end":"<c:out value="${listview.tsenddate}" />"
-	        </c:if>
+    <c:forEach var="listview" items="${guideList}" varStatus="status">
+	        {"id":'<c:out value="${listview.schCode}" />'
+	        ,"title":'<c:out value="${listview.name} ( ${listview.role} )" />'
+	        ,"start":"<c:out value="${listview.workDate}" />"
+	        ,"url":"<%=cp%>/guide/info?schCode=${listview.schCode}"
 	        } <c:if test="${!status.last}">,</c:if>
-	    </c:if>
 	</c:forEach>
 ];
 
@@ -33,6 +29,7 @@ $('#calendar').fullCalendar({
     defaultDate: new Date(),
     navLinks: true, 
     editable: false,
+    displayEventTime: false,
     eventLimit: true,
     monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
     monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
@@ -44,7 +41,14 @@ $('#calendar').fullCalendar({
     week : "주별",
     day : "일별",
     },
-    events: dataset
+    events: dataset,
+    eventClick: function(calEvent, jsEvent, view) {
+
+    		if (event.url) {
+    	      window.open(event.url);
+    	      return false;
+    	    } 
+      }
 });
 });
 

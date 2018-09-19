@@ -73,4 +73,26 @@ public class GuideServiceImpl implements GuideService {
 		return result;
 	}
 
+	@Override
+	public List<Guide> guideList() throws Exception {
+		List<Guide> list=null;
+		try {
+			list = dao.selectList("guide.guideList");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public Guide readInfo(int schCode) throws Exception {
+		Guide dto=null;
+		try {
+			dto = dao.selectOne("guide.readInfo", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
 }
