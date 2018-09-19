@@ -96,7 +96,7 @@
 	var deleteBtn = '<button type="button" class="btn btn-default" id="deleteBtn">점검삭제</button>';
 	var resetBtn = '<button type="reset" class="btn btn-default">다시입력</button>';
 	var closeBtn = '<button type="button" class="btn btn-default" id="modalCloseBtn">취소</button>';
-	var hiddenBtn = '<input type="hidden" name="checkCode"/>';
+	var hiddenBtn = '<input type="hidden" name="checkCode">';
 	
 	
 	/*다이얼 로그*/
@@ -112,6 +112,9 @@
 					$(".btnBox").empty();
 					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
 					$("#modalCloseBtn").text("등록취소");
+					
+					$("#modal select[name=facGubun]").val(1).trigger("change");  
+					$("#modal select[name=facilityCode]").val(1);		 
 				}
 			});
 		});
@@ -267,7 +270,7 @@
 					if(data.state=="true"){
 						$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
 						$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
-						$("#modal input[name=checkDate ]").val(data.dto.checkDate);
+						$("#modal input[name=checkDate]").val(data.dto.checkDate);
 						$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
 						$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
 						$("#modal textarea[name=memo]").val(data.dto.memo); 

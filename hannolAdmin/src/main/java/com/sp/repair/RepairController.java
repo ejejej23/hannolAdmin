@@ -1,5 +1,6 @@
 package com.sp.repair;
 
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -27,11 +28,12 @@ public class RepairController {
 	@Autowired
 	private MyUtil util;
 	
+	
 	@RequestMapping(value="/repair/list")
 	public String list(@RequestParam (value="page", defaultValue="1") int current_page,
 			@RequestParam (value="searchKey", defaultValue="kind") String searchKey,
 			@RequestParam (value="searchValue", defaultValue="") String searchValue,
-			@RequestParam(value="searchState", defaultValue="2") String searchState,
+			@RequestParam(value="searchState", defaultValue="3") String searchState,
 			@RequestParam(value="searchStartDate", defaultValue="") String searchStartDate,
 			@RequestParam(value="searchEndDate", defaultValue="") String searchEndDate,
 			HttpServletRequest req,
@@ -87,8 +89,8 @@ public class RepairController {
 			query = "searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue, "utf-8");
 		
 		String cp = req.getContextPath();
-		String list_url = cp+"/Repair/list";
-		String article_url = cp+"/Repair/article?page="+current_page;
+		String list_url = cp+"/repair/list";
+		String article_url = cp+"/repair/article?page="+current_page;
 		if(query.length()!=0) {
 			list_url += "?"+query;
 			article_url += "&"+query;
@@ -167,6 +169,40 @@ public class RepairController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		model.put("dto", dto);
+		
+		return model;
+	}
+	
+	//글수정 : AJAX-JSON
+	@RequestMapping(value="/repair/update", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> update(Repair dto) throws Exception {
+		
+		String state = "true";
+		
+		int result = service.updateRepair(dto);
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	//글삭제 : AJAX-JSON
+	@RequestMapping(value="/repair/delete", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam(value="repairCode") int repairCode) throws Exception{
+		
+		String state = "true";
+		
+		int result = service.deleteRepair(repairCode);
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
 		
 		return model;
 	}

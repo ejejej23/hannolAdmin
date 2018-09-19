@@ -16,9 +16,8 @@
 	
 	.listData_no{text-align:center;}
 	
-	.noLine{border:0 none;}
+	.noLine{padding-left:0; border:0 none;}
 	select.noLine{padding:0; appearance:none; -webkit-appearance:none; -moz-appearance:none; cursor:default;}
-	.datepicker.noLine{padding-left:0;}
 	.datepicker.noLine+img{display:none;}
 	input[name=state].noLine,
 	input[name=state].noLine+label{display:none;}
@@ -53,9 +52,8 @@
 	
 	.modalTable input[type=radio],
 	.modalTable label{margin:0 3px 0 0; vertical-align:middle; font-weight:500;}
-	.modalTable #badState{margin-left:8px;}
-	
-	.warning{color:#e52806;}
+
+
 	
 	
 	
@@ -92,7 +90,7 @@
 	var deleteBtn = '<button type="button" class="btn btn-default" id="deleteBtn">수리삭제</button>';
 	var resetBtn = '<button type="reset" class="btn btn-default">다시입력</button>';
 	var closeBtn = '<button type="button" class="btn btn-default" id="modalCloseBtn">취소</button>';
-	var hiddenBtn = '<input type="hidden" name="checkCode"/>';
+	var hiddenBtn = '<input type="hidden" name="repairCode">';
 	
 	
 	/*다이얼 로그*/
@@ -102,12 +100,16 @@
 			$("#modal").dialog({
 				title : "수리추가",
 				width : 480,
-				height : 570, 
+				height : 660,  
 				modal : true,
 				open : function(){ 
 					$(".btnBox").empty();
 					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
 					$("#modalCloseBtn").text("등록취소");
+					
+					$("#modal select[name=facGubun]").val(1).trigger("change");  
+					$("#modal select[name=facilityCode]").val(1);						
+					$("#modal select[name=companyCode]").val(1);
 				}
 			});
 		});
@@ -231,7 +233,7 @@
 			$("#modal").dialog({
 				title : "수리정보",
 				width : 480,
-				height : 570, 
+				height : 660, 
 				modal : true,
 				open:function(){
 					//버튼
@@ -259,9 +261,10 @@
 				success:function(data){
 					if(data.state=="true"){
 						$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
-						$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
+						$("#modal select[name=facilityCode]").val(data.dto.facilityCode);						
 						$("#modal select[name=companyCode]").val(data.dto.companyCode);
 						$("#modal input[name=repairDate ]").val(data.dto.repairDate);
+						$("#modal input[name=cost]").val(data.dto.cost);
 						$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
 						$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
 						$("#modal textarea[name=memo]").val(data.dto.memo); 
@@ -321,7 +324,7 @@
 		$("body").on("click", "#deleteBtn", function(){	
 			if(confirm("수리를 삭제하시겠습니까?")){
 				var url = "<%=cp%>/repair/delete";
-				var query = "checkCode="+$("#modal input[name=checkCode]").val();
+				var query = "repairCode="+$("#modal input[name=repairCode]").val();
 	
 				$.ajax({
 					url:url,
@@ -402,12 +405,13 @@
 				<tr>
 					<th>검색</th> 
 					<td>
-						<select name="searchKey" class="selectField">
-							<option value="kind">분류</option>
-							<option value="name">시설명</option> 
-							<option value="content">수리내역</option>
+						<select name="searchKey" class="selectField"> 
+							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
+							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
+							<option value="company" <c:if test="${searchKey=='company'}">selected="selected"</c:if>>업체명</option> 
+							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>수리내역</option>
 						</select>  
-						<input type="text" name="searchValue" class="boxTF"> 
+						<input type="text" name="searchValue" class="boxTF" value="${searchValue}"> 
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
 					</td>  
 				</tr>
@@ -417,11 +421,11 @@
 		<table class="table">
 			<colgroup>
 				<col style="width:5%;">
-				<col style="width:10%;">
-				<col style="width:10%;">
+				<col style="width:12%;">
+				<col style="width:12%;">
 				<col style="width:13%;">
 				<col style="">
-				<col style="width:10%;"> 
+				<col style="width:11%;"> 
 				<col style="width:9%;">
 				<col style="width:12%;">
 			</colgroup>
@@ -446,11 +450,11 @@
 						<td>${dto.facilityName}</td>
 						<td>${dto.companyName}</td>
 						<td class="articleVeiw" data-artilenum="${dto.repairCode}"><a href="#">${dto.memo}</a></td>
-						<td>${dto.cost}</td>
+						<td><fmt:formatNumber value="${dto.cost}" type="number"/></td>   
 						<td>
 							<c:if test="${dto.state==0}">요청</c:if>
-							<c:if test="${dto.state==1}">요청중</c:if>
-							<c:if test="${dto.state==2}">요청완료</c:if> 
+							<c:if test="${dto.state==1}">요청완료</c:if>
+							<c:if test="${dto.state==2}">수리완료</c:if> 
 						</td>
 						<td>${dto.repairDate}</td>
 					</tr>
@@ -511,7 +515,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">업체</th>
+				<th scope="row">업체명</th>
 				<td>
 					<select name="companyCode" class="selectField" data-name="업체를">
 						<c:forEach var="list" items="${companyList}">
@@ -526,7 +530,7 @@
 			</tr> 
 			<tr> 
 				<th scope="row">비용</th>
-				<td><input name="cost" class="boxTF"  data-name="비용을"></td>
+				<td><input name="cost" class="boxTF"  data-name="비용을" disabled="disabled"></td> 
 			</tr>
 			<tr>
 				<th scope="row">상태</th>

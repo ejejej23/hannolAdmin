@@ -1,20 +1,20 @@
 package com.sp.repair;
 
 public class Repair {
-	private int listNum; // 리스트번호
-	private int repairCode; // 수리코드
-	private String repairDate; // 수리일자
-	private String memo; // 설명
-	private int cost; // 비용
-	private int state; // 상태
-	private int facGubunCode; // 시설코드
-	private String facGubunName; // 시설이름
-	private int facilityCode; // 시설코드
-	private String facilityName; // 시설이름
-	private int companyCode; // 업체코드
-	private String companyName; // 업체이름
-	
+	private int listNum; 		//리스트번호
+	private int repairCode; 	//수리코드
+	private String repairDate; 	//수리일자
+	private String memo; 		//설명
+	private int cost; 			//비용
+	private int state; 			//상태
+	private int gubunCode; 		//시설코드
+	private String facGubunName;//시설이름
+	private int facilityCode; 	//시설코드
+	private String facilityName;//시설이름
+	private int companyCode; 	//업체코드
+	private String companyName; //업체이름
 
+	
 	public int getListNum() {
 		return listNum;
 	}
@@ -63,12 +63,12 @@ public class Repair {
 		this.state = state;
 	}
 
-	public int getFacGubunCode() {
-		return facGubunCode;
+	public int getGubunCode() {
+		return gubunCode;
 	}
 
-	public void setFacGubunCode(int facGubunCode) {
-		this.facGubunCode = facGubunCode;
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
 	}
 
 	public String getFacGubunName() {

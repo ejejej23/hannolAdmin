@@ -104,7 +104,7 @@ public class RepairServiceImpl implements RepairService{
 		int result = 0;
 		
 		try {
-			
+			result = dao.updateData("repair.updateRepair", dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -116,7 +116,7 @@ public class RepairServiceImpl implements RepairService{
 		int result = 0;
 		
 		try {
-			
+			result = dao.deleteData("repair.deleteRepair", num);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

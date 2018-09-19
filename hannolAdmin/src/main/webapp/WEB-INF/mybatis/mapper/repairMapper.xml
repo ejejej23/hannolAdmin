@@ -24,35 +24,41 @@
 	</insert>
 	
 	<!-- 상태 검색 -->
-	<!-- <sql id="statewhere-list">
-		<if test="searchState==2">
-			(c.state IN (1, 0))
+	<sql id="statewhere-list">
+		<if test="searchState==3">
+			(r.state IN (0, 1, 2))
 		</if>
-		<if test="searchState==1">
-			(c.state = '1')
+		<if test="searchState==0">
+			(r.state = '0')
 		</if>
-		<if test="searchState==0"> 
-			(c.state = '0')
+		<if test="searchState==1"> 
+			(r.state = '1')
 		</if>
-	</sql> -->
+		<if test="searchState==2"> 
+			(r.state = '2')
+		</if>
+	</sql>
 	
 	<!-- 날짜 검색 -->
-	<!-- <sql id="datewhere-list">
+	<sql id="datewhere-list">
 		and (repairDate &gt;= #{searchStartDate} and repairDate&lt;=#{searchEndDate})
-	</sql> -->
+	</sql>
 	
 	<!-- 검색 -->
-	<!-- <sql id="where-list">
+	<sql id="where-list">
 		<if test="searchKey=='kind'">
 			and (INSTR(g.name, #{searchValue}) &gt; 0)
 		</if>
 		<if test="searchKey=='name'">
 			and (INSTR(lower(f.name), lower(#{searchValue})) &gt; 0)
 		</if>
-		<if test="searchKey=='content'">
-			and (INSTR(lower(c.memo), lower(#{searchValue})) &gt; 0)
+		<if test="searchKey=='company'">
+			and (INSTR(lower(c.name), lower(#{searchValue})) &gt; 0)
 		</if>
-	</sql> -->
+		<if test="searchKey=='content'">
+			and (INSTR(lower(r.memo), lower(#{searchValue})) &gt; 0)
+		</if>
+	</sql> 
 	
 	
 	<!-- 데이터 개수 -->
@@ -63,7 +69,7 @@
 		    LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
 		    LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
 		    LEFT OUTER JOIN company c ON r.companyCode = c.companyCode
-			<!-- <where>
+			<where>
 				<include refid="statewhere-list"/> 
 		
 				<if test="searchValue!=null and searchValue!=''">
@@ -73,7 +79,7 @@
 				<if test="searchStartDate!=null and searchStartDate!=''">
 					<include refid="datewhere-list"/> 
 				</if>
-			</where> -->
+			</where>
 		)
 	</select>
 	
@@ -86,7 +92,7 @@
 		        LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
 		        LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
 		        LEFT OUTER JOIN company c ON r.companyCode = c.companyCode
-		     	<!-- <where>
+		     	<where>
 					<include refid="statewhere-list"/> 
 		
 					<if test="searchValue!=null and searchValue!=''">
@@ -96,7 +102,7 @@
 					<if test="searchStartDate!=null and searchStartDate!=''">
 						<include refid="datewhere-list"/> 
 					</if>
-				</where> -->
+				</where>
 		        ORDER BY r.repairCode DESC, f.gubunCode DESC, repairDate DESC 
 		    )tb WHERE ROWNUM &lt;= #{end}
 		)WHERE rnum &gt;= #{start}
@@ -104,7 +110,7 @@
 	
 	<!-- 점검 글보기 -->
 	<select id="readRepair" resultType="com.sp.repair.Repair" parameterType="Integer">
-		SELECT r.repairCode, g.gubunCode, g.name facGubunName, f.facilityCode, f.name facilityName, c.companyCode, c.name companyName, r.memo, r.state, TO_CHAR(repairDate, 'YYYY-MM-DD') repairDate
+		SELECT r.repairCode, g.gubunCode, g.name facGubunName, f.facilityCode, f.name facilityName, c.companyCode, c.name companyName, r.cost, r.memo, r.state, TO_CHAR(repairDate, 'YYYY-MM-DD') repairDate
 		FROM repair r
 		LEFT OUTER JOIN facility f ON r.facilityCode = f.facilityCode
 		LEFT OUTER JOIN facGubun g ON f.gubunCode = g.gubunCode
@@ -113,12 +119,12 @@
 	</select>
 	
 	<!-- 점검 수정 -->
-	<!-- <update id="updateInspection" parameterType="com.sp.maintenance.Inspection">
-		UPDATE checks SET repairDate = #{repairDate}, state = #{state}, memo = #{memo} WHERE checkCode = #{checkCode}
-	</update> -->
+	<update id="updateRepair" parameterType="com.sp.repair.Repair">
+		UPDATE repair SET repairDate = #{repairDate}, state = #{state}, cost = #{cost}, memo = #{memo}, companyCode = #{companyCode} WHERE repairCode = #{repairCode}
+	</update>
 	
 	<!-- 점검 삭제 -->
-	<!-- <delete id="deleteInspection" parameterType="Integer">
-		DELETE FROM checks WHERE checkCode = #{num}
-	</delete> -->
+	<delete id="deleteRepair" parameterType="Integer">
+		DELETE FROM repair WHERE repairCode = #{num}
+	</delete>
 </mapper>
