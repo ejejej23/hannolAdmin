@@ -187,17 +187,21 @@ public class ShowController {
 				// ㄴ 공연일정에 대한 공연시작시간 리스트
 		List<ShowInfo> list = service.listShowInfo(showCode);
 		model.addAttribute("list", list);
+		model.addAttribute("showCode", showCode);	// list가 없을 경우 showCode 를 못구하므로 넘긴다.
 		
 		return "show/showDetail";
 	}
 
 	// 공연 상세정보 추가
 	@RequestMapping(value="/show/insertShowDetail")
-	public String createShowInfoForm(Model model) throws Exception {
+	public String createShowInfoForm(
+			@RequestParam(value="showCode") int showCode,
+			Model model) throws Exception {
 		
 		model.addAttribute("mode", "created");
+		model.addAttribute("showCode", showCode);
 		
-		return "show/createdShowDetail";
+		return "show/createdShowInfo";
 	}
 	
 	@RequestMapping(value="/show/facilityList")
@@ -217,6 +221,15 @@ public class ShowController {
 		return "show/facilityList";
 	}
 	
+	@RequestMapping(value="/show/showInfo/created", method=RequestMethod.POST)
+	public String createShowInfoSubmit(ShowInfo dto) throws Exception {
+		
+		// 상세 정보 insert 
+		service.insertShowInfo(dto);
+		
+		// article redirect
+		return "redirect:/show/article?showCode="+dto.getShowCode();
+	}
 	
 	
 }

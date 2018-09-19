@@ -192,6 +192,18 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public int insertShowInfo(ShowInfo dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("show.insertShowInfo", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+
 
 
 }

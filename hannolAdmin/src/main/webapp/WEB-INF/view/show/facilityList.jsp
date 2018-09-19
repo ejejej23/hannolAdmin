@@ -9,8 +9,7 @@
 	<div class="modal-dialog" >
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">	
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">	
 					<span aria-hidden="true">×</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;">예약 가능한 시설 목록</h4>
@@ -38,10 +37,13 @@
 							${dto.NAME}
 						</div>
 						<div align="center" style="position: relative; float: left; width: 30%">
-							<button type="button" class="btn" data-facilityCode="${dto.FACILITYCODE}">선택</button>
+							<button type="button" class="btn" data-dismiss="modal" aria-label="Close" onclick="selectFacility('${dto.FACILITYCODE}', '${dto.NAME}')">선택</button>
 						</div>
 					</div>
 				</c:forEach>
+				<c:if test="${empty list}">
+					<div align="center">등록 가능한 시설이 없습니다. 다른 날짜로 조회하세요.</div>
+				</c:if>
 				
 			</div>
 		</div>

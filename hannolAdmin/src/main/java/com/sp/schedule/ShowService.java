@@ -25,6 +25,7 @@ public interface ShowService {
 	public List<ShowInfo> listShowInfo(int showCode) throws Exception;
 	public List<ShowSchedule> listShowSchedule(int showInfoCode) throws Exception;
 	public List<ShowStartTime> listShowStartTime(int schCode) throws Exception;
+	public int insertShowInfo(ShowInfo dto) throws Exception;
 	
 	// 공연 일정
 	

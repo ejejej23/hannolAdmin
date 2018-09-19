@@ -5,9 +5,7 @@
 <%
 	String cp = request.getContextPath();
 %>
-
 <script>
-
 // 아래 스크립트 article.jsp 로 가져가면 페이지 처음 로딩 시 에는 없는 객체이므로 이벤트 적용이 안된다.!!!!!!!!
 $(function() {
 	$(".toggle").click(function() {
@@ -23,20 +21,16 @@ $(function() {
 		}
 	});
 });
-   
 </script>
-
-
-
 <div>
 <hr> 
 	<div class="sub-title">
-	<br><br><br>
-	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" class="btn" onclick="insertShowInfo();">+</button>
+	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" class="btn" onclick="createdShowInfoForm('${showCode}');">+</button>
     </div>
-
-	<c:forEach items="${list}" var="dto">
-		<!-- 상세정보 개수만큼 반복 구간 -->
+    <br>
+    <div id="showCreatedForm"></div>
+	<!-- 상세정보 개수만큼 반복 구간 -->
+	<c:forEach items="${list}" var="dto" varStatus="i">
 		<div>	
 			<div class="form-group">
 				<div class="col-sm-2">시작  ~ 종료</div>
@@ -97,6 +91,5 @@ $(function() {
 			</tr>
 		</table>
 	</c:if>
-
 </div>
 

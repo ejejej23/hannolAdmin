@@ -18,6 +18,12 @@
 		values(#{showTime}, #{showCode})	
 	</insert>
 	
+	<!-- 상세정보 등록 -->
+	<insert id="insertShowInfo" parameterType="com.sp.schedule.ShowInfo">
+		insert into showInfo(showInfoCode, startDate, endDate, runningTime, showCode, facilityCode)
+		values(showInfo_seq.nextval, #{startDate}, #{endDate}, #{runningTime}, #{showCode}, #{facilityCode})
+	</insert>
+	
 	<!-- 일단 리스트만 나오도록 -->
 	<select id="listShow" parameterType="map" resultType="com.sp.schedule.Show">
 	select * from (
@@ -66,7 +72,7 @@
 		from showInfo s join facility f
 		on s.facilityCode = f.facilityCode
 		where showCode = #{showCode}
-		order by startDate desc
+		order by endDate desc
 	</select>
 	
 	<!-- 하나의 공연상세코드 - 공연일정 리스트 -->
