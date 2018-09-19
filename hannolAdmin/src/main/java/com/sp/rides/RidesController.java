@@ -106,12 +106,27 @@ public class RidesController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("total_page", total_page);
 
-		System.out.println("getlist도 지나감~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
 		return "/rides/sub-list";
 	}
 
-
+	@RequestMapping(value="/rides/article")
+	public String article(@RequestParam(value = "num") int num, @RequestParam(value = "page") String page,
+						Model model) throws Exception{
+		
+		String query="page="+page;
+		Rides dto = service.readRides(num);
+		if(dto == null) {
+			System.out.println("dto에 널이 들어왔어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			return "redirect:/rides/list?"+query;
+		}
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+		
+		return ".rides.article";
+	}
+	
 	@RequestMapping(value="/rides/update")
 	public String update(@RequestParam(value="lists[]")  String[] lists,
 			@RequestParam(value="selCode") int selCode) {

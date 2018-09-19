@@ -118,13 +118,7 @@
 </script>
 <div class="sub-container" style="width: 960px;">
 
-     <div class="body-title">
-     	<h3>어트랙션 정보</h3>
-        <%-- <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3> --%>
-    </div>  
-    
 	 <div>
-
 		<div id="listLayout"></div>
 		
 		<div id="resultLayout"></div>

@@ -21,7 +21,7 @@ public class Facility {
 	String themeName;
 	private MultipartFile upload1;
 	private MultipartFile upload2;
-	
+
 	public String getGubunName() {
 		return gubunName;
 	}

@@ -6,6 +6,11 @@
    String cp = request.getContextPath();
 %>
 
+	<div class="body-title">
+     	<h3>어트랙션 정보<small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
+        <%-- <h3><span style="font-family: Webdings">2</span> 어트랙션 정보 <span style="font-size:15px;">${dataCount}개(${page}/${total_page} 페이지)</span> </h3> --%>
+    </div> 
+
   <div>
     <select class="selectField" id="ridesInfo" name="ridesInfo">
 		<option value="" >::상태선택::</option>
@@ -52,8 +57,7 @@
 						<td>${vo.ridesInfoCode}</td>
 						<td>${vo.themeName}</td>
 						<td>${vo.genreName}</td>
-						<%-- <td><a href="${articleUrl}&num=${vo.ridesInfoCode}">${vo.name}</a></td> --%>
-						<td>${vo.name}</td>
+						<td><a href="${articleUrl}&num=${vo.facilityCode}">${vo.name}</a></td>
 						<td>${vo.gubunName}</td>
 						<td>
 							<c:choose>

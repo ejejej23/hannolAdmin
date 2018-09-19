@@ -19,6 +19,7 @@ public class RidesServiceImpl implements RidesService{
 		int result=0;
 		try {
 			result=dao.insertData("rides.insertRides",dto);
+			//result=dao.insertData("rides.insertRidesInfo",dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -75,6 +76,7 @@ public class RidesServiceImpl implements RidesService{
 	public Rides readRides(int num) {
 		Rides dto=null;
 		try {
+			System.out.println(num+":::::::::::::"+"num값!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			dto=dao.selectOne("rides.readRides",num);
 		} catch (Exception e) {
 			System.out.println(e.toString());

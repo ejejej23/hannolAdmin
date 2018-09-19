@@ -3,11 +3,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rides">
 	
-<!-- 	<insert id="insertRides" parameterType="com.sp.rides.Rides">
-	  INSERT INTO rides(facilityCode, boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
-	  VALUES (rides_seq.NEXTVAL, #{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
+	<insert id="insertRides" parameterType="com.sp.rides.Rides">
+	  INSERT INTO rides(boardingTime, passengers, minHeight, maxHeight, limit, genreCode, gubunCode) 
+	  VALUES (#{boardingTime}, #{passengers}, #{minHeight}, #{maxHeight}, #{limit}, #{genreCode}, #{gubunCode})
 	</insert>
- -->
+		
+	<insert id="insertRidesInfo" parameterType="com.sp.rides.Rides">
+		INSERT INTO ridesInfo(ridesInfoCode, state, facilityCode)
+		VALUES (ridesInfo_seq.NEXTVAL, #{state}, #{facilityCode})
+	</insert>
+	
 	<sql id="where-list">
 	  <if test="searchKey=='name'">
 	      S.name =#{searchValue}
@@ -32,7 +37,16 @@
 	<!-- 글개수 -->
 	<select id="dataCount" parameterType="map"
 	            resultType="Integer">
-	 SELECT NVL(COUNT(*), 0) FROM facility where gubunCode=1
+	 select count (*) from
+    (select f.facilityCode, themeName, g.genreName, f.name, s.gubunName, i.state, i.ridesInfoCode  
+        from facility f
+            left join rides r on f.facilityCode = r.facilityCode
+            left join theme t on t.themeCode = f.themeCode
+            left join genre g on r.genreCode = g.genreCode 
+            left join facGubun b on f.gubunCode=b.gubunCode 
+            left join ridesInfo i on i.facilityCode = f.facilityCode
+            left join stateGubun s on r.gubunCode = s.gubunCode
+    where f.gubunCode=1)
 	     <where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>
@@ -87,6 +101,15 @@
 	        ) tb WHERE ROWNUM <= #{end}
 	    ) WHERE rnum >= #{start}
 	]]>
+	</select>
+	
+	<select id="readRides" parameterType="Integer" resultType="com.sp.rides.Rides">
+		select f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName, s.state
+		from rides r
+			join ridesInfo s on s.facilityCode=r.facilityCode
+			join genre g on g.genreCode=r.genreCode
+			right outer join facility f on r.facilityCode = f.facilityCode
+		where f.gubunCode=1 and f.facilityCode=#{num}
 	</select>
 	
 	<update id="updateRides" parameterType="com.sp.rides.Rides">
