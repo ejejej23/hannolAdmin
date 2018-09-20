@@ -34,7 +34,10 @@ $(function() {
 		<div>	
 			<div class="form-group">
 				<div class="col-sm-2">시작  ~ 종료</div>
-				<div class="col-sm-3"><mark>${dto.startDate} ~ <input type="text" id="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
+				<div class="col-sm-3">
+					<input type="text" data-showInfoCode="${dto.showInfoCode}" name="eStartDate" value="${dto.startDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"> 
+					~ 
+					<input type="text" data-showInfoCode="${dto.showInfoCode}" name="eEndDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></div> 
 				<div class="col-sm-2">상영시간</div>
 				<div class="col-sm-3"><mark>${dto.runningTime}분</mark></div>
 				<div class="col-sm-1"><button type="button" class="btn" onclick="updateShowInfoForm('${dto.showInfoCode}')">수정</button></div>
@@ -51,43 +54,47 @@ $(function() {
 					</mark>
 				</div>
 			</div><br>
-			<div class="form-group">
-				<div class="col-sm-2">&nbsp;</div>
-				<div class="col-sm-10 toggle" id="toggleButton${dto.showInfoCode}" data-showInfoCode="${dto.showInfoCode}">일정 보기 ▼</div><br>
-				<div class="col-sm-10" id="moreScheduleLayout${dto.showInfoCode}" style="display: none;">
-					<table  style="width: 80%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
-						<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="30%">상영날짜</td>
-					      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
-					      <td width="10%"></td>
-						</tr>
-						<c:forEach items="${dto.showScheduleList}" var="vo">
-							  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-							      <td width="30%">${vo.screenDate}</td>
-							      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
-							      	<c:forEach items="${vo.showStartTimeList}" var="sst" varStatus="status">
-							      		${sst.startTime}&nbsp;${(status.last) ? "" : " , "}
-							      	</c:forEach>
-							      </td>
-							      <td width="10%"><button type="button" class="btn" onclick="">수정</button></td>
-							  </tr>
-						</c:forEach>
-						<c:if test="${empty dto.showScheduleList}">
-							<tr align="left" height="30em" style="border-bottom: 1px solid #cccccc;">
-								<td></td>
-								<td>등록된 일정이 없습니다.</td>
-								<td></td>
-							</tr> 
-						</c:if>
-						<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="30%"></td>
-					      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
-					      		<button type="button" id="" class="btn" onclick="createdShowScheduleForm('${dto.showInfoCode}')">+</button></td> 
-					      <td width="10%">&nbsp;</td>
-						</tr>
-					</table>
+			<form action="" name="showDetailForm" data-showInfoCode="${dto.showInfoCode}">
+				<div class="form-group">
+					<div class="col-sm-2">&nbsp;</div>
+					<div class="col-sm-10 toggle" id="toggleButton${dto.showInfoCode}" data-showInfoCode="${dto.showInfoCode}">일정 보기 ▼</div><br>
+					<div class="col-sm-10" id="moreScheduleLayout${dto.showInfoCode}" style="display: none;">
+						<table  style="width: 80%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+							<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+						      <td width="30%">상영날짜</td>
+						      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
+						      <td width="10%"></td>
+							</tr>
+							<c:forEach items="${dto.showScheduleList}" var="vo">
+								  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+								      <td width="30%"><input name="screenDate" readonly="readonly" style="border: none;" value="${vo.screenDate}"></td>
+								      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
+								      	<c:forEach items="${vo.startTime}" var="sst" varStatus="status">
+								      		${sst.startTime}&nbsp;${(status.last) ? "" : " , "}
+								      	</c:forEach>
+								      </td>
+								      <td width="10%"><button type="button" class="btn" onclick="">수정</button></td>
+								  </tr>
+							</c:forEach>
+							<c:if test="${empty dto.showScheduleList}">
+								<tr align="left" height="30em" style="border-bottom: 1px solid #cccccc;">
+									<td></td>
+									<td>등록된 일정이 없습니다.</td>
+									<td></td>
+								</tr> 
+							</c:if>
+							<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+						      <td width="30%"></td>
+						      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
+						      		<button type="button" id="" class="btn" onclick="createdShowScheduleForm('${dto.showInfoCode}')">+</button></td> 
+						      <td width="10%">&nbsp;</td>
+							</tr>
+						</table>
+					</div>
 				</div>
-			</div><br>
+			</form>
+			
+			<br>
 		</div>
 		<br><br><br><br><br><br>
 	</c:forEach>	

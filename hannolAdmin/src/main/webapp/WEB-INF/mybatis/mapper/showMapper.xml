@@ -24,6 +24,16 @@
 		values(showInfo_seq.nextval, #{startDate}, #{endDate}, #{runningTime}, #{showCode}, #{facilityCode})
 	</insert>
 	
+	<insert id="insertShowSchedule" parameterType="com.sp.schedule.ShowSchedule">
+		insert into showSch(schCode, screenDate, showInfoCode)
+		values(showsch_seq.nextval, #{screenDate}, #{showInfoCode})
+	</insert>
+	
+	<insert id="insertShowStartTime" parameterType="map">
+		insert into showStartTime(sStartCode, startTime, note, schCode)
+		values(showStartTime_seq.nextval, #{startTime}, null, #{schCode})
+	</insert>
+	
 	<!-- 일단 리스트만 나오도록 -->
 	<select id="listShow" parameterType="map" resultType="com.sp.schedule.Show">
 	select * from (
@@ -127,6 +137,12 @@
 		where showinfocode = #{showInfoCode}
 	</select>
 
+	<select id="readScheduleCode" parameterType="map" resultType="Integer">
+		select schCode 
+		from showSch
+		where screendate = #{screenDate}
+		    and showinfocode = #{showInfoCode}
+	</select>
 
 	<sql id="where-list">
 	</sql>

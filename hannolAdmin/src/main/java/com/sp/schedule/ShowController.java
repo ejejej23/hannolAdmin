@@ -2,8 +2,6 @@ package com.sp.schedule;
 
 import java.io.File;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.common.DateUtil;
 import com.sp.common.MyUtil;
 
 @Controller("schedule.showController")
@@ -30,9 +27,6 @@ public class ShowController {
 	
 	@Autowired
 	private MyUtil myUtil;
-	
-	@Autowired
-	private DateUtil dateUtil;
 	
 	// 공연 스케쥴
 	@RequestMapping(value = "/show/list", method = RequestMethod.GET)
@@ -262,10 +256,42 @@ public class ShowController {
 	@RequestMapping(value="/show/insertShowSchedule", method=RequestMethod.GET)
 	public String createShowScheduleForm(int showInfoCode, 
 			Model model) throws Exception {
+		
+		ShowInfo dto = service.readShowInfo(showInfoCode);
+		if(dto == null) {
+			return "redirect:/show/article?showCode="+showInfoCode;
+		}
+		
 		model.addAttribute("mode", "created");
 		model.addAttribute("showInfoCode", showInfoCode);
+		model.addAttribute("startDate", dto.getStartDate());
+		model.addAttribute("endDate", dto.getEndDate());
+		model.addAttribute("showCode", dto.getShowCode());
+		// model 에 객체 넘기면 주소 넘어간다 *
+		
 		return "show/createdShowSchedule";
 	}
 
-	
+	@RequestMapping(value="/show/insertShowSchedule", method=RequestMethod.POST)
+	public String createShowScheduleSubmit(ShowSchedule dto) throws Exception{
+		// 상영날짜 insert
+		service.insertShowSchedule(dto);
+		
+		// 상영날짜, 공연상세코드 -> 일정코드
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", dto.getScreenDate());
+		map.put("showInfoCode", dto.getShowInfoCode());
+		int schCode = service.readScheduleCode(map);
+				
+		// 시작시간 insert
+		List<String> showStartTimeList = dto.getStartTimeList();
+		map = new HashMap<>();
+		for(String sst : showStartTimeList) {
+			map.put("schCode", schCode);
+			map.put("startTime", sst);
+			service.insertShowStartTime(map);
+		}
+		
+		return "redirect:/show/article?showCode="+ dto.getShowCode(); 
+	}
 }

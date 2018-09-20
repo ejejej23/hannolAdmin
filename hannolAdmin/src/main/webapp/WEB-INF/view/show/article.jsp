@@ -23,10 +23,59 @@ $(function() {
 	ajaxHTML(url, "get", query, "showDetail");
 });
 
+
 function createdShowScheduleForm(showInfoCode) {
 	var url = '<%=cp%>/show/insertShowSchedule';
 	var query = "showInfoCode="+showInfoCode;
 	ajaxHTML(url, "get", query, "showCreatedForm");
+}
+
+function createdShowScheduleSubmit(mode, showInfoCode) {
+	var f = document.showSchedule;
+	
+	var str = f.screenDate.value;
+	if(!str) {
+		alert('상영 날짜를 입력하세요');
+		return;
+	}
+	
+	var flag = true;
+	var oldScreenDate = $("form[name=showDetailForm][data-showInfoCode=" + showInfoCode + "]").find("input[name=screenDate]");
+	oldScreenDate.each(function(i, e) {
+		if(str == $(this).val()) {
+			flag = false;
+			return;
+		}
+	});	
+	if(!flag) {
+		alert('이미 등록된 날짜는 다시 등록할 수 없습니다. 다른 날짜를 등록하세요');
+		return;
+	}
+	
+	// str이 날짜 범위 안에 있는지 비교
+	var eStartDate = $("input[name=eStartDate][data-showInfoCode=" + showInfoCode + "]").val();
+	var eEndDate = $("input[name=eEndDate][data-showInfoCode=" + showInfoCode + "]").val();
+	var isInRange = stringToDate(str).getTime() >= stringToDate(eStartDate).getTime() && 
+				stringToDate(str).getTime() <= stringToDate(eEndDate).getTime();
+	if(!isInRange) {
+		alert('상영 날짜는 시작일과 종료일 사이만 가능합니다.');
+		return;
+	}
+	
+	str = f.startTimeList;
+	var cnt = 0;
+	for(var i = 0; i < str.length; i++) {
+		str[i].getAttribute('value');	// 입력을 안했을 경우 null
+		if(str[i].getAttribute('value') == null)
+			cnt++;
+	}
+	if(cnt < 1) {
+		alert('시작시간은 최소 1개 입력해야 합니다.');
+		return;
+	}
+	
+	f.action = "<%=cp%>/show/insertShowSchedule";
+	f.submit();
 }
 
 
@@ -94,7 +143,6 @@ function createdShowInfoSubmit(mode) {
 	} 
 	
 	f.action = "<%=cp%>/show/showInfo/"+mode;
-	alert(f.action);
 	f.submit();
 }
 

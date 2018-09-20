@@ -160,7 +160,7 @@ public class ShowServiceImpl implements ShowService {
 			list = dao.selectList("show.listShowSchedule", showInfoCode);
 			for(ShowSchedule ss : list) {
 				List<ShowStartTime> slist = listShowStartTime(ss.getSchCode());
-				ss.setShowStartTimeList(slist);
+				ss.setStartTime(slist);
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -221,6 +221,40 @@ public class ShowServiceImpl implements ShowService {
 		int result = 0;
 		try {
 			result = dao.updateData("show.updateShowInfo", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+
+	@Override
+	public int insertShowSchedule(ShowSchedule dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("show.insertShowSchedule", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int readScheduleCode(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("show.readScheduleCode", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int insertShowStartTime(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("show.insertShowStartTime", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
