@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
 
@@ -39,9 +38,17 @@ public class facilityController {
 	@RequestMapping(value="/facility/created", method=RequestMethod.POST)
 	public String createdSubmit(Facility dto, HttpSession session) throws Exception{
 		String root= session.getServletContext().getRealPath("/");
-		
+		int code;
 		String pathname = root+File.separator+"uploads"+File.separator+"facility";
 		service.insertFacility(dto,pathname);
+
+		//if문으로 gubunCode가 1이면 놀이기구에 insert하기 조건문
+		if(dto.getGubunCode()==1) {
+			//내림차순으로 가장 큰값 read해서 가져오기
+			code=service.readFacilityCode();
+			//가져온 값으로 insert해주기
+		service.insertRides(code);
+		}
 		
 		return "redirect:/facility/list";
 	}
@@ -102,25 +109,54 @@ public class facilityController {
 		return ".facility.list";
 	}
 	
-	// 시설 정보 보기 : AJAX-JSON
-	@RequestMapping(value="/facility/article", method=RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> article(@RequestParam(value="num") int num) throws Exception{
-		String state = "true";
+	@RequestMapping(value="/facility/article")
+	public String article(Facility dto, @RequestParam(value = "page") String page,
+						Model model,HttpServletRequest req, HttpSession session) throws Exception{
 		
-		//글정보 받아오기
-		Facility dto = null;
-		dto = service.readFacility(num);
-		if(dto==null) {
-			state = "false";
+		String root= session.getServletContext().getRealPath("/");
+		String pathname = root+File.separator+"uploads"+File.separator+"facility";
+		
+		String query="page="+page;
+		
+		dto = service.readFacility(dto);
+				
+		if(dto == null) {
+			return "redirect:/facility/list?"+query;
 		}
 		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("state", state);
-		model.put("vo", dto);
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
 		
-		return model;
+		return ".facility.article";
 	}
 	
+	@RequestMapping(value="/rides/update", method=RequestMethod.GET)
+	public String updateForm(int facilityCode, Model model, int page) throws Exception{
+		
+		System.out.println("안녀ㅕㅕㅕㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅇ");
+		Facility dto = service.readFacility(facilityCode);
+				
+		if(dto.getFacilityCode()== 0) {
+			return "redirect:/rides/list";
+		}
+
+		model.addAttribute("mode", "update");
+		model.addAttribute("dto",dto);
+		model.addAttribute("page",page);
+		System.out.println("안녀ㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅇ");
+		return ".rides.created";
+	}
+	
+	@RequestMapping(value="/rides/update", method=RequestMethod.POST)
+	public String updateSubmit(Facility dto, int page, HttpSession session) throws Exception{
+
+		String root= session.getServletContext().getRealPath("/");
+		String pathname = root+File.separator+"uploads"+File.separator+"facility";
+		service.updateFacility(dto, pathname);
+		System.out.println("안녕안녕 이제 거의 마무으리ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
+		
+		return "redirect:/facility/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
+	}
 	
 }

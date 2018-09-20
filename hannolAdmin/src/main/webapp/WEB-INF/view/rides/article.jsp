@@ -54,6 +54,12 @@
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">장르</td>
 				<td style="padding-left: 10px;">${dto.genreName}</td>
 			</tr>
+			
+			<tr align="left" height="40"
+				style="border-bottom: 1px solid #cccccc;">
+				<td width="100" bgcolor="#eeeeee" style="text-align: center;">상태</td>
+				<td style="padding-left: 10px;">${dto.gubunName}</td>
+			</tr>
 
 		</table>
 

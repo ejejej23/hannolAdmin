@@ -102,8 +102,9 @@
 	</select>
 	
 	<select id="readRides" parameterType="Integer" resultType="com.sp.rides.Rides">
-		select f.facilityCode,f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
+		select f.facilityCode,f.name, gubunName, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
 		from rides r
+            join stateGubun s on s.gubunCode=r.gubunCode
 			join genre g on g.genreCode=r.genreCode
 			right outer join facility f on r.facilityCode = f.facilityCode
 		where f.gubunCode=1 and f.facilityCode=#{num}
@@ -123,7 +124,8 @@
 	
 	<update id="updateRidesChg" parameterType="com.sp.rides.Rides">
 		UPDATE rides 
-		SET boardingTime=#{boardingTime}
+		SET
+			boardingTime=#{boardingTime}
 			,passengers=#{passengers}
 			,minHeight=#{minHeight}
 			,maxHeight=#{maxHeight}

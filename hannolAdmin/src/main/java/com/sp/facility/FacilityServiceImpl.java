@@ -3,8 +3,6 @@ package com.sp.facility;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Multipart;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +50,19 @@ public class FacilityServiceImpl implements FacilityService{
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		return result;
+	}
+	
+	@Override
+	public int insertRides(int code) {
+		int result=0;
+		
+		try {
+			result = dao.insertData("facility.insertRides",code);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
 		return result;
 	}
 
@@ -109,6 +120,28 @@ public class FacilityServiceImpl implements FacilityService{
 			System.out.println(e.toString());
 		}
 		return dto;
+	}
+
+	@Override
+	public Facility readFacility(Facility dto) {
+		
+		try {
+			dto=dao.selectOne("facility.readFacility",dto.getFacilityCode());
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+	
+	@Override
+	public int readFacilityCode() {
+		int result=0;
+		try {
+			result=dao.selectOne("facility.readFacilityCode");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 }

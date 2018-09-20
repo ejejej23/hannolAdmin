@@ -7,6 +7,12 @@
 	  INSERT INTO facility(facilityCode,name, state, installDate, removeDate, saveMainFilename, originalMainFilename, saveLocFilename, originalLocFilename, memo, gubunCode, themeCode) 
 	  VALUES (facility_seq.NEXTVAL, #{name}, #{state}, #{installDate}, #{removeDate}, #{saveMainFilename, jdbcType=VARCHAR}, #{originalMainFilename, jdbcType=VARCHAR}, #{saveLocFilename, jdbcType=VARCHAR}, #{originalLocFilename, jdbcType=VARCHAR}, #{memo}, #{gubunCode}, #{themeCode})
 	</insert>
+	
+	<insert id="insertRides" parameterType="Integer">
+	   INSERT INTO rides(facilityCode) VALUES (#{code})
+	</insert>
+	
+	
 
 	<sql id="where-list">
 	  <if test="searchKey=='name'">
@@ -90,11 +96,21 @@
 	</update>
 	
 	<select id="readFacility" resultType="com.sp.facility.Facility" parameterType="Integer">
-		select facilityCode, name, themeName, state, installDate, removeDate, saveMainFilename, 
+		select g.name as gubunName, facilityCode, f.name, themeName, state, TO_CHAR(installDate,'YYYY-MM-DD')installDate, TO_CHAR(removeDate,'YYYY-MM-DD')removeDate, saveMainFilename, 
 		saveLocFilename, memo 
 		from facility f
+		join facGubun g on f.gubunCode=g.gubunCode
 		join theme t on f.themeCode=t.themeCode
 		where facilityCode=#{facilityCode}
 	</select>
+	
+	<select id="readFacilityCode" resultType="Integer">
+		select * from(
+		    select  facilityCode from facility 
+		    ORDER BY facilityCode DESC)
+	    where rownum=1
+	</select>
+	
+	
 	
 </mapper>

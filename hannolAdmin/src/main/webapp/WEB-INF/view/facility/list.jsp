@@ -6,50 +6,6 @@
 	String cp=request.getContextPath();
 %>
 <style>
-/**table**/
-	.table th,
-	.table td{text-align:center;}
-	.table th:nth-child(2),
-	.table td:nth-child(2),
-	.table th:nth-child(3),
-	.table td:nth-child(3),
-	.table td:nth-child(4){text-align:left;}
-	
-	.listData_no{text-align:center;}
-	
-	.noLine{border:0 none;}
-	.btfTel.noLine{width:36px; padding-left:0; padding-right:0;}
-	
-	/**modal**/
-	.modalTable{width:100%; margin-top:20px; color:#444444;}
-	.modalTable th,
-	.modalTable td{padding:10px 0;} 
-	.modalTable th{width:110px; padding-top:13px; padding-right:20px; text-align:right; vertical-align:top;}
-	
-	.boxTF,
-	.boxTA{width:280px; vertical-align:middle;}
-	.boxTA[disabled]{background-color:#ececec; padding:10px 15px;}
-	.selectField{padding:5px; vertical-align:middle;}
-	.boxTF.btfName{width:120px;}
-	.btfTel{width:60px; text-align:center;}
-	
-	
-	.btnBox{margin:40px 0; text-align:center;}
-	.btnBox .btn{margin:0 3px;}
-	
-	
-	/**dialog new style**/
-	.ui-widget{font-family:"Nanum Gothic";}
-	.ui-widget input, 
-	.ui-widget select, 
-	.ui-widget textarea, 
-	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
-	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
-	.ui-dialog .ui-dialog-title{font-size:16px;}
-	.ui-dialog .ui-dialog-titlebar{padding:11px 1em;}
-	.ui-dialog{padding:0;}
-	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
-	
 	.facilityImage{
 		width: 9em;
 		height: 9em;
@@ -57,139 +13,6 @@
 </style>
 
 <script type="text/javascript">
-/*버튼모음*/
-var sendOk = '<button type="button" class="btn btn-info" id="sendOk">업체등록</button>';
-var updateBtn = '<button type="button" class="btn btn-info" id="updateBtn">업체수정</button>';
-var updateOk = '<button type="button" class="btn btn-info" id="updateOk">수정완료</button>';
-var deleteBtn = '<button type="button" class="btn btn-default" id="deleteBtn">업체삭제</button>';
-var resetBtn = '<button type="reset" class="btn btn-default">다시입력</button>';
-var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_close_btn">취소</button>';
-
-	var elementsName = [];
-	var elementsNameText = [];
-	
-	$(function(){
-		var elements = $("form[name=facilityForm] input, form[name=facilityForm] textarea, form[name=facilityForm] select");
-			elementsName = [];
-			elementsNameText = [];
-		
-		for(var i=0; i<elements.length; i++){
-			elementsName[i] = elements[i];
-			elementsNameText[i] = elements[i].getAttribute("data-name");
-		}
-	});
-
-	//폼 데이터 지움
-	function formClean(){
-		for(var i=0 ; i<elementsName.length ; i++){
-			elementsName[i].value="";
-		}
-		
-		$("#failityModel").dialog("close");
-	}
-	
-	var loadFile = function(event) {
-		var output = document.getElementById('output');
-		output.src = URL.createObjectURL(event.target.files[0]);
-	};
-	
-	
-	//모달의 모달
-	$(function(){
-		$(".picture1").click(function(){
-			$("#picture1Model").dialog({
-				title:"시설사진",
-				width:480,
-				height:380,
-				modal:true,
-				open:function(){
-					//버튼
-				},
-				close:function(){	
-					$('this').modal('hide');
-				}
-			});
-		});
-	});
-	
-	$(function(){
-		$(".picture2").click(function(){
-			$("#picture2Model").dialog({
-				title:"시설위치사진",
-				width:480,
-				height:380,
-				modal:true,
-				open:function(){
-					//버튼
-				},
-				close:function(){	
-					$('this').modal('hide');
-				}
-			});
-		});
-	});
-	
-	
-	//글 정보 보기
-	$(function(){
-		$(".articleView").click(function(){
-			//다이얼로그
-			$("#facilityModel").dialog({
-				title:"시설정보",
-				width:480,
-				height:570,
-				modal:true,
-				open:function(){
-					//버튼
-					$(".btnBox").empty();
-					$(".btnBox").append(updateBtn, deleteBtn, closeBtn); 
-				},
-				close:function(){	
-					formClean();
-					$("#facilityModel input, #facilityModel textarea").prop("disabled", false).removeClass("noLine");
-				}
-			});
-	
-
-			var num = $(this).attr("data-name"); //업체 코드
-			
-			var url = "<%=cp%>/facility/article";
-			var query = "num="+num;
-			
-			$.ajax({
-				type:"get",
-				url:url,
-				data:query,
-				dataType:"json",
-				success:function(data){
-					if(data.state=="true"){						
-						$("#facilityModel input[name=facilityCode]").val(data.vo.facilityCode);
-						$("#facilityModel input[name=name]").val(data.vo.name);
-						$("#facilityModel input[name=themeName]").val(data.vo.themeName);
-						$("#facilityModel input[name=state]").val(data.vo.state);
-						$("#facilityModel input[name=installDate]").val(data.vo.installDate);
-						$("#facilityModel input[name=removeDate]").val(data.vo.removeDate);
-						$("#facilityModel input[name=saveMainFilename]").val(data.vo.saveMainFilename);
-						$("#facilityModel input[name=saveLocFilename]").val(data.vo.saveLocFilename);
-						$("#facilityModel textarea[name=memo]").val(data.vo.memo);
-						
-						$("#facilityModel input, #facilityModel textarea").prop("disabled", true).addClass("noLine");
-						
-					}else{
-						alert("시설정보를 불러오지 못했습니다.");
-					}
-				},
-				error:function(e){
-					console.log(e.responseText);
-				}
-			});
-			
-		});
-		$("body").on("click", "#facilityAdd_close_btn", function() {
-			$("#facilityModel").dialog("close");
-		});
-	});
-	
 </script>
 
 <div class="sub-container" style="width: 960px;">
@@ -222,23 +45,11 @@ var closeBtn = '<button type="button" class="btn btn-default" id="facilityAdd_cl
 				<tr>
 					<td style="width: 60px;">${vo.facilityCode}</td>
 					<td>${vo.gubunName}</td>
-					<td class="articleView" data-name="${vo.facilityCode}"><a href="#">${vo.name}</a></td>
+					<td ><a href="${articleUrl}&facilityCode=${vo.facilityCode}">${vo.name}</a></td>
 					<td>${vo.themeName}</td>
 					<td style="width: 70px;">
-						<c:choose>
-							<c:when test="${vo.state==0}">
-								양호
-							</c:when>
-							<c:when test="${vo.state==1}">
-								주의요함
-							</c:when>
-							<c:when test="${vo.state==2}">
-								수리중
-							</c:when>
-							<c:when test="${vo.state==3}">
-								수리완료
-							</c:when>
-						</c:choose>
+						${vo.state==0?"이용불가":"이용가능"}
+						
 					</td>
 					<td>${vo.installDate}</td>
 					<td>${vo.removeDate}</td>

@@ -40,6 +40,13 @@
 		<br>
 		
 		<div class="form-group"> 
+			<label for="ridingHours" class="col-sm-2 control-label">어트랙션명</label> 
+			<div class="col-sm-10"> 
+				<input style="width: 50%;" name="name" type="text" class="form-control" id="ridingHours" placeholder="어트랙션명"  value="${dto.name}" readonly="readonly"> 
+			</div> 
+		</div>
+		
+		<div class="form-group"> 
 			<label for="ridingHours" class="col-sm-2 control-label">탑승시간</label> 
 			<div class="col-sm-10"> 
 				<input style="width: 50%;" name="boardingTime" type="text" class="form-control" id="ridingHours" placeholder="탑승시간"  value="${dto.boardingTime}"> 
@@ -78,13 +85,13 @@
 		<div class="col-sm-10"> 
 			<select class="selectField" id="genre" name="genreCode" >
 				<option value="">장르</option>
-				<option value="1" ${dto.genreCode==1 ? "selected='selected'" : ""}>공포</option>
-				<option value="2" ${dto.genreCode==2 ? "selected='selected'" : ""}>판타지</option>
-				<option value="3" ${dto.genreCode==3 ? "selected='selected'" : ""}>키즈</option>
-				<option value="4" ${dto.genreCode==4 ? "selected='selected'" : ""}>익스트림</option>
-				<option value="5" ${dto.genreCode==5 ? "selected='selected'" : ""}>아쿠아</option>
-				<option value="6" ${dto.genreCode==6 ? "selected='selected'" : ""}>연인</option>
-				<option value="7" ${dto.genreCode==7 ? "selected='selected'" : ""}>기타</option>
+				<option value="1" ${dto.genreName=="공포" ? "selected='selected'" : ""}>공포</option>
+				<option value="2" ${dto.genreName=="판타지" ? "selected='selected'" : ""}>판타지</option>
+				<option value="3" ${dto.genreName=="키즈" ? "selected='selected'" : ""}>키즈</option>
+				<option value="4" ${dto.genreName=="익스트림" ? "selected='selected'" : ""}>익스트림</option>
+				<option value="5" ${dto.genreName=="아쿠아" ? "selected='selected'" : ""}>아쿠아</option>
+				<option value="6" ${dto.genreName=="연인" ? "selected='selected'" : ""}>연인</option>
+				<option value="7" ${dto.genreName=="기타" ? "selected='selected'" : ""}>기타</option>
 			</select>
 		</div> 
 		</div>
@@ -94,11 +101,11 @@
 			<div class="col-sm-10"> 
 				<select class="selectField" id="gubunCode" name="gubunCode" >
 					<option value="">상태</option>
-					<option value="1" ${dto.gubunCode==1 ? "selected='selected'" : ""}>고장</option>
-					<option value="2" ${dto.gubunCode==2 ? "selected='selected'" : ""}>수리중</option>
-					<option value="3" ${dto.gubunCode==3 ? "selected='selected'" : ""}>close</option>
-					<option value="4" ${dto.gubunCode==4 ? "selected='selected'" : ""}>open</option>
-					<option value="5" ${dto.gubunCode==5 ? "selected='selected'" : ""}>우천</option>
+					<option value="1" ${dto.gubunName=="고장" ? "selected='selected'" : ""}>고장</option>
+					<option value="2" ${dto.gubunName=="수리중" ? "selected='selected'" : ""}>수리중</option>
+					<option value="3" ${dto.gubunName=="close" ? "selected='selected'" : ""}>close</option>
+					<option value="4" ${dto.gubunName=="open" ? "selected='selected'" : ""}>open</option>
+					<option value="5" ${dto.gubunName=="우천" ? "selected='selected'" : ""}>우천</option>
 				</select>
 			</div> 
 		</div>
