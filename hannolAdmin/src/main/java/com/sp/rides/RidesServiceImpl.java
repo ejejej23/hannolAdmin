@@ -31,18 +31,33 @@ public class RidesServiceImpl implements RidesService{
 	public int updateRides(Rides dto) {
 		int result = 0;
 		try {
-			System.out.println("update하러 들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
-
 			dao.updateData("rides.updateRides", dto);
 			result=1;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 
 		}
-		System.out.println("getList간다~~~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
 
 		return result;
 	}
+	
+	@Override
+	public int updateRidesChg(Rides dto) {
+		int result = 0;
+		try {
+			System.out.println("updateChg하러 들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+			dao.updateData("rides.updateRidesChg", dto);
+			result=1;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			
+		}
+		System.out.println("getList간다~~~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
+		
+		return result;
+	}
+	
+	
 
 	@Override
 	public int deleteRides(int num) {
@@ -76,12 +91,25 @@ public class RidesServiceImpl implements RidesService{
 	public Rides readRides(int num) {
 		Rides dto=null;
 		try {
-			System.out.println(num+":::::::::::::"+"num값!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			
 			dto=dao.selectOne("rides.readRides",num);
+			System.out.println(dto.getGenreName()+":::::::::::::::::::w장르명");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return dto;
 	}
+
+/*	@Override
+	public int check(int num) {
+		Rides dto=null;
+		try {
+			dto=dao.selectOne("rides.readRides",num);
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return 0;
+	}*/
 
 }

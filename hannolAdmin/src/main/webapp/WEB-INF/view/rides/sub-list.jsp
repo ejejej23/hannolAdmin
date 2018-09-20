@@ -38,12 +38,11 @@
 				  <input type="checkbox" name="chkAll" id="chkAll" value="chkAll" onclick="checkAll();">
 		      </th>
 		      <th scope="col">시설번호</th>
-		      <th scope="col">상세번호</th>
 		      <th scope="col">테마</th>
-		      <th scope="col">장르</th>
 		      <th scope="col">어트랙션명</th>
+		      <th scope="col">장르</th>
 		      <th scope="col">상태</th>
-		      <th scope="col">상세</th>
+		      <!-- <th scope="col">상세</th> -->
 		    </tr>
 		  </thead>
 		  
@@ -54,13 +53,13 @@
 						<input type="checkbox" name="chk" value="chk" onclick="chkSingle();">
 					</th>
 						<td>${vo.facilityCode}</td>
-						<td>${vo.ridesInfoCode}</td>
+<%-- 						<td>${vo.ridesInfoCode}</td> --%>
 						<td>${vo.themeName}</td>
+						<td><a href="${articleUrl}&facilityCode=${vo.facilityCode}">${vo.name}</a></td>
 						<td>${vo.genreName}</td>
-						<td><a href="${articleUrl}&num=${vo.facilityCode}">${vo.name}</a></td>
 						<td>${vo.gubunName}</td>
-						<td>
-							<c:choose>
+<%-- 						<td>
+ 							<c:choose>
 								<c:when test="${vo.state==0}">
 									요청
 								</c:when>
@@ -74,7 +73,7 @@
 									수리완료
 								</c:when>
 							</c:choose>
-						</td>
+						</td> --%>
 				</tr>
 			</c:forEach>
 			

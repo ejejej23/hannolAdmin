@@ -81,16 +81,14 @@
 	<select id="listRides" resultType="com.sp.rides.Rides">
 		SELECT * FROM (
 		    SELECT ROWNUM rnum, tb.* FROM (
-			       select f.facilityCode, themeName, g.genreName, f.name, s.gubunName, i.state, i.ridesInfoCode  
+			    select f.facilityCode, themeName, g.genreName, f.name, s.gubunName
 			       from facility f
 			            left join rides r on f.facilityCode = r.facilityCode
 			            left join theme t on t.themeCode = f.themeCode
 			            left join genre g on r.genreCode = g.genreCode 
 			            left join facGubun b on f.gubunCode=b.gubunCode 
-			            left join ridesInfo i on i.facilityCode = f.facilityCode
 			            left join stateGubun s on r.gubunCode = s.gubunCode
 			       where f.gubunCode=1
-
 	                   <where>
                         <if test="searchValue != null and searchValue != ''">
 			                  <include refid="where-list"/>
@@ -104,15 +102,38 @@
 	</select>
 	
 	<select id="readRides" parameterType="Integer" resultType="com.sp.rides.Rides">
-		select f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName, s.state
+		select f.facilityCode,f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
 		from rides r
-			join ridesInfo s on s.facilityCode=r.facilityCode
 			join genre g on g.genreCode=r.genreCode
 			right outer join facility f on r.facilityCode = f.facilityCode
 		where f.gubunCode=1 and f.facilityCode=#{num}
 	</select>
 	
+<!-- 	<select id="check" parameterType="Integer" resultType="com.sp.rides.Rides">
+		select f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
+		from rides r
+			join genre g on g.genreCode=r.genreCode
+			right outer join facility f on r.facilityCode = f.facilityCode
+		where f.gubunCode=1 and f.facilityCode=#{num}
+	</select> -->
+	
 	<update id="updateRides" parameterType="com.sp.rides.Rides">
 		UPDATE rides SET gubunCode=#{gubunCode} WHERE facilityCode=#{facilityCode}
 	</update>
+	
+	<update id="updateRidesChg" parameterType="com.sp.rides.Rides">
+		UPDATE rides 
+		SET boardingTime=#{boardingTime}
+			,passengers=#{passengers}
+			,minHeight=#{minHeight}
+			,maxHeight=#{maxHeight}
+			,limit=#{limit}
+			,congestion=#{congestion}
+			,genreCode=#{genreCode} 
+			,gubunCode=#{gubunCode} 
+		WHERE facilityCode=#{facilityCode}
+		
+		
+	</update>
+	
 </mapper>

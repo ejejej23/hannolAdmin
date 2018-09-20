@@ -1,5 +1,6 @@
 package com.sp.rides;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.common.MyUtil;
+import com.sp.giftshop.GiftShop;
 import com.sp.staff.SessionInfo;
 
 @Controller("rides.ridesController")
@@ -36,11 +38,8 @@ public class RidesController {
 	}
 	
 	@RequestMapping(value="/rides/created", method=RequestMethod.POST)
-	public String createdSubmit(Rides dto, HttpSession session) throws Exception{
+	public String createdSubmit(Rides dto) throws Exception{
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("staff");
-		
-		dto.setUsersCode(info.getStaffIdx());
 		service.insertRides(dto);
 		
 		return "redirect:/rides/list";
@@ -110,13 +109,13 @@ public class RidesController {
 	}
 
 	@RequestMapping(value="/rides/article")
-	public String article(@RequestParam(value = "num") int num, @RequestParam(value = "page") String page,
+	public String article(int facilityCode, @RequestParam(value = "page") String page,
 						Model model) throws Exception{
 		
 		String query="page="+page;
-		Rides dto = service.readRides(num);
+		
+		Rides dto = service.readRides(facilityCode);
 		if(dto == null) {
-			System.out.println("dto에 널이 들어왔어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			return "redirect:/rides/list?"+query;
 		}
 		
@@ -139,6 +138,7 @@ public class RidesController {
 		for(int i=0; i<lists.length; i++) {
 			System.out.println(lists[i]);
 			int code = Integer.parseInt(lists[i]);  
+			
 			dto.setFacilityCode(code);
 			dto.setGubunCode(selCode);
 			service.updateRides(dto);
@@ -149,4 +149,31 @@ public class RidesController {
 		return ".rides.list";
 	}
 
+	@RequestMapping(value="/rides/updateChg", method=RequestMethod.GET)
+	public String updateForm(int facilityCode, Model model, int page) throws Exception{
+		
+		Rides dto = service.readRides(facilityCode);
+		if(dto.getFacilityCode()== 0) {
+			return "redirect:/rides/list";
+		}
+
+		model.addAttribute("mode", "updateChg");
+		model.addAttribute("dto",dto);
+		model.addAttribute("page",page);
+		
+		return ".rides.created";
+	}
+	
+	@RequestMapping(value="/rides/updateChg", method=RequestMethod.POST)
+	public String updateSubmit(Rides dto, int page) throws Exception{
+		System.out.println("???????????????????????????????????????????????????????????????????????????????????????");
+		service.updateRidesChg(dto);
+		
+		System.out.println("e드디어 왔도다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		
+		System.out.println(dto.getGenreName()+":::"+dto.getGubunCode()+":구분코드:::::"+dto.getBoardingTime());
+		
+		return "redirect:/rides/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
+	}
+	
 }
