@@ -25,7 +25,6 @@
 	</div><br>
 	
 	<input type="hidden" name="showCode" value="${showCode}">
-
 	<div align="center"><button class="btn btn-default btn-info" type="button" onclick="createdShowInfoSubmit('${mode}')">${mode=='created'?"등록":"수정"}</button></div>
 </form>
 

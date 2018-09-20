@@ -24,20 +24,9 @@ $(function() {
 });
 
 function createdShowInfoForm(showCode) {
-	// 가장 최근 end 날짜
 	var url = '<%=cp%>/show/insertShowDetail';
 	var query = "showCode="+showCode;
 
-/*  var enddate = $("input[name='endDate']").val(); // 2018-08-11
-	if(enddate) {
-		var today = dateToString(new Date());
-		var diff = getDiffDays(today, enddate);
-		if(diff >= 0) {
-			alert('일정이 진행중이므로 추가할 수 없습니다.');
-			return;
-		}
-	} */
-	
 	ajaxHTML(url, "get", query, "showCreatedForm");
 }
 
@@ -73,8 +62,25 @@ function createdShowInfoSubmit(mode) {
 		return;
 	}
 	
+	// 가장 최근 endDate
+	var enddate = $("input[name='endDate']").val(); // 2018-08-11
+	if(enddate) {
+		var startDate = f.startDate.value;
+		var diff = getDiffDays(enddate, startDate);
+		if(diff >= 0) {
+			alert('일정이 진행중이므로 추가할 수 없습니다.');
+			return;
+		}
+	} 
+	
 	f.action = "<%=cp%>/show/showInfo/"+mode;
 	f.submit();
+}
+
+function updateShowInfoForm(showInfoCode) {
+	var url = '<%=cp%>/show/updateShowDetail';
+	var query = "showInfoCode="+showInfoCode;
+	ajaxHTML(url, "get", query, "showCreatedForm");
 }
 
 //ajax 공통함수
