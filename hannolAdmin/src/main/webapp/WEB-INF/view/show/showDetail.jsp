@@ -34,15 +34,16 @@ $(function() {
 		<div>	
 			<div class="form-group">
 				<div class="col-sm-2">시작  ~ 종료</div>
-				<div class="col-sm-4"><mark>${dto.startDate} ~ <input type="text" name="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
+				<div class="col-sm-3"><mark>${dto.startDate} ~ <input type="text" name="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
 				<div class="col-sm-2">상영시간</div>
-				<div class="col-sm-4"><mark>${dto.runningTime}분</mark></div>
+				<div class="col-sm-3"><mark>${dto.runningTime}분</mark></div>
+				<div class="col-sm-1"><button type="button" class="btn" onclick="">수정</button></div>
 			</div><br>
 			<div class="form-group">
 				<div class="col-sm-2">공연장소</div>
-				<div class="col-sm-4"><mark>${dto.name}</mark></div>
+				<div class="col-sm-3"><mark>${dto.name}</mark></div>
 				<div class="col-sm-2">시작시간</div>
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<mark>
 						<c:forEach items="${dto.showTime}" var="st" varStatus="status">
 							${st}&nbsp;${(status.last) ? "" : " , "}
