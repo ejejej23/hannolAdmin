@@ -10,8 +10,6 @@ public class ShowSchedule {
 	List<ShowStartTime> startTime;
 	List<String> startTimeList;
 	
-	
-	
 	public List<String> getStartTimeList() {
 		return startTimeList;
 	}

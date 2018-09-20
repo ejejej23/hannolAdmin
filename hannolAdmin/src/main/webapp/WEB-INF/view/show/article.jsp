@@ -23,6 +23,12 @@ $(function() {
 	ajaxHTML(url, "get", query, "showDetail");
 });
 
+function updateShowScheduleForm(schCode, showCode) {
+	alert(schCode);
+	var url = '<%=cp%>/show/updateShowSchedule';
+	var query = "schCode="+schCode + "&showCode=" + showCode;
+	ajaxHTML(url, "get", query, "showCreatedForm");
+}
 
 function createdShowScheduleForm(showInfoCode) {
 	var url = '<%=cp%>/show/insertShowSchedule';
@@ -74,13 +80,12 @@ function createdShowScheduleSubmit(mode, showInfoCode) {
 		return;
 	}
 	
-	f.action = "<%=cp%>/show/insertShowSchedule";
+	f.action = "<%=cp%>/show/insertShowSchedule/" + mode;
 	f.submit();
 }
 
 
 function createdShowInfoForm(showCode) {
-	
 	var icon = $("#infoIcon");
 	if(icon.hasClass("addIcon")) {
 		icon.removeClass("addIcon").addClass("minusIcon");

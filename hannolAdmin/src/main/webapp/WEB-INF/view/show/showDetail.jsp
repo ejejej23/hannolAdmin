@@ -65,7 +65,7 @@ $(function() {
 						      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
 						      <td width="10%"></td>
 							</tr>
-							<c:forEach items="${dto.showScheduleList}" var="vo">
+							<c:forEach items="${dto.showScheduleList}" var="vo"> <!-- ShowSchedule의 list -->
 								  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
 								      <td width="30%"><input name="screenDate" readonly="readonly" style="border: none;" value="${vo.screenDate}"></td>
 								      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
@@ -73,7 +73,7 @@ $(function() {
 								      		${sst.startTime}&nbsp;${(status.last) ? "" : " , "}
 								      	</c:forEach>
 								      </td>
-								      <td width="10%"><button type="button" class="btn" onclick="">수정</button></td>
+								      <td width="10%"><button type="button" class="btn" onclick="updateShowScheduleForm('${vo.schCode}', '${showCode}');">수정</button></td>
 								  </tr>
 							</c:forEach>
 							<c:if test="${empty dto.showScheduleList}">

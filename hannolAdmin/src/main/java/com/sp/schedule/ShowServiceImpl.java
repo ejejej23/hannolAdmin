@@ -262,6 +262,29 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public ShowSchedule readShowSchedule(int schCode) throws Exception {
+		ShowSchedule dto = null;
+		try {
+			dto = dao.selectOne("show.readShowSchedule", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+
+	@Override
+	public List<String> listShowTimeBySchCode(int schCode) throws Exception {
+		List<String> list = null;
+		try {
+			list = dao.selectList("show.listShowTimeBySchCode", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 
 
 }

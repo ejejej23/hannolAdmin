@@ -100,6 +100,9 @@
 		order by startTime
 	</select>
 	
+	<select id="listShowTimeBySchCode" parameterType="Integer" resultType="String">
+		select startTime from showStartTime where schCode = #{schCode}
+	</select>
 	
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
@@ -142,6 +145,12 @@
 		from showSch
 		where screendate = #{screenDate}
 		    and showinfocode = #{showInfoCode}
+	</select>
+	
+	<select id="readShowSchedule" parameterType="Integer" resultType="com.sp.schedule.ShowSchedule">
+		select schCode, to_char(screenDate, 'yyyy-mm-dd') screenDate, showInfoCode 
+		from showSch
+		where schCode = #{schCode}
 	</select>
 
 	<sql id="where-list">
