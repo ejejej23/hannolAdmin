@@ -14,8 +14,9 @@
 		        ,"title":'<c:out value="${listview.name} ( ${listview.role} )" />'
 		        ,"start":"<c:out value="${listview.workDate}" />"
 		        ,"url":"<%=cp%>/guide/info?schCode=${listview.schCode}"
-		        	<c:if test="${listview.timezone==1}">,"color" : "#7FB3D5"</c:if>
-		        	<c:if test="${listview.timezone==2}">,"color" : "#2980B9"</c:if>
+		        	<c:if test="${listview.bookCode!=''}">,"color" : "#E74C3C"</c:if>
+		        	<c:if test="${listview.bookCode=='' && listview.timezone==1}">,"color" : "#7FB3D5"</c:if>
+		        	<c:if test="${listview.bookCode=='' && listview.timezone==2}">,"color" : "#2980B9"</c:if>
 	        } 
 	        <c:if test="${!status.last}">,</c:if>
 	</c:forEach> 

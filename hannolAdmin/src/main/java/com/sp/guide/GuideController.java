@@ -28,7 +28,7 @@ public class GuideController {
 
 		List<Guide> guideList = service.guideList();
 		model.addAttribute("guideList", guideList);
-
+		
 		return ".guide.list";
 	}
 

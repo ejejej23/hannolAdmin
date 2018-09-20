@@ -18,9 +18,11 @@
 	</select>
 	
 	<select id="guideList" resultType="com.sp.guide.Guide">
-		SELECT SCHCODE, GUIDENAME AS NAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE
-		FROM GUIDE
-		WHERE SCHCODE !=0
+		SELECT G.SCHCODE, GUIDENAME AS NAME, TIMEZONE,WORKDATE, ROLE, MEMO, G.USERSCODE,
+        BOOKCODE
+		FROM GUIDE G
+        LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+		WHERE G.SCHCODE !=0
 	</select>
 	
 	<select id="readInfo" parameterType="Integer" resultType="com.sp.guide.Guide">
