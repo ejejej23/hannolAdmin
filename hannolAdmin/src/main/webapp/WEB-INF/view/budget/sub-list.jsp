@@ -15,7 +15,7 @@
 		        <col style="width: 15%; text-align:center">
 		        <col style="width: 10%; text-align:center">
 		        <col style="width: 15%; text-align:center">
-		        <col style="width: 5%; text-align:center">
+		        <col style="width: 10%; text-align:center">
 		    </colgroup>
     
 		  <thead class="thead-light">

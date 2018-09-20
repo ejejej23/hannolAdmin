@@ -5,7 +5,56 @@
 <%
 	String cp = request.getContextPath();
 %>
-
+<style>
+	/**table**/
+	.table{table-layout:fixed;}
+	.table th,
+	.table td{text-align:center;}
+	.table td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+	.table th:nth-child(2),
+	.table td:nth-child(2),
+	.table th:nth-child(3),
+	.table td:nth-child(3),
+	.table td:nth-child(4){text-align:left;}
+	
+	.listData_no{text-align:center;}
+	
+	.noLine{border:0 none;}
+	.btfTel.noLine{width:36px; padding-left:0; padding-right:0;}
+	
+	
+	
+	/**modal**/
+	.modalTable{width:100%; margin-top:20px; color:#444444;}
+	.modalTable th,
+	.modalTable td{padding:10px 0;} 
+	.modalTable th{width:110px; padding-top:13px; padding-right:20px; text-align:right; vertical-align:top;}
+	
+	.boxTF,
+	.boxTA{width:280px; vertical-align:middle;}
+	.boxTA[disabled]{background-color:#f3f3f3; padding:10px 15px;}
+	.selectField{padding:5px; vertical-align:middle;}
+	.boxTF.btfName{width:120px;}
+	.btfTel{width:60px; text-align:center;}
+	
+	
+	.btnBox{margin:40px 0; text-align:center;}
+	.btnBox .btn{margin:0 3px;}
+	
+	
+	/**dialog new style**/
+	.ui-widget{font-family:"Nanum Gothic";}
+	.ui-widget input, 
+	.ui-widget select, 
+	.ui-widget textarea, 
+	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
+	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
+	.ui-dialog .ui-dialog-title{font-size:16px;}
+	.ui-dialog .ui-dialog-titlebar{padding:11px 1em;}
+	.ui-dialog{padding:0;}
+	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
+	
+</style>
 <script type="text/javascript">
 function memberOk() {
 	var f = document.staffForm;
@@ -87,7 +136,7 @@ function authorityUpdate(){
 	$("#authorityModal").dialog({
 		title:"권한수정",
 		width:300,
-		height:300, 
+		height:260,
 		modal:true,
 		show:"clip",
 		hide:"clip"
@@ -97,8 +146,8 @@ function authorityUpdate(){
 function inoutUpdate(){
 	$("#inoutModal").dialog({
 		title:"입사/퇴사처리",
-		width:300,
-		height:300, 
+		width:460,
+		height:440, 
 		modal:true,
 		show:"clip",
 		hide:"clip"
