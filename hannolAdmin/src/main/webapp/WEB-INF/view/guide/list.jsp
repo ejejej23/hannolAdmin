@@ -6,21 +6,24 @@
    String cp=request.getContextPath();
 %>
 
-
 <script type="text/javascript">
 	var dataset = [
-    <c:forEach var="listview" items="${guideList}" varStatus="status">
-	        {"id":'<c:out value="${listview.schCode}" />'
-	        ,"title":'<c:out value="${listview.name} ( ${listview.role} )" />'
-	        ,"start":"<c:out value="${listview.workDate}" />"
-	        ,"url":"<%=cp%>/guide/info?schCode=${listview.schCode}"
-	        } <c:if test="${!status.last}">,</c:if>
-	</c:forEach>
+     <c:forEach var="listview" items="${guideList}" varStatus="status">
+	        {
+	        	"id":'<c:out value="${listview.schCode}" />'
+		        ,"title":'<c:out value="${listview.name} ( ${listview.role} )" />'
+		        ,"start":"<c:out value="${listview.workDate}" />"
+		        ,"url":"<%=cp%>/guide/info?schCode=${listview.schCode}"
+		        	<c:if test="${listview.timezone==1}">,"color" : "#7FB3D5"</c:if>
+		        	<c:if test="${listview.timezone==2}">,"color" : "#2980B9"</c:if>
+	        } 
+	        <c:if test="${!status.last}">,</c:if>
+	</c:forEach> 
 ];
 
 $(document).ready(function() {
 $('#calendar').fullCalendar({
-
+	locale:'ko',
     header: {
         left: 'prev,next today',
         center: 'title',
@@ -36,10 +39,10 @@ $('#calendar').fullCalendar({
     dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
     dayNamesShort: ["일","월","화","수","목","금","토"],
     buttonText: {
-    today : "오늘",
-    month : "월별",
-    week : "주별",
-    day : "일별",
+	    today : "오늘",
+	    month : "월별",
+	    week : "주별",
+	    day : "일별",
     },
     events: dataset,
     eventClick: function(calEvent, jsEvent, view) {
@@ -80,6 +83,7 @@ function sendGuide(){
 		,dataType:"json"
 		,success:function(data){
 			$("#resultLayout").html("추가완료!");
+			location.href="<%=cp%>/guide/list"
 		}
 		,error:function(e){
 			console.log(e.responseText);
@@ -125,7 +129,7 @@ function sendGuide(){
     
     <div>
       
-          달력<div id="calendar"></div>
+          <div id="calendar"></div>
       
    <br>
                 <button type="button" name="insertBtn" class="btn btn-default">일정추가</button>

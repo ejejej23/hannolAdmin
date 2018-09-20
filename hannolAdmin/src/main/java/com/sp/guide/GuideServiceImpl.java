@@ -75,7 +75,7 @@ public class GuideServiceImpl implements GuideService {
 
 	@Override
 	public List<Guide> guideList() throws Exception {
-		List<Guide> list=null;
+		List<Guide> list = null;
 		try {
 			list = dao.selectList("guide.guideList");
 		} catch (Exception e) {
@@ -86,13 +86,30 @@ public class GuideServiceImpl implements GuideService {
 
 	@Override
 	public Guide readInfo(int schCode) throws Exception {
-		Guide dto=null;
+		Guide dto = null;
 		try {
 			dto = dao.selectOne("guide.readInfo", schCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return dto;
+	}
+
+	@Override
+	public int deleteGuide(int schCode, boolean isBooked) throws Exception {
+		int result = 0;
+		try {
+			if (isBooked) {
+				dao.updateData("guide.beforeDelete", schCode);
+			}
+			dao.deleteData("guide.deleteSch", schCode);
+
+			result = 1;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			throw e;
+		}
+		return result;
 	}
 
 }

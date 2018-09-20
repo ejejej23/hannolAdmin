@@ -12,16 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sp.common.MyUtil;
-
 @Controller("guide.guideController")
 public class GuideController {
 
 	@Autowired
 	private GuideService service;
-
-	@Autowired
-	private MyUtil myUtil;
 
 	// 공연 스케쥴
 	@RequestMapping(value = "/guide/list", method = RequestMethod.GET)
@@ -50,20 +45,58 @@ public class GuideController {
 
 		return map;
 	}
-	
-	@RequestMapping(value="/guide/info")
-	public String readInfo(@RequestParam Integer schCode,Model model) throws Exception{
+
+	@RequestMapping(value = "/guide/info")
+	public String readInfo(@RequestParam Integer schCode, Model model) throws Exception {
 		Guide dto = service.readInfo(schCode);
-		if(dto==null) {
+		if (dto == null) {
 			return "redirect:/guide/list";
 		}
-		
-		String query="schCode="+schCode;
-		
+
+		String role = dto.getRole().substring(0, 2);
+		String roleImg = "";
+
+		switch (role) {
+		case "미키":
+			roleImg = "miki.png";
+			break;
+		case "미니":
+			roleImg = "mini.png";
+			break;
+		case "구피":
+			roleImg = "goofy.png";
+			break;
+		case "도날":// 도날드
+			roleImg = "donald.png";
+			break;
+		case "데이":// 데이지
+			roleImg = "daisy.png";
+			break;
+		default:
+			roleImg = "noimage.png";
+			break;
+		}
+
+		String query = "schCode=" + schCode;
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("query", query);
 		model.addAttribute("mode", "info");
-		
+		model.addAttribute("roleImg", roleImg);
+
 		return ".guide.info";
+	}
+
+	@RequestMapping(value = "/guide/delete")
+	public String delete(@RequestParam(value = "schCode") int schCode,
+			@RequestParam(value = "usersCodeM") Integer usersCodeM) throws Exception {
+		// 예약한 회원이 있는 경우 예약한 일정 코드를 0으로 바꿔주고 일정은 삭제
+		boolean isBooked=false;
+		if(usersCodeM != null) {
+			isBooked = true;
+		}
+		service.deleteGuide(schCode, isBooked);
+
+		return "redirect:/guide/list";
 	}
 }

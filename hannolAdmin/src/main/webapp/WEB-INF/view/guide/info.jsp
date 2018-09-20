@@ -9,7 +9,7 @@
 <script type="text/javascript">
 function deleteCareer(data) {
 		var query = "${query}";
-		var url = "<%=cp%>/guide/delete?" + query;
+		var url = "<%=cp%>/guide/delete?" + query+"&usersCodeM=${usersCodeM}";
 		
 		if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 				location.href=url;
@@ -54,9 +54,9 @@ function sendOk() {
 							readonly="readonly">
 					</div>
 				</div>
-				<br>
+				<br><br>
 				
-				<div class="form-group" style="margin: 20px auto 0px;">
+				<div class="form-group" style="margin: 10px auto 0px;">
 					<label for="workDate" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;근무일자</label>
 					<div class="col-sm-7">
 						<input type="text" name="workDate" class="form-control input-sm"
@@ -95,13 +95,33 @@ function sendOk() {
 			</div>
 
 				<div style="width: 30%; float: left;" class="text-center">
-					<img alt="" src="<%=cp%>/resource/images/person.jpg"
-						style="padding: 10px; margin-top: 10px; width: 200px; height: 250px;"><br>
+					<img alt="" src="<%=cp%>/resource/images/${roleImg}"
+						style="padding: 10px; margin-top: 60px; width: 200px; height: 250px;"><br>
 				</div>
 
 
 			<div style="clear: both"></div>
 			<div>
+			
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="usersCodeM" class="col-sm-2 control-label text-right">예약자회원코드</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+						<c:if test="${mode=='create'}">
+							<input type="text" class="form-control" name="usersCodeM"
+								placeholder="예약자회원번호" value="${dto.usersCodeM}"
+								style='border: none;'>
+						</c:if>
+						<c:if test="${mode=='info'}">
+							<input type="text" class="form-control" id="usersCodeM" 
+								placeholder="예약자회원번호" value="${dto.usersCodeM==0?'없음':dto.usersCodeM}" readonly="readonly"
+								style='border: none;'>
+						</c:if>
+					</div>
+				</div>
+
+				<br>
+				<br>
 
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
@@ -180,7 +200,7 @@ function sendOk() {
 									onclick="deleteCareer('${dto.schCode}');">삭제</button>
 							</c:if>
 							<button type="button" class="btn btn-default	"
-								onclick="javascript:location.href='<%=cp%>/career/list?${query }';">리스트</button>
+								onclick="javascript:location.href='<%=cp%>/guide/list?${query }';">리스트</button>
 						</td>
 					</tr>
 					<tr height="30">

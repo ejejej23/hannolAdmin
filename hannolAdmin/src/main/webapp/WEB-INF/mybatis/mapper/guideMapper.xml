@@ -20,6 +20,7 @@
 	<select id="guideList" resultType="com.sp.guide.Guide">
 		SELECT SCHCODE, GUIDENAME AS NAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE
 		FROM GUIDE
+		WHERE SCHCODE !=0
 	</select>
 	
 	<select id="readInfo" parameterType="Integer" resultType="com.sp.guide.Guide">
@@ -30,4 +31,11 @@
 		WHERE G.SCHCODE = #{schCode}
 	</select>
 
+	<update id="beforeDelete" parameterType="Integer">
+		UPDATE GUIDEBOOK SET SCHCODE = 0 WHERE SCHCODE = #{schCode}
+	</update>
+
+	<delete id="deleteSch" parameterType="Integer">
+		DELETE FROM GUIDE WHERE SCHCODE = #{schCode}
+	</delete>
 </mapper>

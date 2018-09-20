@@ -8,4 +8,5 @@ public interface GuideService {
 	public int insertGuide(Guide dto) throws Exception;
 	public List<Guide> guideList() throws Exception;
 	public Guide readInfo(int schCode) throws Exception;
+	public int deleteGuide(int schCode, boolean isBooked) throws Exception;
 }
