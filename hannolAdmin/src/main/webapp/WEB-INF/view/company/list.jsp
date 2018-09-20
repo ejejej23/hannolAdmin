@@ -145,6 +145,8 @@
 	//글 정보 보기
 	$(function(){
 		$(".articleVeiw").click(function(){
+			var num = $(this).attr("data-artileNum"); //업체 코드
+			
 			//다이얼로그
 			$("#companyModel").dialog({
 				title:"업체정보",
@@ -159,45 +161,43 @@
 					//버튼
 					$(".btnBox").empty();
 					$(".btnBox").append(updateBtn, deleteBtn, closeBtn); 
+					
+					
+					
+					var url = "<%=cp%>/company/article";
+					var query = "num="+num;
+					
+					$.ajax({
+						type:"get",
+						url:url,
+						data:query,
+						dataType:"json",
+						success:function(data){
+							if(data.state=="true"){						
+								$("#companyModel input[name=companyCode]").val(data.dto.companyCode);
+								$("#companyModel input[name=name]").val(data.dto.name);
+								$("#companyModel input[name=tel1]").val(data.dto.tel1);
+								$("#companyModel input[name=tel2]").val(data.dto.tel2);
+								$("#companyModel input[name=tel3]").val(data.dto.tel3);
+								$("#companyModel input[name=startDate]").val(data.dto.startDate);
+								$("#companyModel textarea[name=memo]").val(data.dto.memo);
+								
+								$("#companyModel input, #companyModel textarea").prop("disabled", true).addClass("noLine");
+								
+							}else{
+								alert("업체정보를 불러오지 못했습니다.");
+							}
+						},
+						error:function(e){
+							console.log(e.responseText);
+						}
+					});
 				},
 				close:function(){	
 					formClean();
 					$("#companyModel input, #companyModel textarea").prop("disabled", false).removeClass("noLine");
 				}
-			});
-	
-
-			var num = $(this).attr("data-artileNum"); //업체 코드
-			
-			var url = "<%=cp%>/company/article";
-			var query = "num="+num;
-			
-			$.ajax({
-				type:"get",
-				url:url,
-				data:query,
-				dataType:"json",
-				success:function(data){
-					if(data.state=="true"){						
-						$("#companyModel input[name=companyCode]").val(data.dto.companyCode);
-						$("#companyModel input[name=name]").val(data.dto.name);
-						$("#companyModel input[name=tel1]").val(data.dto.tel1);
-						$("#companyModel input[name=tel2]").val(data.dto.tel2);
-						$("#companyModel input[name=tel3]").val(data.dto.tel3);
-						$("#companyModel input[name=startDate]").val(data.dto.startDate);
-						$("#companyModel textarea[name=memo]").val(data.dto.memo);
-						
-						$("#companyModel input, #companyModel textarea").prop("disabled", true).addClass("noLine");
-						
-					}else{
-						alert("업체정보를 불러오지 못했습니다.");
-					}
-				},
-				error:function(e){
-					console.log(e.responseText);
-				}
-			});
-			
+			});			
 		});
 	});
 	
@@ -371,15 +371,15 @@
 				<td align="center">
 					<form name="searchForm" method="post">
 						<select name="searchKey" class="selectField">
-							<option value="companyName">업체명</option>
-							<option value="content">상세설명</option>
-							<option value="tel">연락처</option>
-							<option value="created">거래시작일자</option>
+							<option value="companyName" <c:if test="${searchKey=='companyName'}">selected="selected"</c:if>>업체명</option>
+							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>상세설명</option>
+							<option value="tel" <c:if test="${searchKey=='tel'}">selected="selected"</c:if>>연락처</option>
+							<option value="created" <c:if test="${searchKey=='created'}">selected="selected"</c:if>>거래시작일자</option>
 						</select> 
-						<input type="text" name="searchValue" class="boxTF">
+						<input type="text" name="searchValue" class="boxTF" value="${searchValue}"> 
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
 					</form>
-				</td>
+				</td> 
 				<td align="right" width="100">
 					<button type="button" id="companyAdd_btn" class="btn btn-info">업체추가</button>
 				</td>

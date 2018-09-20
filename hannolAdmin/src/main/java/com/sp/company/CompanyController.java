@@ -97,6 +97,8 @@ public class CompanyController {
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		model.addAttribute("article_url", article_url);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue); 
 				
 		return ".company.list";
 	}

@@ -10,10 +10,10 @@
 	<!-- 검색 -->
 	<sql id="where-list">
 		<if test="searchKey=='companyName'">
-			INSTR(name, #{searchValue}) &gt; 0
+			INSTR(lower(name), lower(#{searchValue})) &gt; 0
 		</if>
 		<if test="searchKey=='content'">
-			INSTR(memo, #{searchValue}) &gt; 0
+			INSTR(lower(memo), lower(#{searchValue})) &gt; 0
 		</if>
 		<if test="searchKey=='tel'">
 			(tel = #{searchValue} or REPLACE(tel, '-', '') = #{searchValue})

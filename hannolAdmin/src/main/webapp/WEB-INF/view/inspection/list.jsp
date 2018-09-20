@@ -237,6 +237,9 @@
 	//글 정보 보기
 	$(function(){
 		$("body").on("click", ".articleVeiw", function(){
+			var num = $(this).attr("data-artilenum"); //점검 코드
+			
+			
 			//다이얼로그
 			$("#modal").dialog({
 				title : "점검정보",
@@ -246,42 +249,43 @@
 				open:function(){
 					//버튼
 					$(".btnBox").empty();
-					$(".btnBox").append(updateBtn, deleteBtn, closeBtn, hiddenBtn); 
+					$(".btnBox").append(updateBtn, deleteBtn, closeBtn, hiddenBtn);
+					
+
+					$("input[name=checkCode]").val(num); 
+					
+					
+					var url = "<%=cp%>/inspection/article";
+					var query = "num="+num;
+					
+					$.ajax({
+						type:"get",
+						url:url,
+						data:query,
+						dataType:"json",
+						success:function(data){
+							if(data.state=="true"){
+								$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
+								$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
+								$("#modal input[name=checkDate]").val(data.dto.checkDate);
+								$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
+								$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
+								$("#modal textarea[name=memo]").val(data.dto.memo); 
+								
+								$("#modal input, #modal textarea, #modal select").not("input[type=hidden]").prop("disabled", true).addClass("noLine");
+							}else{ 
+								alert("점검 정보를 불러오지 못했습니다.");
+							}
+						},
+						error:function(e){
+							console.log(e.responseText);
+						}
+					});
 				},
 				close:function(){
 					formClean();
 					$("#modal input, #modal textarea, #modal select").prop("disabled", false).removeClass("noLine");
 					$(".stateView").removeClass("stateView"); 
-				}
-			});
-			
-			var num = $(this).attr("data-artilenum"); //점검 코드
-			$("input[name=checkCode]").val(num);
-			
-			var url = "<%=cp%>/inspection/article";
-			var query = "num="+num;
-			
-			$.ajax({
-				type:"get",
-				url:url,
-				data:query,
-				dataType:"json",
-				success:function(data){
-					if(data.state=="true"){
-						$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
-						$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
-						$("#modal input[name=checkDate]").val(data.dto.checkDate);
-						$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
-						$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
-						$("#modal textarea[name=memo]").val(data.dto.memo); 
-						
-						$("#modal input, #modal textarea, #modal select").not("input[type=hidden]").prop("disabled", true).addClass("noLine");
-					}else{ 
-						alert("점검 정보를 불러오지 못했습니다.");
-					}
-				},
-				error:function(e){
-					console.log(e.responseText);
 				}
 			});
 		});
