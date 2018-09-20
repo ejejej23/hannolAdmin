@@ -25,7 +25,7 @@ $(function() {
 <div>
 <hr> 
 	<div class="sub-title">
-	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" class="btn" onclick="createdShowInfoForm('${showCode}');">+</button>
+	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" id="infoIcon" class="btn addIcon" onclick="createdShowInfoForm('${showCode}');">+</button>
     </div>
     <br>
     <div id="showCreatedForm"></div>
@@ -58,24 +58,33 @@ $(function() {
 					<table  style="width: 80%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
 						<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
 					      <td width="30%">상영날짜</td>
-					      <td width="70%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
+					      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">시작시간</td> 
+					      <td width="10%"></td>
 						</tr>
 						<c:forEach items="${dto.showScheduleList}" var="vo">
 							  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
 							      <td width="30%">${vo.screenDate}</td>
-							      <td width="70%" align="left" style="padding-left: 1em; padding-right: 1em;">
+							      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
 							      	<c:forEach items="${vo.showStartTimeList}" var="sst" varStatus="status">
 							      		${sst.startTime}&nbsp;${(status.last) ? "" : " , "}
 							      	</c:forEach>
 							      </td>
+							      <td width="10%"><button type="button" class="btn" onclick="">수정</button></td>
 							  </tr>
 						</c:forEach>
 						<c:if test="${empty dto.showScheduleList}">
 							<tr align="left" height="30em" style="border-bottom: 1px solid #cccccc;">
 								<td></td>
 								<td>등록된 일정이 없습니다.</td>
+								<td></td>
 							</tr> 
 						</c:if>
+						<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+					      <td width="30%"></td>
+					      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
+					      		<button type="button" id="" class="btn" onclick="createdShowScheduleForm('${dto.showInfoCode}')">+</button></td> 
+					      <td width="10%">&nbsp;</td>
+						</tr>
 					</table>
 				</div>
 			</div><br>

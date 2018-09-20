@@ -229,7 +229,6 @@ public class ShowController {
 	
 	@RequestMapping(value="/show/showInfo/created", method=RequestMethod.POST)
 	public String createShowInfoSubmit(ShowInfo dto) throws Exception {
-		System.out.println("createdShowInfoSubmit::::::::::::::::::::::::::::::::::::::::::::::::");
 		// 상세 정보 insert 
 		service.insertShowInfo(dto);
 		
@@ -259,5 +258,14 @@ public class ShowController {
 		service.updateShowInfo(dto);
 		return "redirect:/show/article?showCode="+dto.getShowCode();
 	}
+	
+	@RequestMapping(value="/show/insertShowSchedule", method=RequestMethod.GET)
+	public String createShowScheduleForm(int showInfoCode, 
+			Model model) throws Exception {
+		model.addAttribute("mode", "created");
+		model.addAttribute("showInfoCode", showInfoCode);
+		return "show/createdShowSchedule";
+	}
+
 	
 }

@@ -93,37 +93,42 @@ function facilityList(){
 } 
 </script>
 <form name="" method="post">
-	<div>	
-		<div class="form-group">
-			<div class="col-sm-2">상영날짜</div>
-			<div class="col-sm-10">
-			
-				<table  style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
-					  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="20%">상영 날짜</td>
-					      <td width="80%" align="center" style="padding-left: 1em; padding-right: 1em;">시작시간</td>
-					  </tr>						  
-					  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="20%"><input name="screenDate" type="text" placeholder="2018-08-01"  value="" size="15"></td>
-					      <td width="80%" align="left" style="padding-left: 1em; padding-right: 1em;">
-						      <span id="showTimeList" style="text-align: left; margin-left: 15px;">  
-				                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
-				                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
-				                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
-				                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
-				                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
-				              </span>
-				              <button class="btn btn-default btn-info" type="button" onclick="searchList()">등록</button>
-					      </td>
-					  </tr>
-					  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="20%"><button type="button" class="btn addDate">+</button></td>
-					      <td width="80%" align="left" style="padding-left: 1em; padding-right: 1em;"></td>
-					  </tr>
-				</table>
-			
-			</div>
-		</div><br>
+	<div class="form-group" align="center">
+		<table  style="width: 80%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+			  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="20%">상영 날짜</td>
+			      <td width="80%" align="center" style="padding-left: 1em; padding-right: 1em;">시작시간</td>
+			  </tr>						  
+			  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="20%"><input name="screenDate" type="text" placeholder="2018-08-01"  value="" size="15"></td>
+			      <td width="80%" align="left" style="padding-left: 1em; padding-right: 1em;">
+				      <span id="showTimeList" style="text-align: left; margin-left: 15px;">  
+		                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
+		                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
+		                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
+		                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
+		                   <input type="text" name="startTime" size="4" class="boxTF" placeholder="11:30"/>
+		              </span>
+			      </td>
+			  </tr>
+		</table><br>
+        <div align="center"><button class="btn btn-default btn-info" type="button" onclick="searchList()">${mode=='created'?"등록":"수정"}</button></div>
 	</div><br>
-	<div align="center"></div>
 </form>
+<br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

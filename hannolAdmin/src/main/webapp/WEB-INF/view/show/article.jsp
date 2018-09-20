@@ -23,7 +23,27 @@ $(function() {
 	ajaxHTML(url, "get", query, "showDetail");
 });
 
+function createdShowScheduleForm(showInfoCode) {
+	var url = '<%=cp%>/show/insertShowSchedule';
+	var query = "showInfoCode="+showInfoCode;
+	ajaxHTML(url, "get", query, "showCreatedForm");
+}
+
+
 function createdShowInfoForm(showCode) {
+	
+	var icon = $("#infoIcon");
+	if(icon.hasClass("addIcon")) {
+		icon.removeClass("addIcon").addClass("minusIcon");
+		icon.text("-");
+		$("#showCreatedForm").show();
+	} else if(icon.hasClass("minusIcon")) {
+		icon.removeClass("minusIcon").addClass("addIcon");
+		icon.text("+");
+		$("#showCreatedForm").hide();
+		return;
+	} 
+	
 	var url = '<%=cp%>/show/insertShowDetail';
 	var query = "showCode="+showCode;
 
