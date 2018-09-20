@@ -20,7 +20,14 @@ public class Guide {
 	//예약자정보
 	private String nameM;
 	private long usersCodeM;
+	private String memberId;
 	
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
 	public long getUsersCode() {
 		return usersCode;
 	}

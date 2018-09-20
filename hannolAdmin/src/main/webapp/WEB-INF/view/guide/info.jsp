@@ -7,9 +7,9 @@
 %>
 
 <script type="text/javascript">
-function deleteCareer(data) {
+function deleteGuide(data) {
 		var query = "${query}";
-		var url = "<%=cp%>/guide/delete?" + query+"&usersCodeM=${usersCodeM}";
+		var url = "<%=cp%>/guide/delete?" + query+"&usersCodeM=${dto.usersCodeM}";
 		
 		if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 				location.href=url;
@@ -105,16 +105,16 @@ function sendOk() {
 			
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="usersCodeM" class="col-sm-2 control-label text-right">예약자회원코드</label>
+					<label for="memberId" class="col-sm-2 control-label text-right">예약자회원아이디</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
 						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="usersCodeM"
-								placeholder="예약자회원번호" value="${dto.usersCodeM}"
+							<input type="text" class="form-control" name="memberId"
+								placeholder="예약자회원아이디" value="${dto.memberId}"
 								style='border: none;'>
 						</c:if>
 						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="usersCodeM" 
-								placeholder="예약자회원번호" value="${dto.usersCodeM==0?'없음':dto.usersCodeM}" readonly="readonly"
+							<input type="text" class="form-control" id="memberId" 
+								placeholder="예약자회원아이디" value="${dto.usersCodeM==0?'없음':dto.memberId}" readonly="readonly"
 								style='border: none;'>
 						</c:if>
 					</div>
@@ -197,7 +197,7 @@ function sendOk() {
 							</c:if>
 							<c:if test="${mode=='info'}">
 								<button type="button" name="sendButton" class="btn btn-default"
-									onclick="deleteCareer('${dto.schCode}');">삭제</button>
+									onclick="deleteGuide('${dto.schCode}');">삭제</button>
 							</c:if>
 							<button type="button" class="btn btn-default	"
 								onclick="javascript:location.href='<%=cp%>/guide/list?${query }';">리스트</button>

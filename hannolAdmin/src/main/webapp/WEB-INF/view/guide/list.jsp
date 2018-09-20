@@ -131,7 +131,7 @@ function sendGuide(){
       
           <div id="calendar"></div>
       
-   <br>
+    <br>
                 <button type="button" name="insertBtn" class="btn btn-default">일정추가</button>
           
     </div>
