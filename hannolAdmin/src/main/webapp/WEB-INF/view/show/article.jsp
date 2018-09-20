@@ -24,7 +24,6 @@ $(function() {
 });
 
 function updateShowScheduleForm(schCode, showCode) {
-	alert(schCode);
 	var url = '<%=cp%>/show/updateShowSchedule';
 	var query = "schCode="+schCode + "&showCode=" + showCode;
 	ajaxHTML(url, "get", query, "showCreatedForm");
@@ -53,8 +52,8 @@ function createdShowScheduleSubmit(mode, showInfoCode) {
 			return;
 		}
 	});	
-	if(!flag) {
-		alert('이미 등록된 날짜는 다시 등록할 수 없습니다. 다른 날짜를 등록하세요');
+	if(mode=='created' && !flag) {
+		alert('이미 등록된 날짜는 다시 등록할 수 없습니다. 다른 날짜를 선택하세요');
 		return;
 	}
 	
@@ -69,13 +68,15 @@ function createdShowScheduleSubmit(mode, showInfoCode) {
 	}
 	
 	str = f.startTimeList;
+//	alert(str.length);
 	var cnt = 0;
 	for(var i = 0; i < str.length; i++) {
-		str[i].getAttribute('value');	// 입력을 안했을 경우 null
-		if(str[i].getAttribute('value') == null)
+//		alert(i + "::" + str[i].value);	// 입력을 안했을 경우 ''
+		if(str[i].value=='')
 			cnt++;
 	}
-	if(cnt < 1) {
+//	alert(cnt);
+	if(cnt >= 5) {
 		alert('시작시간은 최소 1개 입력해야 합니다.');
 		return;
 	}

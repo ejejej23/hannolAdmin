@@ -286,5 +286,29 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public int deleteShowStartTime(int schCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("show.deleteShowStartTime", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+
+	@Override
+	public int updateShowBookSStartCode(int schCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("show.updateShowBookSStartCode", schCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+
 
 }

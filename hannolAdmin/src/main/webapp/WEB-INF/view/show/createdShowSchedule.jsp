@@ -14,7 +14,8 @@
 			      <td width="80%" align="center" style="padding-left: 1em; padding-right: 1em;">시작시간</td>
 			  </tr>						  
 			  <tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="20%"><input name="screenDate" type="text" placeholder="2018-08-01"  value="${dto.screenDate}" size="15"></td>
+			      <td width="20%"><input name="screenDate" type="text" placeholder="2018-08-01"  value="${dto.screenDate}" size="15" 
+			      						${mode=='update'?"readonly='readonly' style='background: #F2F2F2'":""}></td>
 			      <td width="80%" align="left" style="padding-left: 1em; padding-right: 1em;">
 				      <span id="showTimeList" style="text-align: left; margin-left: 15px;">  
 				      		<c:if test="${mode=='created'}">

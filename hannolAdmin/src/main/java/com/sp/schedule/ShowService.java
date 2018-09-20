@@ -35,7 +35,12 @@ public interface ShowService {
 	public int insertShowSchedule(ShowSchedule dto) throws Exception;
 	public int readScheduleCode(Map<String, Object> map) throws Exception;
 	public int insertShowStartTime(Map<String, Object> map) throws Exception;
+	public int deleteShowStartTime(int schCode) throws Exception;
 	
 	// 예약 가능 시설
 	public List<Map<String, Object>> listAvailableFacility(Map<String, Object> map) throws Exception;
+	
+	// 공연 예약
+	public int updateShowBookSStartCode(int schCode) throws Exception;
+	
 }

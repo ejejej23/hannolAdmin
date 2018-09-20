@@ -165,6 +165,13 @@
 		update showInfo set runningtime = #{runningTime}, facilitycode = #{facilityCode}
 		where showinfocode = #{showInfoCode}
 	</update>
+	
+	<update id="updateShowBookSStartCode" parameterType="Integer">
+		update showBook set sstartcode = 0
+		where sstartcode in (
+		    select sstartcode from showstarttime
+		    where schcode = #{schCode})
+	</update>
 
 
 	<!-- 예약 가능한 공연장 목록 -->
@@ -184,7 +191,10 @@
 ]]>		
 	</select>
 	
-	
+	<delete id="deleteShowStartTime" parameterType="Integer">
+		delete from showstarttime
+		where schcode = #{schCode}
+	</delete>
 	
 	
 

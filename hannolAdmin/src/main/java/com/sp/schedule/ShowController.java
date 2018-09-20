@@ -317,9 +317,49 @@ public class ShowController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("list", list);
-		model.addAttribute("showCode", dto.getShowCode());
+		model.addAttribute("showCode", showCode);
 		model.addAttribute("showInfoCode", dto.getShowInfoCode());
 		
 		return "show/createdShowSchedule";
+	}
+	
+	
+	@RequestMapping(value="/show/insertShowSchedule/update", method=RequestMethod.POST)
+	public String updateShowScheduleSubmit(ShowSchedule dto,
+			Model model) throws Exception {
+		int showCode = dto.getShowCode();
+		int schCode = dto.getSchCode();
+		ShowSchedule nDto = service.readShowSchedule(dto.getSchCode());
+		if(nDto == null) {
+			// 수정할 ShowSchedule가 없으므로 다시 article 을 보여준다.
+			return "redirect:/show/article?showCode="+showCode;
+		}
+		
+		// 예약한 회원 -> 예약 취소 (sstartcode = 0 으로 update)
+		service.updateShowBookSStartCode(schCode);
+		
+		// showstarttime 에서 schcode 에 해당하는 자료 삭제
+		service.deleteShowStartTime(schCode);
+		
+		// 새로 insert
+		// 상영날짜, 공연상세코드 -> 일정코드
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", dto.getScreenDate());
+		map.put("showInfoCode", dto.getShowInfoCode());
+		schCode = service.readScheduleCode(map);
+				
+		// 시작시간 insert
+		List<String> showStartTimeList = dto.getStartTimeList();
+		map = new HashMap<>();
+		for(String sst : showStartTimeList) {
+			if(sst.equals("")) {
+				break;
+			}
+			map.put("schCode", schCode);
+			map.put("startTime", sst);
+			service.insertShowStartTime(map);
+		}
+		
+		return "redirect:/show/article?showCode="+ showCode; 
 	}
 }
