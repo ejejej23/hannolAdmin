@@ -6,7 +6,7 @@ public class ShowInfo {
 	int showInfoCode;
 	int showCode;
 	int facilityCode;
-	String name;
+	String name;	// facility name
 	String startDate;
 	String endDate;
 	String runningTime;

@@ -34,7 +34,7 @@ $(function() {
 		<div>	
 			<div class="form-group">
 				<div class="col-sm-2">시작  ~ 종료</div>
-				<div class="col-sm-3"><mark>${dto.startDate} ~ <input type="text" name="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
+				<div class="col-sm-3"><mark>${dto.startDate} ~ <input type="text" id="endDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></mark></div> 
 				<div class="col-sm-2">상영시간</div>
 				<div class="col-sm-3"><mark>${dto.runningTime}분</mark></div>
 				<div class="col-sm-1"><button type="button" class="btn" onclick="updateShowInfoForm('${dto.showInfoCode}')">수정</button></div>

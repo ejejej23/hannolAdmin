@@ -63,17 +63,18 @@ function createdShowInfoSubmit(mode) {
 	}
 	
 	// 가장 최근 endDate
-	var enddate = $("input[name='endDate']").val(); // 2018-08-11
+	var enddate = $("#endDate").val(); // 2018-08-11
 	if(enddate) {
 		var startDate = f.startDate.value;
-		var diff = getDiffDays(enddate, startDate);
-		if(diff >= 0) {
+		var diff = getDiffDays(startDate, enddate);
+		if(diff <= 0) {
 			alert('일정이 진행중이므로 추가할 수 없습니다.');
 			return;
 		}
 	} 
 	
 	f.action = "<%=cp%>/show/showInfo/"+mode;
+	alert(f.action);
 	f.submit();
 }
 
@@ -92,6 +93,7 @@ function ajaxHTML(url, type, query, divId) {
 		success:function(data){
 			if($.trim(data)=="error"){
 				listPage(1);
+				
 				return;
 			}
 			$("#"+divId).html(data);

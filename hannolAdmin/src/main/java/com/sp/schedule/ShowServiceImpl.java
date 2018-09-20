@@ -204,6 +204,30 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public ShowInfo readShowInfo(int showInfoCode) throws Exception {
+		ShowInfo dto = null;
+		try {
+			dto = dao.selectOne("show.readShowInfo", showInfoCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+
+	@Override
+	public int updateShowInfo(ShowInfo dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("show.updateShowInfo", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+
 
 
 }

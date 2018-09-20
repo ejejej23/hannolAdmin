@@ -64,7 +64,6 @@
 	</select>
 	
 	
-	
 	<!-- 하나의 공연코드 - 공연상세 리스트 -->
 	<select id="listShowInfo" parameterType="Integer" resultType="com.sp.schedule.ShowInfo">
 		select showInfoCode, to_char(startDate, 'yyyy-mm-dd') startDate, to_char(endDate, 'yyyy-mm-dd') endDate, 
@@ -120,6 +119,15 @@
 		where showCode = #{showCode}
 	</select>
 
+	<select id="readShowInfo" parameterType="Integer" resultType="com.sp.schedule.ShowInfo">
+		select showinfocode, to_char(startdate, 'yyyy-mm-dd') startdate, to_char(enddate, 'yyyy-mm-dd') enddate, 
+		    runningtime, showcode, f.facilitycode, name
+		from showinfo s join facility f
+		    on s.FACILITYCODE = f.FACILITYCODE
+		where showinfocode = #{showInfoCode}
+	</select>
+
+
 	<sql id="where-list">
 	</sql>
 	
@@ -128,6 +136,10 @@
 		where showCode = #{showCode}
 	</update>
 
+	<update id="updateShowInfo" parameterType="com.sp.schedule.ShowInfo">
+		update showInfo set runningtime = #{runningTime}, facilitycode = #{facilityCode}
+		where showinfocode = #{showInfoCode}
+	</update>
 
 
 	<!-- 예약 가능한 공연장 목록 -->
