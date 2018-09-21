@@ -94,24 +94,6 @@
 		/*다이얼 로그*/
 		$(function() {
 			$("#ridesInfoAdd_btn").click(function() {
-				var lists = new Array();
-				var url = "<%=cp%>/rides/listName";
-				var query={"lists":lists};
-				
-				$.ajax({
-					type:"POST",
-					url:url,
-					data:query,
-					success:function(data){
-						//$("#resultLayout").html("수정완료!");
-						InfogetList();
-					}
-					,error:function(e){
-						console.log(e.responseText);
-						$("#resultLayout").html("에러발생!");	
-					}
-				}); 
-				
 				$("#ridesInfoModel").dialog({
 					title : "시설추가",
 					width : 480,
@@ -283,7 +265,14 @@
 		<table class="modalTable">
 			<tr>
 				<th scope="row">시설명</th>
-				<td><input type="text" name="name" class="boxTF"></td>
+				<td><input type="text" name="name" class="boxTF">
+					<select class="selectField" id="name" name="name" >
+							<option value="">상태</option>
+							<c:forEach var="vo" items="${list}">
+								<option value="${vo.name}">${vo.name}</option>
+							</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row">상태</th>

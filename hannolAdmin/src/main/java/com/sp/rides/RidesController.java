@@ -25,7 +25,8 @@ public class RidesController {
 	
 	@Autowired
 	private MyUtil myUtil;
-	
+
+/*	
 	@RequestMapping(value="/rides/ridesInfocreated", method=RequestMethod.POST)
 	@ResponseBody
 	public  Map<String, Object> ridesInfocreated(Rides dto) throws Exception{
@@ -42,6 +43,20 @@ public class RidesController {
 		model.put("state", state);
 		
 		return model;
+	}
+*/
+	
+	@RequestMapping(value="/rides/listName", method=RequestMethod.POST)
+	@ResponseBody
+	public  String ridesInfocreated(Model model) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Rides> InforidesList=service.InfolistRides(map);
+
+		model.addAttribute("list",InforidesList);
+		
+		return "";
 	}
 	
 	@RequestMapping(value="/rides/created", method=RequestMethod.GET)
