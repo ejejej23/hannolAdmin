@@ -30,10 +30,11 @@ public class ShowController {
 	
 	// 공연 스케쥴
 	@RequestMapping(value = "/show/list", method = RequestMethod.GET)
-	public String scheduleList() {
+	public String scheduleList(Model model) throws Exception {
+		List<Show> list = service.listShowCalendar();
+		model.addAttribute("list", list);
 		return ".show.list";
 	}
-
 	
 	// 공연 등록
 	@RequestMapping(value = "/show/created", method = RequestMethod.GET)

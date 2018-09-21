@@ -34,6 +34,27 @@
 		values(showStartTime_seq.nextval, #{startTime}, null, #{schCode})
 	</insert>
 	
+	
+	<!-- calendar 전용 list -->
+	<select id="listShowCalendar" resultType="com.sp.schedule.Show">
+	select g.gubuncode, gubunname, s.showcode, showname, memo, originalfilename, 
+	    savefilename, showinfocode, startdate, enddate, runningtime, i.facilitycode, name
+	from show s 
+	join showGubun g
+	    on s.gubuncode = g.gubuncode
+	join (
+	    select rownum, showinfocode, startdate, enddate, runningtime, showcode, shi.facilitycode, name 
+	    from showinfo shi join facility fa
+	        on shi.facilitycode = fa.facilitycode
+	    where (showcode, startdate) in (
+	        select showcode, max(startdate) from showinfo group by showcode
+	    )
+	    order by startdate desc     
+	) i
+	    on s.showcode = i.showcode
+	</select>
+	
+	
 	<!-- 일단 리스트만 나오도록 -->
 	<select id="listShow" parameterType="map" resultType="com.sp.schedule.Show">
 	select * from (
@@ -195,7 +216,6 @@
 		delete from showstarttime
 		where schcode = #{schCode}
 	</delete>
-	
 	
 
 </mapper>

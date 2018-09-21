@@ -23,6 +23,58 @@
 }
 
 </style>
+<script type="text/javascript" src="<c:url value='/resource/fullcalendar/fullcalendar.min.js'/>"></script>
+<script>
+
+var dataset = [
+    <c:forEach var="listview" items="${list}" varStatus="status">
+	        {
+	        	"id":'<c:out value="${listview.showCode}" />'
+		        ,"title":'<c:out value="${listview.showName} ( ${listview.name} )" />'
+		        ,"start":"<c:out value="${listview.startdate}" />"
+		        ,"end":"<c:out value="${listview.enddate}" />"
+		        ,"url":"<%=cp%>/show/article?showCode=${listview.showCode}"
+		        	<c:if test="${listview.gubunCode==1}">,"color" : "#E74C3C"</c:if>
+		        	<c:if test="${listview.gubunCode==2}">,"color" : "#7FB3D5"</c:if>
+		        	<c:if test="${listview.gubunCode==3}">,"color" : "#2980B9"</c:if>
+	        } 
+	        <c:if test="${!status.last}">,</c:if>
+	</c:forEach> 
+];
+
+$(document).ready(function() {
+	$('#calendar').fullCalendar({
+		locale:'ko',
+	    header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	         right: 'month,basicWeek,basicDay' 
+	    },
+	    defaultDate: new Date(),
+	    navLinks: true, 
+	    editable: false,
+	    displayEventTime: false,
+	    eventLimit: true,
+	    monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+	    monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+	    dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
+	    dayNamesShort: ["일","월","화","수","목","금","토"],
+	    buttonText: {
+		    today : "오늘",
+		    month : "월별",
+		    week : "주별",
+		    day : "일별",
+	    },
+	    events: dataset,
+	    eventClick: function(calEvent, jsEvent, view) {
+	    	if (event.url) {
+	    	    window.open(event.url);
+	    	    return false;
+	    	} 
+	    }
+	});
+});
+</script>
 
 <div class="sub-container" style="width: 960px;">
    
@@ -48,14 +100,10 @@
      </div>
     
     <div>
-      
-      
-      
-   달력<br><br><br> 
-                <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
-          
+	    <div>
+	        <div id="calendar"></div>
+	    	<br>
+	    </div>
+	    <div id="resultLayout"></div>
     </div>
-   
-   
-   
 </div>

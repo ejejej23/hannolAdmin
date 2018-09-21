@@ -131,6 +131,7 @@ function insertShowInfo() {
                  </div>         
              </div>
              <div align="right" style="float: left; width: 30%">
+                <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/list';">돌아가기</button>
                 <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/created';">공연 등록</button>
              </div>
          </div>

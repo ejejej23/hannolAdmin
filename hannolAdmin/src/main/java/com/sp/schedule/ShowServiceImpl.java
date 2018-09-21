@@ -310,5 +310,17 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 
+	@Override
+	public List<Show> listShowCalendar() throws Exception {
+		List<Show> list = null;
+		try {
+			list = dao.selectList("show.listShowCalendar");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+
 
 }

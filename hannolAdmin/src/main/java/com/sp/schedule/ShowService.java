@@ -13,6 +13,7 @@ public interface ShowService {
 	public int insertShow(Show dto, String pathname) throws Exception;	// 공연 사진 저장 때문에 pathname 필요하다.
 	public int dataCount(Map<String, Object> map) throws Exception;
 	public List<Show> listShow(Map<String, Object> map) throws Exception;
+	public List<Show> listShowCalendar() throws Exception;
 	public Show readShow(int showCode) throws Exception;
 	public int updateShow(Show dto, String pathname) throws Exception;
 //	public int deleteShow()
