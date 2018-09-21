@@ -131,8 +131,8 @@
         <li>
             <span class="dep1">정비</span>
             <ul>
-                <li><a href="#">수리</a></li>
-                <li><a href="#">점검</a></li>
+                <li><a href="<%=cp%>/repair/list">수리</a></li>
+                <li><a href="<%=cp%>/inspection/list">점검</a></li>  
             </ul>
         </li>
 
