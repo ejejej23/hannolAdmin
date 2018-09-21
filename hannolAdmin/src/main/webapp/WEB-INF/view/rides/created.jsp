@@ -10,6 +10,55 @@
     function sendOk() {
         var f = document.ridesForm;
 
+        var boardingTime = f.boardingTime.value;
+	    if(!boardingTime){
+	    	alert("탑승시간을 입력하세요. ");
+	    	f.boardingTime.focus();
+	    	return false;
+	    }
+	    
+	    var passengers =  f.passengers.value;
+	    if(!passengers){
+	    	alert("탑승인원을 입력하세요. ");
+	    	f.passengers.focus();
+	    	return false;
+	    }
+	    
+	    var minHeight =  f.minHeight.value;
+	    if(!minHeight){
+	    	alert("최소키를 입력하세요. ");
+	    	f.minHeight.focus();
+	    	return false;
+	    }
+	    
+	    var maxHeight =  f.maxHeight.value;
+	    if(!maxHeight){
+	    	alert("최대키를 입력하세요. ");
+	    	f.maxHeight.focus();
+	    	return false;
+	    }
+	    
+	    var congestion =  f.congestion.value;
+	    if(!congestion){
+	    	alert("혼잡도를 입력하세요. ");
+	    	f.congestion.focus();
+	    	return false;
+	    }
+	    
+	    var genreCode =  f.genreCode.value;
+	    if(!genreCode){
+	    	alert("장르 구분을 입력하세요. ");
+	    	f.genreCode.focus();
+	    	return false;
+	    }
+	    
+	    var gubunCode =  f.gubunCode.value;
+	    if(!gubunCode){
+	    	alert("놀이기구 구분을 입력하세요. ");
+	    	f.gubunCode.focus();
+	    	return false;
+	    }
+        
     	f.action="<%=cp%>/rides/${mode}?page=${page}";
 
         f.submit();

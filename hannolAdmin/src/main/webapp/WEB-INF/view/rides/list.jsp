@@ -130,7 +130,6 @@
 					
 					<td align="right" width="100">
 						<button id="btnSend" type="button" class="btn1">상태변경</button>
-						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/rides/created';">추가하기</button>
 					</td>
 				</tr>
 			</table>

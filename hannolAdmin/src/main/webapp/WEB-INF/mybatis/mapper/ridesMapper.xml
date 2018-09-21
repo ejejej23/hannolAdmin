@@ -9,8 +9,8 @@
 	</insert>
 		
 	<insert id="insertRidesInfo" parameterType="com.sp.rides.Rides">
-		INSERT INTO ridesInfo(ridesInfoCode, state, facilityCode)
-		VALUES (ridesInfo_seq.NEXTVAL, #{state}, #{facilityCode})
+		INSERT INTO ridesInfo(facilityCode,state,ridesInfoCode)
+		VALUES (#{facilityCode},#{state},ridesInfo_seq.NEXTVAL)
 	</insert>
 	
 	<sql id="where-list">
@@ -54,6 +54,7 @@
 	     </where>   
 	</select>
 
+	
 	<!-- 놀이기구리스트 -->
 <!-- 	<select id="listOnlyRides" parameterType="map"
 	            resultType="com.sp.rides.Rides">
@@ -100,6 +101,57 @@
 	    ) WHERE rnum >= #{start}
 	]]>
 	</select>
+
+	<!-- 시설명만 리스트로 가져오기 -->
+	<select id="listName" resultType="com.sp.rides.Rides">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+			    select f.name
+			       from facility f
+			            left join rides r on f.facilityCode = r.facilityCode
+			            left join theme t on t.themeCode = f.themeCode
+			            left join genre g on r.genreCode = g.genreCode 
+			            left join facGubun b on f.gubunCode=b.gubunCode 
+			            left join stateGubun s on r.gubunCode = s.gubunCode
+			       where f.gubunCode=1
+	                   <where>
+                        <if test="searchValue != null and searchValue != ''">
+			                  <include refid="where-list"/>
+		                 </if>
+	                </where>
+                ORDER BY facilityCode DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
+
+
+	<!-- 	시설상세 글 개수 -->
+	<select id="InfodataCount" parameterType="map"
+	            resultType="Integer">
+		 select count (*) from
+	    (select * from ridesInfo)
+	     <where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	     </where>   
+	</select>
+
+	<!-- 시설상세 리스트 -->
+	<select id="InfolistRides" resultType="com.sp.rides.Rides">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+				select f.facilityCode, name, ridesInfoCode, r.state 
+				from ridesInfo r
+				join facility f on f.facilityCode = r.facilityCode 
+				ORDER BY r.facilityCode DESC
+	<![CDATA[
+	        ) tb WHERE ROWNUM <= #{end}
+	    ) WHERE rnum >= #{start}
+	]]>
+	</select>
 	
 	<select id="readRides" parameterType="Integer" resultType="com.sp.rides.Rides">
 		select f.facilityCode,f.name, gubunName, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
@@ -110,16 +162,12 @@
 		where f.gubunCode=1 and f.facilityCode=#{num}
 	</select>
 	
-<!-- 	<select id="check" parameterType="Integer" resultType="com.sp.rides.Rides">
-		select f.name, boardingTime,passengers, minHeight,maxHeight, limit, congestion, genreName
-		from rides r
-			join genre g on g.genreCode=r.genreCode
-			right outer join facility f on r.facilityCode = f.facilityCode
-		where f.gubunCode=1 and f.facilityCode=#{num}
-	</select> -->
-	
 	<update id="updateRides" parameterType="com.sp.rides.Rides">
 		UPDATE rides SET gubunCode=#{gubunCode} WHERE facilityCode=#{facilityCode}
+	</update>
+	
+	<update id="updateInfoRides" parameterType="com.sp.rides.Rides">
+		UPDATE ridesInfo SET state=#{state} WHERE facilityCode=#{facilityCode} and ridesInfoCode=#{ridesInfoCode}
 	</update>
 	
 	<update id="updateRidesChg" parameterType="com.sp.rides.Rides">

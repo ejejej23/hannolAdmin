@@ -92,7 +92,16 @@
 	</select>
 	
 	<update id="updateFacility" parameterType="com.sp.facility.Facility">
-		UPDATE rides SET gubunCode=#{gubunCode} WHERE facilityCode=#{facilityCode}
+		UPDATE facility 
+		SET themeCode=#{themeCode}
+		    ,gubunCode=#{gubunCode}
+		    ,name=#{name}
+		    ,state=#{state}
+		    ,removeDate=#{removeDate}
+		    ,saveMainFilename=#{originalMainFilename}
+		    ,saveLocFilename=#{originalLocFilename}
+		    ,memo=#{memo}
+		WHERE facilityCode=#{facilityCode}
 	</update>
 	
 	<select id="readFacility" resultType="com.sp.facility.Facility" parameterType="Integer">
@@ -111,6 +120,11 @@
 	    where rownum=1
 	</select>
 	
+<!-- 	<select id="ListFacilityImg" parameterType="Long" resultType="map">
+		select Facility
+	
+	</select>
+	 -->
 	
 	
 </mapper>

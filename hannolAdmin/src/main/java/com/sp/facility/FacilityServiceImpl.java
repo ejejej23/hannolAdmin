@@ -127,6 +127,7 @@ public class FacilityServiceImpl implements FacilityService{
 		
 		try {
 			dto=dao.selectOne("facility.readFacility",dto.getFacilityCode());
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

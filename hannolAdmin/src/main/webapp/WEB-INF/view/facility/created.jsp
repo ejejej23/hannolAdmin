@@ -46,12 +46,12 @@
 			<div class="col-sm-10">
 				<select name="themeCode" class="selectField" id="theme">
 					<option value="">::테마선택::</option>
-					<option value=1>프린세스빌리지</option>
-					<option value=2>토이스토리</option>
-					<option value=3>미니언즈</option>
-					<option value=4>전체</option>
-					<option value=5>라이온킹</option>
-					<option value=6>니모</option>
+					<option value=1 ${dto.themeName=="프린세스빌리지"? "selected='selected'":""}>프린세스빌리지</option>
+					<option value=2 ${dto.themeName=="토이스토리"? "selected='selected'":""}>토이스토리</option>
+					<option value=3 ${dto.themeName=="미니언즈"? "selected='selected'":""}>미니언즈</option>
+					<option value=4 ${dto.themeName=="전체"? "selected='selected'":""}>전체</option>
+					<option value=5 ${dto.themeName=="라이온킹"? "selected='selected'":""}>라이온킹</option>
+					<option value=6 ${dto.themeName=="니모"? "selected='selected'":""}>니모</option>
 				</select> 
 			</div> 
 		</div>
@@ -62,14 +62,14 @@
 			<div class="col-sm-10">
 				<select name="gubunCode" class="selectField" id="facGubun">
 					<option value="">::시설구분::</option>
-					<option value=1>놀이기구</option>
-					<option value=2>편의시설</option>
-					<option value=3>공연전시</option>
-					<option value=4>음식점</option>
-					<option value=5>기프트샵</option>
-					<option value=6>유모차대여소</option>
-					<option value=7>화장실</option>
-					<option value=8>물품보관함</option>
+					<option value=1 ${dto.gubunName=="놀이기구"? "selected='selected'":""}>놀이기구</option>
+					<option value=2 ${dto.gubunName=="편의시설"? "selected='selected'":""}>편의시설</option>
+					<option value=3 ${dto.gubunName=="공연전시"? "selected='selected'":""}>공연전시</option>
+					<option value=4 ${dto.gubunName=="음식점"? "selected='selected'":""}>음식점</option>
+					<option value=5 ${dto.gubunName=="기프트샵"? "selected='selected'":""}>기프트샵</option>
+					<option value=6 ${dto.gubunName=="유모차대여소"? "selected='selected'":""}>유모차대여소</option>
+					<option value=7 ${dto.gubunName=="화장실"? "selected='selected'":""}>화장실</option>
+					<option value=8 ${dto.gubunName=="물품보관함"? "selected='selected'":""}>물품보관함</option>
 				</select> 
 			</div> 
 		</div>
@@ -90,10 +90,8 @@
 			<div class="col-sm-10">
 				<select name="state" class="selectField" id="facilityState">
 					<option value="">::상태선택::</option>
-					<option value=0>양호</option>
-					<option value=1>주의요함</option>
-					<option value=2>수리중</option>
-					<option value=3>수리완료</option>
+					<option value=0 ${dto.state==0? "selected='selected'":""}>이용불가</option>
+					<option value=1 ${dto.state==1? "selected='selected'":""}>이용가능</option>
 				</select> 
 				
 		<%-- 		<select name="searchKey" class="selectField">
@@ -128,8 +126,26 @@
 			<div class="col-sm-10"> 
             	<input style="width: 50%;" type="file" name="upload1" class="form-control" size="53" style="width: 95%;">
 			</div> 
-
 		</div>
+		
+		<%-- <c:if test="${mode=='update' }">
+		  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+		      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
+		      <td style="padding-left:10px;">
+			      <c:forEach items="${dto.fileList}" var="itemImg">
+				      <span class="span-gift">
+							<img style="width: 50px;" alt="" src="<%=cp%>/uploads/giftShopGoods/${itemImg.SAVEFILENAME}" onerror="this.src='<%=cp%>/resource/images/noimage.png'">
+							${itemImg.ORIGINALFILENAME}
+							<button type="button" class="btn btn-default glyphicon glyphicon-trash btn-giftImg" onclick="deleteFile('${itemImg.GOODSIMGCODE}', 'img', this)"></button>
+					  </span>
+				  </c:forEach>
+				  <c:if test="${not empty dto.fileList}">
+				     	<button type="button" class="btn btn-default" style="margin: 10px 0px;" onclick="deleteFile('${dto.goodsCode}', 'goods', this)">전체이미지삭제</button>
+			      </c:if>
+		      </td>
+		  </tr>
+	   </c:if> --%>
+		
 
 		<div class="form-group"> 
 			<label for="saveLocFilename" class="col-sm-2 control-label">시설위치사진</label> 
@@ -146,7 +162,6 @@
 			<div class="col-sm-10"> 
 				<input style="width: 50%;" name="memo" type="text" class="form-control" placeholder="상세설명"  value="${dto.memo}"> 
 			</div> 
-
 		</div>
 
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
@@ -158,7 +173,7 @@
 					<button type="button" class="btn"
 						onclick="javascript:location.href='<%=cp%>/facility/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 					<c:if test="${mode=='update'}">
-						<input type="hidden" name="num" value="${dto.num}">
+						<input type="hidden" name="facilityCode" value="${dto.facilityCode}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>
 				</td>

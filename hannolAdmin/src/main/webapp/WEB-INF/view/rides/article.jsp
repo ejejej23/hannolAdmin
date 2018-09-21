@@ -70,6 +70,7 @@
 			    </td>
 			
 			    <td align="right">
+			        <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/rides/Infolist?';">시설상세</button>
 			        <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/rides/list?';">리스트</button>
 			    </td>
 			</tr>

@@ -113,8 +113,8 @@ public class facilityController {
 	public String article(Facility dto, @RequestParam(value = "page") String page,
 						Model model,HttpServletRequest req, HttpSession session) throws Exception{
 		
-		String root= session.getServletContext().getRealPath("/");
-		String pathname = root+File.separator+"uploads"+File.separator+"facility";
+	/*	String root= session.getServletContext().getRealPath("/");
+		String pathname = root+File.separator+"uploads"+File.separator+"facility";*/
 		
 		String query="page="+page;
 		
@@ -131,24 +131,22 @@ public class facilityController {
 		return ".facility.article";
 	}
 	
-	@RequestMapping(value="/rides/update", method=RequestMethod.GET)
+	@RequestMapping(value="/facility/update", method=RequestMethod.GET)
 	public String updateForm(int facilityCode, Model model, int page) throws Exception{
 		
-		System.out.println("안녀ㅕㅕㅕㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅇ");
 		Facility dto = service.readFacility(facilityCode);
 				
 		if(dto.getFacilityCode()== 0) {
-			return "redirect:/rides/list";
+			return "redirect:/facility/list";
 		}
 
 		model.addAttribute("mode", "update");
 		model.addAttribute("dto",dto);
 		model.addAttribute("page",page);
-		System.out.println("안녀ㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅕㅇ");
-		return ".rides.created";
+		return ".facility.created";
 	}
 	
-	@RequestMapping(value="/rides/update", method=RequestMethod.POST)
+	@RequestMapping(value="/facility/update", method=RequestMethod.POST)
 	public String updateSubmit(Facility dto, int page, HttpSession session) throws Exception{
 
 		String root= session.getServletContext().getRealPath("/");

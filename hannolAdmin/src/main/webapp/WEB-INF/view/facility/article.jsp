@@ -25,7 +25,7 @@
 				<tr align="left" height="40"
 					style="border-bottom: 1px solid #cccccc;">
 					<td width="100" bgcolor="#eeeeee" style="text-align: center;">시설상태</td>
-					<td style="padding-left: 10px;">${vo.state==0?"이용불가":"이용가능"}</td>
+					<td style="padding-left: 10px;">${dto.state==0?"이용불가":"이용가능"}</td>
 				</tr>
 	
 				<tr align="left" height="40"
@@ -63,7 +63,7 @@
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 				<tr height="45">
 				    <td width="300" align="left">
-				          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/facility/update?facilityCode=${dto.facilityCode}&page=${page}';">수정</button>
+				          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/facility/update?page=${page}&facilityCode=${dto.facilityCode}';">수정</button>
 				    </td>
 				
 				    <td align="right">
