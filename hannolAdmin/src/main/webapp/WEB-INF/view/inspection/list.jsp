@@ -166,7 +166,7 @@
 	$(function(){
 		$("input[name=checkDate]").datepicker({
 			dateFormat:'yy-mm-dd',
-			showOn:"both",
+			showOn:"button",  
 	        buttonImage:"<%=cp%>/resource/images/date24.png",
 	        buttonImageOnly:true,
 	        showAnim:"slideDown",
@@ -177,7 +177,7 @@
 		//검색 시작날짜
 		$("input[name=searchStartDate]").datepicker({
 			dateFormat:'yy-mm-dd',
-			showOn:"both",
+			showOn:"button",
 	        buttonImage:"<%=cp%>/resource/images/date24.png",
 	        buttonImageOnly:true,
 	        showAnim:"slideDown",
@@ -195,7 +195,7 @@
 		//검색 마지막 날짜
 		$("input[name=searchEndDate]").datepicker({
 			dateFormat:'yy-mm-dd',
-			showOn:"both",
+			showOn:"button",
 	        buttonImage:"<%=cp%>/resource/images/date24.png",
 	        buttonImageOnly:true,
 	        showAnim:"slideDown",
