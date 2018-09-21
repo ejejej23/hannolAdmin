@@ -10,7 +10,7 @@
 	<!-- 시설 종류별 시설 가져오기 -->
 	<select id="listFacility" resultType="map" parameterType="Integer">
 		SELECT facilityCode, name FROM facility
-		 WHERE gubunCode = #{gubunCode}
+		WHERE gubunCode = #{gubunCode}
 	</select> 
 	
 	<!-- 시설 종류 가져오기 -->
@@ -103,7 +103,7 @@
 						<include refid="datewhere-list"/> 
 					</if>
 				</where>
-		        ORDER BY r.repairCode DESC, f.gubunCode DESC, repairDate DESC 
+		        ORDER BY r.repairCode DESC
 		    )tb WHERE ROWNUM &lt;= #{end}
 		)WHERE rnum &gt;= #{start}
 	</select>

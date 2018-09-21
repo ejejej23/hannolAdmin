@@ -75,13 +75,17 @@
 	var elementsNameText = [];
 	
 	$(function(){
-		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("input[type=radio]"); 
-		
+		valueSave();
+	});	
+	
+	function valueSave(){
+		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("input[type=radio]").not(":disabled");  
+		 
 		for(var i=0; i<elements.length; i++){
 			elementsName[i] = elements[i];
 			elementsNameText[i] = elements[i].getAttribute("data-name");
 		}
-	});	
+	}
 	
 	/*버튼모음*/
     var createdOk = '<button type="button" class="btn btn-info" id="createdOk">수리등록</button>';
@@ -100,12 +104,15 @@
 			$("#modal").dialog({
 				title : "수리추가",
 				width : 480,
-				height : 660,  
+				height : 670,   
 				modal : true,
 				open : function(){ 
 					$(".btnBox").empty();
 					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
 					$("#modalCloseBtn").text("등록취소");
+					
+					$("#gubunName, #facilityName").empty();      
+					$("#modal select[name=facGubun], #modal select[name=facilityCode]").css("display", "block")
 					
 					$("#modal select[name=facGubun]").val(1).trigger("change");  
 					$("#modal select[name=facilityCode]").val(1);						
@@ -194,7 +201,7 @@
 	        	
 	        	 //$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
 	        	 $("input[name=searchStartDate]").datepicker("option", "maxDate", selected); 
-	        }
+	        } 
 		});	
 	});
 	
@@ -256,19 +263,21 @@
 						dataType:"json",
 						success:function(data){
 							if(data.state=="true"){
-								$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
-								$("#modal select[name=facilityCode]").val(data.dto.facilityCode);						
+								$("#modal select[name=facGubun], #modal select[name=facilityCode]").css("display", "none");  
+								$("#gubunName").text(data.dto.facGubunName);  
+								$("#facilityName").text(data.dto.facilityName);   
+								
 								$("#modal select[name=companyCode]").val(data.dto.companyCode);
-								$("#modal input[name=repairDate ]").val(data.dto.repairDate);
+								$("#modal input[name=repairDate]").val(data.dto.repairDate);
 								$("#modal input[name=cost]").val(data.dto.cost);
 								$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
 								$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
 								$("#modal textarea[name=memo]").val(data.dto.memo); 
 								
 								$("#modal input, #modal textarea, #modal select").not("input[type=hidden]").prop("disabled", true).addClass("noLine");
-							}else{ 
+							}else{  
 								alert("수리 정보를 불러오지 못했습니다.");
-							}
+							} 
 						},
 						error:function(e){
 							console.log(e.responseText);
@@ -359,6 +368,8 @@
 	
 	//빈칸 확인
 	function check(){
+		valueSave();
+		 
 		for(var i=0 ; i<elementsName.length ; i++){
 			if(!elementsName[i].value){
 				elementsName[i].focus();
@@ -500,7 +511,8 @@
 			<tr>
 				<th scope="row">분류</th>
 				<td>
-					<select name="facGubun" class="selectField" data-name="분류를">
+					<span id="gubunName"></span>
+					<select name="facGubun" class="selectField" data-name="분류를"> 
 						<c:forEach var="list" items="${facGubunlist}">
 							<option value="${list.GUBUNCODE}">${list.NAME}</option>
 						</c:forEach>
@@ -509,7 +521,7 @@
 			</tr>
 			<tr>
 				<th scope="row">시설명</th>
-				<td>
+				<td><span id="facilityName"></span>
 					<select name="facilityCode" class="selectField" data-name="시설명을">
 						<c:forEach var="list" items="${facList}">
 							<option value="${list.FACILITYCODE}">${list.NAME}</option>
@@ -533,7 +545,7 @@
 			</tr> 
 			<tr> 
 				<th scope="row">비용</th>
-				<td><input name="cost" class="boxTF"  data-name="비용을" disabled="disabled"></td> 
+				<td><input name="cost" class="boxTF"  data-name="비용을"></td>  
 			</tr>
 			<tr>
 				<th scope="row">상태</th>

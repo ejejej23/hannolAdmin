@@ -77,17 +77,21 @@
 	var elementsNameText = [];
 	
 	$(function(){
-		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("input[type=radio]"); 
-		
-		for(var i=0; i<elements.length; i++){
-			elementsName[i] = elements[i];
-			elementsNameText[i] = elements[i].getAttribute("data-name");
-		}
+		valueSave();  
 		
 		//테이블 주의 tr 빨강
 		$(".warning").parent("td").parent("tr").css("background-color", "rgb(255, 242, 242)"); 
 		
 	});
+	
+	function valueSave(){
+		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("input[type=radio]").not(":disabled");  
+		
+		for(var i=0; i<elements.length; i++){ 
+			elementsName[i] = elements[i];
+			elementsNameText[i] = elements[i].getAttribute("data-name");
+		}
+	}
 	
 	 /*버튼모음*/
     var createdOk = '<button type="button" class="btn btn-info" id="createdOk">점검등록</button>';
@@ -113,8 +117,12 @@
 					$(".btnBox").append(createdOk, resetBtn, closeBtn); 
 					$("#modalCloseBtn").text("등록취소");
 					
+					$("#gubunName, #facilityName").empty();      
+					$("#modal select[name=facGubun], #modal select[name=facilityCode]").css("display", "block")
+					 
 					$("#modal select[name=facGubun]").val(1).trigger("change");  
-					$("#modal select[name=facilityCode]").val(1);		 
+					$("#modal select[name=facilityCode]").val(1);						
+					$("#modal select[name=companyCode]").val(1);
 				}
 			});
 		});
@@ -265,15 +273,17 @@
 						dataType:"json",
 						success:function(data){
 							if(data.state=="true"){
-								$("#modal select[name=facGubun]").val(data.dto.gubunCode).trigger("change");  
-								$("#modal select[name=facilityCode]").val(data.dto.facilityCode);
+								$("#modal select[name=facGubun], #modal select[name=facilityCode]").css("display", "none");  
+								$("#gubunName").text(data.dto.facGubunName); 
+								$("#facilityName").text(data.dto.facilityName);   
+								
 								$("#modal input[name=checkDate]").val(data.dto.checkDate);
 								$("#modal input[name=state]:input[value="+data.dto.state+"]").prop("checked", true);
 								$("#modal input[name=state]:input[value="+data.dto.state+"]").next("label").addClass("stateView");
 								$("#modal textarea[name=memo]").val(data.dto.memo); 
 								
 								$("#modal input, #modal textarea, #modal select").not("input[type=hidden]").prop("disabled", true).addClass("noLine");
-							}else{ 
+							}else{   
 								alert("점검 정보를 불러오지 못했습니다.");
 							}
 						},
@@ -366,6 +376,8 @@
 	
 	//빈칸 확인
 	function check(){
+		valueSave();
+		
 		for(var i=0 ; i<elementsName.length ; i++){
 			if(!elementsName[i].value){
 				elementsName[i].focus();
@@ -499,6 +511,7 @@
 			<tr>
 				<th scope="row">분류</th>
 				<td>
+					<span id="gubunName"></span>
 					<select name="facGubun" class="selectField" data-name="분류를">
 						<c:forEach var="list" items="${facGubunlist}">
 							<option value="${list.GUBUNCODE}">${list.NAME}</option>
@@ -509,7 +522,8 @@
 			<tr>
 				<th scope="row">시설명</th>
 				<td>
-					<select name="facilityCode" class="selectField" data-name="시설명을">
+					<span id="facilityName"></span>  
+					<select name="facilityCode" class="selectField" data-name="시설명을"> 
 						<c:forEach var="list" items="${facList}">
 							<option value="${list.FACILITYCODE}">${list.NAME}</option>
 						</c:forEach>

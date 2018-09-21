@@ -90,7 +90,7 @@
 						<include refid="datewhere-list"/> 
 					</if>
 				</where>
-		        ORDER BY checkDate DESC
+		        ORDER BY checkCode DESC
 		    )tb WHERE ROWNUM &lt;= #{end}
 		)WHERE rnum &gt;= #{start}
 	</select>
