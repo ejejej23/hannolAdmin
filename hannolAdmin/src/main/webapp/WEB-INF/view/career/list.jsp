@@ -167,7 +167,8 @@ function sendTheme(){
   	</div>
   	
   	<br><br>
-		<div><button type="button" name="updateBtn" class="btn btn-default">테마변경</button>  <button class="btn btn-default" onclick="createForm();">발령 입력</button></div>
+		<div><button type="button" name="updateBtn" class="btn btn-default">테마변경</button> 
+		 <button class="btn btn-default" onclick="createForm();">발령 입력</button></div>
     
     <div>
 

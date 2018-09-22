@@ -17,7 +17,7 @@
 	
 	   <!-- dataCount -->
    <select id="dataCount" parameterType="map" resultType="Integer">
-   		SELECT NVL(COUNT(*),0) FROM STAFF
+   		SELECT NVL(COUNT(*),0) FROM STAFF S
    		<where>
 	     	<if test="searchValue!=null and searchValue!='' ">
 	     	    <include refid="where-list"/>

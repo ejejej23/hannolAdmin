@@ -156,7 +156,7 @@ public class CareerController {
 		
 		Staff isExist = temp.readStaff(usersCode);
 		if(isExist==null) {
-			//return "redirect:/career/list";
+			return "redirect:/career/list?usersCode="+usersCode;
 		}
 		
 		String query = "page=" + page + "&usersCode=" + usersCode;
