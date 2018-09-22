@@ -28,7 +28,7 @@
 	</div> 
   
   	<div>
-  		<form name="searchForm" method="post" action="<%=cp%>/notice/list">
+  		<form name="searchForm" method="post" action="<%=cp%>/staff/list">
           	<div class="col-xs-8 col-xs-offset-2">
 			  		<div class="input-group">
 			            <input type="hidden" name="searchKey" value="all">         
@@ -97,13 +97,13 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/staff/list';">새로고침</button>
 		      </td>
 		      <td align="center">
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/created';">글올리기</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/staff/created';">글올리기</button>
 		      </td>
 		   </tr>
 		</table>
