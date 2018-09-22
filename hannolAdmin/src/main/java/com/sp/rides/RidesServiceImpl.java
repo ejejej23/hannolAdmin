@@ -93,7 +93,7 @@ public class RidesServiceImpl implements RidesService{
 		return 0;
 	}
 	
-/*	@Override
+	@Override
 	public List<Rides> listName(Map<String, Object> map) {
 		List<Rides> list = null;
 		try {
@@ -103,7 +103,7 @@ public class RidesServiceImpl implements RidesService{
 		}
 		return list;
 	}
-	*/
+	
 	
 	@Override
 	public List<Rides> listRides(Map<String, Object> map) {

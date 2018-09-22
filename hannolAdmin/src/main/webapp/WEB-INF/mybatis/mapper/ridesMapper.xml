@@ -103,29 +103,19 @@
 	</select>
 
 	<!-- 시설명만 리스트로 가져오기 -->
-	<select id="listName" resultType="com.sp.rides.Rides">
-		SELECT * FROM (
-		    SELECT ROWNUM rnum, tb.* FROM (
-			    select f.name
-			       from facility f
-			            left join rides r on f.facilityCode = r.facilityCode
-			            left join theme t on t.themeCode = f.themeCode
-			            left join genre g on r.genreCode = g.genreCode 
-			            left join facGubun b on f.gubunCode=b.gubunCode 
-			            left join stateGubun s on r.gubunCode = s.gubunCode
-			       where f.gubunCode=1
-	                   <where>
-                        <if test="searchValue != null and searchValue != ''">
-			                  <include refid="where-list"/>
-		                 </if>
-	                </where>
-                ORDER BY facilityCode DESC
-	<![CDATA[
-	        ) tb WHERE ROWNUM <= #{end}
-	    ) WHERE rnum >= #{start}
-	]]>
-	</select>
-
+<!-- 	<select id="listName" resultType="com.sp.rides.Rides">
+	
+	    select f.name
+	       from facility f
+	            left join rides r on f.facilityCode = r.facilityCode
+	            left join theme t on t.themeCode = f.themeCode
+	            left join genre g on r.genreCode = g.genreCode 
+	            left join facGubun b on f.gubunCode=b.gubunCode 
+	            left join stateGubun s on r.gubunCode = s.gubunCode
+	       where f.gubunCode=1
+	                  
+	</select> -->
+ 
 
 	<!-- 	시설상세 글 개수 -->
 	<select id="InfodataCount" parameterType="map"

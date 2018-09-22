@@ -26,38 +26,26 @@ public class RidesController {
 	@Autowired
 	private MyUtil myUtil;
 
-/*	
+	
 	@RequestMapping(value="/rides/ridesInfocreated", method=RequestMethod.POST)
 	@ResponseBody
-	public  Map<String, Object> ridesInfocreated(Rides dto) throws Exception{
-		String state="ture";
+	public String ridesInfocreated(Rides dto,
+			@RequestParam(value="test") int test,
+			@RequestParam(value="test1") int test1) throws Exception{
+		
+		dto.setFacilityCode(test);
+		dto.setState(test1);
+		
+		String state="true";
 		
 		int result=service.insertRidesInfo(dto);
 		
 		if(result==0)
 			state="false";
 		
-		System.out.println(dto.getFacilityCode()+":::::::::::::::::::::::::::::::::::::::::::::::::::::");
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("state", state);
-		
-		return model;
+		return state;
 	}
-*/
-	
-	@RequestMapping(value="/rides/listName", method=RequestMethod.POST)
-	@ResponseBody
-	public  String ridesInfocreated(Model model) throws Exception{
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<Rides> InforidesList=service.InfolistRides(map);
 
-		model.addAttribute("list",InforidesList);
-		
-		return "";
-	}
 	
 	@RequestMapping(value="/rides/created", method=RequestMethod.GET)
 	public String createdForm(Model model) throws Exception{
@@ -265,8 +253,6 @@ public class RidesController {
 	}
 	*/
 	
-	
-	
 	@RequestMapping(value="/rides/Infoupdate")
 	public String Infoupdate(@RequestParam(value="lists[]")  String[] lists,
 			@RequestParam(value="selCode") int selCode) {
@@ -311,9 +297,8 @@ public class RidesController {
 	
 	@RequestMapping(value="/rides/updateChg", method=RequestMethod.POST)
 	public String updateSubmit(Rides dto, int page) throws Exception{
-		service.updateRidesChg(dto);
 		
-		System.out.println("e드디어 왔도다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		service.updateRidesChg(dto);
 		
 		return "redirect:/rides/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
 	}

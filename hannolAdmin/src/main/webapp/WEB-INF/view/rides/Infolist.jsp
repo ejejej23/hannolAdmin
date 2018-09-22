@@ -115,19 +115,20 @@
  		//업체 등록
 		$(function() {
 			$("body").on("click", "#sendOk", function() {
-				alert("버튼클릭");
 				var url = "<%=cp%>/rides/ridesInfocreated";
-				alert("???");
+				/* var query =  $("#ridesInfoForm").serialize(); */
+				var test =  $("#name1 option:selected").val();
+				var test1 = $("#state option:selected").val();
+				var query = {"test":test, "test1":test1}
 				
 			$.ajax({
 				type:"post",
 				url:url,
-				data:$("form[name=ridesInfoForm]").serialize(),
+				data:query,
 				dataType:"json",
-				beforeSend:check,
 				success:function(data){
-					if(data.state=="true"){
-						alert("업체 등록이 되었습니다.");
+					if(data.equals("true")){
+						alert(data);
 						formClean();
 						location.href="<%=cp%>/rides/Infolist";
 							}else{
@@ -200,6 +201,7 @@
 			}
 		}); 
 	}
+	
 	//ajax로 값들을 보낸다
 	$(function(){
 		 $("#btnSend").click(function(){
@@ -243,6 +245,7 @@
 		<div id="listLayout"></div>
 		
 		<div id="resultLayout"></div>
+		
 			<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
 					<td align="left" width="100">
@@ -258,39 +261,3 @@
 			</table>
     </div>
 </div>
-
-
-<div id="ridesInfoModel" class="modal">
-	<form name="ridesInfoForm" method="post">
-		<table class="modalTable">
-			<tr>
-				<th scope="row">시설명</th>
-				<td><input type="text" name="name" class="boxTF">
-					<select class="selectField" id="name" name="name" >
-							<option value="">상태</option>
-							<c:forEach var="vo" items="${list}">
-								<option value="${vo.name}">${vo.name}</option>
-							</c:forEach>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">상태</th>
-				<td>
-					<select class="selectField" id="state" name="state" >
-						<option value="">상태</option>
-						<option value=1>수리요청</option>
-						<option value=2>요청확인</option>
-						<option value=3>수리중</option>
-						<option value=4>수리완료</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<div class="btnBox">
-	        <button type="button" class="btn btn-info" id="sendOk">업체등록</button>
-	        <button type="reset" class="btn btn-default">다시입력</button> 
-	        <button type="button" class="btn btn-default" id="ridesInfoAdd_close_btn">등록취소</button>
-	    </div>
-	</form>
-</div>   
