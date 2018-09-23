@@ -60,7 +60,6 @@
             <ul>
                 <li><a href="<%=cp%>/ticket/list">이용권 관리</a></li>
                 <li><a href="<%=cp%>/card/list">할인카드 관리</a></li>
-                <li><a href="#">쿠폰 관리</a></li>
                 <li><a href="#">이용객 현황 관리</a></li>
                 <li><a href="#">예매/예약 현황 관리</a></li>
                 <li><a href="#">매직패스 예약현황 관리</a></li>
@@ -72,7 +71,7 @@
             <ul>
                 <li><a href="#">알림문구 설정</a></li>
                 <li><a href="#">알림 발송</a></li>
-                <li><a href="#">쿠폰 발송</a></li>
+                <li><a href="<%=cp%>/coupon/list">쿠폰 발송</a></li>
                 <li><a href="#">등급 관리</a></li>
                 <li><a href="<%=cp%>/member/list">회원리스트</a></li>                
             </ul>
@@ -140,8 +139,8 @@
             <span class="dep1">기프트샵</span>
             <ul>
                 <li><a href="<%=cp%>/giftshop/list">품목관리</a></li>
-                <li><a href="#">입고관리</a></li>
-                <li><a href="#">출고관리</a></li>
+                <li><a href="<%=cp%>/goodsIn/list">입고관리</a></li>
+                <li><a href="<%=cp%>/goodsOut/list">출고관리</a></li>
                 <li><a href="<%=cp%>/magam/list">마감</a></li>
                 <li><a href="#">구매내역</a></li>
             </ul>

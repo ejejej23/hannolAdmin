@@ -66,15 +66,17 @@ public class TicketController {
 		
 		String query = "";
 		String articleUrl = cp+"/ticket/article?page="+current_page;
+		String listUrl = cp + "/ticket/list";
 		if(searchValue.length() != 0) {
 			query = "searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
 		
 		if(query.length() != 0) {
 			articleUrl+="&"+query;
+			listUrl+="?"+query;
 		}
 		
-		String paging = util.paging(current_page, total_page);
+		String paging = util.paging(current_page, total_page, listUrl);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
