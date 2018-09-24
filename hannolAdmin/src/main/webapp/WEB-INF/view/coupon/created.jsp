@@ -3,23 +3,83 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-   String cp = request.getContextPath();
+	String cp = request.getContextPath();
 %>
 
 <style>
-.td_title{
+table{
+	margin: 0px auto;
+}
+
+tr {
+	margin: 5px;
+}
+
+.td_title {
 	font-weight: bold;
 	text-align: left;
 }
 
-.td_gubun input[type=checkbox]{
+.td_gubun input[type=checkbox] {
 	vertical-align: middle;
 	margin: 0px 0px 0px 10px;
 }
 
-.datepicker + img{width:22px; margin:0px 0px 0px -31px; padding-left:8px; border-left:1px solid #dddddd; cursor:pointer;}
-.datepickerBox{display:inline-block;}
-.datepickerBox .datepicker{width:203px;}   
+.datepicker+img {
+	width: 22px;
+	margin: 0px 0px 0px -31px;
+	padding-left: 8px;
+	border-left: 1px solid #dddddd;
+	cursor: pointer;
+}
+
+.datepickerBox {
+	display: inline-block;
+}
+
+.datepickerBox input[name=startDate] {
+	margin: 0px 0px 0px 10px;
+}
+
+.datepickerBox .datepicker {
+	width: 203px;
+}
+
+.boxTF[readonly] {
+	background-color: #ffffff;
+}
+
+.stCouponBox {
+	margin: 0px 0px 0px 10px;
+	padding: 5px;
+	min-width: 205px;
+}
+
+.inputCount, .inputCouponName {
+	margin: 0px 0px 0px 10px;
+	text-align: center;
+	width: 205px;
+}
+
+.txtCoupon {
+	margin: 5px 0px 0px 10px;
+	width: 420px;
+}
+
+input[type=radio].boxR {
+	margin: 0 0px 0 11px;
+	vertical-align: middle;
+}
+
+.btnBox{
+	text-align: center;
+}
+
+.btnBox button{
+	width: 150px;
+    margin-top: 10px;
+}
+
 </style>
 
 <script>
@@ -29,43 +89,48 @@ function searchList() {
 }
 
 $(function(){
-	//검색 시작날짜
-	$("input[name=searchStartDate]").datepicker({
+	
+	//시작날짜
+	$("input[name=startDate]").datepicker({
 		dateFormat:'yy-mm-dd',
 		showOn:"both",
         buttonImage:"<%=cp%>/resource/images/date24.png",
         buttonImageOnly:true,
         showAnim:"slideDown",
         buttonText:"선택",
-        maxDate:0,
+        minDate:0,
         onSelect:function(selected){
-        	if(!$("input[name=searchEndDate]").val()){ 
-        		$("input[name=searchEndDate]").val(selected);  
+        	var selectDate = selected.split("-");
+        	var setDate = Number(selectDate[0])+1
+        	setDate+=("-"+selectDate[1]+"-"+selectDate[2]);
+        	
+        	if(!$("input[name=endDate]").val()){ 
+        		$("input[name=endDate]").val(setDate);  
         	}
-        		
-        	$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
-        
         }
 	}); 
-	//검색 마지막 날짜
-	$("input[name=searchEndDate]").datepicker({
+	
+	//마지막 날짜
+	$("input[name=endDate]").datepicker({
 		dateFormat:'yy-mm-dd',
 		showOn:"both",
         buttonImage:"<%=cp%>/resource/images/date24.png",
-        buttonImageOnly:true,
-        showAnim:"slideDown",
-        buttonText:"선택",
-        maxDate:0, 
-        onSelect:function(selected){
-        	if(!$("input[name=searchStartDate]").val()){
-        		$("input[name=searchStartDate]").val(selected);
-        	}   
-        	
-        	$("input[name=searchStartDate]").datepicker("option", "maxDate", selected); 
-        } 
-	});	
-});
+			buttonImageOnly : true,
+			showAnim : "slideDown",
+			buttonText : "선택",
+			minDate : 0,
+			onSelect : function(selected) {
 
+			}
+	});
+	
+	$(".boxR").change(function(){
+		$("input[name=userGubun]").prop("checked", false);
+		$(this).prop("checked", true);
+	});
+	
+	
+});
 </script>
 
 <div class="sub-container" style="width: 960px;">
@@ -78,21 +143,52 @@ $(function(){
 			<tr>
 				<td class="td_title">발급유형</td>
 				<td class="td_gubun">
-					<input type="checkbox">전체
-					<input type="checkbox">일반
-					<input type="checkbox">GOLD
-					<input type="checkbox">VIP
-				</td>
+				<input type="radio" class="boxR" name="userGubun">전체 
+				<input type="radio" class="boxR" name="userGubun">일반 
+				<input type="radio" class="boxR" name="userGubun">GOLD 
+				<input type="radio" class="boxR" name="userGubun">VIP</td>
 			</tr>
-			<tr>
-				<td class="td_title">유효기간</td>
+			
+			<tr height="40">
+				<td class="td_title">쿠폰명</td>
 				<td>
-					<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
-					<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
+					<input type="text" class="boxTF inputCouponName">
 				</td>
 			</tr>
+			
+			<tr height="40">
+				<td class="td_title">유효기간</td>
+				<td class="td_gubun">
+					<span class="datepickerBox"><input type="text" name="startDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> 
+					~ 
+					<span class="datepickerBox"><input type="text" name="endDate" class="boxTF datepicker" readonly="readonly" value="${searchEndDate}"></span>
+				</td>
+			</tr>
+			<tr height="40">
+				<td class="td_title">발급쿠폰</td>
+				<td class="td_gubun">
+					<select class="boxTF stCouponBox">
+						<option value="">::선택::</option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr height="40">
+				<td class="td_title">수량</td>
+				<td class="td_gubun">
+					<input type="text" class="boxTF inputCount">
+				</td>
+			</tr>
+			
 			<tr>
+				<td class="td_title">상세</td>
+				<td><textarea name="memo" class="boxTA txtCoupon"></textarea></td>
 			</tr>
 		</table>
+		
+		<div class="btnBox">
+			<button class="btn btn-default" onclick="javascript:location.href='<%=cp%>/coupon/list'">취소</button>
+			<button class="btn btn-info">발송</button>
+		</div>
 	</div>
 </div>
