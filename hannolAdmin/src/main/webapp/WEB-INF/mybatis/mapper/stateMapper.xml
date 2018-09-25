@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="state">
+
+
+	<!-- 테마에 따른 놀이기구 리스트 -->
+	<select id="checkList" parameterType="Integer"
+	            resultType="com.sp.facility.Facility">
+		select name,facilityCode
+		from facility 
+		where themeCode=#{themeCode} and gubunCode=1
+	</select>
+	
+	<!-- 테마명 -->
+	<select id="checkName" parameterType="Integer" resultType="String">
+		select distinct themeName
+		from facility f
+		join theme t on f.themeCode= t.themeCode
+		where f.themeCode=#{themeCode} and gubunCode=1
+	</select>
+
+	<insert id="insertState" parameterType="com.sp.facility.Facility">
+	  INSERT INTO ridesState(recordDate,timezone, waiting, boarding, facilityCode) 
+	  VALUES (SYSDATE, #{timezone}, #{waiting}, #{boarding}, #{facilityCode})
+	</insert>
+	
+	<select id="list" parameterType="com.sp.facility.Facility"
+				resultType="com.sp.facility.Facility">
+		
+		select waiting,boarding,timezone,r.facilityCode, name,f.themeCode
+		from ridesState r
+		join facility f on f.facilityCode = r.facilityCode
+		where timezone=#{timezone} and r.facilityCode=#{facilityCode}
+		
+	</select>
+	
+</mapper>

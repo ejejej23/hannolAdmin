@@ -1,5 +1,7 @@
 package com.sp.facility;
 
+import java.util.Date;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Facility {
@@ -21,7 +23,35 @@ public class Facility {
 	String themeName;
 	private MultipartFile upload1;
 	private MultipartFile upload2;
+	Date recordDate;
+	int timezone;
+	int waiting;
+	int boarding;
 
+	public Date getRecordDate() {
+		return recordDate;
+	}
+	public void setRecordDate(Date recordDate) {
+		this.recordDate = recordDate;
+	}
+	public int gettimezone() {
+		return timezone;
+	}
+	public void settimezone(int timezone) {
+		this.timezone = timezone;
+	}
+	public int getWaiting() {
+		return waiting;
+	}
+	public void setWaiting(int waiting) {
+		this.waiting = waiting;
+	}
+	public int getBoarding() {
+		return boarding;
+	}
+	public void setBoarding(int boarding) {
+		this.boarding = boarding;
+	}
 	public String getGubunName() {
 		return gubunName;
 	}
