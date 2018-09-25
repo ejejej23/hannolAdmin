@@ -114,7 +114,7 @@
             <span class="dep1">놀이기구</span>
             <ul>
                 <li><a href="#">통계</a></li>
-                <li><a href="#">상태</a></li>
+                <li><a href="<%=cp%>/state/list">상태</a></li>
                 <li><a href="<%=cp%>/rides/list">정보</a></li>
             </ul>
         </li>
