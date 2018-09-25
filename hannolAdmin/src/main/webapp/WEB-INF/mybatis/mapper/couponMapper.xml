@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon">
+	<select id="listBenefit" parameterType="map" resultType="com.sp.ticket.Ticket">
+		SELECT goodsCode, goodsName FROM goods
+		WHERE gubunCode=15
+	</select>
+	
+	<select id="seq" resultType="Integer">
+		SELECT couponMng_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertCouponMng" parameterType="com.sp.coupon.Coupon">
+		INSERT INTO couponMng(couponMngCode, couponMngName, couponMngDate, couponMngGubun, quantity) 
+		VALUES (#{mngCode}, #{mngName}, SYSDATE, #{userGubun}, #{count})
+	</insert>
+	
+	<sql id="where-user-list">
+		<if test="usersGubun=='normal'">
+			WHERE g.gradecode = 3
+		</if>
+		<if test="usersGubun=='gold'">
+			WHERE g.gradecode = 2
+		</if>
+		<if test="usersGubun=='vip'">
+			WHERE g.gradecode = 1
+		</if>
+	</sql>
+	
+	<select id="listUsers" parameterType="com.sp.coupon.Coupon" resultType="Integer">
+		SELECT m1.usersCode FROM member1 m1
+		JOIN member2 m2 ON m1.userscode = m2.userscode
+		JOIN grade g ON g.gradecode = m2.gradeCode
+		<include refid="where-user-list"/>
+	</select>
+	
+	<insert id="insertCoupon" parameterType="com.sp.coupon.Coupon">
+		INSERT INTO coupon(couponCode, issuedDate, startDate, endDate, memo, state, goodsCode, usersCode, couponMngCode) 
+		VALUES(COUPON_SEQ.NEXTVAL, SYSDATE, #{startDate}, #{endDate}, #{memo}, 0, #{goodsCode}, #{usersCode}, #{mngCode})
+	</insert>
+	
+	<select id="listCoupon" parameterType="map" resultType="com.sp.coupon.Coupon">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT couponMngCode AS mngCode, couponMngName AS mngName, TO_CHAR(couponMngDate, 'YYYY-MM-DD') mngDate
+		        FROM couponMng
+		        <if test="searchValue != null and searchValue != ''">
+		        	WHERE INSTR(couponMngName, #{searchValue}) &gt; 0
+		        </if>
+		        ORDER BY couponMngCode DESC
+		        ) tb
+		    WHERE ROWNUM &lt;=#{end}
+		)WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM couponMng
+        <if test="searchValue != null and searchValue != ''">
+        	WHERE INSTR(couponMngName, #{searchValue}) &gt; 0
+        </if>
+	</select>
+	
+	<select id="readCoupon" parameterType="Integer" resultType="com.sp.coupon.Coupon">
+		SELECT * FROM (
+		    SELECT c.couponMngCode AS mngCode, quantity AS count, couponMngGubun AS userGubun, couponMngName AS mngName, TO_CHAR(couponMngDate, 'YYYY-MM-DD') mngDate, 
+		    TO_CHAR(startDate, 'YYYY-MM-DD') startDate, TO_CHAR(endDate, 'YYYY-MM-DD') endDate, memo, state, goodsCode
+		    FROM couponMng m
+		    JOIN coupon c ON m.couponMngCode = c.couponMngCode
+		    WHERE c.couponMngCode = #{mngCode}
+		)
+		WHERE ROWNUM=1
+	</select>
+	
+	<delete id="deleteCoupon" parameterType="Integer">
+		DELETE FROM coupon
+		WHERE COUPONMNGCODE= #{mngCode}
+	</delete>
+	
+	<delete id="deleteCouponMng" parameterType="Integer">
+		DELETE FROM couponMng
+		WHERE COUPONMNGCODE= #{mngCode}
+	</delete>
+</mapper>

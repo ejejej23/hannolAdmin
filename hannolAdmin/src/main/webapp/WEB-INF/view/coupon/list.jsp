@@ -24,11 +24,35 @@ function searchList() {
 	f.submit();
 }
 
+$(function(){
+	$(".btn-delete").click(function(){
+		var num = $(this).attr("data-num");
+		var url = "<%=cp%>/coupon/delete";
+		var data = "mngCode="+num;
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data: data
+			,success:function(data) {
+				if(data.state=="success"){
+					location.href="<%=cp%>/coupon/list";
+				}else{
+					alert("이미 사용한 쿠폰이 있어서 삭제가 불가능 합니다.");
+				}
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});
+	});
+});
+
 </script>
 
 <div class="sub-container" style="width: 960px;">
 	<div class="sub-title">
-		<h3>쿠폰발송</h3>
+		<h3>쿠폰발송 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
 	</div>
 
 	<div>
@@ -63,36 +87,25 @@ function searchList() {
 					<th scope="col" style="width: 10%">번호</th>
 					<th scope="col">쿠폰명</th>
 					<th scope="col">발급일자</th>
-					<th scope="col" style="width: 10%">수정</th>
 					<th scope="col" style="width: 10%">삭제</th>
 				</tr>
 			</thead>
 			<tbody>
-
+			<c:forEach items="${list}" var="item">
 				<tr>
-					<td scope="row">1</td>
-					<td><a href="#">힘들어</a></td>
-					<td>2018-09-23</td>
-					<td><button type="button" class="btn btn-default btn-update">수정</button></td>
-					<td><button type="button" class="btn btn-danger btn-delete">삭제</button></td>
+					<td scope="row">${item.listNum}</td>
+					<td><a href="<%=cp%>/coupon/article?mngCode=${item.mngCode}">${item.mngName}</a></td>
+					<td>${item.mngDate}</td>
+					<td><button type="button" class="btn btn-danger btn-delete" data-num="${item.mngCode}">삭제</button></td>
 				</tr>
-
-				<c:forEach var="dto" items="${list}">
-					<tr>
-						<td scope="row">${dto.listNum}</td>
-						<td><a href="${articleUrl}&num=${dto.noticeCode}">${dto.subject}</a></td>
-						<td>${dto.name}</td>
-						<td>${dto.created}</td>
-						<td>${dto.created}</td>
-					</tr>
-				</c:forEach>
+			</c:forEach>
 			</tbody>
 		</table>
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
 			<td align="center">
-			        123
+			        ${paging}
 			 </td>
 		   </tr>
 		</table>

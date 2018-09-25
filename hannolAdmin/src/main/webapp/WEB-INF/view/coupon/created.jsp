@@ -115,13 +115,13 @@ $(function(){
 		dateFormat:'yy-mm-dd',
 		showOn:"both",
         buttonImage:"<%=cp%>/resource/images/date24.png",
-			buttonImageOnly : true,
-			showAnim : "slideDown",
-			buttonText : "선택",
-			minDate : 0,
-			onSelect : function(selected) {
+		buttonImageOnly : true,
+		showAnim : "slideDown",
+		buttonText : "선택",
+		minDate : 0,
+		onSelect : function(selected) {
 
-			}
+		}
 	});
 	
 	$(".boxR").change(function(){
@@ -129,7 +129,9 @@ $(function(){
 		$(this).prop("checked", true);
 	});
 	
-	
+	$(".btnCoupon").click(function(){
+		$("#couponForm").submit();
+	});
 });
 </script>
 
@@ -139,56 +141,66 @@ $(function(){
 	</div>
 
 	<div>
-		<table>
-			<tr>
-				<td class="td_title">발급유형</td>
-				<td class="td_gubun">
-				<input type="radio" class="boxR" name="userGubun">전체 
-				<input type="radio" class="boxR" name="userGubun">일반 
-				<input type="radio" class="boxR" name="userGubun">GOLD 
-				<input type="radio" class="boxR" name="userGubun">VIP</td>
-			</tr>
-			
-			<tr height="40">
-				<td class="td_title">쿠폰명</td>
-				<td>
-					<input type="text" class="boxTF inputCouponName">
-				</td>
-			</tr>
-			
-			<tr height="40">
-				<td class="td_title">유효기간</td>
-				<td class="td_gubun">
-					<span class="datepickerBox"><input type="text" name="startDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> 
-					~ 
-					<span class="datepickerBox"><input type="text" name="endDate" class="boxTF datepicker" readonly="readonly" value="${searchEndDate}"></span>
-				</td>
-			</tr>
-			<tr height="40">
-				<td class="td_title">발급쿠폰</td>
-				<td class="td_gubun">
-					<select class="boxTF stCouponBox">
-						<option value="">::선택::</option>
-					</select>
-				</td>
-			</tr>
-			
-			<tr height="40">
-				<td class="td_title">수량</td>
-				<td class="td_gubun">
-					<input type="text" class="boxTF inputCount">
-				</td>
-			</tr>
-			
-			<tr>
-				<td class="td_title">상세</td>
-				<td><textarea name="memo" class="boxTA txtCoupon"></textarea></td>
-			</tr>
-		</table>
-		
+	<form action="<%=cp%>/coupon/created" method="POST" id="couponForm">
+			<table>
+				<tr>
+					<td class="td_title">발급유형</td>
+					<td class="td_gubun">
+					<input type="radio" class="boxR" name="usersGubun" value="all">전체 
+					<input type="radio" class="boxR" name="usersGubun" value="normal">일반 
+					<input type="radio" class="boxR" name="usersGubun" value="gold">GOLD 
+					<input type="radio" class="boxR" name="usersGubun" value="vip">VIP</td>
+				</tr>
+				
+				<tr height="40">
+					<td class="td_title">쿠폰명</td>
+					<td>
+						<input type="text" class="boxTF inputCouponName" name="mngName">
+					</td>
+				</tr>
+				
+				<tr height="40">
+					<td class="td_title">유효기간</td>
+					<td class="td_gubun">
+						<span class="datepickerBox"><input type="text" name="startDate" class="boxTF datepicker" readonly="readonly"></span> 
+						~ 
+						<span class="datepickerBox"><input type="text" name="endDate" class="boxTF datepicker" readonly="readonly"></span>
+					</td>
+				</tr>
+				<tr height="40">
+					<td class="td_title">발급쿠폰</td>
+					<td class="td_gubun">
+						<select class="boxTF stCouponBox" name="goodsCode">
+							<option value="">::선택::</option>
+							<c:forEach items="${list}" var="item">
+								<option value="${item.goodsCode}">${item.goodsName}</option>
+							</c:forEach>
+							
+							
+						</select>
+					</td>
+				</tr>
+				
+				<tr height="40">
+					<td class="td_title">수량</td>
+					<td class="td_gubun">
+						<input type="text" class="boxTF inputCount" name="count">
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="td_title">상세</td>
+					<td><textarea name="memo" class="boxTA txtCoupon"></textarea></td>
+				</tr>
+			</table>
+		</form>
 		<div class="btnBox">
 			<button class="btn btn-default" onclick="javascript:location.href='<%=cp%>/coupon/list'">취소</button>
-			<button class="btn btn-info">발송</button>
+			<button class="btn btn-info btnCoupon">발송</button>
+		</div>
+		
+		<div>
+			${msg}
 		</div>
 	</div>
 </div>
