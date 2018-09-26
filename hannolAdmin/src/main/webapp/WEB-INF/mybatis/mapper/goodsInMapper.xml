@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodsIn">
+	<!-- 업체 종류 가져오기 -->
+	<select id="listCompany" resultType="map">
+		SELECT companyCode, name companyName FROM company
+	</select> 
+	
+	<!-- 테마 가져오기 -->
+	<select id="listGubun" resultType="map">
+		SELECT gubuncode, gubunname, parentcode FROM goodsgubun 
+		WHERE gubuncode != 2
+		START WITH gubuncode=2                                  
+		CONNECT BY PRIOR gubuncode=parentcode
+	</select>
+	
+	<!-- 테마별 상품 가져오기 -->
+	<select id="listItem" resultType="map" parameterType="Integer">
+		SELECT goodsCode, goodsName FROM goods WHERE gubunCode=#{gubunCode}
+	</select>
+	
+	<!-- 상품 총 수량 가져오기 -->
+	<select id="goodsCount" resultType="Integer" parameterType="Integer">
+		SELECT quantity FROM goodsCount WHERE goodsCode = #{goodsCode} 
+	</select>
+	
+	<!-- 상품 총 수량 업데이트 -->
+	<update id="updateGoodsCount" parameterType="com.sp.goodsIn.GoodsIn">
+		UPDATE goodsCount SET quantity = quantity+#{quantity} WHERE goodsCode = #{goodsCode} 
+	</update> 
+	
+	<!-- 입고 추가 -->
+	<insert id="insertGoodsIn" parameterType="com.sp.goodsIn.GoodsIn">
+		INSERT INTO goodsIn(inCode, quantity, totalCount, unitPrice, memo, companyCode, goodsCode) VALUES 
+			(goodsIn_seq.NEXTVAL, #{quantity}, #{totalCount}, #{unitPrice}, #{memo}, #{companyCode}, #{goodsCode})
+	</insert>  
+	
+	
+	
+	<!-- 테마 검색 -->
+	<sql id="thema-list">
+		<if test="searchthema==0">
+			gi.gubuncode IN (
+	        	SELECT gubuncode FROM goodsgubun 
+	            WHERE gubuncode != 2
+	            START WITH gubuncode=2                                  
+	            CONNECT BY PRIOR gubuncode=parentcode
+	        )
+		</if>
+		<if test="searchthema!=0">
+			gi.gubunCode = #{searchthema}
+		</if>
+	</sql>
+		
+	<!-- 날짜 검색 -->
+	<sql id="datewhere-list">
+		and (TO_CHAR(inDate, 'YYYY-MM-DD') &gt;= #{searchStartDate} and TO_CHAR(inDate, 'YYYY-MM-DD') &lt;=#{searchEndDate}) 
+	</sql> 
+	
+	<!-- 검색 -->
+	<sql id="where-list">
+		<if test="searchKey=='itemName'">
+			and (INSTR(goodsName, #{searchValue}) &gt; 0)
+		</if>
+		<if test="searchKey=='itemCode'">
+			and (gi.goodsCode = #{searchValue}) 
+		</if>
+		<if test="searchKey=='company'">
+			and (INSTR(lower(c.name), lower(#{searchValue})) &gt; 0)
+		</if>
+		<if test="searchKey=='content'">
+			and (INSTR(lower(g.memo), lower(#{searchValue})) &gt; 0) 
+		</if>
+	</sql> 
+  
+	 
+	<!-- 데이터 개수 -->
+	<select id="dataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM (
+			SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitPrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode  
+			FROM goodsIn g
+			LEFT OUTER JOIN company c ON g.companyCode = c.companyCode
+			LEFT OUTER JOIN goods gi ON g.goodsCode = gi.goodsCode
+			LEFT OUTER JOIN goodsGubun g ON gi.gubunCode = g.gubunCode
+			<where>
+				<include refid="thema-list"/>
+				
+				<if test="searchValue!=null and searchValue!=''">
+					<include refid="where-list"/>
+				</if> 
+				
+				<if test="searchStartDate!=null and searchStartDate!=''">
+					<include refid="datewhere-list"/> 
+				</if>
+			</where>
+		) 
+	</select>
+	
+	<!-- 입고 리스트 -->
+	<select id="listGoodsIn" resultType="com.sp.goodsIn.GoodsIn" parameterType="map">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(    
+		        SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitPrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode 
+		        FROM goodsIn g
+		        LEFT OUTER JOIN company c ON g.companyCode = c.companyCode
+		        LEFT OUTER JOIN goods gi ON g.goodsCode = gi.goodsCode 
+		        LEFT OUTER JOIN goodsGubun g ON gi.gubunCode = g.gubunCode  
+		        <where>
+					<include refid="thema-list"/>
+					
+					<if test="searchValue!=null and searchValue!=''">
+						<include refid="where-list"/>
+					</if> 
+					
+					<if test="searchStartDate!=null and searchStartDate!=''">
+						<include refid="datewhere-list"/> 
+					</if>
+				</where>
+		        ORDER BY incode DESC
+		    ) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<!-- 입고 정보 -->
+	<select id="readGoodsIn" resultType="com.sp.goodsIn.GoodsIn" parameterType="Integer">		
+		SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitprice, gi.memo, gi.companyCode, c.name companyName, gi.goodsCode, goodsName, gubunName, totalCount
+		FROM goodsIn gi  
+		JOIN goods g ON gi.goodsCode = g.goodsCode 
+		JOIN goodsGubun b ON b.gubunCode = g.gubunCode
+		JOIN company c ON gi.companyCode = c.companyCode 
+		WHERE incode = #{incode} 
+	</select>
+	
+	
+	<!-- 입고 수정-->
+	<update id="updateGoodsIn" parameterType="com.sp.goodsIn.GoodsIn"> 
+		UPDATE goodsIn SET companyCode = #{companyCode}, quantity = #{quantity}, unitPrice = #{unitPrice}, memo = #{memo} 
+		WHERE inCode = #{inCode}  
+	</update>
+	<!-- 상품 이후의 총 개수들까지 수정--> 
+	<update id="updateTotalCount" parameterType="com.sp.goodsIn.GoodsIn">
+		UPDATE goodsIn SET totalCount = (totalCount-#{originQuantity}+#{quantity})
+		WHERE inCode >= #{inCode} and goodsCode = #{goodsCode} 
+	</update>
+	<!-- 상품 총 수량 업데이트2 -->
+	<update id="updateGoodsCount2" parameterType="com.sp.goodsIn.GoodsIn">
+		UPDATE goodsCount SET quantity = quantity-#{originQuantity}+#{quantity} WHERE goodsCode = #{goodsCode} 
+	</update> 
+	
+	<select id="searchMagam" resultType="Integer" parameterType="map">
+		SELECT isMagam FROM magam
+		WHERE magamY = #{magamY} and magamM = #{magamM}
+	</select>
+</mapper>
