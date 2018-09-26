@@ -40,18 +40,6 @@
 		}
 	}
 	
-	
-	//선택박스에서 선택한 값들
-/* 	function selectSt(){
-		var selection = $("#ridesInfo option:selected").text();
-		//alert(selection);
-	} */
-/* 	
-	if(test!=null){
-		//alert(test);
-		$("input[name=chk]:checked.val()")=$("select[name=ridesInfo].val()");
-	} */
-	
 	//체크박스에서 체크한 값들
 	function chkSingle(){
 		$("input[name=chk]:checked").each(function(){
