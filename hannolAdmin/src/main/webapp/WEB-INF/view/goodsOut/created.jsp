@@ -7,8 +7,8 @@
 %>
 
 <style>
-	/**table**/
-	.tableForm{width:100%; margin:20px auto;} 
+	/**table**/ 
+	.tableForm{width:100%; margin:20px auto; table-layout:fixed;} 
 	.tableForm tr{height:40px; border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;}
 	.tableForm th{width:125px; font-weight:normal; text-align:center; background-color:#eeeeee;}
 	.tableForm td{padding:5px;}        
@@ -20,6 +20,10 @@
 	.tableForm .selectField{padding:5px;}      
 	.boxTF[readonly]{background-color:#f3f3f3;}
 	
+	#count{width:60px;}
+	.msgText_box{position:relative;}  
+	.msg_text{display:none; position:absolute; width:130px; padding:10px 15px; font-size:10px; color:tomato; background-color:#ffffff; border:1px solid #efefef; box-shadow:3px 3px 3px 3px rgba(0,0,0,0.02); border-radius:5px;}   
+
 
 </style> 
   
@@ -42,8 +46,10 @@
 		$("select[name=gubuncode]").change(function(){
 			var gubunCode = $(this).val(); //테마별구분코드 
 			$("input[name=goodsCode]").val(""); //상품코드 리셋 
+			$("#totalCount").text("0");  //총 개수 리셋 
+			$("#price").val("0"); //가격 리셋  
 			 
-			var url = "<%=cp%>/goodsIn/goodsItem";
+			var url = "<%=cp%>/goodsOut/goodsItem";
 			var query = "gubunCode="+gubunCode;
 			
 			$.ajax({
@@ -52,11 +58,11 @@
 				data:query,
 				dataType:"json",
 				success:function(data){
-					$("select[name=inName]").empty();
-					$("select[name=inName]").append("<option value=''>::상품선택::</option>");  
+					$("select[name=outName]").empty();
+					$("select[name=outName]").append("<option value=''>::상품선택::</option>");  
 					
 					for(var i=0 ; i<data.itemList.length ; i++){
-						$("select[name=inName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[0].GOODSNAME+"</option>");
+						$("select[name=outName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[0].GOODSNAME+"</option>");
 					} 
 				},error:function(e){
 					console.log(e.responseText);
@@ -65,23 +71,56 @@
 		});
 	});
 	
-	//상품선택시 상품코드 출력
+	
 	$(function(){
-		$("select[name=inName]").click(function(){	
-			$("input[name=goodsCode]").val($(this).val()); 
+		$("select[name=outName]").click(function(){	
+			//상품 선택시 상품코드 출력
+			var goodsCode = $(this).val();
+			$("input[name=goodsCode]").val(goodsCode); 
+			
+			//상품 선택시 상품 총개수 가져오기 
+			if(goodsCode>0){ //상품코드가 있을때가 총 개수를 가져온다. 
+				var url = "<%=cp%>/goodsOut/goodsItemInfo";
+				var query = "goodsCode="+goodsCode;  
+				
+				$.ajax({
+					type:"get",
+					url:url,
+					data:query,
+					dataType:"json",
+					success:function(data){
+						$("#totalCount").text(data.goodsTotalCount);
+						$("#price").val(data.goodsPrice);    
+					},error:function(e){
+						console.log(e.responseText);
+					}
+				});	
+			}
 		});
 	}); 
 	
 	//개수 단가 포커스 아웃할때마다 계산
-	$(function(){
+	$(function(){//출고 수량이 총 상품개수 보다 클 수 없다.
+		$("#count").blur(function(){
+			var totalCount = Number($("#totalCount").text());
+			var count = Number($(this).val());  
+			
+			if(count>totalCount){  
+				$(this).val("");
+				$(".msg_text").slideDown(500);        
+			}else{
+				$(".msg_text").slideUp(500);     
+			}
+		}); 
+	
 		$(".calculation").blur(function(){
 			var count = $("#count").val(); //개수
 			var price = $("#price").val(); //단가
 			$("input[name=totalPrice]").val(totalPrice(count, price)); 	 	
-		});
+		});	 
 	});
 	
-	//총금액 계산
+	//총금액 계산 
 	function totalPrice(count, price){
 		return count*price
 	}
@@ -99,13 +138,13 @@
 			}
 		} 
 		
-		f.action = "<%=cp%>/goodsIn/${mode}?${query}";	 		
+		f.action = "<%=cp%>/goodsOut/${mode}?${query}";	 		
 		f.submit();
 	} 
 </script>
 <div class="sub-container"> 
     <div class="sub-title">
-	  <h3>${mode=='created'?'신규 입고':'입고 수정'}</h3> 
+	  <h3>${mode=='created'?'출고 관리':'출고 수정'}</h3> 
 	</div>  
     
     <div> 
@@ -131,7 +170,7 @@
 				    <th>상품명</th>
 				    <td colspan="5">
 				    	<c:if test="${mode=='created'}"> 
-					    	<select id="goodsCode" name="inName" class="selectField" data-name="상품명을">
+					    	<select id="goodsCode" name="outName" class="selectField" data-name="상품명을">
 					    		<option value="">::상품명 선택::</option>  
 								<c:forEach var="list" items="${itemList}"> 
 									<option value="${list.GOODSCODE}" <c:if test="${list.GOODSCODE==dto.goodsCode}">selected="selected"</c:if>>${list.GOODSNAME}</option>
@@ -159,28 +198,32 @@
 							</c:forEach>  
 						</select>
 					</td>   
-				    <th>입고날짜</th>
+				    <th>출고날짜</th>
 				    <td>
 				    	<c:if test="${mode=='created'}">
 				    		${today}
 				    	</c:if>
 				    	<c:if test="${mode=='update'}">
-				    		${dto.inDate}
+				    		${dto.outDate}
 				    	</c:if>
 				    </td>   
 				</tr>
 				<tr>
-				    <th>입고수량</th>
-				    <td> 
-				      <input type="number" id="count" name="quantity" class="boxTF calculation" min="1" data-name="수량을" value="${dto.quantity}">  
+				    <th>출고수량 / 총수량</th>
+				    <td class="msgText_box"> 
+				      	<input type="number" id="count" name="quantity" class="boxTF calculation" min="1" data-name="수량을" value="${dto.quantity}">
+						/ <span id="totalCount">${empty dto.totalCount ? 0 : dto.totalCount}</span> 개     
+						<div class="msg_text"> 
+							<span>총수량보다 출고수량이 클 수 없습니다.</span> 
+						</div>
 				    </td>
-				    <th>단가</th> 
+				    <th>판매가격</th> 
 				    <td> 
-				      <input type="number" id="price" name="unitPrice" class="boxTF calculation" min="0" data-name="단가를" value="${dto.unitPrice}">
-				    </td>
-				    <th>총금액</th>   
+				      <input type="number" id="price" name="salePrice" class="boxTF calculation" min="0" data-name="판매가격을" readonly="readonly" value="${empty dto.salePrice ? 0 : dto.salePrice}">
+				    </td> 
+				    <th>총금액</th>    
 				    <td>  
-				      <input type="text" name="totalPrice" class="boxTF" readonly="readonly" value="${dto.quantity*dto.unitPrice}"> 
+				      <input type="text" name="totalPrice" class="boxTF" readonly="readonly" value="${dto.quantity*dto.salePrice}"> 
 				    </td> 
 				</tr>
 				<tr>
@@ -196,15 +239,14 @@
 		      	<td align="center" >
 		      	  <button type="button" class="btn btn-info" onclick="sendOk();">${mode=='created'?'등록하기':'수정완료'}</button>
 		      	  <button type="reset" class="btn btn-default">다시입력</button> 
-		      	  <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsIn/list?page=${page}&${query}';">${mode=='created'?'등록취소':'수정취소'}</button>
+		      	  <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsOut/list?page=${page}&${query}';">${mode=='created'?'등록취소':'수정취소'}</button>
 		     	 </td>
 		    	</tr>
 		  	</table>
 		  
 		  	<c:if test="${mode=='update'}">
-				<input type="hidden" name="inCode" value="${dto.inCode}">
+				<input type="hidden" name="outCode" value="${dto.outCode}">
 				<input type="hidden" name="originQuantity" value="${dto.quantity}"> 
-				<input type="hidden" name="totalCount" value="${dto.totalCount}">  
 		 	 </c:if> 
 		</form>
     </div>

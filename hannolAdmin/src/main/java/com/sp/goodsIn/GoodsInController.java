@@ -222,7 +222,7 @@ public class GoodsInController {
 		return ".goodsIn.article";
 	}
 	
-	//업체 수정 폼
+	//입고 수정 폼
 	@RequestMapping(value="/goodsIn/update", method=RequestMethod.GET)
 	public String updateForm(@RequestParam(value="num") int num,
 			@RequestParam(value="page", defaultValue="1") String page,

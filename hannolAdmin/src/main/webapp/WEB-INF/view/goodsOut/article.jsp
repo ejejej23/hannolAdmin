@@ -25,7 +25,7 @@
 
 <div class="sub-container" style="width: 960px;">
 	<div class="sub-title">
-		<h3>입고 정보</h3>
+		<h3>출고 정보</h3>
 	</div>
 
 	<div>
@@ -53,21 +53,21 @@
 				<td colspan="3">
 					${dto.companyName} 
 				</td>   
-			    <th>입고날짜</th>
-			    <td>${dto.inDate}</td>    
+			    <th>출고날짜</th>
+			    <td>${dto.outDate}</td>    
 			</tr>
 			<tr>
-			    <th>입고수량 / 총수량</th>  
+			    <th>출고수량 / 총수량</th>  
 			    <td> 
 			    	${dto.quantity}개 / ${dto.totalCount}개   
 			    </td> 
-			    <th>단가</th> 
+			    <th>판매가격</th> 
 			    <td>
-			    	<fmt:formatNumber value="${dto.unitPrice}" type="number"/>원
+			    	<fmt:formatNumber value="${dto.salePrice}" type="number"/>원
 			    </td>
 			    <th>총금액</th>   
 			    <td> 
-			    	<fmt:formatNumber value="${dto.quantity*dto.unitPrice}" type="number"/>원 
+			    	<fmt:formatNumber value="${dto.quantity*dto.salePrice}" type="number"/>원 
 			    </td> 
 			</tr>
 			<tr>
@@ -82,12 +82,12 @@
 			<tr height="45">
 				<c:if test="${isMagam==0}">
 				    <td width="300" align="left">
-				    	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsIn/update?num=${dto.inCode}&${query}';">수정</button>
-				    </td>
+				    	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsOut/update?num=${dto.outCode}&${query}';">수정</button>
+				    </td> 
 				</c:if>
 			
 			    <td align="right"> 
-			        <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/goodsIn/list?page=${page}&${query}';">리스트</button> 
+			        <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/goodsOut/list?page=${page}&${query}';">리스트</button> 
 			    </td>
 			</tr>
 		</table>

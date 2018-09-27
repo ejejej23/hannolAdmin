@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="goodsIn">
+<mapper namespace="goodsOut">
 	<!-- 업체 종류 가져오기 -->
 	<select id="listCompany" resultType="map">
 		SELECT companyCode, name companyName FROM company
@@ -25,15 +25,20 @@
 		SELECT quantity FROM goodsCount WHERE goodsCode = #{goodsCode} 
 	</select>
 	
+	<!-- 상품 가격 가져오기 -->
+	<select id="goodsPrice" resultType="Integer" parameterType="Integer">
+		SELECT price FROM goods WHERE goodsCode = #{goodsCode} 
+	</select>
+	
 	<!-- 상품 총 수량 업데이트 -->
-	<update id="updateGoodsCount" parameterType="com.sp.goodsIn.GoodsIn">
-		UPDATE goodsCount SET quantity = quantity+#{quantity} WHERE goodsCode = #{goodsCode} 
+	<update id="updateGoodsCount" parameterType="com.sp.goodsOut.GoodsOut">
+		UPDATE goodsCount SET quantity = quantity-#{quantity} WHERE goodsCode = #{goodsCode} 
 	</update> 
 	
-	<!-- 입고 추가 -->
-	<insert id="insertGoodsIn" parameterType="com.sp.goodsIn.GoodsIn">
-		INSERT INTO goodsIn(inCode, quantity, totalCount, unitPrice, memo, companyCode, goodsCode) VALUES 
-			(goodsIn_seq.NEXTVAL, #{quantity}, #{totalCount}, #{unitPrice}, #{memo}, #{companyCode}, #{goodsCode})
+	<!-- 출고 추가 -->
+	<insert id="insertGoodsOut" parameterType="com.sp.goodsOut.GoodsOut">
+		INSERT INTO goodsOut(outCode, quantity, totalCount, salePrice, memo, companyCode, goodsCode) VALUES 
+			(goodsOut_seq.NEXTVAL, #{quantity}, #{totalCount}, #{salePrice}, #{memo}, #{companyCode}, #{goodsCode})
 	</insert>  
 	
 	
@@ -55,7 +60,7 @@
 		
 	<!-- 날짜 검색 -->
 	<sql id="datewhere-list">
-		and (TO_CHAR(inDate, 'YYYY-MM-DD') &gt;= #{searchStartDate} and TO_CHAR(inDate, 'YYYY-MM-DD') &lt;=#{searchEndDate}) 
+		and (TO_CHAR(outDate, 'YYYY-MM-DD') &gt;= #{searchStartDate} and TO_CHAR(outDate, 'YYYY-MM-DD') &lt;=#{searchEndDate}) 
 	</sql> 
 	
 	<!-- 검색 -->
@@ -78,8 +83,8 @@
 	<!-- 데이터 개수 -->
 	<select id="dataCount" resultType="Integer" parameterType="map">
 		SELECT NVL(COUNT(*), 0) FROM (
-			SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitPrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode  
-			FROM goodsIn g
+			SELECT outCode, TO_CHAR(outDate, 'YYYY-MM-DD') outDate, quantity, totalCount, salePrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode  
+			FROM goodsOut g
 			LEFT OUTER JOIN company c ON g.companyCode = c.companyCode
 			LEFT OUTER JOIN goods gi ON g.goodsCode = gi.goodsCode
 			LEFT OUTER JOIN goodsGubun g ON gi.gubunCode = g.gubunCode
@@ -97,12 +102,12 @@
 		) 
 	</select>
 	
-	<!-- 입고 리스트 -->
-	<select id="listGoodsIn" resultType="com.sp.goodsIn.GoodsIn" parameterType="map">
+	<!-- 출고 리스트 -->
+	<select id="listGoodsOut" resultType="com.sp.goodsOut.GoodsOut" parameterType="map">
 		SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(    
-		        SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitPrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode 
-		        FROM goodsIn g
+		        SELECT outCode, TO_CHAR(outDate, 'YYYY-MM-DD') outDate, quantity, totalCount, salePrice, g.memo, c.name companyName, goodsName, gi.goodsCode, gi.gubunCode 
+		        FROM goodsOut g
 		        LEFT OUTER JOIN company c ON g.companyCode = c.companyCode
 		        LEFT OUTER JOIN goods gi ON g.goodsCode = gi.goodsCode 
 		        LEFT OUTER JOIN goodsGubun g ON gi.gubunCode = g.gubunCode  
@@ -117,39 +122,40 @@
 						<include refid="datewhere-list"/> 
 					</if>
 				</where>
-		        ORDER BY incode DESC
+		        ORDER BY outCode DESC
 		    ) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
-	<!-- 입고 정보 -->
-	<select id="readGoodsIn" resultType="com.sp.goodsIn.GoodsIn" parameterType="Integer">		
-		SELECT inCode, TO_CHAR(inDate, 'YYYY-MM-DD') inDate, quantity, totalCount, unitprice, gi.memo, gi.companyCode, c.name companyName, gi.goodsCode, goodsName, gubunName, totalCount
-		FROM goodsIn gi  
+	<!-- 출고 정보 -->
+	<select id="readGoodsOut" resultType="com.sp.goodsOut.GoodsOut" parameterType="Integer">		
+		SELECT outCode, TO_CHAR(outDate, 'YYYY-MM-DD') outDate, quantity, totalCount, salePrice, gi.memo, gi.companyCode, c.name companyName, gi.goodsCode, goodsName, gubunName, totalCount
+		FROM goodsOut gi  
 		JOIN goods g ON gi.goodsCode = g.goodsCode 
 		JOIN goodsGubun b ON b.gubunCode = g.gubunCode
 		JOIN company c ON gi.companyCode = c.companyCode 
-		WHERE incode = #{incode} 
+		WHERE outCode = #{outCode}  
 	</select>
 	
 	
-	<!-- 입고 수정-->
-	<update id="updateGoodsIn" parameterType="com.sp.goodsIn.GoodsIn"> 
-		UPDATE goodsIn SET companyCode = #{companyCode}, quantity = #{quantity}, unitPrice = #{unitPrice}, memo = #{memo} 
-		WHERE inCode = #{inCode}  
-	</update>
+	<!-- 출고 수정-->
+	<update id="updateGoodsOut" parameterType="com.sp.goodsOut.GoodsOut"> 
+		UPDATE goodsOut SET companyCode = #{companyCode}, quantity = #{quantity}, memo = #{memo} 
+		WHERE outCode = #{outCode}  
+	</update> 
 	<!-- 상품 이후의 총 개수들까지 수정--> 
-	<update id="updateTotalCount" parameterType="com.sp.goodsIn.GoodsIn">
-		UPDATE goodsIn SET totalCount = (totalCount-#{originQuantity}+#{quantity})
-		WHERE inCode &gt;= #{inCode} and goodsCode = #{goodsCode} 
+	<update id="updateTotalCount" parameterType="com.sp.goodsOut.GoodsOut">
+		UPDATE goodsOut SET totalCount = (totalCount+#{originQuantity}-#{quantity})
+		WHERE outCode >= #{outCode} and goodsCode = #{goodsCode} 
 	</update>
 	<!-- 상품 총 수량 업데이트2 -->
-	<update id="updateGoodsCount2" parameterType="com.sp.goodsIn.GoodsIn">
-		UPDATE goodsCount SET quantity = quantity-#{originQuantity}+#{quantity} WHERE goodsCode = #{goodsCode} 
-	</update> 
+	<update id="updateGoodsCount2" parameterType="com.sp.goodsOut.GoodsOut">
+		UPDATE goodsCount SET quantity = quantity+#{originQuantity}-#{quantity} WHERE goodsCode = #{goodsCode} 
+	</update>
 	
+	<!-- 마감 확인 --> 
 	<select id="searchMagam" resultType="Integer" parameterType="map">
 		SELECT isMagam FROM magam
-		WHERE magamY = #{magamY} and magamM = #{magamM}
+		WHERE magamY = #{magamY} and magamM = #{magamM} 
 	</select>
 </mapper>

@@ -87,14 +87,14 @@
 	//검색
 	function searchList(){
 		var f = document.searchForm;
-		f.action = "<%=cp%>/goodsIn/list"; 
+		f.action = "<%=cp%>/goodsOut/list"; 
 		f.submit(); 
 	} 
 </script> 
 
 <div class="sub-container">
 	<div class="sub-title">
-		<h3>입고 관리
+		<h3>출고 관리
 			<small>${dataCount}개(${page}/${total_page}페이지)</small> 
 		</h3>
 	</div>
@@ -151,27 +151,27 @@
 					<th scope="col">상품코드</th> 
 					<th scope="col">상품명</th>
 					<th scope="col">업체명</th> 	
-					<th scope="col">입고수량</th>
+					<th scope="col">출고수량</th> 
 					<th scope="col">총수량</th> 
-					<th scope="col">단가</th> 
+					<th scope="col">판매가격</th> 
 					<th scope="col">총금액</th>
 					<th scope="col">비고</th>
-					<th scope="col">입고일자</th>					
+					<th scope="col">출고일자</th>					
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="dto" items="${list}">
-					<tr onclick="javascript:location.href='${article_url}&num=${dto.inCode}';"> 
+					<tr onclick="javascript:location.href='${article_url}&num=${dto.outCode}';"> 
 						<td>${dto.listNum}</td>
 						<td>${dto.goodsCode}</td>    
 						<td>${dto.goodsName}</td>
 						<td>${dto.companyName}</td>
 						<td>${dto.quantity}</td>
 						<td>${dto.totalCount}</td>
-						<td><fmt:formatNumber value="${dto.unitPrice}" type="number"/></td> 
-						<td><fmt:formatNumber value="${dto.quantity*dto.unitPrice}" type="number"/></td> 
+						<td><fmt:formatNumber value="${dto.salePrice}" type="number"/></td> 
+						<td><fmt:formatNumber value="${dto.quantity*dto.salePrice}" type="number"/></td> 
 						<td>${dto.memo}</td> 
-						<td>${dto.inDate}</td>
+						<td>${dto.outDate}</td>
 					</tr> 
 				</c:forEach>
 			</tbody> 
@@ -193,10 +193,10 @@
 		<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
-					<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsIn/list';">새로고침</button>
+					<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/goodsOut/list';">새로고침</button>
 				</td>
 				<td align="right" width="100">
-					<button type="button" id="createdBtn" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/goodsIn/created'">신규입고</button>  
+					<button type="button" id="createdBtn" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/goodsOut/created'">출고</button>  
 				</td>
 			</tr>
 		</table>

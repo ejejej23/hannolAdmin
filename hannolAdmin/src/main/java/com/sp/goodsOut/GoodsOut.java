@@ -8,8 +8,15 @@ public class GoodsOut {
 	private int totalCount;	//출고후 총 수량
 	private int salePrice;	//판매가격
 	private String memo;	//비고
-	private int companyCode;//업체코드
-	private int goodsCode;	//상품코드
+	
+	private int companyCode;	// 업체코드
+	private String companyName;	// 업체이름
+	private int goodsCode;		// 상품코드
+	private String goodsName; 	// 상품명
+	private int gubunCode;		// 구분코드
+	private String gubunName;	// 구분이름
+	
+	private int originQuantity; //기존 총 개수
 
 	
 	public int getListNum() {
@@ -76,11 +83,51 @@ public class GoodsOut {
 		this.companyCode = companyCode;
 	}
 
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	public int getGoodsCode() {
 		return goodsCode;
 	}
 
 	public void setGoodsCode(int goodsCode) {
 		this.goodsCode = goodsCode;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public int getGubunCode() {
+		return gubunCode;
+	}
+
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
+	}
+
+	public String getGubunName() {
+		return gubunName;
+	}
+
+	public void setGubunName(String gubunName) {
+		this.gubunName = gubunName;
+	}
+
+	public int getOriginQuantity() {
+		return originQuantity;
+	}
+
+	public void setOriginQuantity(int originQuantity) {
+		this.originQuantity = originQuantity;
 	}
 }
