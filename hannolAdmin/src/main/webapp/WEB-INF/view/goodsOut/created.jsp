@@ -22,9 +22,9 @@
 	
 	#count{width:60px;}
 	.msgText_box{position:relative;}  
-	.msg_text{display:none; position:absolute; width:130px; padding:10px 15px; font-size:10px; color:tomato; background-color:#ffffff; border:1px solid #efefef; box-shadow:3px 3px 3px 3px rgba(0,0,0,0.02); border-radius:5px;}   
-
-
+	.msg_text{display:none; position:absolute; width:140px; padding:10px 15px 10px 25px; font-size:10px; color:tomato; background-color:#ffffff; border:1px solid #efefef; box-shadow:3px 3px 3px 3px rgba(0,0,0,0.02); border-radius:5px;}   
+	.msg_text span:before{content:"※"; margin-left:-15px; padding-right:6px;}  
+ 
 </style> 
   
 <script type="text/javascript">
@@ -107,9 +107,12 @@
 			
 			if(count>totalCount){  
 				$(this).val("");
-				$(".msg_text").slideDown(500);        
-			}else{
-				$(".msg_text").slideUp(500);     
+				$(".msg_text").slideDown(500, function(){
+					setTimeout(function(){
+						$(".msg_text").slideUp(500);
+					},3000);              
+				});  
+				
 			}
 		}); 
 	
