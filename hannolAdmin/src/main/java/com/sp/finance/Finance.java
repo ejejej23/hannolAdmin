@@ -4,6 +4,28 @@ public class Finance {
 	private int saleAmount;
 	private int year;
 	private int quarter;
+	private int month;
+	private int day;
+	private int rnum;
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
+	public int getMonth() {
+		return month;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
+	public int getDay() {
+		return day;
+	}
+	public void setDay(int day) {
+		this.day = day;
+	}
 	public int getSaleAmount() {
 		return saleAmount;
 	}

@@ -201,13 +201,12 @@ $(function(){
 });
 
 $(function(){
-	var url="<%=cp%>/finance/paymentBar?year=";
-	
+	var url="<%=cp%>/finance/paymetBar?year=";
 	$.getJSON(url, function (csv) {
 		var year=csv.year;
 		var list = csv.chartX;
 
-		$('#paymentBar').highcharts({
+		$('#paymetBar').highcharts({
 			chart: {
 	            type: 'column'
 	        },			
@@ -319,7 +318,7 @@ $(function(){
 		</form>
 	
 	
-		<div id="paymentBar" 
+		<div id="paymetBar" 
             style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
 	
 	</div>

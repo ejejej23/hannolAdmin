@@ -2,51 +2,74 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finance">
-	<select id="getSalePaymentQuarter" parameterType="map" resultType="com.sp.finance.Finance">
-		SELECT ROWNUM AS RNUM, YEAR, QUARTER, SALEAMOUNT
+
+	<select id="getYears" resultType="com.sp.finance.Finance">
+		SELECT DISTINCT TO_CHAR(PAYDATE,'YYYY') AS YEAR
+		FROM PAYMENT
+		ORDER BY YEAR DESC
+	</select>
+	
+	<select id="getSalePayment" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT
 		FROM 
 		(
-		    select YEAR, QUARTER, sum(TOTALSALE) as SALEAMOUNT
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT
 		    from ( 
 		        select PAYDATE, (PRICE - DCPRICE) AS TOTALSALE
-		        , to_char(to_date(PAYDATE,'yyyy-mm-dd'),'Q') as QUARTER 
-		        , to_char(to_date(PAYDATE,'yyyy-mm-dd'),'YY') as YEAR
+		        , to_char(PAYDATE,'YYYY') as YEAR
+		        , to_char(PAYDATE,'Q') as QUARTER 
+                , to_char(PAYDATE,'MM') as MONTH
+                , to_char(PAYDATE,'dd') as DAY
 		        from PAYMENT
 		    ) 
-		    group by rollup(YEAR, QUARTER)
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
+		    order by YEAR, QUARTER, MONTH, DAY
 		)
-		WHERE QUARTER IS NOT NULL
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
 	</select>
 	
-	<select id="getExpenseRepairQuarter" parameterType="map" resultType="com.sp.finance.Finance">
-		SELECT ROWNUM AS RNUM, YEAR, QUARTER, SALEAMOUNT
+	<select id="getExpenseRepair" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT
 		FROM 
 		(
-		    select YEAR, QUARTER, sum(TOTALSALE) as SALEAMOUNT
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT
 		    from ( 
 		        select REPAIRDATE, (COST) AS TOTALSALE
-		        , to_char(to_date(REPAIRDATE,'yyyy-mm-dd'),'Q') as QUARTER 
-		        , to_char(to_date(REPAIRDATE,'yyyy-mm-dd'),'YY') as YEAR
+		        , to_char(REPAIRDATE,'YYYY') as YEAR
+		        , to_char(REPAIRDATE,'Q') as QUARTER 
+                , to_char(REPAIRDATE,'MM') as MONTH
+                , to_char(REPAIRDATE,'dd') as DAY
 		        from REPAIR
 		    ) 
-		    group by rollup(YEAR, QUARTER)
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		)
-		WHERE quarter is not null
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
 	</select>
 	
-	<select id="getExpenseGoodsInQuarter" parameterType="map" resultType="com.sp.finance.Finance">
-		SELECT ROWNUM AS RNUM, YEAR, QUARTER, SALEAMOUNT
+	<select id="getExpenseGoodsIn" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT
 		FROM 
 		(
-		    select YEAR, QUARTER, sum(TOTALSALE) as SALEAMOUNT
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT
 		    from ( 
 		        select INDATE, (QUANTITY * UNITPRICE) AS TOTALSALE
-		        , to_char(to_date(INDATE,'yyyy-mm-dd'),'Q') as QUARTER 
-		        , to_char(to_date(INDATE,'yyyy-mm-dd'),'YY') as YEAR
+		        , to_char(INDATE,'YYYY') as YEAR
+		        , to_char(INDATE,'Q') as QUARTER 
+                , to_char(INDATE,'MM') as MONTH
+                , to_char(INDATE,'dd') as DAY
 		        from GOODSIN
 		    ) 
-		    group by rollup(YEAR, QUARTER)
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		)
-		WHERE quarter is not null
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
 	</select>
 </mapper>

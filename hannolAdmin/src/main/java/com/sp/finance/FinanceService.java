@@ -1,9 +1,11 @@
 package com.sp.finance;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FinanceService {
-	public List<Finance> getSalePaymentQuarter() throws Exception;
-	public List<Finance> getExpenseRepairQuarter() throws Exception;
-	public List<Finance> getExpenseGoodsInQuarter() throws Exception;
+	public List<Finance> getYears() throws Exception;
+	public List<Finance> getSalePayment(Map<String, Object> map) throws Exception;
+	public List<Finance> getExpenseRepair(Map<String, Object> map) throws Exception;
+	public List<Finance> getExpenseGoodsIn(Map<String, Object> map) throws Exception;
 }

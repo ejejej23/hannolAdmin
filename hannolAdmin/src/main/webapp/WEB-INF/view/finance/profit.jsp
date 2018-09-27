@@ -201,18 +201,35 @@ $(function(){
 });
 
 $(function(){
-	var url="<%=cp%>/finance/paymentBar?year=";
+	var year = new Date().getFullYear();
+	var gubun = "quarter";//기본설정
+	getchart(year,gubun);
 	
+	$("input[name=gubun]").change(function(){
+		var yearCh = $("#yearCode").val();
+		if(yearCh == 0){
+			alert("조회할 년도를 선택해주세요");
+			return;
+		}
+		
+		var gubunCh = $(this).val();
+		
+		getchart(yearCh, gubunCh);
+	});
+});
+
+function getchart(year,gubun){
+	var url="<%=cp%>/finance/profitLine?year="+year+"&gubun="+gubun;
 	$.getJSON(url, function (csv) {
 		var year=csv.year;
 		var list = csv.chartX;
 
-		$('#paymentBar').highcharts({
+		$('#profitLine').highcharts({
 			chart: {
 	            type: 'column'
 	        },			
 	        title: {
-	            text: year+'년 분기별 매출',
+	            text: year+'년 매출',
 	        },
 	        xAxis: {
 	            categories: list
@@ -228,7 +245,7 @@ $(function(){
 	        series:csv.series
 		});
 	});
-});
+}
 
 //datepicker
 $(function(){
@@ -298,20 +315,25 @@ $(function(){
 				<tr height="40">
 					<th>날짜</th>
 					<td>
-						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
-						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
+						<span>
+							<select class="input-sm" id="yearCode" name="yearCode">
+							 <option value="0">:::::::: 년도 ::::::::</option>
+							 <c:forEach var="vo" items="${yearList }">
+								<option value="${vo.year }">${vo.year }</option>
+							 </c:forEach>
+		                	</select>
+		                </span>
+						<span>
+							<input type="radio" name="gubun" value="quarter"> 분기별
+							<input type="radio" name="gubun" value="month"> 월별
+		                </span>
 					</td>  
 				</tr>
-				<tr>
-					<th>검색</th> 
+				<tr height="40">
+					<th>날짜</th>
 					<td>
-						<select name="searchKey" class="selectField"> 
-							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
-							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
-							<option value="company" <c:if test="${searchKey=='company'}">selected="selected"</c:if>>업체명</option> 
-							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>수리내역</option>
-						</select>  
-						<input type="text" name="searchValue" class="boxTF" value="${searchValue}"> 
+						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
+						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
 					</td>  
 				</tr>
@@ -319,7 +341,7 @@ $(function(){
 		</form>
 	
 	
-		<div id="paymentBar" 
+		<div id="profitLine" 
             style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
 	
 	</div>
