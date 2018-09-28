@@ -94,113 +94,6 @@ body {
 // http://www.highcharts.com/demo
 
 $(function(){
-	var url="<%=cp%>/finance/line1";
-	$.getJSON(url, function (csv) {
-		$('#lineContainer1').highcharts({
-	        title: {
-	            text: '서울 2015년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/line2";
-	$.getJSON(url, function (csv) {
-		var year=csv.year;
-		
-		$('#lineContainer2').highcharts({
-	        title: {
-	            text: year+'년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv.series
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/bar";
-	$.getJSON(url, function (csv) {
-		var year=csv.year;
-		
-		$('#barContainer').highcharts({
-			chart: {
-	            type: 'column'
-	        },			
-	        title: {
-	            text: year+'년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv.series
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/pie3d";
-	$.getJSON(url, function (csv) {
-		$('#pie3dContainer').highcharts({
-			chart: {
-	            type: 'pie',
-	            options3d: {
-	                enabled: true,
-	                alpha: 45
-	            }
-	        },			
-	        title: {
-	            text: '시간별 접속자 수',
-	        },
-	        plotOptions: {
-	            pie: {
-	                innerSize: 100,
-	                depth: 45
-	            }
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv
-		});
-	});
-});
-
-$(function(){
 	var year = new Date().getFullYear();
 	var gubun = "quarter";//기본설정
 	getchart(year,gubun);
@@ -226,7 +119,7 @@ function getchart(year,gubun){
 
 		$('#profitLine').highcharts({
 			chart: {
-	            type: 'column'
+	            type: 'line'
 	        },			
 	        title: {
 	            text: year+'년 매출',
@@ -247,17 +140,39 @@ function getchart(year,gubun){
 	});
 }
 
+function searchList(){
+	var startDate = $("input[name=searchStartDate]").val();
+	var endDate = $("input[name=searchEndDate]").val();
+
+	var url="<%=cp%>/finance/profitLinePeriod?startDate="+startDate+"&endDate="+endDate;
+	$.getJSON(url, function (csv) {
+		var list = csv.chartX;
+
+		$('#profitLine').highcharts({
+			chart: {
+	            type: 'line'
+	        },			
+	        title: {
+	            text: '선택기간내 매출',
+	        },
+	        xAxis: {
+	            categories: list
+	        },
+	        yAxis: {
+	            title: {
+	                text: '매출(원)'
+	            },
+	        },
+	        credits:{
+	        	enabled:false
+	        	},
+	        series:csv.series
+		});
+	});
+}
+
 //datepicker
 $(function(){
-	$("input[name=repairDate]").datepicker({
-		dateFormat:'yy-mm-dd',
-		showOn:"button",
-        buttonImage:"<%=cp%>/resource/images/date24.png",
-        buttonImageOnly:true,
-        showAnim:"slideDown",
-        buttonText:"선택",
-        maxDate:0
-	});
 	
 	//검색 시작날짜
 	$("input[name=searchStartDate]").datepicker({
@@ -313,7 +228,7 @@ $(function(){
 		<form name="searchForm" method="post">
 			<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 				<tr height="40">
-					<th>날짜</th>
+					<th>조회구분</th>
 					<td>
 						<span>
 							<select class="input-sm" id="yearCode" name="yearCode">
@@ -330,7 +245,7 @@ $(function(){
 					</td>  
 				</tr>
 				<tr height="40">
-					<th>날짜</th>
+					<th>기간설정</th>
 					<td>
 						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
 						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>

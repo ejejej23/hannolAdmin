@@ -8,6 +8,14 @@ public class Finance {
 	private int day;
 	private int rnum;
 	
+	private String payDate;
+	
+	public String getPayDate() {
+		return payDate;
+	}
+	public void setPayDate(String payDate) {
+		this.payDate = payDate;
+	}
 	public int getRnum() {
 		return rnum;
 	}

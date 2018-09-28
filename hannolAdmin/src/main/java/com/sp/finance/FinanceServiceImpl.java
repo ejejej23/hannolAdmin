@@ -57,4 +57,15 @@ public class FinanceServiceImpl implements FinanceService {
 		return list;
 	}
 
+	@Override
+	public List<Finance> profitLinePeriod(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.profitLinePeriod",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

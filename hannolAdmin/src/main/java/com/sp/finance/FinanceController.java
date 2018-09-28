@@ -1,9 +1,13 @@
 
 package com.sp.finance;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -291,15 +295,15 @@ public class FinanceController {
 			job.put("year", year);
 			job.put("series", arr);
 			job.put("chartX", chartX);
-			
-		}else {
+
+		} else {
 			int[] paySales = new int[12];
 			String[] chartX = new String[12];
-			
+
 			for (int i = 0; i < 12; i++) {
 				chartX[i] = (i + 1) + "월";
 			}
-			
+
 			for (Finance f : listP) {
 				if (f.getMonth() == 1) {
 					paySales[0] += f.getSaleAmount();
@@ -337,6 +341,60 @@ public class FinanceController {
 			job.put("series", arr);
 			job.put("chartX", chartX);
 		}
+
+		return job.toString();
+	}
+
+	@RequestMapping(value = "/finance/profitLinePeriod", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String profitLinePeriod(@RequestParam String startDate, @RequestParam String endDate) throws Exception {
+		JSONArray arr = new JSONArray();
+		JSONObject ob = new JSONObject();
+		JSONObject job = new JSONObject();
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+
+		List<Finance> list = service.profitLinePeriod(map);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date start = formatter.parse(startDate);
+		Date end = formatter.parse(endDate);
+
+		long diff = end.getTime() - start.getTime();
+		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
+
+		int[] paySales = new int[diffDays];
+		String[] chartX = new String[diffDays];
+
+		Calendar cal = new GregorianCalendar(Locale.KOREA);
+		
+		int tempnum=0;
+
+		for (int i = 0; i < diffDays; i++) {
+			cal.setTime(start);
+			cal.add(Calendar.DAY_OF_YEAR, i);
+
+			String temp = formatter.format(cal.getTime());
+			chartX[i] = temp;
+			
+			if(tempnum<list.size()) {
+				if (temp.equals(list.get(tempnum).getPayDate())) {
+					paySales[i] += list.get(tempnum).getSaleAmount();
+					tempnum++;
+				}
+			}
+			
+		}
+
+		ob.put("name", "조회기간 매출");
+		ob.put("data", paySales);
+		arr.put(ob);
+
+		job = new JSONObject();
+		job.put("series", arr);
+		job.put("chartX", chartX);
 
 		return job.toString();
 	}

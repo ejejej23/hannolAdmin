@@ -72,4 +72,21 @@
 			AND DAY IS NOT NULL 
 			AND YEAR = #{year}
 	</select>
+	
+	<select id="profitLinePeriod" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT TO_CHAR(PAYDATE,'YYYY-MM-DD') PAYDATE, SALEAMOUNT
+		FROM(
+		    SELECT PAYDATE, SUM(PRICE-DCPRICE) SALEAMOUNT 
+		    FROM (
+		        SELECT PAYDATE, PRICE, DCPRICE
+		        FROM PAYMENT
+		        <![CDATA[
+		        WHERE PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		        ]]>
+		        ORDER BY PAYDATE
+		    )
+		    GROUP BY ROLLUP(PAYDATE)
+		)
+		WHERE PAYDATE IS NOT NULL
+	</select>
 </mapper>
