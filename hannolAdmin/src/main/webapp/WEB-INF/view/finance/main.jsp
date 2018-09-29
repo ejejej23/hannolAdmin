@@ -94,125 +94,35 @@ body {
 // http://www.highcharts.com/demo
 
 $(function(){
-	var url="<%=cp%>/finance/line1";
-	$.getJSON(url, function (csv) {
-		$('#lineContainer1').highcharts({
-	        title: {
-	            text: '서울 2015년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/line2";
-	$.getJSON(url, function (csv) {
-		var year=csv.year;
-		
-		$('#lineContainer2').highcharts({
-	        title: {
-	            text: year+'년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv.series
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/bar";
-	$.getJSON(url, function (csv) {
-		var year=csv.year;
-		
-		$('#barContainer').highcharts({
-			chart: {
-	            type: 'column'
-	        },			
-	        title: {
-	            text: year+'년 월별 평균 기온',
-	        },
-	        xAxis: {
-	            categories: ['1월', '2월', '3월', '4월', '5월', '6월',
-	                '7월', '8월', '9월', '10월', '11월', '12월']
-	        },
-	        yAxis: {
-	            title: {
-	                text: '기온 (°C)'
-	            },
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv.series
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/pie3d";
-	$.getJSON(url, function (csv) {
-		$('#pie3dContainer').highcharts({
-			chart: {
-	            type: 'pie',
-	            options3d: {
-	                enabled: true,
-	                alpha: 45
-	            }
-	        },			
-	        title: {
-	            text: '시간별 접속자 수',
-	        },
-	        plotOptions: {
-	            pie: {
-	                innerSize: 100,
-	                depth: 45
-	            }
-	        },
-	        credits:{
-	        	enabled:false
-	        	},
-	        series:csv
-		});
-	});
-});
-
-$(function(){
-	var url="<%=cp%>/finance/paymentBar?year=";
+	var year = new Date().getFullYear();
+	var gubun = "quarter";//기본설정
+	getchart(year,gubun);
 	
+	$("input[name=gubun]").change(function(){
+		var yearCh = $("#yearCode").val();
+		if(yearCh == 0){
+			alert("조회할 년도를 선택해주세요");
+			return;
+		}
+		
+		var gubunCh = $(this).val();
+		
+		getchart(yearCh, gubunCh);
+	});
+});
+
+function getchart(year,gubun){
+	var url="<%=cp%>/finance/financeChart?year="+year+"&gubun="+gubun;
 	$.getJSON(url, function (csv) {
 		var year=csv.year;
 		var list = csv.chartX;
 
-		$('#paymentBar').highcharts({
+		$('#profitLine').highcharts({
 			chart: {
 	            type: 'column'
 	        },			
 	        title: {
-	            text: year+'년 분기별 매출',
+	            text: year+'년 재정',
 	        },
 	        xAxis: {
 	            categories: list
@@ -228,19 +138,41 @@ $(function(){
 	        series:csv.series
 		});
 	});
-});
+}
+
+function searchList(){
+	var startDate = $("input[name=searchStartDate]").val();
+	var endDate = $("input[name=searchEndDate]").val();
+
+	var url="<%=cp%>/finance/financeChartPeriod?startDate="+startDate+"&endDate="+endDate;
+	$.getJSON(url, function (csv) {
+		var list = csv.chartX;
+
+		$('#profitLine').highcharts({
+			chart: {
+	            type: 'line'
+	        },			
+	        title: {
+	            text: '매출 조회',
+	        },
+	        xAxis: {
+	            categories: list
+	        },
+	        yAxis: {
+	            title: {
+	                text: '매출(원)'
+	            },
+	        },
+	        credits:{
+	        	enabled:false
+	        	},
+	        series:csv.series
+		});
+	});
+}
 
 //datepicker
 $(function(){
-	$("input[name=repairDate]").datepicker({
-		dateFormat:'yy-mm-dd',
-		showOn:"button",
-        buttonImage:"<%=cp%>/resource/images/date24.png",
-        buttonImageOnly:true,
-        showAnim:"slideDown",
-        buttonText:"선택",
-        maxDate:0
-	});
 	
 	//검색 시작날짜
 	$("input[name=searchStartDate]").datepicker({
@@ -289,7 +221,7 @@ $(function(){
 
 <div class="sub-container">
 	<div class="sub-title">
-		<h3>재정<small>매출/지출</small></h3>
+		<h3>재정 <small> 매출/지출</small></h3>
 	</div>
 
 	<div class="sub_contents">
@@ -324,7 +256,7 @@ $(function(){
 		</form>
 	
 	
-		<div id="paymentBar" 
+		<div id="profitLine" 
             style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
 	
 	</div>
