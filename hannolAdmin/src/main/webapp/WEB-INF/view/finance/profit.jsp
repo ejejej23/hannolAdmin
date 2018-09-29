@@ -153,7 +153,7 @@ function searchList(){
 	            type: 'line'
 	        },			
 	        title: {
-	            text: '선택기간내 매출',
+	            text: '매출 조회',
 	        },
 	        xAxis: {
 	            categories: list
@@ -221,7 +221,7 @@ $(function(){
 
 <div class="sub-container">
 	<div class="sub-title">
-		<h3>재정<small>매출/지출</small></h3>
+		<h3>매출 <small> 이용권/기프트샵</small></h3>
 	</div>
 
 	<div class="sub_contents">
