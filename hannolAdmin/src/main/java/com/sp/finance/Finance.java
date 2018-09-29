@@ -9,7 +9,21 @@ public class Finance {
 	private int rnum;
 	
 	private String payDate;
+	private String repairDate;
+	private String inDate;
 	
+	public String getRepairDate() {
+		return repairDate;
+	}
+	public void setRepairDate(String repairDate) {
+		this.repairDate = repairDate;
+	}
+	public String getInDate() {
+		return inDate;
+	}
+	public void setInDate(String inDate) {
+		this.inDate = inDate;
+	}
 	public String getPayDate() {
 		return payDate;
 	}

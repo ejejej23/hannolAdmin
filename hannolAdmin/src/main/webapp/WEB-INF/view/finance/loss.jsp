@@ -122,7 +122,7 @@ function getchart(year,gubun){
 	            type: 'line'
 	        },			
 	        title: {
-	            text: year+'년 매출',
+	            text: year+'년 지출',
 	        },
 	        xAxis: {
 	            categories: list

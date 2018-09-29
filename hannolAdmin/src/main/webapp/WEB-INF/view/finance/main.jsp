@@ -296,22 +296,27 @@ $(function(){
 		<form name="searchForm" method="post">
 			<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
 				<tr height="40">
-					<th>날짜</th>
+					<th>조회구분</th>
+					<td>
+						<span>
+							<select class="input-sm" id="yearCode" name="yearCode">
+							 <option value="0">:::::::: 년도 ::::::::</option>
+							 <c:forEach var="vo" items="${yearList }">
+								<option value="${vo.year }">${vo.year }</option>
+							 </c:forEach>
+		                	</select>
+		                </span>
+						<span>
+							<input type="radio" name="gubun" value="quarter"> 분기별
+							<input type="radio" name="gubun" value="month"> 월별
+		                </span>
+					</td>  
+				</tr>
+				<tr height="40">
+					<th>기간설정</th>
 					<td>
 						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
 						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
-					</td>  
-				</tr>
-				<tr>
-					<th>검색</th> 
-					<td>
-						<select name="searchKey" class="selectField"> 
-							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
-							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
-							<option value="company" <c:if test="${searchKey=='company'}">selected="selected"</c:if>>업체명</option> 
-							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>수리내역</option>
-						</select>  
-						<input type="text" name="searchValue" class="boxTF" value="${searchValue}"> 
 						<button type="button" class="btn btn-default" onclick="searchList()">검색</button>
 					</td>  
 				</tr>

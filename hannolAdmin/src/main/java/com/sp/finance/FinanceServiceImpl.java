@@ -46,6 +46,9 @@ public class FinanceServiceImpl implements FinanceService {
 		return list;
 	}
 
+
+
+
 	@Override
 	public List<Finance> getYears() throws Exception {
 		List<Finance> list = null;
@@ -58,10 +61,54 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 
 	@Override
+	public List<Finance> getYearsPayment() throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.getYearsPayment");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> getYearsLoss() throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.getYearsLoss");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+	
+	@Override
 	public List<Finance> profitLinePeriod(Map<String, Object> map) throws Exception {
 		List<Finance> list = null;
 		try {
 			list = dao.selectList("finance.profitLinePeriod",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> expenseRepairPeriod(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.expenseRepairPeriod",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> expenseGoodsInPeriod(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.expenseGoodsInPeriod",map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

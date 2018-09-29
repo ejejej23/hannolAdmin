@@ -6,7 +6,28 @@
 	<select id="getYears" resultType="com.sp.finance.Finance">
 		SELECT DISTINCT TO_CHAR(PAYDATE,'YYYY') AS YEAR
 		FROM PAYMENT
+	    	UNION
+	    SELECT DISTINCT TO_CHAR(REPAIRDATE,'YYYY') AS YEAR
+		FROM REPAIR
+	        UNION 
+	    SELECT DISTINCT TO_CHAR(INDATE,'YYYY') AS YEAR
+	    FROM GOODSIN
+	    ORDER BY YEAR DESC
+	</select>
+
+	<select id="getYearsPayment" resultType="com.sp.finance.Finance">
+		SELECT DISTINCT TO_CHAR(PAYDATE,'YYYY') AS YEAR
+		FROM PAYMENT
 		ORDER BY YEAR DESC
+	</select>
+	
+	<select id="getYearsLoss" resultType="com.sp.finance.Finance">
+		SELECT DISTINCT TO_CHAR(REPAIRDATE,'YYYY') AS YEAR
+		FROM REPAIR
+	        UNION 
+	    SELECT DISTINCT TO_CHAR(INDATE,'YYYY') AS YEAR
+	    FROM GOODSIN
+	    ORDER BY YEAR DESC
 	</select>
 	
 	<select id="getSalePayment" parameterType="map" resultType="com.sp.finance.Finance">
@@ -86,7 +107,44 @@
 		        ORDER BY PAYDATE
 		    )
 		    GROUP BY ROLLUP(PAYDATE)
+		    ORDER BY PAYDATE
 		)
 		WHERE PAYDATE IS NOT NULL
+	</select>
+	
+	<select id="expenseRepairPeriod" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT TO_CHAR(REPAIRDATE,'YYYY-MM-DD') REPAIRDATE, SALEAMOUNT
+		FROM(
+		    SELECT REPAIRDATE, SUM(COST) SALEAMOUNT 
+		    FROM (
+		        SELECT REPAIRDATE, COST
+		        FROM REPAIR
+		        <![CDATA[
+		        WHERE REPAIRDATE >= #{startDate} AND REPAIRDATE <= #{endDate}
+		        ]]>
+		       ORDER BY REPAIRDATE
+		    )
+		    GROUP BY ROLLUP(REPAIRDATE)
+		    ORDER BY REPAIRDATE
+		)
+		WHERE REPAIRDATE IS NOT NULL
+	</select>
+	
+	<select id="expenseGoodsInPeriod" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT TO_CHAR(INDATE,'YYYY-MM-DD') INDATE, SALEAMOUNT
+		FROM(
+		    SELECT INDATE, SUM(QUANTITY * UNITPRICE) SALEAMOUNT 
+		    FROM (
+		        SELECT INDATE, QUANTITY, UNITPRICE
+		        FROM GOODSIN
+		        <![CDATA[
+		        WHERE INDATE >= #{startDate} AND INDATE <= #{endDate}
+		        ]]>
+		       ORDER BY INDATE
+		    )
+		    GROUP BY ROLLUP(INDATE)
+		    ORDER BY INDATE
+		)
+		WHERE INDATE IS NOT NULL
 	</select>
 </mapper>
