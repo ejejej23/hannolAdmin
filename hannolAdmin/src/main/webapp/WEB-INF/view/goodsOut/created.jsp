@@ -62,10 +62,10 @@
 					$("select[name=outName]").append("<option value=''>::상품선택::</option>");  
 					
 					for(var i=0 ; i<data.itemList.length ; i++){
-						$("select[name=outName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[0].GOODSNAME+"</option>");
+						$("select[name=outName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[i].GOODSNAME+"</option>");
 					} 
 				},error:function(e){
-					console.log(e.responseText);
+					console.log(e.responseText); 
 				}
 			});
 		});

@@ -56,9 +56,9 @@
 					$("select[name=inName]").append("<option value=''>::상품선택::</option>");  
 					
 					for(var i=0 ; i<data.itemList.length ; i++){
-						$("select[name=inName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[0].GOODSNAME+"</option>");
+						$("select[name=inName]").append("<option value="+data.itemList[i].GOODSCODE+">"+data.itemList[i].GOODSNAME+"</option>");
 					} 
-				},error:function(e){
+				},error:function(e){ 
 					console.log(e.responseText);
 				}
 			});
