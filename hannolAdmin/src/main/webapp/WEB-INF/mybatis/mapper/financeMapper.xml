@@ -41,8 +41,11 @@
 		        , to_char(PAYDATE,'Q') as QUARTER 
                 , to_char(PAYDATE,'MM') as MONTH
                 , to_char(PAYDATE,'dd') as DAY
-		        from PAYMENT
+                , state
+		        from PAYMENT p
+		        join cardInfo c on p.payCode = p.payCode
 		    ) 
+		    WHERE STATE = '카드승인'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		    order by YEAR, QUARTER, MONTH, DAY
 		)
@@ -160,11 +163,14 @@
                 , to_char(PAYDATE,'MM') as MONTH
                 , to_char(PAYDATE,'dd') as DAY
                 , PARENTCODE
+                , c.state
 		        from PAYMENT p
                 LEFT OUTER JOIN paymentInfo pi ON p.payCode = pi.payCode
                 LEFT OUTER JOIN goods g ON g.goodsCode = pi.goodsCode
                 LEFT OUTER JOIN goodsgubun gb ON gb.gubunCode = g.gubunCode
+                LEFT OUTER JOIN cardInfo c on p.payCode = p.payCode
 		    ) 
+		    WHERE STATE = '카드승인'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY, PARENTCODE)
 		    order by YEAR, QUARTER, MONTH, DAY, PARENTCODE
 		)
