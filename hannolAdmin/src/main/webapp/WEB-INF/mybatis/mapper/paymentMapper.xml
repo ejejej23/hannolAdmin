@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+	<select id="getTicketPayment" parameterType="map" resultType="com.sp.payment.Payment">
+		SELECT * FROM(
+			SELECT p.payCode, payDate, payWay, payPrice, 
+    			quantity, goodsName, gg.gubunCode, gs.price, gubunName, parentCode, cardCo, paySection, ci.state,
+    			DENSE_RANK() OVER(ORDER BY TO_CHAR(payDate,'YYYY-MM-DD') DESC) rnum,
+    			(SELECT COUNT(*) FROM couponHistory WHERE payCode = p.payCode) AS couponCount, memberId
+			FROM payment p
+			JOIN payInfo pi ON p.payCode = pi.payCode
+			JOIN paymentInfo pmi ON p.payCode = pmi.payCode 
+			JOIN goods gs ON pmi.goodsCode = gs.goodsCode
+			JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
+			JOIN cardInfo ci ON p.payCode = ci.payCode
+			JOIN member1 m1 ON m1.usersCode = p.usersCode
+			WHERE TO_CHAR(payDate,'YYYY') LIKE #{year} AND parentCode = #{thema}
+		)
+		<![CDATA[
+		WHERE  rnum >= #{start} AND rnum <= #{end} 
+		]]>
+		ORDER BY payDate DESC, parentCode
+	</select>
+
+</mapper>
