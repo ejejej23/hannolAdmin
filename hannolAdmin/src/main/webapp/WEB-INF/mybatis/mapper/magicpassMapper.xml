@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="magic">
+
+	<sql id="where-tab-list">
+		<if test="tab=='prince'">
+			AND f.themeCode=1
+		</if>
+		<if test="tab=='toy'">
+			AND f.themeCode=2
+		</if>
+		<if test="tab=='mini'">
+			AND f.themeCode=3
+		</if>
+		<if test="tab=='lion'">
+			AND f.themeCode=5
+		</if>
+		<if test="tab=='nimo'">
+			AND f.themeCode=6
+		</if>
+	</sql>
+	
+	<sql id="where-searchKey-list">
+		<if test="searchKey=='attrctn'">
+		 	AND INSTR(f.name, #{searchValue}) &gt; 0
+		</if>
+		<if test="searchKey=='ticketCode'">
+		 	AND m.ticketCode = #{searchValue}
+		</if>
+		<if test="searchKey=='reserveCode'">
+		 	AND usersCode = #{searchValue}
+		</if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM magicPass m
+		JOIN facility f ON f.facilityCode = m.facilityCode
+		WHERE f.gubunCode = 1
+		<include refid="where-tab-list"/>
+		<if test="searchValue != null and searchValue != ''">
+			<include refid="where-searchKey-list"/>
+		</if>
+	</select>
+	
+	<select id="listMagicpass" parameterType="map" resultType="com.sp.magicpass.Magicpass">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+		        SELECT mpCode, f.facilityCode, name, ticketCode, usersCode, mpTime, TO_CHAR(mpDate, 'YYYY-MM-DD') mpDate
+		        FROM magicPass m
+		        JOIN facility f ON f.facilityCode = m.facilityCode
+		        WHERE f.gubunCode = 1
+		        <include refid="where-tab-list"/>
+				<if test="searchValue != null and searchValue != ''">
+					<include refid="where-searchKey-list"/>
+				</if>
+		        ORDER BY m.facilityCode ASC, mpdate DESC, mpTime DESC, mpCode DESC
+		    ) tb
+		    WHERE ROWNUM &lt;= #{end}
+		)
+		WHERE rnum &gt;= #{start}
+	</select>
+</mapper>
