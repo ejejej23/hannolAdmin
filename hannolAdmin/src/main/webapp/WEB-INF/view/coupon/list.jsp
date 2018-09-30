@@ -94,7 +94,7 @@ $(function(){
 			<c:forEach items="${list}" var="item">
 				<tr>
 					<td scope="row">${item.listNum}</td>
-					<td><a href="<%=cp%>/coupon/article?mngCode=${item.mngCode}">${item.mngName}</a></td>
+					<td><a href="${articleUrl}&mngCode=${item.mngCode}">${item.mngName}</a></td>
 					<td>${item.mngDate}</td>
 					<td><button type="button" class="btn btn-danger btn-delete" data-num="${item.mngCode}">삭제</button></td>
 				</tr>
