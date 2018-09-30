@@ -211,6 +211,13 @@ $(function(){
         } 
 	});	
 });
+
+function ExcelDown() {
+	var f = document.searchForm;
+	
+	f.action="<%=cp%>/finance/excel";
+    f.submit();
+}
 </script>
 
 </head>
@@ -253,11 +260,17 @@ $(function(){
 					</td>  
 				</tr>
 			</table>
-		</form>
 	
 	
 		<div id="profitLine" 
             style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
+	
+		<div align="right">
+        	<Button class="btn btn-default" onclick="ExcelDown();">엑셀 파일 다운로드</Button>
+        	<input type="hidden" name="financeTitle" value="${financeTitle}">
+        	<input type="hidden" name="financeYear">
+        </div> 
+        </form>
 	
 	</div>
 </div>

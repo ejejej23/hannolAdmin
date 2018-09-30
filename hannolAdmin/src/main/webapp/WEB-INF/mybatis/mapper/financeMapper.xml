@@ -147,4 +147,98 @@
 		)
 		WHERE INDATE IS NOT NULL
 	</select>
+	
+	<select id="getProfitData" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT, PARENTCODE
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT, PARENTCODE
+		    from ( 
+		        select PAYDATE, (p.PRICE - DCPRICE) AS TOTALSALE
+		        , to_char(PAYDATE,'YYYY') as YEAR
+		        , to_char(PAYDATE,'Q') as QUARTER 
+                , to_char(PAYDATE,'MM') as MONTH
+                , to_char(PAYDATE,'dd') as DAY
+                , PARENTCODE
+		        from PAYMENT p
+                LEFT OUTER JOIN paymentInfo pi ON p.payCode = pi.payCode
+                LEFT OUTER JOIN goods g ON g.goodsCode = pi.goodsCode
+                LEFT OUTER JOIN goodsgubun gb ON gb.gubunCode = g.gubunCode
+		    ) 
+		    group by rollup(YEAR, QUARTER, MONTH, DAY, PARENTCODE)
+		    order by YEAR, QUARTER, MONTH, DAY, PARENTCODE
+		)
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+            AND PARENTCODE IS NOT NULL
+			AND YEAR = #{year}
+	</select>
+	
+	<select id="getLossGoodsData" parameterType="map" resultType="com.sp.finance.Finance">
+		 SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT, MEMO
+			FROM 
+			(
+			    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT, MEMO
+			    from ( 
+			        select INDATE, (QUANTITY * UNITPRICE) AS TOTALSALE
+			        , to_char(INDATE,'YYYY') as YEAR
+			        , to_char(INDATE,'Q') as QUARTER 
+	                , to_char(INDATE,'MM') as MONTH
+	                , to_char(INDATE,'dd') as DAY
+	                , MEMO
+			        from GOODSIN
+			    ) 
+			    group by rollup(YEAR, QUARTER, MONTH, DAY), MEMO
+			)
+			WHERE QUARTER IS NOT NULL 
+				AND MONTH IS NOT NULL 
+				AND DAY IS NOT NULL 
+				AND YEAR = #{year}
+	</select>
+	
+	<select id="getLossRepairData" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT, MEMO
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT, MEMO
+		    from ( 
+		        select REPAIRDATE, (COST) AS TOTALSALE
+		        , to_char(REPAIRDATE,'YYYY') as YEAR
+		        , to_char(REPAIRDATE,'Q') as QUARTER 
+                , to_char(REPAIRDATE,'MM') as MONTH
+                , to_char(REPAIRDATE,'dd') as DAY
+                , MEMO
+		        from REPAIR
+		    ) 
+		    group by rollup(YEAR, QUARTER, MONTH, DAY), MEMO
+		)
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
+	</select>
+	
+	<select id="getLossDiscountData" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT, MEMO
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT, MEMO
+		    from ( 
+		        select PAYDATE, d.DCPRICE AS TOTALSALE
+		        , to_char(PAYDATE,'YYYY') as YEAR
+		        , to_char(PAYDATE,'Q') as QUARTER 
+                , to_char(PAYDATE,'MM') as MONTH
+                , to_char(PAYDATE,'dd') as DAY
+                , MEMO
+		        from discount d
+                LEFT OUTER JOIN payment p ON p.payCode = d.payCode
+		    ) 
+		    group by rollup(YEAR, QUARTER, MONTH, DAY), MEMO
+		)
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
+	</select>
 </mapper>

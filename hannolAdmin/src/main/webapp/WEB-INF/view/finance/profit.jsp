@@ -105,6 +105,7 @@ $(function(){
 			return;
 		}
 		
+		$("#financeYear").val(yearCh);
 		var gubunCh = $(this).val();
 		
 		getchart(yearCh, gubunCh);
@@ -211,6 +212,7 @@ $(function(){
         } 
 	});	
 });
+
 </script>
 
 </head>
@@ -253,7 +255,7 @@ $(function(){
 					</td>  
 				</tr>
 			</table>
-		</form>
+			</form>
 	
 	
 		<div id="profitLine" 

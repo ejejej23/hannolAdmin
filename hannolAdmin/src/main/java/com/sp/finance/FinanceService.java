@@ -13,4 +13,9 @@ public interface FinanceService {
 	public List<Finance> profitLinePeriod(Map<String, Object> map) throws Exception;
 	public List<Finance> expenseRepairPeriod(Map<String, Object> map) throws Exception;
 	public List<Finance> expenseGoodsInPeriod(Map<String, Object> map) throws Exception;
+	
+	public List<Finance> getProfitData(Map<String, Object> map) throws Exception;
+	public List<Finance> getLossGoodsData(Map<String, Object> map) throws Exception;
+	public List<Finance> getLossRepairData(Map<String, Object> map) throws Exception;
+	public List<Finance> getLossDiscountData(Map<String, Object> map) throws Exception;
 }

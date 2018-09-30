@@ -2,6 +2,7 @@
 package com.sp.finance;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,11 +19,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
+
+import com.sp.common.MyExcelView;
 
 @Controller("finance.chartController")
 public class FinanceController {
 	@Autowired
 	FinanceServiceImpl service;
+
+	@Autowired
+	private MyExcelView excelView;
 
 	@RequestMapping(value = "/finance/main")
 	public String main(@RequestParam(defaultValue = "0") int year, @RequestParam(defaultValue = "quarter") String gubun,
@@ -821,4 +828,79 @@ public class FinanceController {
 
 		return job.toString();
 	}
+
+	@RequestMapping(value = "/finance/excel")
+	public View excel(@RequestParam(value = "financeYear", defaultValue = "0") int financeYear,
+			Map<String, Object> model) throws Exception {
+
+		if (financeYear == 0) {
+			financeYear = Calendar.getInstance().get(Calendar.YEAR);
+		}
+
+		String sheetName1 = "매출";
+		String sheetName2 = "지출(구매)";
+		String sheetName3 = "지출(수리)";
+		String sheetName4 = "할인";
+		String filename = "finance.xls";
+
+		List<String> columnLabels = new ArrayList<>();
+		List<Object[]> columnValues1 = new ArrayList<>();
+		List<Object[]> columnValues2 = new ArrayList<>();
+		List<Object[]> columnValues3 = new ArrayList<>();
+		List<Object[]> columnValues4 = new ArrayList<>();
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("year", financeYear);
+
+		List<Finance> list = service.getProfitData(map);
+
+		columnLabels.add("년도");
+		columnLabels.add("분기");
+		columnLabels.add("월");
+		columnLabels.add("일");
+		columnLabels.add("구분");
+		columnLabels.add("금액");
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getParentCode() == 1) {
+				columnValues1.add(new Object[] { financeYear, list.get(i).getQuarter(), list.get(i).getMonth(),
+						list.get(i).getDay(), "이용권", list.get(i).getSaleAmount() });
+			} else {
+				columnValues1.add(new Object[] { financeYear, list.get(i).getQuarter(), list.get(i).getMonth(),
+						list.get(i).getDay(), "기프트샵", list.get(i).getSaleAmount() });
+			}
+		}
+
+		List<Finance> list2 = service.getLossGoodsData(map);
+		for (int i = 0; i < list2.size(); i++) {
+			columnValues2.add(new Object[] { financeYear, list2.get(i).getQuarter(), list2.get(i).getMonth(),
+					list2.get(i).getDay(), list2.get(i).getMemo(), list2.get(i).getSaleAmount() });
+		}
+		
+		List<Finance> list3 = service.getLossRepairData(map);
+		for (int i = 0; i < list3.size(); i++) {
+			columnValues3.add(new Object[] { financeYear, list3.get(i).getQuarter(), list3.get(i).getMonth(),
+					list3.get(i).getDay(), list3.get(i).getMemo(), list3.get(i).getSaleAmount() });
+		}
+		
+		List<Finance> list4 = service.getLossDiscountData(map);
+		for (int i = 0; i < list4.size(); i++) {
+			columnValues4.add(new Object[] { financeYear, list4.get(i).getQuarter(), list4.get(i).getMonth(),
+					list4.get(i).getDay(), list4.get(i).getMemo(), list4.get(i).getSaleAmount() });
+		}
+
+		model.put("sheetName1", sheetName1);
+		model.put("sheetName2", sheetName2);
+		model.put("sheetName3", sheetName3);
+		model.put("sheetName4", sheetName4);
+		model.put("filename", filename);
+		model.put("columnLabels", columnLabels);
+		model.put("columnValues1", columnValues1);
+		model.put("columnValues2", columnValues2);
+		model.put("columnValues3", columnValues3);
+		model.put("columnValues4", columnValues4);
+
+		return excelView;
+	}
+
 }
