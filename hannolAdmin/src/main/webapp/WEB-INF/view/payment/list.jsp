@@ -22,19 +22,16 @@ $(function(){
 
 <div class="sub-container" style="width: 960px;">
     <div class="sub-title">
-	  <h3>예약관리</h3>
+	  <h3>구매관리</h3>
 	</div> 
 	
 	<div>
 		<ul class="nav nav-tabs">
 		  <li class="nav-item active">
-		    <a class="nav-link">가이드</a>
+		    <a class="nav-link">이용권</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link">무대공연</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link">편의시설</a>
+		    <a class="nav-link">기프트샵</a>
 		  </li>
 		</ul>
     </div>

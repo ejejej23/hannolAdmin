@@ -61,8 +61,9 @@
                 <li><a href="<%=cp%>/ticket/list">이용권 관리</a></li>
                 <li><a href="<%=cp%>/card/list">할인카드 관리</a></li>
                 <li><a href="#">이용객 현황 관리</a></li>
-                <li><a href="<%=cp%>/reservation/list">예매/예약 현황 관리</a></li>
-                <li><a href="<%=cp%>/magicpass/list">매직패스 예약현황 관리</a></li>
+                <li><a href="<%=cp%>/payment/list">구매 관리</a></li>
+                <li><a href="<%=cp%>/reservation/list">예약 관리</a></li>
+                <li><a href="<%=cp%>/magicpass/list">매직패스 예약관리</a></li>
             </ul>
         </li>
         
