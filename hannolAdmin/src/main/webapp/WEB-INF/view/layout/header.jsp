@@ -26,7 +26,7 @@
                 &nbsp;|&nbsp;
                 <a href="<%=cp%>/staff/logout">로그아웃</a>
                 &nbsp;|&nbsp;
-                <a href="<%=cp%>/">마이페이지</a>
+                <a href="<%=cp%>/staff/myInfo">마이페이지</a>
             </c:if>
         </div>
     </div>

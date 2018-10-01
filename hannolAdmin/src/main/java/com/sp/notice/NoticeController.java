@@ -232,8 +232,6 @@ public class NoticeController {
 		
 		service.deleteNotice(num, info.getStaffIdx(),pathname);
 		
-		System.out.println("test//////*******************************************************************");
-
 		return "redirect:/notice/list";
 	}
 

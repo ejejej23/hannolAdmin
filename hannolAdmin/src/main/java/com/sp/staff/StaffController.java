@@ -247,11 +247,11 @@ public class StaffController {
 		dto.setTel1(dto.getTel().substring(0, 3));
 		dto.setTel2(dto.getTel().substring(4, 8));
 		dto.setTel3(dto.getTel().substring(9));
-		
-		//재직중이면 퇴사일자 빈칸으로 하기
-		if(dto.getInDate() !=null && dto.getOutDate()!=null) {
-			boolean compare = dto.getInDate().compareTo(dto.getOutDate())>0;
-			if(compare) {
+
+		// 재직중이면 퇴사일자 빈칸으로 하기
+		if (dto.getInDate() != null && dto.getOutDate() != null) {
+			boolean compare = dto.getInDate().compareTo(dto.getOutDate()) > 0;
+			if (compare) {
 				dto.setOutDate("");
 			}
 		}
@@ -283,49 +283,73 @@ public class StaffController {
 
 		return map;
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value="/staff/updateAuth")
-	public Map<String, Object> updateAuth(
-			@RequestParam(value="usersCode") int usersCode,
-			@RequestParam(value="authority") String authority) throws Exception{
-		
+	@RequestMapping(value = "/staff/updateAuth")
+	public Map<String, Object> updateAuth(@RequestParam(value = "usersCode") int usersCode,
+			@RequestParam(value = "authority") String authority) throws Exception {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("usersCode", usersCode);
 		map.put("authority", authority);
-		
+
 		service.updateStaffAuth(map);
 
 		return map;
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value="/staff/updateInout")
-	public Map<String, Object> updateInout(
-			@RequestParam(value="usersCode") int usersCode,
-			@RequestParam(value="gubun") int gubun,
-			@RequestParam(value="inoutDate") String inoutDate,
-			@RequestParam(value="memo") String memo
-			) throws Exception{
-		
+	@RequestMapping(value = "/staff/updateInout")
+	public Map<String, Object> updateInout(@RequestParam(value = "usersCode") int usersCode,
+			@RequestParam(value = "gubun") int gubun, @RequestParam(value = "inoutDate") String inoutDate,
+			@RequestParam(value = "memo") String memo) throws Exception {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("gubun", gubun);
 		map.put("usersCode", usersCode);
 		map.put("epDate", inoutDate);
 		map.put("memo", memo);
-		
-		
-		//working, 입퇴사 변경
-		if(gubun == 1) {
-			//입사 : working>1, 입사기록 남기기
+
+		// working, 입퇴사 변경
+		if (gubun == 1) {
+			// 입사 : working>1, 입사기록 남기기
 			map.put("working", 1);
-			service.insertInoutStaff(map);			
-		}else {
-			//퇴사 : working>0, 퇴사기록 남기기
+			service.insertInoutStaff(map);
+		} else {
+			// 퇴사 : working>0, 퇴사기록 남기기
 			map.put("working", 0);
 			service.insertInoutStaff(map);
 		}
-		
+
 		return map;
+	}
+
+	@RequestMapping(value = "/staff/myInfo", method = RequestMethod.GET)
+	public String myInfoForm(HttpServletRequest req, HttpSession session, Model model) throws Exception {
+
+		SessionInfo info = (SessionInfo) session.getAttribute("staff");
+		int num = (int) info.getStaffIdx();
+
+		Staff dto = service.readStaff(num);
+		if (dto == null) {
+			return "redirect:";
+		}
+
+		dto.setTel1(dto.getTel().substring(0, 3));
+		dto.setTel2(dto.getTel().substring(4, 8));
+		dto.setTel3(dto.getTel().substring(9));
+
+		// 재직중이면 퇴사일자 빈칸으로 하기
+		if (dto.getInDate() != null && dto.getOutDate() != null) {
+			boolean compare = dto.getInDate().compareTo(dto.getOutDate()) > 0;
+			if (compare) {
+				dto.setOutDate("");
+			}
+		}
+
+		model.addAttribute("dto", dto);
+
+		model.addAttribute("mode", "update");
+		return ".staff.staff";
 	}
 }
