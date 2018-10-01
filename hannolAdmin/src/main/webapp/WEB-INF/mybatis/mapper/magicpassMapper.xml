@@ -55,10 +55,15 @@
 				<if test="searchValue != null and searchValue != ''">
 					<include refid="where-searchKey-list"/>
 				</if>
-		        ORDER BY m.facilityCode ASC, mpdate DESC, mpTime DESC, mpCode DESC
+		        ORDER BY mpdate DESC, m.facilityCode ASC, mpTime DESC, mpCode DESC 
 		    ) tb
 		    WHERE ROWNUM &lt;= #{end}
 		)
 		WHERE rnum &gt;= #{start}
 	</select>
+	
+	<delete id="deleteReserve" parameterType="Long">
+		DELETE FROM magicpass
+		WHERE mpCode = #{mpCode}
+	</delete>
 </mapper>

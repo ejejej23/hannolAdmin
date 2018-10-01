@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
 
@@ -113,5 +114,19 @@ public class MagicpassController {
 		model.addAttribute("query", query);
 		
 		return "/magicpass/list-body";
+	}
+	
+	@RequestMapping(value="/magicpass/deleteReserve")
+	@ResponseBody
+	public Map<String, Object> deleteReserve(Magicpass dto) throws Exception{
+		String state = "fail";
+		
+		Map<String, Object> model = new HashMap<>();
+		int result = service.deleteReserve(dto);
+		if(result != 0) {
+			state = "success";
+		}
+		model.put("state", state);
+		return model;
 	}
 }

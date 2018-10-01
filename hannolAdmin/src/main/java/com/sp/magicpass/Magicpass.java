@@ -1,5 +1,7 @@
 package com.sp.magicpass;
 
+import java.util.List;
+
 public class Magicpass {
 	private long mpCode;
 	private long facilityCode;
@@ -9,9 +11,18 @@ public class Magicpass {
 	private int mpTime;
 	private String mpDate;
 	private int state; // 0: 사용가능, 1: 사용불가
+	private List<Long> mpCodes;
 
 	public long getMpCode() {
 		return mpCode;
+	}
+
+	public List<Long> getMpCodes() {
+		return mpCodes;
+	}
+
+	public void setMpCodes(List<Long> mpCodes) {
+		this.mpCodes = mpCodes;
 	}
 
 	public void setMpCode(long mpCode) {

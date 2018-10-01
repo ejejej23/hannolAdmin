@@ -36,4 +36,18 @@ public class MagicpassServiceImpl implements MagicpassService {
 		return list;
 	}
 
+	@Override
+	public int deleteReserve(Magicpass dto) throws Exception {
+		int result = 0;
+		try {
+			for(int i=0; i<dto.getMpCodes().size(); i++) {
+				dao.deleteData("magic.deleteReserve", dto.getMpCodes().get(i));				
+			}
+			result = 1;
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 }
