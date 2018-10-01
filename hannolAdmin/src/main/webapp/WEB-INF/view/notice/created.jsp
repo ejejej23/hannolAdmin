@@ -66,13 +66,32 @@
 				<textarea name="content" id="contentNotice" class="form-control" rows="10">${dto.content}</textarea>
 			</div>  
 		</div>
+		
+		
 		<div class="form-group"> 
+			<label for="addfile" class="col-sm-2 control-label">파일 첨부</label> 
+			<div class="col-sm-10"> 
+				<input type="file" name="upload" class="form-control" id="addfile" > 
+			</div> 
+		</div>
+		
+		<c:if test="${mode=='update'}">
+           <c:if test="${not empty dto.saveFilename}">
+            <div class="form-group"> 
+				<label for="addfile" class="col-sm-2 control-label">첨부된 파일</label> 
+             		<div class="col-sm-10"> 
+                   		${dto.originalFilename}
+                	</div>
+           	</div> 
+          </c:if>
+       </c:if>
+       
+       <div class="form-group"> 
 			<label for="isNotice" class="col-sm-2 control-label">공지</label> 
 			<div class="col-sm-10"> 
 				<input type="checkbox" name="isNotice" id="isNotice" value="1"> 공지여부 체크
 			</div>  
 		</div>
-		
 		
 	 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		     <tr height="45"> 
@@ -83,6 +102,8 @@
 		         <c:if test="${mode=='update'}">
 		         	 <input type="hidden" name="num" value="${dto.noticeCode}">
 		        	 <input type="hidden" name="page" value="${page}">
+		        	 <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
+		        	 <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
 		        </c:if>
 		      </td>
 		    </tr>

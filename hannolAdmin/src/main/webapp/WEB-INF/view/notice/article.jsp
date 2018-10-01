@@ -77,6 +77,12 @@ function login() {
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       첨부 :  <a href="<%=cp%>/notice/download?saveFilename=${dto.saveFilename}&originalFilename=${dto.originalFilename}">${dto.originalFilename}</a>
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			         <c:if test="${not empty preReadDto}">
 			              <a href="<%=cp%>/notice/article?${query}&num=${preReadDto.noticeCode}">${preReadDto.subject}</a>

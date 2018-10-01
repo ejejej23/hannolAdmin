@@ -4,8 +4,9 @@
 <mapper namespace="notice">
 	
 	<insert id="insertNotice" parameterType="com.sp.notice.Notice">
-	  INSERT INTO notice(NOTICECODE, SUBJECT, CONTENT, USERSCODE, ISNOTICE) 
-	  VALUES (notice_seq.NEXTVAL, #{subject}, #{content}, #{usersCode}, #{isNotice})
+	  INSERT INTO notice(NOTICECODE, SUBJECT, CONTENT, USERSCODE, ISNOTICE, ORIGINALFILENAME, SAVEFILENAME) 
+	  VALUES (notice_seq.NEXTVAL, #{subject}, #{content}, #{usersCode}, #{isNotice}, 
+	  #{originalFilename, jdbcType=VARCHAR}, #{saveFilename , jdbcType=VARCHAR})
 	</insert>
 
 	<sql id="where-list">
@@ -82,7 +83,8 @@
 	</select>
 	
 	<select id="readNotice" parameterType="Integer" resultType="com.sp.notice.Notice">
-		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, S.NAME, ISNOTICE
+		SELECT S.USERSCODE, N.NOTICECODE, SUBJECT, CONTENT, TO_CHAR(CREATED, 'YYYY-MM-DD') CREATED, 
+		S.NAME, ISNOTICE, N.ORIGINALFILENAME, N.SAVEFILENAME
 		FROM STAFF S
 		JOIN NOTICE N ON S.USERSCODE=N.USERSCODE
 		WHERE NOTICECODE = #{num}
@@ -126,7 +128,8 @@
 
      <!-- 수정 -->
      <update id="updateNotice" parameterType="com.sp.notice.Notice">
-         UPDATE notice SET subject=#{subject}, content=#{content}, isNotice = #{isNotice}
+         UPDATE notice SET subject=#{subject}, content=#{content}, isNotice = #{isNotice},
+         ORIGINALFILENAME= #{originalFilename, jdbcType=VARCHAR}, SAVEFILENAME = #{saveFilename , jdbcType=VARCHAR}
                     WHERE noticeCode = #{noticeCode}
       </update>
       

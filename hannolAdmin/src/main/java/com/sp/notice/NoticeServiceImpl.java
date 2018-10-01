@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.common.FileManager;
 import com.sp.common.dao.CommonDAO;
 import com.sp.staff.Staff;
 
@@ -13,6 +14,9 @@ import com.sp.staff.Staff;
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private CommonDAO dao;
+	
+	@Autowired
+	private FileManager fileManager;
 
 	@Override
 	public Staff readStaff() throws Exception {
@@ -21,9 +25,15 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int insertNotice(Notice dto) throws Exception {
+	public int insertNotice(Notice dto, String pathname) throws Exception {
 		int result = 0;
 		try {
+			if (dto.getUpload() != null && !dto.getUpload().isEmpty()) {
+				String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+				
+				dto.setSaveFilename(saveFilename);
+				dto.setOriginalFilename(dto.getUpload().getOriginalFilename());
+			}
 			dao.insertData("notice.insertNotice", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,9 +108,20 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int updateNotice(Notice dto) throws Exception {
+	public int updateNotice(Notice dto, String pathname) throws Exception {
 		int result = 0;
 		try {
+			if(dto.getUpload()!=null && !dto.getUpload().isEmpty()) {
+				if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0)
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				
+				String newFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+				if (newFilename != null) {
+					dto.setOriginalFilename(dto.getUpload().getOriginalFilename());
+					dto.setSaveFilename(newFilename);
+				}
+			}
+			
 			dao.updateData("notice.updateNotice", dto);
 			result = 1;
 		} catch (Exception e) {
@@ -110,15 +131,19 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int deleteNotice(int num, long usersCode) throws Exception {
+	public int deleteNotice(int num, long usersCode, String pathname) throws Exception {
 		int result = 0;
 		try {
-			Notice dto = dao.selectOne("notice.deleteNotice", num);
-			boolean amIAdmin = dao.selectOne("staff.amIAdmin", usersCode);
+			System.out.println(pathname+"//testtsee//////////////////////////////////////////////////////");
+			Notice dto = dao.selectOne("notice.readNotice", num);
+			boolean amIAdmin = dao.selectOne("staff.amIAdmin", (int)usersCode);
 
 			if (dto == null || (!amIAdmin && usersCode != dto.getUsersCode()))
 				return result;
 
+			System.out.println(dto.getSaveFilename()+"////////////////////////////////////////////////////////");
+			fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+			
 			result = dao.deleteData("notice.deleteNotice", num);
 		} catch (Exception e) {
 			System.out.println(e.toString());

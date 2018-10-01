@@ -1,5 +1,7 @@
 package com.sp.notice;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.common.FileManager;
 import com.sp.common.MyUtil;
 import com.sp.staff.SessionInfo;
 
@@ -24,8 +28,19 @@ import com.sp.staff.SessionInfo;
 public class NoticeController {
 	@Autowired
 	private NoticeService service;
+
 	@Autowired
 	private MyUtil myUtil;
+
+	@Autowired
+	private FileManager fileManager;
+
+	public String filePath(HttpSession session) {
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "noticeFile";
+
+		return pathname;
+	}
 
 	@RequestMapping(value = "/notice/list")
 	public String userList(@RequestParam(value = "page", defaultValue = "1") int current_page,
@@ -112,8 +127,14 @@ public class NoticeController {
 	public String createdSubmit(Notice dto, HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("staff");
 
+		String pathname = filePath(session);
+
 		dto.setUsersCode(info.getStaffIdx());
-		service.insertNotice(dto);
+		int result = service.insertNotice(dto, pathname);
+
+		if (result != 1) {
+			return "redirect:/notice/list";
+		}
 
 		return "redirect:/notice/list";
 	}
@@ -157,56 +178,83 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/notice/update", method = RequestMethod.GET)
-	public String updateForm(
-			@RequestParam int num,
-			@RequestParam String page,
-			HttpSession session,
+	public String updateForm(@RequestParam int num, @RequestParam String page, HttpSession session,
 			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
-			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
-			Model model) throws Exception {
-		
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, Model model) throws Exception {
+
 		searchValue = URLDecoder.decode(searchValue, "utf-8");
 
 		String query = "page=" + page;
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
-		
-		SessionInfo info =(SessionInfo)session.getAttribute("staff");
+
+		SessionInfo info = (SessionInfo) session.getAttribute("staff");
 		Notice dto = service.readNotice(num);
-		if(dto==null) {
-			return "redirect:/notice/list?page="+page;
+		if (dto == null) {
+			return "redirect:/notice/list?page=" + page;
 		}
 
-		if( info.getStaffIdx() != dto.getUsersCode()) {
-			return "redirect:/notice/list?page="+page;
+		if (info.getStaffIdx() != dto.getUsersCode()) {
+			return "redirect:/notice/list?page=" + page;
 		}
-		
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
-		
+
 		return ".notice.created";
 	}
 
 	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
-	public String updateUbmit(@RequestParam String page, Notice dto, @RequestParam int num) throws Exception {
+	public String updateUbmit(@RequestParam String page, Notice dto, @RequestParam String saveFilename,
+			@RequestParam String originalFilename, @RequestParam int num, HttpSession session) throws Exception {
 
 		dto.setNoticeCode(num);
-		service.updateNotice(dto);
-		
-		return "redirect:/notice/list?page"+page;
+		String pathname = filePath(session);
+
+		dto.setSaveFilename(saveFilename);
+		dto.setOriginalFilename(originalFilename);
+
+		service.updateNotice(dto, pathname);
+
+		return "redirect:/notice/list?page" + page;
 	}
 
 	@RequestMapping(value = "/notice/delete")
-	public String delete(@RequestParam int num,
-			@RequestParam String page,
-			HttpSession session) throws Exception {
+	public String delete(@RequestParam int num, @RequestParam String page, HttpSession session) throws Exception {
 
-		SessionInfo info =(SessionInfo)session.getAttribute("staff");
-		service.deleteNotice(num, info.getStaffIdx());
+		SessionInfo info = (SessionInfo) session.getAttribute("staff");
 		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "noticeFile";
+		
+		service.deleteNotice(num, info.getStaffIdx(),pathname);
+		
+		System.out.println("test//////*******************************************************************");
+
 		return "redirect:/notice/list";
 	}
+
+	@RequestMapping(value = "/notice/download")
+	public void download(@RequestParam String saveFilename, @RequestParam String originalFilename,
+			HttpServletResponse resp, HttpSession session) throws Exception {
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "noticeFile";
+
+		boolean b = false;
+
+		b = fileManager.doFileDownload(saveFilename, originalFilename, pathname, resp);
+
+		if (!b) {
+			try {
+				resp.setContentType("text/html; charset=utf-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('파일 다운로드가 불가능 합니다 !!!');history.back();</script>");
+			} catch (Exception e) {
+			}
+		}
+	}
+
 }

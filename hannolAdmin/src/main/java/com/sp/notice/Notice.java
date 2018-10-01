@@ -1,5 +1,7 @@
 package com.sp.notice;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Notice {
 	private long usersCode;
 	private int noticeCode;
@@ -8,6 +10,35 @@ public class Notice {
 	private String created;
 	private String name;
 	private int isNotice;
+	
+	private String originalFilename;
+	private String saveFilename;
+	private MultipartFile upload;
+
+
+	public MultipartFile getUpload() {
+		return upload;
+	}
+
+	public void setUpload(MultipartFile upload) {
+		this.upload = upload;
+	}
+
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
+	}
 
 	public String getName() {
 		return name;
