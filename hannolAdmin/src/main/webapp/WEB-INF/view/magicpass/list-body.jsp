@@ -53,7 +53,14 @@ td{
 				<td class="txt-content">${dto.usersCode }</td>
 				<td class="txt-content">${dto.mpTime}:00~${dto.mpTime+1}:00</td>
 				<td class="txt-content">${dto.mpDate}</td>
-				<td class="txt-content"><button type="button" class="btn btn-danger btn-cancle">예약취소</button></td>
+				<td class="txt-content">
+					<c:if test="${dto.state==0}">
+						<button type="button" class="btn btn-danger btn-cancle">예약취소</button>	
+					</c:if>
+					<c:if test="${dto.state==1}">
+						탑승완료
+					</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

@@ -2,6 +2,8 @@ package com.sp.magicpass;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,24 @@ public class MagicpassController {
 		}
 		
 		String paging = util.paging(current_page, total_page);
+		
+		String timeStamp = new SimpleDateFormat("HH").format(new Date());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		
+		Date now = dateFormat.parse(today);
+		for(Magicpass dto : list) {
+			Date reservDate = dateFormat.parse(dto.getMpDate());
+			int compare = now.compareTo(reservDate);
+			
+			if(compare>0) {
+				dto.setState(1);
+			}else if(compare==0 && dto.getMpTime()>Integer.parseInt(timeStamp)) {
+				dto.setState(0);
+			}else {
+				dto.setState(0);
+			}
+		}
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);

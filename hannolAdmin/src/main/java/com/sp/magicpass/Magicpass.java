@@ -8,6 +8,7 @@ public class Magicpass {
 	private long usersCode;
 	private int mpTime;
 	private String mpDate;
+	private int state; // 0: 사용가능, 1: 사용불가
 
 	public long getMpCode() {
 		return mpCode;
@@ -63,6 +64,14 @@ public class Magicpass {
 
 	public void setMpDate(String mpDate) {
 		this.mpDate = mpDate;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 
 }
