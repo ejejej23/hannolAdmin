@@ -350,6 +350,6 @@ public class StaffController {
 		model.addAttribute("dto", dto);
 
 		model.addAttribute("mode", "update");
-		return ".staff.staff";
+		return ".staff.myInfo";
 	}
 }

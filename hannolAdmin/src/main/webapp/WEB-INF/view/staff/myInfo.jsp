@@ -405,37 +405,11 @@ function sendInout(){
 
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="working" class="col-sm-2 control-label text-right">재직여부</label>
-					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<input type="text" class="form-control" id="working"
-							placeholder="재직여부" value="${dto.working == 1?'재직중':'퇴사'}"
-							readonly="readonly" style='border: none;'>
-					</div>
-				</div>
-
-				<br>
-				<br>
-
-				<div class="form-group"
-					style="margin: 20px auto 0px; border-spacing: 0px;">
 					<label for="inDate" class="col-sm-2 control-label text-right">입사일</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
 						<input type="text" class="form-control" id="inDate" name="inDate"
 							placeholder="입사일" value="${dto.inDate}" readonly="readonly"
 							style='border: none;'>
-					</div>
-				</div>
-
-				<br>
-				<br>
-
-				<div class="form-group"
-					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="outDate" class="col-sm-2 control-label text-right">퇴사일</label>
-					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<input type="text" class="form-control" id="outDate"
-							name="outDate" placeholder="퇴사일" value="${dto.outDate}"
-							readonly="readonly" style='border: none;'>
 					</div>
 				</div>
 
