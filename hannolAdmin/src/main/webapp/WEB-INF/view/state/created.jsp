@@ -64,13 +64,6 @@
 					</select>
 				</div>
 				
-				<!-- 컨트롤러 list들어올때 오늘날짜 넘겨줘서 사용하기
-				<div class="form-group" style="margin: 20px auto 0px;">
-					<label for="recordDate" class="col-sm-3 control-label text-right">날짜</label>
-						<input type="text" name="recordDate" class="selectField"
-							id="recordDate" placeholder="오늘날짜" readonly="readonly">
-				</div> -->
-				
 				<div class="form-group" style="margin: 20px auto 0px;">
 					<label for="timezone" class="col-sm-3 control-label text-right">시간</label>
 						<select class="selectField" id="timezone" name="timezone">

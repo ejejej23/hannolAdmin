@@ -49,7 +49,7 @@
 					<option value=1 ${dto.themeName=="프린세스빌리지"? "selected='selected'":""}>프린세스빌리지</option>
 					<option value=2 ${dto.themeName=="토이스토리"? "selected='selected'":""}>토이스토리</option>
 					<option value=3 ${dto.themeName=="미니언즈"? "selected='selected'":""}>미니언즈</option>
-					<option value=4 ${dto.themeName=="전체"? "selected='selected'":""}>전체</option>
+					<%-- <option value=4 ${dto.themeName=="전체"? "selected='selected'":""}>전체</option> --%>
 					<option value=5 ${dto.themeName=="라이온킹"? "selected='selected'":""}>라이온킹</option>
 					<option value=6 ${dto.themeName=="니모"? "selected='selected'":""}>니모</option>
 				</select> 
