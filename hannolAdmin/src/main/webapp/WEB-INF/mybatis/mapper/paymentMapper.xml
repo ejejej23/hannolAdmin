@@ -2,6 +2,39 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="payment">
+	<select id="getYears" resultType="com.sp.payment.Payment">
+		SELECT DISTINCT TO_CHAR(PAYDATE,'YYYY') AS YEAR
+		FROM PAYMENT
+		ORDER BY YEAR DESC
+	</select>
+	
+	<sql id="where-list">
+	  <if test="searchKey=='all'">
+	      (INSTR(TO_CHAR(payDate, 'YYYY-MM-DD'), #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(memberId, #{searchValue}) &gt; 0)
+	  </if>
+	</sql>
+
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM(
+    		SELECT TO_CHAR(payDate,'YYYY-MM-DD') payDate 
+    		FROM payment p
+    		JOIN payInfo pi ON p.payCode = pi.payCode
+    		JOIN paymentInfo pmi ON p.payCode = pmi.payCode 
+			JOIN goods gs ON pmi.goodsCode = gs.goodsCode
+			JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
+			JOIN member1 m1 ON m1.usersCode = p.usersCode
+   			WHERE TO_CHAR(payDate,'YYYY') LIKE #{year} AND parentCode = #{thema}
+            <if test="searchValue != null and searchValue != ''">
+              	AND
+				<include refid="where-list"/>
+		    </if>
+    		GROUP BY TO_CHAR(payDate,'YYYY-MM-DD')
+    		ORDER BY payDate
+		)
+	</select>
+
 	<select id="getTicketPayment" parameterType="map" resultType="com.sp.payment.Payment">
 		SELECT * FROM(
 			SELECT p.payCode, payDate, payWay, payPrice, 
@@ -15,12 +48,64 @@
 			JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
 			JOIN cardInfo ci ON p.payCode = ci.payCode
 			JOIN member1 m1 ON m1.usersCode = p.usersCode
-			WHERE TO_CHAR(payDate,'YYYY') LIKE #{year} AND parentCode = #{thema}
+			WHERE TO_CHAR(payDate,'YYYY') LIKE #{year}
+            <if test="searchValue != null and searchValue != ''">
+               	AND
+			    <include refid="where-list"/>
+		    </if>
 		)
 		<![CDATA[
 		WHERE  rnum >= #{start} AND rnum <= #{end} 
 		]]>
+			AND parentCode = #{thema} 
 		ORDER BY payDate DESC, parentCode
 	</select>
-
+	
+	<select id="useDate" parameterType="map" resultType="java.util.HashMap">
+        SELECT pp.payCode
+        FROM payment pp
+        LEFT OUTER JOIN gift g ON pp.payCode = g.payCode
+        LEFT OUTER JOIN ticket t ON pp.payCode = t.payCode   
+        WHERE pp.payCode NOT IN(
+            SELECT p.payCode payCodelist
+            FROM payment p
+            LEFT OUTER JOIN gift g ON p.payCode = g.payCode
+            LEFT OUTER JOIN ticket t ON p.payCode = t.payCode   
+            WHERE (useDate IS NOT NULL
+                <![CDATA[ 
+                OR TO_CHAR(g.endDate,'YYYY-MM-DD') < #{endDate})
+                OR TO_CHAR(t.startDate,'YYYY-MM-DD') < #{endDate}
+                ]]>
+            GROUP BY p.payCode
+        )
+        GROUP BY pp.payCode
+	</select>
+	
+	<update id="updateCardInfo" parameterType="Integer">
+		UPDATE cardInfo SET state = '결제취소' WHERE payCode = #{payCode}
+	</update>
+	
+	<delete id="deleteGift" parameterType="Integer">
+		DELETE FROM gift WHERE payCode = #{payCode}
+	</delete>
+	
+	<delete id="deleteTicket" parameterType="Integer">
+		DELETE FROM ticket WHERE payCode = #{payCode}
+	</delete>
+	
+	<delete id="deleteDiscount" parameterType="Integer">
+		DELETE FROM Discount WHERE payCode = #{payCode}
+	</delete>
+	
+	<select id="getCouponCode" parameterType="Integer" resultType="java.util.HashMap">
+		SELECT couponCode FROM couponHistory WHERE payCode = #{payCode}
+	</select>
+	
+	<update id="updateCouponState" parameterType="map">
+		UPDATE coupon SET state = 0 WHERE couponCode = #{couponCode}
+	</update>
+	
+	<delete id="deleteCouponHistory" parameterType="Integer">
+		DELETE FROM couponHistory WHERE payCode=#{payCode}
+	</delete>
 </mapper>

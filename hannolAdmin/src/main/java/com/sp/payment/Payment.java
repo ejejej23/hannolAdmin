@@ -18,6 +18,7 @@ public class Payment {
 	private String couponCount;
 	private int rowspan;
 	private String memberId;
+	private int year;
 
 	public int getPayCode() {
 		return payCode;
@@ -153,6 +154,14 @@ public class Payment {
 
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }

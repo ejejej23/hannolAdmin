@@ -5,7 +5,6 @@
 <%
    String cp = request.getContextPath();
 %>
-
 <div style="clear: both;">
 		<div>
 		<c:set var="parentCode" value="1"/>
@@ -25,7 +24,8 @@
 		  			
 		  			<div style="border: 1px solid #e1e1e1; margin-top: 15px;">
 		  			
-		  			<form role="form" name="submitForm" method="post"> 
+		  			<form name="submitForm" method="post"> 
+		  			
 		  			
 		  			<div style="background-color: #e1e1e1;">
     					<div style="padding: 10px;">
@@ -38,9 +38,9 @@
 		  				<table style="border: 1px solid #e1e1e1;">
 		  					<tr>
 		             			<th>상품명</th>
-		             			<th>가격 / 수량</th>
+		             			<th style="width: 20%">가격 / 수량</th>
 		             			<th>구매일</th>
-		             			<th rowspan="${dto.rowspan}" style="width: 15%">
+		             			<th rowspan="${dto.rowspan}" style="width: 20%">
 		             				<p><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></p>
 		             				<c:forEach var="vo" items="${uselist}">	
 		             				<c:if test="${dto.payCode == vo.PAYCODE && dto.state eq '결제취소'}"><h5>결제취소</h5></c:if>
@@ -104,6 +104,8 @@
 											   				<tr height="40">
 											      				<td align="center" width="100">
 											      					<input type="hidden" name="payCode" value="${dto.payCode}">
+											      					<input type="hidden" name="searchKey" value="${searchKey}">
+											      					<input type="hidden" name="searchValue" value="${searchValue}">
 											          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="refund();">환불하기</button>
 											     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소하기</button>
 											     	 			</td>
@@ -135,18 +137,13 @@
 		     </div>
 		 </c:if>
 		
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-		   <tr height="40">
-		      <td align="left" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/payment/list';">새로고침</button>
-		      </td>
-		      <td align="center">
-		      	&nbsp;
-		      </td>
-		      <td align="right" width="100">
-		      	&nbsp;
-		      </td>
-		   </tr>
-		</table>
+		<div style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+			<div align="left">
+		    	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/payment/list?thema=${thema}';">새로고침</button>
+		    </div>
+		    <div align="center">
+		      	${paging}
+		    </div>
+		</div>
     </div>
 </div>

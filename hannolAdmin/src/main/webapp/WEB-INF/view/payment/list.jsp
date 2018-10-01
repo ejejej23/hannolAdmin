@@ -88,11 +88,24 @@ td {
     color: #333;
     text-align: left;
 }
+
+.div-menu{
+	float: left;
+}
+
+.select-menu{
+	width : 130px;
+	padding: 8px;
+	border-radius: 5px;
+}
 </style>
 
 <script>
+var dataQuery ="";
 var thema = "${thema}";
 var page = "${page}";
+var searchKey = "${searchKey}";
+var searchValue = "${searchValue}";
 
 $(function(){
 	$('.nav-item').removeClass('active');
@@ -103,7 +116,11 @@ $(function(){
 		}
 	});
 	
-	listPage("${page}");
+	if(searchValue != ''){
+		dataQuery = "searchKey="+searchKey+"&searchValue="+encodeURIComponent(searchValue);
+	}
+	
+	listPage("${page}", dataQuery);
 	
 	$(".nav-link").click(function(){
 		$('.nav-item').removeClass('active');
@@ -111,20 +128,23 @@ $(function(){
 		
 		thema = $(this).parent(".nav-item").data("thema"); 
 		
-		listPage(1);
+		listPage(1, dataQuery);
 	});
 });
 
 
-function listPage(pagep){	
+function listPage(pagep, dataQuery){	
 	page = pagep;
 	
 	var url = "<%=cp%>/payment/ajaxPaymentList";
 	var data = "page="+page;
 	
+	if(dataQuery != ''){
+		data+="&"+dataQuery;
+	}
 	
+	console.log(dataQuery);
 	data+="&thema="+thema;
-	
 	
 	$.ajax({
 		type:"GET"
@@ -139,6 +159,23 @@ function listPage(pagep){
 	});
 }
 
+function refundCheck(payCode){
+    $("#refundModal"+payCode).modal();
+}
+
+function refund(){
+	var f = document.submitForm;
+	f.action="<%=cp%>/payment/refundPay?thema="+thema;
+    f.submit();
+}
+
+function searchList() {
+	var searchValue = $("#searchValue").val();
+	dataQuery = "searchKey=all&searchValue="+encodeURIComponent(searchValue);
+	
+	listPage(1, dataQuery);
+}
+
 </script>
 
 
@@ -146,20 +183,6 @@ function listPage(pagep){
     <div class="sub-title">
 	  <h3>구매관리</h3>
 	</div> 
-	
-	<div>
-		<form name="searchForm" method="post" action="<%=cp%>/card/list">
-	    	<div class="col-xs-8 col-xs-offset-2">
-				<div class="input-group">
-					<input type="hidden" name="searchKey" value="all">         
-				    <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
-				    <span class="input-group-btn">
-				    	<button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
-					</span>
-				</div>
-			</div>
-	    </form>
-    </div>
 	
 	<div>
 		<ul class="nav nav-tabs">
@@ -170,6 +193,29 @@ function listPage(pagep){
 		    <a class="nav-link">기프트샵</a>
 		  </li>
 		</ul>
+    </div>
+    
+    <div style="margin-top: 15px;">
+	    <form name="searchForm" method="post" action="<%=cp%>/payment/list">
+	    	<div class="div-menu">
+	   			<select class="select-menu" name="searchKey" id="searchKey">
+	   				<option value="0">:::::::: 년도 ::::::::</option>
+	   				<c:forEach var="vo" items="${yearList}">
+						<option value="${vo.year}">${vo.year}</option>
+					</c:forEach>
+	   			</select>
+	   		</div>
+	    	<div class="col-xs-8 col-xs-offset-2">
+		  		<div class="input-group">   
+		  			<input type="hidden" name="searchKey" value="all">
+		            <input type="text" style="height:34px;" class="form-control" name="searchValue" id="searchValue" placeholder="검색할 키워드를 입력해 주세요..." value="${searchValue}">
+		            <span class="input-group-btn">
+		                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
+		                <input type="hidden" name="tab" id="input-tab">
+		            </span>
+		        </div>
+			</div>
+		</form>
     </div>
     
     <div class="paymentList" style="width: 100%;">
