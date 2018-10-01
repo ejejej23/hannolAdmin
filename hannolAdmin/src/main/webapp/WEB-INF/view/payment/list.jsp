@@ -106,6 +106,7 @@ var thema = "${thema}";
 var page = "${page}";
 var searchKey = "${searchKey}";
 var searchValue = "${searchValue}";
+var year = "${year}";
 
 $(function(){
 	$('.nav-item').removeClass('active');
@@ -117,7 +118,7 @@ $(function(){
 	});
 	
 	if(searchValue != ''){
-		dataQuery = "searchKey="+searchKey+"&searchValue="+encodeURIComponent(searchValue);
+		dataQuery = "searchKey="+searchKey+"&searchValue="+encodeURIComponent(searchValue)+"&year="+year;
 	}
 	
 	listPage("${page}", dataQuery);
@@ -143,8 +144,7 @@ function listPage(pagep, dataQuery){
 		data+="&"+dataQuery;
 	}
 	
-	console.log(dataQuery);
-	data+="&thema="+thema;
+	data+="&thema="+thema+"&year="+year;
 	
 	$.ajax({
 		type:"GET"
@@ -176,6 +176,13 @@ function searchList() {
 	listPage(1, dataQuery);
 }
 
+$(function(){
+	$("#selectYear").change(function(){
+		var year = $("#selectYear option:selected").val();
+		location.href="<%=cp%>/payment/list?year="+year+"&thema="+thema;
+	});
+	$("#selectYear > option[value='${year}']").attr("selected","selected");
+});
 </script>
 
 
@@ -198,7 +205,7 @@ function searchList() {
     <div style="margin-top: 15px;">
 	    <form name="searchForm" method="post" action="<%=cp%>/payment/list">
 	    	<div class="div-menu">
-	   			<select class="select-menu" name="searchKey" id="searchKey">
+	   			<select class="select-menu" name="selectYear" id="selectYear">
 	   				<option value="0">:::::::: 년도 ::::::::</option>
 	   				<c:forEach var="vo" items="${yearList}">
 						<option value="${vo.year}">${vo.year}</option>

@@ -41,15 +41,18 @@ public class PaymentController {
 			year = Calendar.getInstance().get(Calendar.YEAR);
 		}
 		
+		List<Payment> list = service.getYears();
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("year", year);
-		List<Payment> list = service.getYears();
+		
 		
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
 		model.addAttribute("yearList", list);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("year", year);
 		
 		return ".payment.list";
 	}
@@ -60,11 +63,10 @@ public class PaymentController {
 			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			int thema,
+			int year,
 			HttpSession session, 
 			HttpServletRequest req, 
 			Model model) throws Exception {
-		
-		System.out.println("searchValue : "+searchValue);
 		
 		int rows = 3;
 		int start = (current_page-1)*rows+1;
@@ -78,7 +80,7 @@ public class PaymentController {
 		map.put("thema", thema+1);
 		map.put("start", start);
 		map.put("end", end);
-		map.put("year", "2018");
+		map.put("year", year);
 		map.put("searchKey", searchKey);
 		map.put("searchValue", searchValue);
 		

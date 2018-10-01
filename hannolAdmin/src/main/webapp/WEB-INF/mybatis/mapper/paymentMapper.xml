@@ -57,7 +57,7 @@
 		<![CDATA[
 		WHERE  rnum >= #{start} AND rnum <= #{end} 
 		]]>
-			AND parentCode = #{thema} 
+			AND parentCode = #{thema} AND TO_CHAR(payDate,'YYYY') LIKE #{year}
 		ORDER BY payDate DESC, parentCode
 	</select>
 	
