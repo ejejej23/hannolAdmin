@@ -134,14 +134,12 @@ public class NoticeServiceImpl implements NoticeService {
 	public int deleteNotice(int num, long usersCode, String pathname) throws Exception {
 		int result = 0;
 		try {
-			System.out.println(pathname+"//testtsee//////////////////////////////////////////////////////");
 			Notice dto = dao.selectOne("notice.readNotice", num);
-			boolean amIAdmin = dao.selectOne("staff.amIAdmin", (int)usersCode);
-
-			if (dto == null || (!amIAdmin && usersCode != dto.getUsersCode()))
+			int amIAdmin = dao.selectOne("staff.amIAdmin", (int)usersCode);
+			
+			if (dto == null || (amIAdmin == 0 && usersCode != dto.getUsersCode()))
 				return result;
 
-			System.out.println(dto.getSaveFilename()+"////////////////////////////////////////////////////////");
 			fileManager.doFileDelete(dto.getSaveFilename(), pathname);
 			
 			result = dao.deleteData("notice.deleteNotice", num);

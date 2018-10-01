@@ -12,7 +12,7 @@
 	<select id="amIAdmin" parameterType="Integer" resultType="Integer">
 		SELECT NVL(COUNT(*),0)
 		FROM USERS
-		WHERE USERSCODE = #{num} 
+		WHERE AUTHORITY='ROLE_ADMIN' AND USERSCODE = #{num} 
 	</select>
 	
 	   <!-- dataCount -->
