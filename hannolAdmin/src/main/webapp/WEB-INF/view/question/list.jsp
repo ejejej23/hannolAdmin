@@ -30,6 +30,11 @@ $(function(){
 	});
 });
 
+$(function(){
+	$("input:checkbox[id='sortCheck']").click(function(){
+		listPage(page);
+	});
+});
 
 function listPage(pagep){	
 	page = pagep;
@@ -38,6 +43,12 @@ function listPage(pagep){
 	var data = "page="+page;
 	
 	data+="&gubun="+gubun;
+	
+	if($("input:checkbox[id='sortCheck']").is(":checked")){
+		data+="&sortCheck=1";
+	}else{
+		data+="&sortCheck=0";
+	}
 	
 	$.ajax({
 		type:"GET"
@@ -58,6 +69,8 @@ function listPage(pagep){
     <div class="sub-title">
 	  <h3>1:1문의</h3>
 	</div> 
+	
+	<input type="checkbox" id="sortCheck" name="sortCheck" style="vertical-align: middle;"><label style="margin-left: 3px;">답변 없는 글만 보기</label>
 	
 	<div>
 		<ul class="nav nav-tabs">

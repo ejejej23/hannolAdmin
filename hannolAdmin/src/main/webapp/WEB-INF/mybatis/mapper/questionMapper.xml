@@ -6,6 +6,17 @@
 		SELECT COUNT(*) FROM question WHERE parentCode = 0 AND gubun=#{gubun}
 	</select>
 	
+	<select id="dataCountNoAnswer" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM question q 
+		WHERE parentCode = 0 AND gubun=#{gubun}
+   			AND qnaCode NOT IN(
+        		SELECT parentCode
+        		FROM question 
+        		WHERE parentCode != 0
+		)
+	</select>
+	
 	<select id="listQuestion" parameterType="map" resultType="com.sp.question.Question">
 		SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(
@@ -21,6 +32,27 @@
 		    ORDER BY qDate DESC
 		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
 		]]>
+	</select>
+	
+	<select id="listQuestionNoAnswer" parameterType="map" resultType="com.sp.question.Question">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer
+		        FROM question q
+		        LEFT OUTER JOIN (
+		            SELECT qnaCode, parentCode
+		            FROM question 
+		            WHERE parentCode != 0
+		        )a ON a.parentCode=q.qnaCode  
+		<![CDATA[
+		    )tb WHERE ROWNUM <= #{end}
+		    ORDER BY qDate DESC
+		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
+		]]>
+		 AND qnaCode NOT IN(
+        SELECT parentCode
+        FROM question 
+        WHERE parentCode != 0)
 	</select>
 	
 	<select id="readQuestion" parameterType="Integer" resultType="com.sp.question.Question">

@@ -17,7 +17,11 @@ public class QuestionServiceImpl implements QuestionService{
 	public int dataCount(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
-			result = dao.selectOne("question.dataCount", map);
+			if((int)map.get("sortCheck") == 0) {
+				result = dao.selectOne("question.dataCount", map);
+			}else {
+				result = dao.selectOne("question.dataCountNoAnswer", map);
+			}
 		}catch(Exception e) {
 			System.out.println(e.toString());
 		}
@@ -29,7 +33,11 @@ public class QuestionServiceImpl implements QuestionService{
 	public List<Question> list(Map<String, Object> map) throws Exception {
 		List<Question> list = null;
 		try {
-			list = dao.selectList("question.listQuestion", map);
+			if((int)map.get("sortCheck") == 0) {
+				list = dao.selectList("question.listQuestion", map);
+			}else {
+				list = dao.selectList("question.listQuestionNoAnswer", map);
+			}
 		}catch(Exception e) {
 			System.out.println(e.toString());
 		}

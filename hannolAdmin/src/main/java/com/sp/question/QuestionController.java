@@ -42,6 +42,7 @@ public class QuestionController {
 	public String aJaxList(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(value = "gubun", defaultValue = "요금 문의") String gubun,
+			@RequestParam(value = "sortCheck", defaultValue = "0") int sortCheck,
 			HttpServletRequest req, 
 			Model model) throws Exception {
 		
@@ -53,6 +54,7 @@ public class QuestionController {
 		map.put("gubun", gubun);
 		map.put("start", start);
 		map.put("end", end);
+		map.put("sortCheck", sortCheck);
 		
 		int dataCount = service.dataCount(map);
 		int total_page = util.pageCount(rows, dataCount);
@@ -98,7 +100,7 @@ public class QuestionController {
 		}
 		
 		model.addAttribute("dto", dto);
-		model.addAttribute("page", page);
+		model.addAttribute("page", page); 
 		model.addAttribute("gubun", gubun);
 		model.addAttribute("usersCode", info.getStaffIdx());
 		
