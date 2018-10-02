@@ -105,7 +105,7 @@
 	
 	<select id="readFacility" resultType="com.sp.facility.Facility" parameterType="Integer">
 		select g.name as gubunName, facilityCode, f.name, themeName, state, TO_CHAR(installDate,'YYYY-MM-DD')installDate, TO_CHAR(removeDate,'YYYY-MM-DD')removeDate, saveMainFilename, 
-		saveLocFilename, memo 
+		saveLocFilename, memo, f.gubunCode 
 		from facility f
 		join facGubun g on f.gubunCode=g.gubunCode
 		join theme t on f.themeCode=t.themeCode

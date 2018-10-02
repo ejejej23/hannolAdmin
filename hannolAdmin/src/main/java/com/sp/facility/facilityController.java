@@ -135,16 +135,18 @@ public class facilityController {
 	}
 	
 	@RequestMapping(value="/facility/update", method=RequestMethod.GET)
-	public String updateForm(int facilityCode, Model model, int page) throws Exception{
+	public String updateForm(int facilityCode, Model model, int page, String gubunName) throws Exception{
 		
 		Facility dto = service.readFacility(facilityCode);
-				
+		List <Facility> selCreate = service.selectCreate();
+		
 		if(dto.getFacilityCode()== 0) {
 			return "redirect:/facility/list";
 		}
 
 		model.addAttribute("mode", "update");
 		model.addAttribute("dto",dto);
+		model.addAttribute("selCreate",selCreate);
 		model.addAttribute("page",page);
 		return ".facility.created";
 	}
@@ -156,6 +158,8 @@ public class facilityController {
 		String pathname = root+File.separator+"uploads"+File.separator+"facility";
 		service.updateFacility(dto, pathname);
 		System.out.println("안녕안녕 이제 거의 마무으리ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
+		
+		
 		
 		return "redirect:/facility/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
 	}

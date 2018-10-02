@@ -63,13 +63,12 @@
 				<select name="gubunCode" class="selectField" id="facGubun">
  					<option value="">::시설구분::</option>
 					<c:forEach var="vo" items="${selCreate}">
-						<option value="${vo.gubunCode}" ${vo.gubunName=="${vo.gubunName}"? "selected='selected'":""}>${vo.gubunName}</option>
+ 						<option value="${vo.gubunCode}" ${vo.gubunName==dto.gubunName ? "selected='selected'":""}>${vo.gubunName}</option>
 					</c:forEach>
 					
 				</select> 
 			</div> 
 		</div>
-		
 		
 		<div class="form-group"> 
 			<label for="nameFacility" class="col-sm-2 control-label">시설명</label>

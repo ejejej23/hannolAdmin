@@ -9,4 +9,5 @@ public interface StateService {
 	public String checkName(int themeCode);
 	public int insertState(Facility dto);
 	public Facility list(Facility dto);
+	public Facility calcul(Facility dto);
 }
