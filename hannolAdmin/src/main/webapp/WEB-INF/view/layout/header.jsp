@@ -18,15 +18,13 @@
         <div align="right">
             <c:if test="${empty sessionScope.staff}">
                 <a  href="<%=cp%>/staff/login">로그인</a>
-                    &nbsp;|&nbsp;
-                <a href="<%=cp%>/staff/staff">회원가입</a>
             </c:if>
             <c:if test="${not empty sessionScope.staff}">
                 <span style="color:black; font-weight: bold;">${sessionScope.staff.staffName}</span>님
                 &nbsp;|&nbsp;
-                <a href="<%=cp%>/staff/logout">로그아웃</a>
-                &nbsp;|&nbsp;
                 <a href="<%=cp%>/staff/myInfo">마이페이지</a>
+                &nbsp;|&nbsp;
+                <a href="<%=cp%>/staff/logout">로그아웃</a>
             </c:if>
         </div>
     </div>
@@ -93,7 +91,7 @@
             </ul>
         </li>
         
-        <li class="mr0">
+        <li>
             <span class="dep1">스케쥴</span>
             <ul>
                 <li><a href="<%=cp%>/guide/list">가이드</a></li>
