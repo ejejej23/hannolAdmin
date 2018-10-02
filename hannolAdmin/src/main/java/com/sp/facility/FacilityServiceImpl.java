@@ -145,4 +145,15 @@ public class FacilityServiceImpl implements FacilityService{
 		return result;
 	}
 
+	@Override
+	public List<Facility> selectCreate() {
+		List<Facility> list = null;
+		try {
+			list = dao.selectList("facility.selectCreate");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

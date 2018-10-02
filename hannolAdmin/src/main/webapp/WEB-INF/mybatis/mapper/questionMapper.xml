@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM question WHERE parentCode = 0 AND gubun=#{gubun}
+	</select>
+	
+	<select id="listQuestion" parameterType="map" resultType="com.sp.question.Question">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, q.qnaCode as answer
+		        FROM question q
+		        LEFT OUTER JOIN (
+		            SELECT qnaCode
+		            FROM question 
+		            WHERE parentCode != 0
+		        )a ON a.qnaCode=q.qnaCode  
+		<![CDATA[
+		    )tb WHERE ROWNUM <= #{end}
+		    ORDER BY qDate DESC
+		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
+		]]>
+	</select>
+</mapper>

@@ -22,7 +22,7 @@
 
 	<insert id="insertState" parameterType="com.sp.facility.Facility">
 	  INSERT INTO ridesState(recordDate,timezone, waiting, boarding, facilityCode) 
-	  VALUES (SYSDATE, #{timezone}, #{waiting}, #{boarding}, #{facilityCode})
+	  VALUES (to_char(sysdate,'yyyymmdd'), #{timezone}, #{waiting}, #{boarding}, #{facilityCode})
 	</insert>
 	
 	<select id="list" parameterType="com.sp.facility.Facility"
@@ -33,6 +33,13 @@
 		join facility f on f.facilityCode = r.facilityCode
 		where timezone=#{timezone} and r.facilityCode=#{facilityCode}
 		
+	</select>
+	
+	<select id="calcul" parameterType="com.sp.facility.Facility" resultType="com.sp.facility.Facility">
+		select name, waiting,to_char(recordDate,'yyyymmdd')recordDate, timezone 
+		from ridesState r
+		join facility f on f.facilityCode = r.facilityCode
+		where recordDate=#{yyyymmdd} and timezone=#{hh} and name=#{name} and gubunCode=1 
 	</select>
 	
 </mapper>

@@ -100,7 +100,7 @@ td {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 var dataQuery ="";
 var thema = "${thema}";
 var page = "${page}";

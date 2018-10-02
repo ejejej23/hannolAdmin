@@ -64,6 +64,16 @@ public class StateServiceImpl implements StateService{
 		
 		return dto1;
 	}
+
+	@Override
+	public Facility calcul(Facility dto) {
+		try {
+			dao.selectOne("state.calcul", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return null;
+	}
 	
 
 }

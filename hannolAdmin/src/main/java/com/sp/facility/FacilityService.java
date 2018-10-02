@@ -13,4 +13,5 @@ public interface FacilityService {
 	public Facility readFacility(int num);
 	public Facility readFacility(Facility dto);
 	public int readFacilityCode();
+	public List<Facility> selectCreate();
 }

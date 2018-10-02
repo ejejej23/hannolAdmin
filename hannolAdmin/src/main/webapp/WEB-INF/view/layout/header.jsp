@@ -86,8 +86,8 @@
             <span class="dep1">고객소리함</span>
             <ul>
                 <li><a href="#">FAQ</a></li>
-                <li><a href="#">1:1 문의</a></li>
-                <li><a href="#">후기</a></li>
+                <li><a href="<%=cp%>/question/list">1:1 문의</a></li>
+                <li><a href="<%=cp%>/review/list">후기</a></li>
             </ul>
         </li>
         

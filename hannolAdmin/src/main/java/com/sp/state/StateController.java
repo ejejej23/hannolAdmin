@@ -1,5 +1,8 @@
 package com.sp.state;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,10 +101,38 @@ public class StateController {
 	@RequestMapping(value="/state/created", method=RequestMethod.POST)
 	public String createdSubmit(Facility dto) throws Exception{
 		
-		System.out.println("********************createdSubmit**************");
-		System.out.println(dto.getFacilityCode()+":::"+dto.gettimezone());
+		//현재시간 구하기
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("yyyyMMdd");
+		SimpleDateFormat formatter3 = new SimpleDateFormat ("hh");
+		
+		Calendar cal = Calendar.getInstance();
+		String yyyymmdd = null;
+		String chh = null;
+		
+		yyyymmdd = formatter2.format(cal.getTime());
+		chh = formatter3.format(cal.getTime());
+		
+		System.out.println("String:"+yyyymmdd);
+		System.out.println("String:"+chh);
+		
+		int hh = Integer.parseInt(chh);
+		
+		Facility check = new Facility();
+		check.setYyyymmdd(yyyymmdd);
+		check.setHh(hh);
+		check.setWaiting(0);
+		
+		service.calcul(check);
+		
+		if(check.getWaiting()==0) {
+			System.out.println("********************createdSubmit**************");
+			System.out.println(dto.getFacilityCode()+":::"+dto.gettimezone());
+		
+			service.insertState(dto);
 
-		service.insertState(dto);
+		}else {
+			System.out.println("이미등록된 데이터 입니다.");
+		}
 		
 		return ".state.created";
 	}
