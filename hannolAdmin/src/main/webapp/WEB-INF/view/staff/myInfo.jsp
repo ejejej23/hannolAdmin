@@ -261,7 +261,7 @@ function memberOk() {
 			<c:if test="${mode=='update'}">
 				<div style="width: 30%; float: left;" class="text-center">
 					<img alt="" src="<%=cp%>/resource/images/person.jpg"
-						style="padding: 10px; margin-top: 10px; width: 200px; height: 250px;"><br>
+						style="padding: 10px; margin-top: 100px; width: 200px; height: 250px;"><br>
 				</div>
 			</c:if>
 
