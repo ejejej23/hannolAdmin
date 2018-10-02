@@ -158,4 +158,48 @@ public class FinanceServiceImpl implements FinanceService {
 		}
 		return list;
 	}
+
+	@Override
+	public List<Finance> getSaleTicket(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.getSaleTicket",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> getSaleGift(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.getSaleGift",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> ticketLinePeriod(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.ticketLinePeriod",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Finance> giftLinePeriod(Map<String, Object> map) throws Exception {
+		List<Finance> list = null;
+		try {
+			list = dao.selectList("finance.giftLinePeriod",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
 }

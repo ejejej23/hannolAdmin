@@ -102,13 +102,15 @@
 		FROM(
 		    SELECT PAYDATE, SUM(PRICE-DCPRICE) SALEAMOUNT 
 		    FROM (
-		        SELECT PAYDATE, PRICE, DCPRICE
-		        FROM PAYMENT
+		        SELECT PAYDATE, PRICE, DCPRICE, STATE
+		        FROM PAYMENT P
+		        JOIN CARDINFO C ON P.PAYCODE = P.PAYCODE
 		        <![CDATA[
 		        WHERE PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
 		        ]]>
 		        ORDER BY PAYDATE
 		    )
+            WHERE STATE = '카드승인'
 		    GROUP BY ROLLUP(PAYDATE)
 		    ORDER BY PAYDATE
 		)
@@ -246,5 +248,131 @@
 			AND MONTH IS NOT NULL 
 			AND DAY IS NOT NULL 
 			AND YEAR = #{year}
+	</select>
+	
+	<select id="getSaleTicket" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT
+		    from ( 
+		        select p.PAYDATE, (p.PRICE - p.DCPRICE) AS TOTALSALE
+		        , to_char(PAYDATE,'YYYY') as YEAR
+		        , to_char(PAYDATE,'Q') as QUARTER 
+                , to_char(PAYDATE,'MM') as MONTH
+                , to_char(PAYDATE,'dd') as DAY
+                , c.state
+		        from PAYMENT p
+		        left outer join cardInfo c on p.payCode = p.payCode
+                left outer join paymentinfo pi on pi.paycode = p.paycode
+                left outer join goods g on g.goodscode = pi.goodscode
+                left outer join goodsgubun gg on g.gubuncode = gg.gubuncode
+                WHERE gg.gubuncode IN (
+                     SELECT gubuncode FROM goodsgubun 
+                     WHERE gubuncode != 1
+                     START WITH gubuncode= 1                                  
+                     CONNECT BY PRIOR gubuncode=parentcode
+                )
+		    ) 
+		    WHERE STATE = '카드승인'
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
+		    order by YEAR, QUARTER, MONTH, DAY
+		)
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
+	</select>
+	
+	<select id="getSaleGift" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, SALEAMOUNT
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(TOTALSALE) as SALEAMOUNT
+		    from ( 
+		        select p.PAYDATE, (p.PRICE - p.DCPRICE) AS TOTALSALE
+		        , to_char(PAYDATE,'YYYY') as YEAR
+		        , to_char(PAYDATE,'Q') as QUARTER 
+                , to_char(PAYDATE,'MM') as MONTH
+                , to_char(PAYDATE,'dd') as DAY
+                , c.state
+		        from PAYMENT p
+		        left outer join cardInfo c on p.payCode = p.payCode
+                left outer join paymentinfo pi on pi.paycode = p.paycode
+                left outer join goods g on g.goodscode = pi.goodscode
+                left outer join goodsgubun gg on g.gubuncode = gg.gubuncode
+                WHERE gg.gubuncode IN (
+                     SELECT gubuncode FROM goodsgubun 
+                     WHERE gubuncode != 2
+                     START WITH gubuncode= 2                                  
+                     CONNECT BY PRIOR gubuncode=parentcode
+                )
+		    ) 
+		    WHERE STATE = '카드승인'
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
+		    order by YEAR, QUARTER, MONTH, DAY
+		)
+		WHERE QUARTER IS NOT NULL 
+			AND MONTH IS NOT NULL 
+			AND DAY IS NOT NULL 
+			AND YEAR = #{year}
+	</select>
+	
+	<select id="ticketLinePeriod" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT TO_CHAR(PAYDATE,'YYYY-MM-DD') PAYDATE, SALEAMOUNT
+		FROM(
+		    SELECT PAYDATE, SUM(PRICE-DCPRICE) SALEAMOUNT 
+		    FROM (
+		        SELECT P.PAYDATE, P.PRICE, P.DCPRICE, C.STATE
+		        FROM PAYMENT P
+		        JOIN CARDINFO C ON P.PAYCODE = P.PAYCODE
+		        left outer join paymentinfo pi on pi.paycode = p.paycode
+                left outer join goods g on g.goodscode = pi.goodscode
+                left outer join goodsgubun gg on g.gubuncode = gg.gubuncode
+                WHERE gg.gubuncode IN (
+                     SELECT gubuncode FROM goodsgubun 
+                     WHERE gubuncode != 1
+                     START WITH gubuncode= 1                                  
+                     CONNECT BY PRIOR gubuncode=parentcode
+                )
+                <![CDATA[
+		        AND PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		        ]]>
+		        ORDER BY PAYDATE
+		    )
+            WHERE STATE = '카드승인'
+		    GROUP BY ROLLUP(PAYDATE)
+		    ORDER BY PAYDATE
+		)
+		WHERE PAYDATE IS NOT NULL
+	</select>
+	
+	<select id="giftLinePeriod" parameterType="map" resultType="com.sp.finance.Finance">
+		SELECT TO_CHAR(PAYDATE,'YYYY-MM-DD') PAYDATE, SALEAMOUNT
+		FROM(
+		    SELECT PAYDATE, SUM(PRICE-DCPRICE) SALEAMOUNT 
+		    FROM (
+		        SELECT P.PAYDATE, P.PRICE, P.DCPRICE, C.STATE
+		        FROM PAYMENT P
+		        JOIN CARDINFO C ON P.PAYCODE = P.PAYCODE
+		        left outer join paymentinfo pi on pi.paycode = p.paycode
+                left outer join goods g on g.goodscode = pi.goodscode
+                left outer join goodsgubun gg on g.gubuncode = gg.gubuncode
+                WHERE gg.gubuncode IN (
+                     SELECT gubuncode FROM goodsgubun 
+                     WHERE gubuncode != 2
+                     START WITH gubuncode= 2                                  
+                     CONNECT BY PRIOR gubuncode=parentcode
+                )
+                <![CDATA[
+		        AND PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		        ]]>
+		        ORDER BY PAYDATE
+		    )
+            WHERE STATE = '카드승인'
+		    GROUP BY ROLLUP(PAYDATE)
+		    ORDER BY PAYDATE
+		)
+		WHERE PAYDATE IS NOT NULL
 	</select>
 </mapper>

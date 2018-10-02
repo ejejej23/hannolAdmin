@@ -403,10 +403,14 @@ public class FinanceController {
 		map.put("year", year);
 
 		List<Finance> listP = service.getSalePayment(map);
+		List<Finance> listT = service.getSaleTicket(map);
+		List<Finance> listG = service.getSaleGift(map);
 
 		if (gubun.equals("quarter")) {
 
 			int[] paySales = new int[4];
+			int[] payTicket = new int[4];
+			int[] payGift = new int[4];
 			String[] chartX = new String[4];
 
 			for (int i = 0; i < 4; i++) {
@@ -424,9 +428,43 @@ public class FinanceController {
 					paySales[3] += f.getSaleAmount();
 				}
 			}
+			
+			for (Finance f : listT) {
+				if (f.getQuarter() == 1) {
+					payTicket[0] += f.getSaleAmount();
+				} else if (f.getQuarter() == 2) {
+					payTicket[1] += f.getSaleAmount();
+				} else if (f.getQuarter() == 3) {
+					payTicket[2] += f.getSaleAmount();
+				} else if (f.getQuarter() == 4) {
+					payTicket[3] += f.getSaleAmount();
+				}
+			}
+			
+			for (Finance f : listG) {
+				if (f.getQuarter() == 1) {
+					payGift[0] += f.getSaleAmount();
+				} else if (f.getQuarter() == 2) {
+					payGift[1] += f.getSaleAmount();
+				} else if (f.getQuarter() == 3) {
+					payGift[2] += f.getSaleAmount();
+				} else if (f.getQuarter() == 4) {
+					payGift[3] += f.getSaleAmount();
+				}
+			}
 
 			ob.put("name", "분기별 매출");
 			ob.put("data", paySales);
+			arr.put(ob);
+			
+			ob = new JSONObject();
+			ob.put("name", "분기별 이용권 매출");
+			ob.put("data", payTicket);
+			arr.put(ob);
+			
+			ob = new JSONObject();
+			ob.put("name", "분기별 기프트샵 매출");
+			ob.put("data", payGift);
 			arr.put(ob);
 
 			job = new JSONObject();
@@ -436,6 +474,8 @@ public class FinanceController {
 
 		} else {
 			int[] paySales = new int[12];
+			int[] payTicket = new int[12];
+			int[] payGift = new int[12];
 			String[] chartX = new String[12];
 
 			for (int i = 0; i < 12; i++) {
@@ -469,9 +509,75 @@ public class FinanceController {
 					paySales[11] += f.getSaleAmount();
 				}
 			}
+			
+			for (Finance f : listT) {
+				if (f.getMonth() == 1) {
+					payTicket[0] += f.getSaleAmount();
+				} else if (f.getMonth() == 2) {
+					payTicket[1] += f.getSaleAmount();
+				} else if (f.getMonth() == 3) {
+					payTicket[2] += f.getSaleAmount();
+				} else if (f.getMonth() == 4) {
+					payTicket[3] += f.getSaleAmount();
+				} else if (f.getMonth() == 5) {
+					payTicket[4] += f.getSaleAmount();
+				} else if (f.getMonth() == 6) {
+					payTicket[5] += f.getSaleAmount();
+				} else if (f.getMonth() == 7) {
+					payTicket[6] += f.getSaleAmount();
+				} else if (f.getMonth() == 8) {
+					payTicket[7] += f.getSaleAmount();
+				} else if (f.getMonth() == 9) {
+					payTicket[8] += f.getSaleAmount();
+				} else if (f.getMonth() == 10) {
+					payTicket[9] += f.getSaleAmount();
+				} else if (f.getMonth() == 11) {
+					payTicket[10] += f.getSaleAmount();
+				} else if (f.getMonth() == 12) {
+					payTicket[11] += f.getSaleAmount();
+				}
+			}
+			
+			for (Finance f : listG) {
+				if (f.getMonth() == 1) {
+					payGift[0] += f.getSaleAmount();
+				} else if (f.getMonth() == 2) {
+					payGift[1] += f.getSaleAmount();
+				} else if (f.getMonth() == 3) {
+					payGift[2] += f.getSaleAmount();
+				} else if (f.getMonth() == 4) {
+					payGift[3] += f.getSaleAmount();
+				} else if (f.getMonth() == 5) {
+					payGift[4] += f.getSaleAmount();
+				} else if (f.getMonth() == 6) {
+					payGift[5] += f.getSaleAmount();
+				} else if (f.getMonth() == 7) {
+					payGift[6] += f.getSaleAmount();
+				} else if (f.getMonth() == 8) {
+					payGift[7] += f.getSaleAmount();
+				} else if (f.getMonth() == 9) {
+					payGift[8] += f.getSaleAmount();
+				} else if (f.getMonth() == 10) {
+					payGift[9] += f.getSaleAmount();
+				} else if (f.getMonth() == 11) {
+					payGift[10] += f.getSaleAmount();
+				} else if (f.getMonth() == 12) {
+					payGift[11] += f.getSaleAmount();
+				}
+			}
 
 			ob.put("name", "월별 매출");
 			ob.put("data", paySales);
+			arr.put(ob);
+			
+			ob = new JSONObject();
+			ob.put("name", "월별 이용권 매출");
+			ob.put("data", payTicket);
+			arr.put(ob);
+			
+			ob = new JSONObject();
+			ob.put("name", "월별 기프트샵 매출");
+			ob.put("data", payGift);
 			arr.put(ob);
 
 			job = new JSONObject();
@@ -495,7 +601,9 @@ public class FinanceController {
 		map.put("endDate", endDate);
 
 		List<Finance> list = service.profitLinePeriod(map);
-
+		List<Finance> listT = service.ticketLinePeriod(map);
+		List<Finance> listG = service.giftLinePeriod(map);
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date start = formatter.parse(startDate);
 		Date end = formatter.parse(endDate);
@@ -504,6 +612,8 @@ public class FinanceController {
 		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
 
 		int[] paySales = new int[diffDays];
+		int[] ticketSales = new int[diffDays];
+		int[] giftSales = new int[diffDays];
 		String[] chartX = new String[diffDays];
 
 		Calendar cal = new GregorianCalendar(Locale.KOREA);
@@ -523,11 +633,54 @@ public class FinanceController {
 					tempnum++;
 				}
 			}
+		}
+		
+		tempnum = 0;
 
+		for (int i = 0; i < diffDays; i++) {
+			cal.setTime(start);
+			cal.add(Calendar.DAY_OF_YEAR, i);
+
+			String temp = formatter.format(cal.getTime());
+			chartX[i] = temp;
+
+			if (tempnum < listT.size()) {
+				if (temp.equals(listT.get(tempnum).getPayDate())) {
+					ticketSales[i] += listT.get(tempnum).getSaleAmount();
+					tempnum++;
+				}
+			}
+		}
+		
+		tempnum = 0;
+
+		for (int i = 0; i < diffDays; i++) {
+			cal.setTime(start);
+			cal.add(Calendar.DAY_OF_YEAR, i);
+
+			String temp = formatter.format(cal.getTime());
+			chartX[i] = temp;
+
+			if (tempnum < listG.size()) {
+				if (temp.equals(listG.get(tempnum).getPayDate())) {
+					giftSales[i] += listG.get(tempnum).getSaleAmount();
+					tempnum++;
+				}
+			}
 		}
 
 		ob.put("name", "조회기간 매출");
 		ob.put("data", paySales);
+		arr.put(ob);
+		
+		ob = new JSONObject();
+		ob.put("name", "조회기간 이용권 매출");
+		ob.put("data", ticketSales);
+		arr.put(ob);
+		
+		ob = new JSONObject();
+		ob.put("name", "조회기간 기프트샵 매출");
+		ob.put("data", giftSales);
 		arr.put(ob);
 
 		job = new JSONObject();
