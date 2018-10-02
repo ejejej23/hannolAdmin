@@ -9,17 +9,44 @@
 	<select id="listQuestion" parameterType="map" resultType="com.sp.question.Question">
 		SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(
-		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, q.qnaCode as answer
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer
 		        FROM question q
 		        LEFT OUTER JOIN (
-		            SELECT qnaCode
+		            SELECT qnaCode, parentCode
 		            FROM question 
 		            WHERE parentCode != 0
-		        )a ON a.qnaCode=q.qnaCode  
+		        )a ON a.parentCode=q.qnaCode  
 		<![CDATA[
 		    )tb WHERE ROWNUM <= #{end}
 		    ORDER BY qDate DESC
 		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
 		]]>
 	</select>
+	
+	<select id="readQuestion" parameterType="Integer" resultType="com.sp.question.Question">
+		SELECT qnaCode, gubun, subject, content, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, usersCode
+		FROM question
+		WHERE qnaCode = #{num}
+	</select>
+	
+	<select id="readAnswer" parameterType="Integer" resultType="com.sp.question.Question">
+		SELECT content, usersCode FROM question WHERE parentCode = #{num}
+	</select>
+	
+	<delete id="deleteQuestion" parameterType="Integer">
+		DELETE FROM question WHERE qnaCode = #{num} OR parentCode = #{num}
+	</delete>
+	
+	<insert id="insertAnswer" parameterType="com.sp.question.Question">
+		INSERT INTO question(qnaCode, gubun, subject, content, parentCode, usersCode)
+		VALUES(question_seq.NEXTVAL, #{gubun}, #{subject}, #{content}, #{parentCode}, #{usersCode})
+	</insert>
+	
+	<delete id="deleteAnswer" parameterType="Integer">
+		DELETE FROM question WHERE parentCode = #{num}
+	</delete>
+	
+	<update id="updateAnswer" parameterType="com.sp.question.Question">
+		UPDATE question SET content = #{content} WHERE parentCode = #{qnaCode}
+	</update>
 </mapper>

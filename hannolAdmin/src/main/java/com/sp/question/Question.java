@@ -10,6 +10,8 @@ public class Question {
 	private int parentCode;
 	private int usersCode;
 	private int answer;
+	private String answerContent;
+	private String answerUpdate;
 
 	public int getListNum() {
 		return listNum;
@@ -81,6 +83,22 @@ public class Question {
 
 	public void setAnswer(int answer) {
 		this.answer = answer;
+	}
+
+	public String getAnswerContent() {
+		return answerContent;
+	}
+
+	public void setAnswerContent(String answerContent) {
+		this.answerContent = answerContent;
+	}
+
+	public String getAnswerUpdate() {
+		return answerUpdate;
+	}
+
+	public void setAnswerUpdate(String answerUpdate) {
+		this.answerUpdate = answerUpdate;
 	}
 
 }

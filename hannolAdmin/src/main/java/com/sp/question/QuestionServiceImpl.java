@@ -36,5 +36,77 @@ public class QuestionServiceImpl implements QuestionService{
 		
 		return list;
 	}
+	
+	@Override
+	public Question readQuestion(int num) throws Exception {
+		Question dto = null;
+		try {
+			dto = dao.selectOne("question.readQuestion", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return dto;
+	}
+	
+	@Override
+	public Question readAnswer(int num) throws Exception {
+		Question dto = null;
+		try {
+			dto = dao.selectOne("question.readAnswer", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return dto;
+	}
+	
+	@Override
+	public int deleteQuestion(int num) throws Exception {
+		int result= 0;
+		try {
+			result = dao.deleteData("question.deleteQuestion", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertAnswer(Question dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("question.insertAnswer", dto);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deleteAnswer(int num) throws Exception {
+		int result= 0;
+		try {
+			result = dao.deleteData("question.deleteAnswer", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int updateAnswer(Question dto) throws Exception {
+		int result= 0;
+		try {
+			result = dao.deleteData("question.updateAnswer", dto);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
 
 }
