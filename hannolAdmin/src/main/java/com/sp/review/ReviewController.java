@@ -1,5 +1,6 @@
 package com.sp.review;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +33,11 @@ public class ReviewController {
 	}
 
 
-	@RequestMapping(value="/review/listReview", method = RequestMethod.GET)
+	@RequestMapping(value="/review/listReview")
 	public String reservationList(@RequestParam(value="pageNo", defaultValue="1") int current_page,
 			HttpSession session,
+			@RequestParam(value="searchStartDate", required=false) String searchStartDate,
+			@RequestParam(value="searchEndDate", required=false) String searchEndDate,
 			Model model) throws Exception {
 		int rows = 5;
  		int total_page = 0;
@@ -51,6 +54,11 @@ public class ReviewController {
  		Map<String, Object> map = new HashMap<>();
  		map.put("start", start);
  		map.put("end", end);
+ 		
+ 		if(searchStartDate != null && searchEndDate != null) {
+ 			map.put("searchEndDate", searchEndDate);
+ 			map.put("searchStartDate", searchStartDate);
+ 		}
  		
  		List<Review> list = service.listReview(map);
  		
@@ -87,5 +95,4 @@ public class ReviewController {
  		
  		return model;
  	}
-	
 }

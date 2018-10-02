@@ -20,6 +20,12 @@
 		from review
 		where reviewCode = #{reviewCode}
 	</select>
+	
+	<sql id="where-list">
+		<![CDATA[
+			reviewDate >= #{searchStartDate} and reviewDate <= #{searchEndDate} 
+		]]>
+	</sql>
 	 
 	<!-- 후기 리스트 -->
 	<select id="listReview" parameterType="map" resultType="com.sp.review.Review">
@@ -33,6 +39,11 @@
 		            from reviewlike
 		            group by reviewCode
 		        ) a on r.reviewCode = a.reviewCode
+		        <where>
+		        	<if test="searchStartDate != null and searchEndDate != null">
+		        		<include refid="where-list"></include>
+		        	</if>
+		        </where>
 <![CDATA[	
 		    ) tb where rownum <= #{end}
 		) where rnum >= #{start}
