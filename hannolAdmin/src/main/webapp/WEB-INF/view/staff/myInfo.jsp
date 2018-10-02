@@ -58,8 +58,20 @@
 <script type="text/javascript">
 function memberOk() {
 	var f = document.staffForm;
-	var test = f.length;
 	var mode="${mode}";
+	
+	//비밀번호 일치여부 확인. 두칸다 비어있지 않으면!!
+	if(f.staffPwd.value != null || f.pwdConfirm.value != null){
+	//pwd, pwdConfirm 두개가 동일한지 확인
+		if(f.staffPwd.value != f.pwdConfirm.value){
+			f.staffPwd.value = "";
+			f.pwdConfirm.value = "";
+			alert("비밀번호를 다시 확인해주세요");
+			return;
+		}
+	}
+	
+	
     	
 	var str="";
 
@@ -114,7 +126,7 @@ function memberOk() {
     }
 
     
-   	var url = "<%=cp%>/staff/update";
+   	var url = "<%=cp%>/staff/updateMyinfo";
 	var query = $("#staffForm").serialize();
 	
 	$.ajax({
@@ -132,109 +144,6 @@ function memberOk() {
 	}); 
 }
 
-function authorityUpdate(){
-	$("#authorityModal").dialog({
-		title:"권한수정",
-		width:300,
-		height:260,
-		modal:true,
-		show:"clip",
-		hide:"clip"
-	});
-}
-
-function inoutUpdate(){
-	$("#inoutModal").dialog({
-		title:"입사/퇴사처리",
-		width:460,
-		height:440, 
-		modal:true,
-		show:"clip",
-		hide:"clip"
-	});
-}
-
-function sendAuth(){
-	
-	var authority = $("#staffAuth option:selected").val();
-	
-	var url = "<%=cp%>/staff/updateAuth";
-		var query = "usersCode=" + ${dto.usersCode}+"&authority=" + authority;
-
-		$.ajax({
-			type : "post"
-			,url : url //서버의 주소
-			,data : query //서버로 보내는 값
-			,success : function(data) {
-				$("#resultStaff").html("권한수정완료!");
-
-				if(data.authority=="ROLE_ADMIN"){
-					$("#authority").val("관리자");
-				}else{
-					$("#authority").val("일반직원");
-				}
-				
-				$("#authorityModal").dialog("close");
-			}
-			,error : function(e) {
-				alert(e.responseText);
-				$("#resultStaff").html("갱신에러발생!");
-			}
-		});
-	}
-	
-function sendInout(){
-	
-	var str="";
-
-    str = $("#inoutDate").val();
-    if(!str || !isValidDateFormat(str)) {
-        alert("날짜형식를 확인하세요[YYYY-MM-DD]. ");
-        $("#inoutDate").val("");
-        $("#inoutDate").focus();
-        return;
-    }
-	
-    str = $("#memoInout").val();
-    
-    if(!str) {
-        $("#setMemoInout").html("사유를 입력하세요. ");
-        $("#memoInout").focus();
-        return;
-    }
-	
-	var staffInout = $("#staffInout").val();
-	var inoutDate = $("#inoutDate").val();
-	var memoInout = $("#memoInout").val();
-	
-	var url = "<%=cp%>/staff/updateInout";
-		var query = "usersCode=" + ${dto.usersCode}+"&gubun="+staffInout+"&inoutDate=" + inoutDate + "&memo=" + memoInout;
-
-		$.ajax({
-			type : "post"
-			,url : url //서버의 주소
-			,data : query //서버로 보내는 값
-			,dataType : "json"
-			,success : function(data) {
-				$("#resultStaff").html("입사/퇴사 처리완료!");
-				
-				//입사퇴사일 변경 , 재직여부 표시변경
-				if(data.working == 1){
-					$("#working").html("재직중");
-					$("#inDate").html(data.epDate);
-				}else{
-					$("#working").html("퇴사");
-					$("#outDate").html(data.epDate);
-				}
-				
-				$("#inoutModal").dialog("close");
-			},
-			error : function(e) {
-				alert(e.responseText);
-				$("#resultStaff").html("갱신에러발생!");
-			}
-		});
-	}
 </script>
 
 <div class="sub-container" align="center">
@@ -302,6 +211,24 @@ function sendInout(){
 					</div>
 				</div>
 				<br>
+				<div class="form-group" style="margin: 20px auto 0px;">
+					<label for="staffPwd" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;변경할 비밀번호</label>
+					<div class="col-sm-7">
+						<input type="password" name="staffPwd" class="form-control input-sm"
+							id="staffPwd" placeholder="비밀번호">
+					</div>
+				</div>
+				<br>
+				
+				<div class="form-group" style="margin: 20px auto 0px;">
+					<label for="pwdConfirm" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;비밀번호 확인</label>
+					<div class="col-sm-7">
+						<input type="password" name="pwdConfirm" class="form-control input-sm"
+							id="pwdConfirm" placeholder="비밀번호 확인">
+					</div>
+				</div>
+				<br>
+				
 				<div class="form-group" style="margin: 20px auto 0px;">
 					<label for="name" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;이름</label>
 					<div class="col-sm-7">

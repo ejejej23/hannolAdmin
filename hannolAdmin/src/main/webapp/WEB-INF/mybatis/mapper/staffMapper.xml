@@ -149,4 +149,8 @@
 		DELETE FROM CAREER WHERE USERSCODE = #{usersCode}
 	</delete>
 	
+	<update id="updatePwd" parameterType="com.sp.staff.Staff">
+		UPDATE STAFFINFO SET STAFFPWD = #{staffPwd} WHERE USERSCODE = #{usersCode}
+	</update>
+	
 </mapper>

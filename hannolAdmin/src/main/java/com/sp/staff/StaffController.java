@@ -352,4 +352,29 @@ public class StaffController {
 		model.addAttribute("mode", "update");
 		return ".staff.myInfo";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/staff/updateMyinfo", method = RequestMethod.POST)
+	public Map<String, Object> updateMyinfoSubmit(Staff dto) throws Exception {
+
+		String tel = dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3();
+		dto.setTel(tel);
+		
+		if(dto.getStaffPwd()!="") {
+			service.updatePwd(dto);
+		}
+
+		service.updateStaff(dto);
+
+		StringBuffer sb = new StringBuffer();
+		sb.append(dto.getName() + "님의 회원정보가 정상적으로 변경되었습니다.<br>");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("mode", "updateInfo");
+		map.put("message", sb.toString());
+		map.put("usersCode", dto.getUsersCode());
+
+		return map;
+	}
 }

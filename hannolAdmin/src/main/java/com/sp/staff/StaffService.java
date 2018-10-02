@@ -16,6 +16,8 @@ public interface StaffService {
 	
 	public int insertInoutStaff(Map<String, Object> map) throws Exception;
 	
+	public int updatePwd(Staff dto) throws Exception;
+	
 	//이거 커리어쪽에 필요한거아냐???
 	public int readTheme(Map<String, Object> map) throws Exception;
 	public int readDepart(Map<String, Object> map) throws Exception;
