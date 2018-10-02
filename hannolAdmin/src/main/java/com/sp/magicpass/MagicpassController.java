@@ -102,7 +102,7 @@ public class MagicpassController {
 			}else if(compare==0 && dto.getMpTime()>Integer.parseInt(timeStamp)) {
 				dto.setState(0);
 			}else {
-				dto.setState(0);
+				dto.setState(1);
 			}
 		}
 		
