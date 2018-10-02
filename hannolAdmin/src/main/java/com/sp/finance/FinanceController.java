@@ -585,7 +585,7 @@ public class FinanceController {
 			job.put("series", arr);
 			job.put("chartX", chartX);
 		}
-
+		
 		return job.toString();
 	}
 
