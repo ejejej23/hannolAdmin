@@ -12,7 +12,6 @@
 	   INSERT INTO rides(facilityCode) VALUES (#{code})
 	</insert>
 	
-	
 
 	<sql id="where-list">
 	  <if test="searchKey=='name'">
@@ -118,6 +117,10 @@
 		    select  facilityCode from facility 
 		    ORDER BY facilityCode DESC)
 	    where rownum=1
+	</select>
+	
+	<select id="selectCreate" resultType="com.sp.facility.Facility">
+		select gubunCode, name as gubunName from facGubun
 	</select>
 	
 <!-- 	<select id="ListFacilityImg" parameterType="Long" resultType="map">

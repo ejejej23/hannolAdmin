@@ -30,7 +30,10 @@ public class facilityController {
 	@RequestMapping(value="/facility/created", method=RequestMethod.GET)
 	public String createdForm(Model model) throws Exception{
 		
+		List <Facility> selCreate = service.selectCreate();
+		
 		model.addAttribute("mode","created");
+		model.addAttribute("selCreate",selCreate);
 		
 		return ".facility.created";
 	}

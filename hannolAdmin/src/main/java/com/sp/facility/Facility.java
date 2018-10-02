@@ -27,7 +27,21 @@ public class Facility {
 	int timezone;
 	int waiting;
 	int boarding;
-
+	String yyyymmdd;
+	int hh;
+	
+	public String getYyyymmdd() {
+		return yyyymmdd;
+	}
+	public void setYyyymmdd(String yyyymmdd) {
+		this.yyyymmdd = yyyymmdd;
+	}
+	public int getHh() {
+		return hh;
+	}
+	public void setHh(int hh) {
+		this.hh = hh;
+	}
 	public Date getRecordDate() {
 		return recordDate;
 	}

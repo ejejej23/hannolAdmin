@@ -61,15 +61,11 @@
 	
 			<div class="col-sm-10">
 				<select name="gubunCode" class="selectField" id="facGubun">
-					<option value="">::시설구분::</option>
-					<option value=1 ${dto.gubunName=="놀이기구"? "selected='selected'":""}>놀이기구</option>
-					<option value=2 ${dto.gubunName=="편의시설"? "selected='selected'":""}>편의시설</option>
-					<option value=3 ${dto.gubunName=="공연전시"? "selected='selected'":""}>공연전시</option>
-					<option value=4 ${dto.gubunName=="음식점"? "selected='selected'":""}>음식점</option>
-					<option value=5 ${dto.gubunName=="기프트샵"? "selected='selected'":""}>기프트샵</option>
-					<option value=6 ${dto.gubunName=="유모차대여소"? "selected='selected'":""}>유모차대여소</option>
-					<option value=7 ${dto.gubunName=="화장실"? "selected='selected'":""}>화장실</option>
-					<option value=8 ${dto.gubunName=="물품보관함"? "selected='selected'":""}>물품보관함</option>
+ 					<option value="">::시설구분::</option>
+					<c:forEach var="vo" items="${selCreate}">
+						<option value="${vo.gubunCode}" ${vo.gubunName=="${vo.gubunName}"? "selected='selected'":""}>${vo.gubunName}</option>
+					</c:forEach>
+					
 				</select> 
 			</div> 
 		</div>
