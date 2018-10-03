@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<select id="dataCount" resultType="Integer">
+		SELECT COUNT(*) FROM member2
+	</select>
+	
+	<select id="list" parameterType="map" resultType="com.sp.member.Member">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT m1.usersCode, memberId, memberName, enabled, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel, gradeName
+		        FROM member1 m1
+		        JOIN member2 m2 ON m1.usersCode = m2.usersCode
+		        JOIN grade g ON g.gradeCode = m2.gradeCode
+		<![CDATA[
+		    )tb WHERE ROWNUM <= #{end}
+		)WHERE rnum >= #{start}
+		]]>
+	</select>
+</mapper>
