@@ -14,7 +14,6 @@ $(function(){
 		$(this).parent(".nav-item").addClass("active");
 	});
 	
-	
 });
 
 </script>
@@ -28,9 +27,6 @@ $(function(){
 	<div>
 		<ul class="nav nav-tabs">
 		  <li class="nav-item active">
-		    <a class="nav-link">가이드</a>
-		  </li>
-		  <li class="nav-item">
 		    <a class="nav-link">무대공연</a>
 		  </li>
 		  <li class="nav-item">
