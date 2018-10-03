@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="faq">
+	<select id="gubunList" resultType="com.sp.faq.Faq">
+		SELECT gubunCode, gubunName FROM faqGubun
+	</select>
+	
+	<insert id="insertFaq" parameterType="com.sp.faq.Faq">
+		INSERT INTO faq(faqCode, subject, content, created, gubunCode, usersCode)
+		VALUES(faq_seq.NEXTVAL, #{subject}, #{content}, SYSDATE, #{gubunCode}, #{usersCode})
+	</insert>
+	
+	<sql id="where-tab-list">
+		<if test="tab=='useinfo'">
+			gubunCode=1
+		</if>
+		<if test="tab=='pre'">
+			gubunCode=2
+		</if>
+		<if test="tab=='event'">
+			gubunCode=3
+		</if>
+		<if test="tab=='years'">
+			gubunCode=4
+		</if>
+		<if test="tab=='online'">
+			gubunCode=5
+		</if>
+		<if test="tab=='els'">
+			gubunCode=6
+		</if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM faq f
+        JOIN staff s ON f.usersCode = s.usersCode
+        <where>
+        	<if test="searchValue != null and searchValue != ''">
+				INSTR(subject, #{searchValue}) &gt; 0
+			</if>
+			<if test="tab != 'all'">
+				AND
+        		<include refid="where-tab-list"/>			
+			</if>
+        </where>
+	</select>
+	
+	<select id="faqList" parameterType="map" resultType="com.sp.faq.Faq">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM (
+		        SELECT faqCode, subject, TO_CHAR(created, 'YYYY-MM-DD') created, name AS usersName
+		        FROM faq f
+		        JOIN staff s ON f.usersCode = s.usersCode
+		        <where>
+		        	<if test="searchValue != null and searchValue != ''">
+						INSTR(subject, #{searchValue}) &gt; 0
+					</if>
+					<if test="tab != 'all'">
+						AND
+		        		<include refid="where-tab-list"/>			
+					</if>
+		        </where>
+		        ORDER BY faqCode DESC
+		    ) tb WHERE ROWNUM &lt;= 10
+		) WHERE rnum &gt;=1
+	</select>
+	
+	<select id="readFaq" parameterType="Long" resultType="com.sp.faq.Faq">
+		SELECT faqCode, subject, content, TO_CHAR(created, 'YYYY-MM-DD') created, f.gubunCode, gubunName, name AS usersName
+		FROM faq f
+		JOIN staff s ON f.usersCode = s.usersCode
+		JOIN faqGubun fg ON f.gubunCode = fg.gubunCode
+		WHERE faqCode = #{faqCode}
+	</select>
+	
+	<update id="updateFaq" parameterType="com.sp.faq.Faq">
+		UPDATE faq SET subject=#{subject}, content=#{content}, created=SYSDATE, gubunCode=#{gubunCode}, usersCode=#{usersCode}
+		WHERE faqCode = #{faqCode}
+	</update>
+	
+	<delete id="deleteFaq" parameterType="Long">
+		DELETE FROM faq
+		WHERE faqCode =#{faqCode}
+	</delete>
+</mapper>
