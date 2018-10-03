@@ -38,8 +38,13 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member readMember(int usersCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Member dto = null;
+		try {
+			dto = dao.selectOne("member.readMember", usersCode);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
 	}
 
 }

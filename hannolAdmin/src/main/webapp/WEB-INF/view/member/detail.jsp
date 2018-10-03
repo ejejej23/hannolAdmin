@@ -187,13 +187,13 @@ function sendAuth(){
 						회원 코드
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.usersCode}
 					</td>
 					<th class="custom_col1">
 						등급
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.gradeName}
 					</td>
 				</tr>
 				<tr>
@@ -201,13 +201,13 @@ function sendAuth(){
 						아이디
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.memberId}
 					</td>
 					<th class="custom_col1">
 						이름
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.memberName}
 					</td>
 				</tr>
 				<tr>
@@ -215,13 +215,13 @@ function sendAuth(){
 						생년월일
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.birth}
 					</td>
 					<th class="custom_col1">
 						전화번호
 					</th>
 					<td class="customer_col2">
-						1
+						${dto.tel}
 					</td>
 				</tr>
 		  </tbody>
@@ -234,7 +234,7 @@ function sendAuth(){
 					이메일
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					${dto.email}
 				</td>
 			</tr>
 			<tr>
@@ -242,7 +242,7 @@ function sendAuth(){
 					우편번호
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					${dto.post}
 				</td>
 			</tr>
 			<tr>
@@ -250,7 +250,7 @@ function sendAuth(){
 					주소
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					${dto.addr1}
 				</td>
 			</tr>
 			<tr>
@@ -258,7 +258,7 @@ function sendAuth(){
 					상세주소
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					${dto.addr2}
 				</td>
 			</tr>
 			<tr>
@@ -266,7 +266,8 @@ function sendAuth(){
 					알림수신여부
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					<input type="checkbox" name="alrmOK" style="vertical-align: middle; margin-right: 5px;"><label style="margin-right: 10px;">수신</label>
+					<input type="checkbox" name="alrmNO" style="vertical-align: middle; margin-right: 5px;"><label>미수신</label>
 				</td>
 			</tr>
 			<tr>
@@ -274,13 +275,21 @@ function sendAuth(){
 					가입일
 				</th>
 				<td class="col_td" style="width: 30%;">
-					1
+					${dto.joinDate}
 				</td>
 				<th class="col_th">
 					가입경로
 				</th>
 				<td class="col_td" style="width: 30%;">
-					1
+					${dto.joinPath}
+				</td>
+			</tr>
+			<tr>
+				<th class="col_th">
+					우대사항
+				</th>
+				<td colspan="3" class="col_td">
+					${dto.help}
 				</td>
 			</tr>
 			<tr>
@@ -288,7 +297,7 @@ function sendAuth(){
 					탈퇴여부
 				</th>
 				<td colspan="3" class="col_td">
-					1
+					${dto.isMember}
 				</td>
 			</tr>
 		</table>

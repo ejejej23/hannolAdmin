@@ -18,4 +18,14 @@
 		)WHERE rnum >= #{start}
 		]]>
 	</select>
+	
+	<select id="readMember" parameterType="Integer" resultType="com.sp.member.Member">
+		SELECT m1.usersCode, memberId, memberName, enabled, 
+            help, isAlarm, birth, tel, email, post, addr1, addr2, joinDate, joinPath, 
+            g.gradeCode, gradeName
+        FROM member1 m1
+        JOIN member2 m2 ON m1.usersCode = m2.usersCode
+        JOIN grade g ON g.gradeCode = m2.gradeCode
+        WHERE m1.usersCode = #{usersCode}
+	</select>
 </mapper>

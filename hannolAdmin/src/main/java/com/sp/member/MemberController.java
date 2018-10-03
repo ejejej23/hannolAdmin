@@ -76,9 +76,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/detail")
-	public String detail(@RequestParam(value="page", defaultValue="1") int current_page, Model model) {
+	public String detail(
+			@RequestParam(value="page", defaultValue="1") int current_page, 
+			int num, 
+			Model model) throws Exception {
 		
+		Member dto = service.readMember(num);
+		if(dto.getEnabled() == 1)
+			dto.setIsMember("N");
+		else
+			dto.setIsMember("Y");
 		
+		model.addAttribute("dto", dto);
 		model.addAttribute("page", current_page);
 		return ".member.detail";
 	}
