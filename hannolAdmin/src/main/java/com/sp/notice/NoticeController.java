@@ -208,7 +208,7 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
-	public String updateUbmit(@RequestParam String page, Notice dto, @RequestParam String saveFilename,
+	public String updateSubmit(@RequestParam String page, Notice dto, @RequestParam String saveFilename,
 			@RequestParam String originalFilename, @RequestParam int num, HttpSession session) throws Exception {
 
 		dto.setNoticeCode(num);
