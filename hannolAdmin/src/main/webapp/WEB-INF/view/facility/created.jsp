@@ -89,10 +89,6 @@
 					<option value=1 ${dto.state==1? "selected='selected'":""}>이용가능</option>
 				</select> 
 				
-		<%-- 		<select name="searchKey" class="selectField">
-					<option value="userName" ${searchKey=="userName" ? "selected" : ""}>회원명</option>
-					<option value="reservationDate"	${searchKey=="reservationDate" ? "selected" : ""}>예약일</option>
-				</select> --%>
 			</div> 
 
 		</div>
