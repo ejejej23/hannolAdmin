@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="visitor">
+	<select id="getYears" resultType="com.sp.visitor.Visitor">
+		SELECT DISTINCT TO_CHAR(payDate,'YYYY') AS YEAR
+		FROM payment p
+        JOIN cardInfo c ON p.payCode = c.payCode
+        WHERE state ='카드승인'
+	    ORDER BY YEAR DESC
+	</select>
+	
+	<select id="getVisitor" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT ROWNUM AS RNUM, YEAR, QUARTER, MONTH, DAY, totalCount from ( 
+		    SELECT YEAR, QUARTER, MONTH, DAY, sum(totalCount) as totalCount from(
+		         SELECT YEAR, QUARTER, MONTH, DAY, totalCount
+		                FROM 
+		                (
+		                    select YEAR, QUARTER, MONTH, DAY, sum(quantity) as totalCount
+		                    from ( 
+		                        select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		                        , to_char(p.PAYDATE,'YYYY') as YEAR
+		                        , to_char(p.PAYDATE,'Q') as QUARTER 
+		                        , to_char(p.PAYDATE,'MM') as MONTH
+		                        , to_char(p.PAYDATE,'dd') as DAY
+		                        , c.state
+		                        from PAYMENT p
+		                        join paymentInfo pi on p.payCode = pi.payCode
+		                        join cardInfo c on p.payCode = c.payCode
+		                        join goods g on g.goodsCode = pi.goodsCode
+		                        join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                        WHERE gg.parentCode=1 and g.gubunCode != 8
+		                    )
+		                    WHERE STATE = '카드승인'
+		                    group by rollup(YEAR, QUARTER, MONTH, DAY)        
+		        ) union all  
+		            SELECT YEAR, QUARTER, MONTH, DAY, totalCount
+		                FROM 
+		                (
+		                    select YEAR, QUARTER, MONTH, DAY, sum(totalCount) as totalCount
+		                    from ( 
+		                        select useDate, 1 as totalCount
+		                        , to_char(useDate,'YYYY') as YEAR
+		                        , to_char(useDate,'Q') as QUARTER 
+		                        , to_char(useDate,'MM') as MONTH
+		                        , to_char(useDate,'dd') as DAY
+		                        from ticketHistory p
+		                    )
+		                    group by rollup(YEAR, QUARTER, MONTH, DAY)
+		                )
+		            )
+		    group by rollup(YEAR, QUARTER, MONTH, DAY)
+		    order by YEAR, QUARTER, MONTH, DAY
+		)WHERE QUARTER IS NOT NULL 
+		AND MONTH IS NOT NULL 
+		AND DAY IS NOT NULL 
+		AND YEAR = #{year}
+	</select>
+	
+	<select id="getVisitorA" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT YEAR, QUARTER, MONTH, DAY, totalCount
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(quantity) as totalCount
+		    from ( 
+		             select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		             	, to_char(p.PAYDATE,'YYYY') as YEAR
+		             	, to_char(p.PAYDATE,'Q') as QUARTER 
+		             	, to_char(p.PAYDATE,'MM') as MONTH
+		             	, to_char(p.PAYDATE,'dd') as DAY
+		             	, c.state
+		             from PAYMENT p
+		                join paymentInfo pi on p.payCode = pi.payCode
+		                join cardInfo c on p.payCode = c.payCode
+		                join goods g on g.goodsCode = pi.goodsCode
+		                join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                WHERE g.gubunCode=3 or g.gubunCode=4
+		             )
+		    WHERE STATE = '카드승인'
+		    group by rollup(YEAR, QUARTER, MONTH, DAY) 
+        )WHERE QUARTER IS NOT NULL 
+            AND MONTH IS NOT NULL 
+            AND DAY IS NOT NULL 
+            AND YEAR = #{year}
+	</select>
+	
+	<select id="getVisitorN" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT YEAR, QUARTER, MONTH, DAY, totalCount
+		FROM 
+		(
+		    select YEAR, QUARTER, MONTH, DAY, sum(quantity) as totalCount
+		    from ( 
+		             select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		             	, to_char(p.PAYDATE,'YYYY') as YEAR
+		             	, to_char(p.PAYDATE,'Q') as QUARTER 
+		             	, to_char(p.PAYDATE,'MM') as MONTH
+		             	, to_char(p.PAYDATE,'dd') as DAY
+		             	, c.state
+		             from PAYMENT p
+		                join paymentInfo pi on p.payCode = pi.payCode
+		                join cardInfo c on p.payCode = c.payCode
+		                join goods g on g.goodsCode = pi.goodsCode
+		                join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                WHERE g.gubunCode=5 or g.gubunCode=6
+		             )
+		    WHERE STATE = '카드승인'
+		    group by rollup(YEAR, QUARTER, MONTH, DAY) 
+        )WHERE QUARTER IS NOT NULL 
+            AND MONTH IS NOT NULL 
+            AND DAY IS NOT NULL 
+            AND YEAR = #{year}
+	</select>
+	
+	<select id="getVisitorY" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT YEAR, QUARTER, MONTH, DAY, totalCount
+		FROM 
+		    (
+		        select YEAR, QUARTER, MONTH, DAY, sum(quantity) as totalCount
+		        from ( 
+		                 select useDate, 1 as quantity
+		                        , to_char(useDate,'YYYY') as YEAR
+		                        , to_char(useDate,'Q') as QUARTER 
+		                        , to_char(useDate,'MM') as MONTH
+		                        , to_char(useDate,'dd') as DAY
+		                        from ticketHistory
+		                  )
+		        group by rollup(YEAR, QUARTER, MONTH, DAY) 
+        )WHERE QUARTER IS NOT NULL 
+            AND MONTH IS NOT NULL 
+            AND DAY IS NOT NULL 
+            AND YEAR = #{year}
+	</select>
+	
+	<select id="visitorLinePeriod" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT ROWNUM AS RNUM, to_char(PAYDATE,'yyyy-mm-dd') payDate, totalCount from ( 
+		    SELECT PAYDATE, sum(totalCount) as totalCount from(
+		  
+		                    select PAYDATE, sum(quantity) as totalCount
+		                    from ( 
+		                        select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		                        , c.state
+		                        from PAYMENT p
+		                        join paymentInfo pi on p.payCode = pi.payCode
+		                        join cardInfo c on p.payCode = c.payCode
+		                        join goods g on g.goodsCode = pi.goodsCode
+		                        join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                        WHERE gg.parentCode=1 and g.gubunCode != 8
+		                    )
+		                    WHERE STATE = '카드승인'
+		                    group by rollup(PAYDATE)        
+		         union all  
+		                    select useDate as payDate, sum(totalCount) as totalCount
+		                    from ( 
+		                        select useDate, 1 as totalCount
+		                        from ticketHistory p
+		                    )
+		                    group by rollup(useDate)
+		    )
+		    group by rollup(PAYDATE)
+		    order by PAYDATE
+		)WHERE PAYDATE IS NOT NULL
+		<![CDATA[
+		 AND PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		]]>
+	</select>
+	
+	<select id="visitorALinePeriod" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT to_char(PAYDATE,'yyyy-mm-dd') payDate, totalCount
+		FROM 
+		(
+		    select PAYDATE, sum(quantity) as totalCount
+		    from ( 
+		             select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		             	, c.state
+		             from PAYMENT p
+		                join paymentInfo pi on p.payCode = pi.payCode
+		                join cardInfo c on p.payCode = c.payCode
+		                join goods g on g.goodsCode = pi.goodsCode
+		                join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                WHERE g.gubunCode=3 or g.gubunCode=4
+		             )
+		    WHERE STATE = '카드승인'
+		    group by rollup(PAYDATE) 
+        )WHERE PAYDATE IS NOT NULL
+        <![CDATA[
+		 AND PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		]]>
+	</select>
+	
+	<select id="visitorNLinePeriod" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT to_char(PAYDATE,'yyyy-mm-dd') payDate, totalCount
+		FROM 
+		(
+		    select PAYDATE, sum(quantity) as totalCount
+		    from ( 
+		             select p.PAYDATE, quantity, g.gubunCode, p.payCode
+		             	, c.state
+		             from PAYMENT p
+		                join paymentInfo pi on p.payCode = pi.payCode
+		                join cardInfo c on p.payCode = c.payCode
+		                join goods g on g.goodsCode = pi.goodsCode
+		                join goodsGubun gg on gg.gubunCode = g.gubunCode
+		                WHERE g.gubunCode=5 or g.gubunCode=6
+		             )
+		    WHERE STATE = '카드승인'
+		    group by rollup(PAYDATE) 
+        )WHERE PAYDATE IS NOT NULL
+        <![CDATA[
+		 AND PAYDATE >= #{startDate} AND PAYDATE <= #{endDate}
+		]]>
+	</select>
+	
+	<select id="visitorYLinePeriod" parameterType="map" resultType="com.sp.visitor.Visitor">
+		SELECT to_char(useDate, 'yyyy-mm-dd') payDate, totalCount
+		FROM 
+		    (
+		        select useDate, sum(quantity) as totalCount
+		        from ( 
+		                 select useDate, 1 as quantity
+		                        from ticketHistory
+		                  )
+		        group by rollup(useDate) 
+        )WHERE useDate IS NOT NULL
+        <![CDATA[
+		 AND useDate >= #{startDate} AND useDate <= #{endDate}
+		]]>
+	</select>
+</mapper>

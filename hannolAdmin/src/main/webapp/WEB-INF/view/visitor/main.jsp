@@ -95,7 +95,7 @@ body {
 
 $(function(){
 	var year = new Date().getFullYear();
-	var gubun = "quarter";//기본설정
+	var gubun = "quarter";//기본설정 (year:올해, gubun:분기별)
 	getchart(year,gubun);
 	
 	$("input[name=gubun]").change(function(){
@@ -112,24 +112,21 @@ $(function(){
 });
 
 function getchart(year,gubun){
-	var url="<%=cp%>/finance/financeChart?year="+year+"&gubun="+gubun;
+	var url="<%=cp%>/visitor/visitorChart?year="+year+"&gubun="+gubun;
 	$.getJSON(url, function (csv) {
 		var year=csv.year;
 		var list = csv.chartX;
 
-		$('#profitLine').highcharts({
-			chart: {
-	            type: 'column'
-	        },			
+		$('#visitorLine').highcharts({	
 	        title: {
-	            text: year+'년 재정',
+	            text: year+'년 이용객 수',
 	        },
 	        xAxis: {
 	            categories: list
 	        },
 	        yAxis: {
 	            title: {
-	                text: '매출(원)'
+	                text: '이용객(명)'
 	            },
 	        },
 	        credits:{
@@ -144,23 +141,20 @@ function searchList(){
 	var startDate = $("input[name=searchStartDate]").val();
 	var endDate = $("input[name=searchEndDate]").val();
 
-	var url="<%=cp%>/finance/financeChartPeriod?startDate="+startDate+"&endDate="+endDate;
+	var url="<%=cp%>/visitor/visitorLinePeriod?startDate="+startDate+"&endDate="+endDate;
 	$.getJSON(url, function (csv) {
 		var list = csv.chartX;
 
-		$('#profitLine').highcharts({
-			chart: {
-	            type: 'line'
-	        },			
+		$('#visitorLine').highcharts({		
 	        title: {
-	            text: '매출 조회',
+	        	text: '조회기간 이용객 수'
 	        },
 	        xAxis: {
 	            categories: list
 	        },
 	        yAxis: {
 	            title: {
-	                text: '매출(원)'
+	                text: '이용객(명)'
 	            },
 	        },
 	        credits:{
@@ -212,12 +206,6 @@ $(function(){
 	});	
 });
 
-function ExcelDown() {
-	var f = document.searchForm;
-	
-	f.action="<%=cp%>/finance/excel";
-    f.submit();
-}
 </script>
 
 </head>
@@ -228,7 +216,7 @@ function ExcelDown() {
 
 <div class="sub-container">
 	<div class="sub-title">
-		<h3>재정 <small> 매출/지출</small></h3>
+		<h3>이용객 현황 관리</h3>
 	</div>
 
 	<div class="sub_contents">
@@ -260,17 +248,11 @@ function ExcelDown() {
 					</td>  
 				</tr>
 			</table>
+			</form>
 	
 	
-		<div id="profitLine" 
+		<div id="visitorLine" 
             style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
-	
-		<div align="right">
-        	<Button class="btn btn-default" onclick="ExcelDown();">엑셀 파일 다운로드</Button>
-        	<input type="hidden" name="financeTitle" value="${financeTitle}">
-        	<input type="hidden" name="financeYear">
-        </div> 
-        </form>
 	
 	</div>
 </div>
