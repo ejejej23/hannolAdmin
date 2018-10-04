@@ -8,7 +8,7 @@ public class RidesMain {
 	private int totalCount;
 
 	private String year;
-	private int querter;
+	private int quarter;
 	private int month;
 	private int day;
 
@@ -60,12 +60,12 @@ public class RidesMain {
 		this.year = year;
 	}
 
-	public int getQuerter() {
-		return querter;
+	public int getQuarter() {
+		return quarter;
 	}
 
-	public void setQuerter(int querter) {
-		this.querter = querter;
+	public void setQuarter(int quarter) {
+		this.quarter = quarter;
 	}
 
 	public int getMonth() {

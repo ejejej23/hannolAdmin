@@ -137,13 +137,17 @@ $(function(){
 function getYear(themaCode){
 	var url = "<%=cp%>/rides/getYear";
 	var data = "themaCode="+themaCode;
+	$("#years").html("");
+	$("#years").append("<option value=''>::::년도::::</option>");
 	
 	$.ajax({
 		type:"POST"
 		,url:url
 		,data: data
 		,success:function(data) {
-			console.log(data.yearList);
+			for(var i=0; i<data.yearList.length; i++){
+				$("#years").append("<option value="+data.yearList[i].year+">"+data.yearList[i].year+"</option>");
+			}
 		}
 	    ,error:function(e) {
 	    	console.log(e.responseText);
@@ -185,17 +189,56 @@ $(function(){
 			}
 		}
 		
-		//AJAX
+		//AJAX-CHART
+		getChartData();
 	});
 });
+
+//Chart Data 구하는 function
+function getChartData(){
+	var data = "thema="+$("#thema").val();
+	
+	var searchGubun = $("#searchGubun").val();
+	data+="&searchGubun="+searchGubun;
+	
+	if(searchGubun=="self"){
+		data+="&searchStartDate="+$("#searchStartDate").val();
+		data+="&searchEndDate="+$("#searchEndDate").val();
+	}else{
+		data+="&years="+$("#years").val();
+	}
+	
+	var url="<%=cp%>/rides/chartData?"+data;
+	$.getJSON(url, function (csv) {
+		var list = csv.chartX;
+
+		$('#ridesMainLine').highcharts({
+			chart: {
+	            type: 'line'
+	        },			
+	        title: {
+	            text: '놀이기구 이용현황',
+	        },
+	        xAxis: {
+	            categories: list
+	        },
+	        yAxis: {
+	            title: {
+	                text: '인원(명)'
+	            },
+	        },
+	        credits:{
+	        	enabled:false
+	        	},
+	        series:csv.series
+		});
+	});
+}
 
 </script>
 
 </head>
 <body>
-
-
-
 
 <div class="sub-container">
 	<div class="sub-title">
@@ -232,8 +275,6 @@ $(function(){
 					<p class="search-year" style="display: none;">
 						<select id="years" name="years" class="boxTF select-search">
 							<option value="">::::년도::::</option>
-							<option value="2011">2011</option>
-							<option value="2012">2012</option>
 						</select>
 					</p>
 					
@@ -252,6 +293,8 @@ $(function(){
 					</p>
 				</div>
 			</div>
+			
+			<div id="ridesMainLine" style="width: 100%; height: 500px; float: left; margin: 10px;"></div>
 	</div>
 </div>
 

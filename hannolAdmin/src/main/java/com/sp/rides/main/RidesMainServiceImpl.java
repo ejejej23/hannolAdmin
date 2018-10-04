@@ -1,6 +1,7 @@
 package com.sp.rides.main;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,21 @@ public class RidesMainServiceImpl implements RidesMainService {
 	}
 
 	@Override
-	public List<RidesMain> yearsList(int themaCode) throws Exception {
+	public List<RidesMain> yearsList(Map<String, Object> map) throws Exception {
 		List<RidesMain> list = null;
 		try {
-			list = dao.selectList("ridemain.getYears", themaCode);
+			list = dao.selectList("ridemain.getYears", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public List<RidesMain> getVisitorAll(Map<String, Object> map) throws Exception {
+		List<RidesMain> list = null;
+		try {
+			list = dao.selectList("ridemain.getvisitorALL", map);
 		} catch (Exception e) {
 			throw e;
 		}

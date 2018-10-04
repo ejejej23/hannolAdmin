@@ -2,23 +2,38 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ridemain">
-	<select id="getYears" parameterType="Integer" resultType="com.sp.rides.main.RidesMain">
+	<select id="getYears" parameterType="map" resultType="com.sp.rides.main.RidesMain">
 		SELECT TO_CHAR(mpDate, 'YYYY') AS year
 		FROM magicpass m
 		JOIN facility f ON f.facilityCode = m.facilityCode
 		JOIN theme t ON t.themeCode = f.themeCode
 		<where>
-			<if test="themaCode != '4'">
+			<if test="themaCode != 4">
 				t.themeCode = #{themaCode}
 			</if>
 		</where>
 		GROUP BY TO_CHAR(mpDate, 'YYYY')
-		ORDER BY years
+		ORDER BY year
 	</select>
 	
 	<select id="themaList" resultType="com.sp.rides.main.RidesMain">
 		SELECT themeCode AS themaCode, themeName AS themaName FROM theme
 	    WHERE themeCode != 4
 	    ORDER BY themeCode
+	</select>
+	
+	<select id="getvisitorALL" parameterType="map" resultType="com.sp.rides.main.RidesMain">
+		SELECT to_char(mpDate,'YYYY') as YEAR
+		, to_char(mpDate,'Q') as QUARTER 
+		, to_char(mpDate,'MM') as MONTH
+		,t.themeCode AS themaCode
+		,COUNT(*) totalCount
+		FROM magicpass m
+		JOIN facility f ON f.FACILITYCODE = m.FACILITYCODE
+		JOIN theme t ON t.themeCode = f.themeCode
+		WHERE t.themeCode != 4	
+		AND to_char(mpDate,'YYYY')= #{years}
+		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'Q'), to_char(mpDate,'MM'), t.themeCode
+		ORDER BY YEAR, QUARTER, MONTH, themaCode
 	</select>
 </mapper>
