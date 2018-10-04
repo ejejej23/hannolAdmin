@@ -26,7 +26,7 @@
 	<tbody>
 		<c:forEach items="${list}" var="dto">
 			<tr>
-				<td></td>
+				<td>${dto.listNum}</td>
 				<td><a href="${articleUrl}&faqCode=${dto.faqCode}">${dto.subject}</a></td>
 				<td>${dto.usersName}</td>
 				<td>${dto.created}</td>

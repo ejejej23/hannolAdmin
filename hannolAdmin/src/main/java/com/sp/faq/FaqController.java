@@ -3,6 +3,7 @@ package com.sp.faq;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +83,15 @@ public class FaqController {
 		map.put("end", end);
 
 		List<Faq> list = service.faqList(map);
+		
+		int listNum, n = 0;
+		Iterator<Faq> it = list.iterator();
+		while (it.hasNext()) {
+			Faq data = it.next();
+			listNum = dataCount - (start + n - 1);
+			data.setListNum(listNum);
+			n++;
+		}
 		
 		String cp = req.getContextPath();
 		
