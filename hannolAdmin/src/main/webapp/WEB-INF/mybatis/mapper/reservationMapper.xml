@@ -77,5 +77,18 @@
 		)
 	</select>
 	
+		<!-- 공연 예약 상세 삭제 -->
+	<delete id="deleteShowBookInfo" parameterType="Integer">
+		delete from showbookinfo
+		where showBookCode = #{showBookCode}
+	</delete>
+
+	<!-- 공연 예약 삭제 -->
+	<delete id="deleteShowBook" parameterType="Integer">
+		delete from showbook
+		where showBookCode = #{showBookCode}
+	</delete>
+	
+	
 
 </mapper>

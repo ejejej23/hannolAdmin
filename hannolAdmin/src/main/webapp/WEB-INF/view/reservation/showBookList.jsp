@@ -175,6 +175,61 @@ function searchList() {
 }
 
 
+//전체 체크박스
+function checkAll(){
+	if($("#chkAll").is(':checked')){      
+		$("input[name=chk]").not(':disabled').prop("checked",true);
+	}else{
+		$("input[name=chk]").not(':disabled').prop("checked",false);
+	}  
+}
+
+//ajax로 값들을 보낸다
+$(function(){
+	// 무대 공연 - 예약 취소
+	$(document).on("click","button[name=btnShowDelete]", function(){
+		
+		var showBookCode = new Array();
+		$("input[name='chk']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			showBookCode.push($(this).attr('data-showBookCode'));
+		});
+		
+		if(showBookCode.length == 0){
+			$("#resultLayout").html("삭제할 예약정보를 선택해주세요");
+			return;
+		}
+		
+		// check 된 애들의 개수
+	 	var url="<%=cp%>/reservation/deleteShow";
+		var query = {"showBookCode":showBookCode};
+
+		$.ajax({
+			type:"post"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				var state=data.state;
+				if(state=="true") {		
+					alert('예약이 취소되었습니다.');
+					location.reload();
+				} else if(state=="false") {
+					$("#msg").text(data.msg);
+				}
+			}
+			,beforeSend : function(jqXHR) {
+		        jqXHR.setRequestHeader("AJAX", true);
+		    }
+		    ,error:function(jqXHR) {
+		    	if(jqXHR.status==403) {
+		    		login();
+		    		return;
+		    	}
+		    	console.log(jqXHR.responseText);
+		    }
+		});
+	});
+});
 </script>
 
 <div>

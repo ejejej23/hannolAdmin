@@ -113,5 +113,17 @@ public class ReservationController {
 		return "/reservation/reservationLIst";
 	}
 	
+	// 무대공연 예약취소
+	@RequestMapping(value = "/reservation/deleteShow")
+	@ResponseBody
+	public Map<String, Object> deleteShow(@RequestParam(value = "showBookCode[]") int[] showBookCode) throws Exception {
+		for(int s : showBookCode) {
+			service.deleteShowBookInfo(s);
+			service.deleteShowBook(s);
+		}
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", "true");
+		return model;
+	}
 	
 }

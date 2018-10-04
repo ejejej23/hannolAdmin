@@ -96,5 +96,27 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 		return list;
 	}
+	
+	@Override
+	public int deleteShowBookInfo(int showBookCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("reservation.deleteShowBookInfo", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteShowBook(int showBookCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("reservation.deleteShowBook", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
 
 }
