@@ -82,7 +82,7 @@
             </ul>
         </li>
         
-        <li>
+        <li style="width: 80px">
             <span class="dep1">고객소리함</span>
             <ul>
                 <li><a href="<%=cp%>/faq/list">FAQ</a></li>
@@ -132,7 +132,7 @@
             </ul>
         </li>
 
-        <li>
+        <li style="width: 80px">
             <span class="dep1">기프트샵</span>
             <ul>
                 <li><a href="<%=cp%>/giftshop/list">품목관리</a></li>
@@ -144,7 +144,7 @@
             </ul>
         </li>
         
-        <li style="width: 30%; float: right;">
+        <li style="width: 30%; margin-left: 305px">
     		<a href="#"><img style="width: 100%;" src ="<%=cp%>/resource/images/park.JPG"></a>  
     	</li>  
     </ul>  
