@@ -41,7 +41,7 @@
 	
 	<select id="readMember" parameterType="Integer" resultType="com.sp.member.Member">
 		SELECT m1.usersCode, memberId, memberName, enabled, 
-            help, birth, tel, email, post, addr1, addr2, TO_CHAR(joinDate, 'YYYY-MM-DD') joinDate, joinPath, 
+            help, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel, email, post, addr1, addr2, TO_CHAR(joinDate, 'YYYY-MM-DD') joinDate, joinPath, 
             g.gradeCode, gradeName
         FROM member1 m1
         JOIN member2 m2 ON m1.usersCode = m2.usersCode
