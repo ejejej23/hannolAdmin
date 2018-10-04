@@ -5,6 +5,7 @@
 	<select id="list" resultType="com.sp.grade.Grade">
 		SELECT gradeCode, gradeName, condition, benefit, originalFileName, saveFileName
 		FROM grade
+		ORDER BY condition DESC
 	</select>
 	
 	<insert id="insertGrade" parameterType="com.sp.grade.Grade">
@@ -26,5 +27,13 @@
 		UPDATE grade SET gradeName=#{gradeName}, condition=#{condition}, benefit=#{benefit},
 			originalFileName=#{originalFileName}, saveFileName=#{saveFileName}
 		WHERE gradeCode=#{gradeCode}
+	</update>
+	
+	<select id="getFirstCode" resultType="Integer">
+		SELECT gradeCode FROM grade WHERE gradeName='FIRST'
+	</select>
+	
+	<update id="updateMemberGrade" parameterType="map">
+		UPDATE member2 SET gradeCode = #{first} WHERE gradeCode = #{gradeCode} 
 	</update>
 </mapper>

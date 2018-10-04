@@ -8,4 +8,5 @@ public interface GradeService {
 	public Grade readGrade(int gradeCode) throws Exception;
 	public int deleteGrade(int gradeCode, String saveFileName, String pathname)throws Exception;
 	public int updateGrade(Grade dto, String pathname) throws Exception;
+	public int updateMemberGrade(int gradeCode) throws Exception;
 }
