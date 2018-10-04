@@ -111,6 +111,23 @@ $(function(){
 	});
 });
 
+function gubunChange(){
+	var gubunCheck = document.getElementById("gubunCheck");
+	var gubunWay = gubunCheck.options[gubunCheck.selectedIndex].value;
+	
+	if(gubunWay == "yq"){
+		//분기/월별 조회 선택
+		$("#gubunPeriod").hide();
+		$("#gubunYQ").show();
+		
+	}else if(gubunWay == "period"){
+		//기간설정 조회 선택
+		$("#gubunYQ").hide();
+		$("#gubunPeriod").show();
+		
+	}
+}
+
 function getchart(year,gubun){
 	var url="<%=cp%>/finance/lossLine?year="+year+"&gubun="+gubun;
 	$.getJSON(url, function (csv) {
@@ -227,8 +244,21 @@ $(function(){
 	<div class="sub_contents">
 		<form name="searchForm" method="post">
 			<table style="width: 100%; margin: 30px auto; border-spacing: 0px;">
+			
 				<tr height="40">
-					<th>조회구분</th>
+					<th width="120px">조회구분</th>
+					<td>
+						<span>
+							<select class="input-sm" id="gubunCheck" name="gubunCheck" onchange="gubunChange()">
+								<option value="yq" selected="selected">분기/월별 조회</option>
+								<option value="period">설정기간 조회</option>
+		                	</select>
+		                </span>
+					</td>  
+				</tr>
+				
+				<tr height="40" id="gubunYQ">
+					<th width="120px">분기별/월별 조회</th>
 					<td>
 						<span>
 							<select class="input-sm" id="yearCode" name="yearCode">
@@ -244,8 +274,8 @@ $(function(){
 		                </span>
 					</td>  
 				</tr>
-				<tr height="40">
-					<th>기간설정</th>
+				<tr height="40" id="gubunPeriod" style="display: none;">
+					<th width="120px">설정기간 조회</th>
 					<td>
 						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
 						<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
