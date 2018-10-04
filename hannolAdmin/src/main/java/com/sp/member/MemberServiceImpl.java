@@ -15,10 +15,10 @@ public class MemberServiceImpl implements MemberService{
 	private CommonDAO dao;
 	
 	@Override
-	public int dataCount() throws Exception {
+	public int dataCount(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
-			result = dao.selectOne("member.dataCount");
+			result = dao.selectOne("member.dataCount", map);
 		}catch(Exception e) {
 			System.out.println(e.toString());
 		}

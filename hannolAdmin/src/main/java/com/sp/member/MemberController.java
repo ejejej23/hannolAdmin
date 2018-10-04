@@ -47,7 +47,7 @@ public class MemberController {
 		map.put("searchKey", searchKey);
 		map.put("searchValue", searchValue);
 		
-		int dataCount = service.dataCount();
+		int dataCount = service.dataCount(map);
 		
 		int total_page = util.pageCount(rows, dataCount);
 		if(current_page > total_page)

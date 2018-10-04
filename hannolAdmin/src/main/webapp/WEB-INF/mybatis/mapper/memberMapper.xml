@@ -11,7 +11,7 @@
 	  </if>
 	</sql>
 
-	<select id="dataCount" resultType="Integer">
+	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT COUNT(*) FROM member1 m1
 		JOIN member2 m2 ON m1.usersCode = m2.usersCode
 		<where>
