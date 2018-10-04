@@ -96,7 +96,7 @@
             <ul>
                 <li><a href="<%=cp%>/guide/list">가이드</a></li>
                 <li><a href="<%=cp%>/show/list">공연</a></li>
-                <li><a href="#">이벤트</a></li>
+                <li><a href="<%=cp%>/event/list">이벤트</a></li>
             </ul>
         </li>
         
@@ -138,18 +138,12 @@
                 <li><a href="<%=cp%>/giftshop/list">품목관리</a></li>
                 <li><a href="<%=cp%>/goodsIn/list">입고관리</a></li>
                 <li><a href="<%=cp%>/goodsOut/list">출고관리</a></li>
+                <li><a href="<%=cp%>/company/list">업체 정보</a></li>
                 <li><a href="<%=cp%>/magam/list">마감</a></li>
                 <li><a href="#">구매내역</a></li>
             </ul>
         </li>
         
-        <li>
-            <span class="dep1">업체 관리</span>
-            <ul>
-                <li><a href="<%=cp%>/company/list">업체 정보</a></li>
-                <li><a href="#">거래 내역</a></li>
-            </ul>
-        </li>
         <li style="width: 30%; float: right;">
     		<a href="#"><img style="width: 100%;" src ="<%=cp%>/resource/images/park.JPG"></a>  
     	</li>  
