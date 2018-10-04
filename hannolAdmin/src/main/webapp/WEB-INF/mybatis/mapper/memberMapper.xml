@@ -2,8 +2,23 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
+
+	<sql id="where-list">
+	  <if test="searchKey=='all'">
+	      (INSTR(memberName, #{searchValue}) &gt; 0)
+	      OR
+	      (INSTR(m2.usersCode, #{searchValue}) &gt; 0)
+	  </if>
+	</sql>
+
 	<select id="dataCount" resultType="Integer">
-		SELECT COUNT(*) FROM member2
+		SELECT COUNT(*) FROM member1 m1
+		JOIN member2 m2 ON m1.usersCode = m2.usersCode
+		<where>
+	     	<if test="searchValue!=null and searchValue!='' ">
+	     	    <include refid="where-list"/>
+	     	</if>
+	    </where> 
 	</select>
 	
 	<select id="list" parameterType="map" resultType="com.sp.member.Member">
@@ -13,6 +28,11 @@
 		        FROM member1 m1
 		        JOIN member2 m2 ON m1.usersCode = m2.usersCode
 		        JOIN grade g ON g.gradeCode = m2.gradeCode
+		        <where>
+			     	<if test="searchValue!=null and searchValue!='' ">
+			     	    <include refid="where-list"/>
+			     	</if>
+			    </where> 
 		<![CDATA[
 		    )tb WHERE ROWNUM <= #{end}
 		)WHERE rnum >= #{start}
@@ -21,11 +41,23 @@
 	
 	<select id="readMember" parameterType="Integer" resultType="com.sp.member.Member">
 		SELECT m1.usersCode, memberId, memberName, enabled, 
-            help, isAlarm, birth, tel, email, post, addr1, addr2, joinDate, joinPath, 
+            help, birth, tel, email, post, addr1, addr2, TO_CHAR(joinDate, 'YYYY-MM-DD') joinDate, joinPath, 
             g.gradeCode, gradeName
         FROM member1 m1
         JOIN member2 m2 ON m1.usersCode = m2.usersCode
         JOIN grade g ON g.gradeCode = m2.gradeCode
         WHERE m1.usersCode = #{usersCode}
 	</select>
+	
+	<select id="gradelist" resultType="com.sp.member.Member">
+		 SELECT gradeCode, gradeName FROM grade
+	</select>
+	
+	<update id="updateGrade" parameterType="map">
+		UPDATE member2 SET gradeCode=#{gradeCode} WHERE usersCode = #{usersCode} 
+	</update>
+	
+	<update id="updateEnabled" parameterType="map">
+		UPDATE member1 SET enabled=#{enabled} WHERE usersCode = #{usersCode} 
+	</update>
 </mapper>

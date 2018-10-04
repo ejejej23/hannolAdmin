@@ -7,7 +7,6 @@ public class Member {
 	private String memberName;
 	private int enabled;
 	private String help;
-	private int isAlarm;
 	private String email;
 	private String birth;
 	private String post;
@@ -66,14 +65,6 @@ public class Member {
 
 	public void setHelp(String help) {
 		this.help = help;
-	}
-
-	public int getIsAlarm() {
-		return isAlarm;
-	}
-
-	public void setIsAlarm(int isAlarm) {
-		this.isAlarm = isAlarm;
 	}
 
 	public String getEmail() {

@@ -47,4 +47,37 @@ public class MemberServiceImpl implements MemberService{
 		return dto;
 	}
 
+	@Override
+	public List<Member> gradelist() throws Exception {
+		List<Member> list = null;
+		try {
+			list = dao.selectList("member.gradelist");
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public int updateGrade(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("member.updateGrade", map);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int updateEnabled(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("member.updateEnabled", map);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

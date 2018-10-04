@@ -126,6 +126,35 @@ select {
     border-bottom: 1px solid #e4e4e4;
     padding: 10px 16px;
 }
+
+/**modal**/
+.modalTable{width:100%; margin-top:20px; color:#444444;}
+	.modalTable th,
+	.modalTable td{padding:10px 0;} 
+	.modalTable th{width:110px; padding-top:13px; padding-right:20px; text-align:right; vertical-align:top;}
+	
+	.boxTF,
+	.boxTA{width:280px; vertical-align:middle;}
+	.boxTA[disabled]{background-color:#f3f3f3; padding:10px 15px;}
+	.selectField{padding:5px; vertical-align:middle;}
+	.boxTF.btfName{width:120px;}
+	.btfTel{width:60px; text-align:center;}
+	
+	
+	.btnBox{margin:40px 0; text-align:center;}
+	.btnBox .btn{margin:0 3px;}
+	
+/**dialog new style**/
+	.ui-widget{font-family:"Nanum Gothic";}
+	.ui-widget input, 
+	.ui-widget select, 
+	.ui-widget textarea, 
+	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
+	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
+	.ui-dialog .ui-dialog-title{font-size:16px;}
+	.ui-dialog .ui-dialog-titlebar{padding:11px 1em;}
+	.ui-dialog{padding:0;}
+	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 </style>
 
 <script type="text/javascript">
@@ -169,6 +198,47 @@ function sendAuth(){
 		});
 	}
 	
+function gradeUpdate(){
+	$("#gradeModal").dialog({
+		title:"등급수정",
+		width:300,
+		height:260,
+		modal:true,
+		show:"clip",
+		hide:"clip"
+	});
+}
+
+function sendGrade(){
+	var f = document.gradeForm;
+	f.action="<%=cp%>/member/gradeUpdate";
+    f.submit();
+}
+
+function sendEnabled(){
+	var f = document.inOutForm;
+	f.action="<%=cp%>/member/inOutUpdate";
+    f.submit();
+}
+
+function inOut(){
+	$("#inOutModal").dialog({
+		title:"탈퇴/복구",
+		width:300,
+		height:260,
+		modal:true,
+		show:"clip",
+		hide:"clip"
+	});
+}
+
+$(function(){
+	$("#memberGrade").change(function(){
+		var grade = $("#memberGrade option:selected").val();
+		$("#gradeCode").val(grade);
+	});
+	$("#memberGrade > option[value='${dto.gradeCode}']").attr("selected","selected");
+});
 </script>
 
 <div class="sub-container" style="width: 960px;">
@@ -263,15 +333,6 @@ function sendAuth(){
 			</tr>
 			<tr>
 				<th class="col_th">
-					알림수신여부
-				</th>
-				<td colspan="3" class="col_td">
-					<input type="checkbox" name="alrmOK" style="vertical-align: middle; margin-right: 5px;"><label style="margin-right: 10px;">수신</label>
-					<input type="checkbox" name="alrmNO" style="vertical-align: middle; margin-right: 5px;"><label>미수신</label>
-				</td>
-			</tr>
-			<tr>
-				<th class="col_th">
 					가입일
 				</th>
 				<td class="col_td" style="width: 30%;">
@@ -305,14 +366,67 @@ function sendAuth(){
 		<table style="margin: 35px auto; border-spacing: 0px;">
 			<tr height="30">
 				<td align="center">
-				<button type="button" name="gradeButton" class="btn btn-default">등급수정</button>
-					<button type="button" name="InOutButton" class="btn btn-default">탈퇴/복구</button>
+				<button type="button" name="gradeButton" class="btn btn-default" onclick="gradeUpdate();">등급수정</button>
+					<button type="button" name="InOutButton" class="btn btn-default" onclick="inOut()">탈퇴/복구</button>
 					<button type="button" class="btn btn-default	"
 						onclick="javascript:location.href='<%=cp%>/member/list?page=${page}';">리스트</button>
 				</td>
 			</tr>
 		</table>
 		
+		<div id="gradeModal" class="modal">
+			<form name="gradeForm">
+				<table class="modalTable">
+					<tr>
+						<th scope="row">등급</th>
+						<td><select class="input-sm" id="memberGrade" name="memberGrade">
+							<c:forEach var="dto" items="${list}">
+								<option value="${dto.gradeCode}">${dto.gradeName}</option>
+							</c:forEach>
+						</select></td>
+					</tr>
+				</table>
+
+				<div class="btnBox">
+					<button type="button" class="btn btn-default" onClick="sendGrade()"
+						id="btnGradeSendOk">등급수정</button>
+					<input type="hidden" id="gradeCode" name="gradeCode">
+					<input type="hidden" name="num" value="${dto.usersCode}">
+					<input type="hidden" name="page" value="${page}">
+				</div>
+
+				<div id="setMemoAuth"></div>
+			</form>
+		</div>
+		
+		<div id="inOutModal" class="modal">
+			<form name="inOutForm">
+				<table class="modalTable">
+					<tr>
+						<td align="center">
+							<c:if test="${dto.enabled == 1}">
+								이 회원을 탈퇴시키겠습니까?
+							</c:if>
+							<c:if test="${dto.enabled == 0}">
+								이 회원의 계정을 복구시키겠습니까?
+							</c:if>
+						</td>
+					</tr>
+				</table>
+
+				<div class="btnBox">
+					<button type="button" class="btn btn-default" onClick="sendEnabled()" id="btnEnabledSendOk">${dto.enabled == 1?'탈퇴시키기':'복구시키기'}</button>
+					<input type="hidden" name="num" value="${dto.usersCode}">
+					<input type="hidden" name="page" value="${page}">
+					<c:if test="${dto.enabled == 1}">
+						<input type="hidden" name="enabled" value="0">
+					</c:if>
+					<c:if test="${dto.enabled == 0}">
+						<input type="hidden" name="enabled" value="1">
+					</c:if>
+				</div>
+			</form>
+		</div>
 		
 	</div>
 </div>

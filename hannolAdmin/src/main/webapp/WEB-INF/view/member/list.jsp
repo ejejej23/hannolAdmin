@@ -20,7 +20,7 @@
 	</div> 
   
   	<div>
-  		<form name="searchForm" method="post" action="<%=cp%>/staff/list">
+  		<form name="searchForm" method="post" action="<%=cp%>/member/list">
           	<div class="col-xs-8 col-xs-offset-2">
 			  		<div class="input-group">
 			            <input type="hidden" name="searchKey" value="all">         
