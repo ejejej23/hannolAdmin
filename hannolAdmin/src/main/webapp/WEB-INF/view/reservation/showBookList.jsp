@@ -151,7 +151,7 @@ function searchList() {
 	
 	var schCode = f.screenDate.value;
 	if(schCode == 0 || !schCode) {
-		alert('날짜를 선택하세요');
+		alert('날짜를 선택하세요'); 
 		return;
 	}
 	
