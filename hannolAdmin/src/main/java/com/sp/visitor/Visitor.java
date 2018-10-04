@@ -1,7 +1,7 @@
 package com.sp.visitor;
 
 public class Visitor {
-	String year;
+	private String year;
 	private int quarter;
 	private int month;
 	private int day;

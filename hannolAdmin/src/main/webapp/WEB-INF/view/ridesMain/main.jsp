@@ -98,14 +98,25 @@ $(function(){
 	});
 });
 
+//검색조건 event
 $(function(){
 	$(".search-thema").change(function(){
-		$(".search-gubun").attr("disabled", false);
-		$(".search-gubun").val("quarter");
+		if($(this).val() != ""){
+			$(".search-gubun").attr("disabled", false);
+			$(".search-gubun").val("");
+			
+			//년도 가져오기
+			getYear($(this).val());
+		}else{
+			$(".search-gubun").attr("disabled", true);
+			$(".search-gubun").val("");
+		}
 		
 		$(".search-year").css("display", "none");
 		$(".search-self").css("display", "none");
 		$(".btn-search").css("display", "none");
+		
+		reset();
 	});
 	
 	$(".search-gubun").change(function(){
@@ -113,11 +124,68 @@ $(function(){
 			$(".search-year").css("display", "none");
 			$(".search-self").css("display", "inline-block");
 			$(".btn-search").css("display", "inline-block");
-		}else{
+		}else if($(this).val() != ""){
 			$(".search-self").css("display", "none");
 			$(".search-year").css("display", "inline-block");
 			$(".btn-search").css("display", "inline-block");
 		}
+		
+		reset();
+	});
+});
+
+function getYear(themaCode){
+	var url = "<%=cp%>/rides/getYear";
+	var data = "themaCode="+themaCode;
+	
+	$.ajax({
+		type:"POST"
+		,url:url
+		,data: data
+		,success:function(data) {
+			console.log(data.yearList);
+		}
+	    ,error:function(e) {
+	    	console.log(e.responseText);
+	    }
+	});
+}
+
+//datepicket 초기화
+function reset(){
+	$("input[name=searchStartDate]").val("");
+	$("input[name=searchEndDate]").val("");
+}
+
+//search버튼 Event
+$(function(){
+	$(".btn-search-submit").click(function(){
+		//검색조건이 만족하는지 확인
+		if($("#thema").val()==""){
+			alert("테마를 선택해 주세요");
+			$("#thema").focus();
+			return;
+		}
+		
+		if($("#searchGubun").val()==""){
+			alert("조회구분를 선택해 주세요");
+			$("#searchGubun").focus();
+			return;
+		}
+		
+		if($("#searchGubun").val() != "self"){
+			if($("#years").val()==""){
+				alert("년도를 선택해 주세요");
+				return;
+			}
+		}else{
+			if($("#searchStartDate").val()=="" || $("#searchEndDate").val()==""){
+				alert("일자를 선택해 주세요");
+				return;
+			}
+		}
+		
+		//AJAX
 	});
 });
 
@@ -135,52 +203,55 @@ $(function(){
 	</div>
 
 	<div class="sub_contents">
-		<div class="search-box">
-			<div>
-				<p class="tit">테마</p>
-				<p>
-					<select name="thema" class="boxTF select-search search-thema">
-						<option value="all">전체</option>
-						<option value="mini">미니언즈</option>
-						<option value="toy">토이스토리</option>
-					</select>
-				</p>
+			<div class="search-box">
+				<div>
+					<p class="tit">테마</p>
+					<p>
+						<select id="thema" name="thema" class="boxTF select-search search-thema">
+							<option value="">::테마선택::</option>
+							<option value="4">전체</option>
+							<c:forEach items="${thema}" var="dto">
+							<option value="${dto.themaCode}">${dto.themaName}</option>
+							</c:forEach>
+						</select>
+					</p>
+					
+					<p class="tit" style="margin-left: 15px;">조회구분</p>
+					<p>
+						<select id="searchGubun" name="searchGubun" class="boxTF select-search search-gubun" disabled="disabled">
+							<option value="">::구분선택::</option>
+							<option value="quarter">분기별</option>
+							<option value="month">월별</option>
+							<option value="self">직접기간설정</option>
+						</select>
+					</p>
+				</div>
 				
-				<p class="tit" style="margin-left: 15px;">조회구분</p>
-				<p>
-					<select name="searchGubun" class="boxTF select-search search-gubun" disabled="disabled">
-						<option value="quarter">분기별</option>
-						<option value="month">월별</option>
-						<option value="self">직접기간설정</option>
-					</select>
-				</p>
+				<div style="margin-top: 15px;">
+					<p class="tit search-year" style="display: none;">년도</p>
+					<p class="search-year" style="display: none;">
+						<select id="years" name="years" class="boxTF select-search">
+							<option value="">::::년도::::</option>
+							<option value="2011">2011</option>
+							<option value="2012">2012</option>
+						</select>
+					</p>
+					
+					<p class="tit search-self" style="display: none;">기간설정</p>
+					<p class="search-self" style="display: none;">
+						<span class="datepickerBox"><input type="text" id="searchStartDate" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
+						<span class="datepickerBox"><input type="text" id="searchEndDate" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
+					</p>
+					
+					<p>
+						<span class="input-group-btn btn-search" style="display: none;">
+							<button type="button" class="btn btn-info btn-search-submit" style="border-radius: 5px;">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>			
+						</span>
+					</p>
+				</div>
 			</div>
-			
-			<div style="margin-top: 15px;">
-				<p class="tit search-year" style="display: none;">년도</p>
-				<p class="search-year" style="display: none;">
-					<select name="years" class="boxTF select-search">
-						<option>::::년도::::</option>
-						<option>2011</option>
-						<option>2012</option>
-					</select>
-				</p>
-				
-				<p class="tit search-self" style="display: none;">기간설정</p>
-				<p class="search-self" style="display: none;">
-					<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
-					<span class="datepickerBox"><input type="text" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
-				</p>
-				
-				<p>
-					<span class="input-group-btn btn-search" style="display: none;">
-						<button type="button" class="btn btn-info" style="border-radius: 5px;">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>			
-					</span>
-				</p>
-			</div>
-		</div>
 	</div>
 </div>
 
