@@ -74,7 +74,7 @@ function deleteCard(cardCode) {
 		  <c:forEach var="dto" items="${list}">
 		  <tr align="center" style="border-bottom: 1px solid #cccccc;"> 
 		      <td rowspan="2" width="30%">
-		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+		      	<c:if test="${empty dto.saveFilename}"><a href="${articleUrl}&num=${dto.eventCode}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></a></c:if>
 		      	<c:if test="${not empty dto.saveFilename}"><a href="${articleUrl}&num=${dto.eventCode}"><img src="/hannolAdmin/uploads/eventFile/${dto.saveFilename}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></a></c:if>
 		      </td>
 		      <td colspan="2" width="70%" align="left" style="padding-left: 1em; padding-right: 1em; height: 3em;">
