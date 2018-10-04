@@ -1,5 +1,7 @@
 package com.sp.grade;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Grade {
 	private int gradeCode;
 	private String gradeName;
@@ -7,6 +9,7 @@ public class Grade {
 	private String benefit;
 	private String originalFileName;
 	private String saveFileName;
+	private MultipartFile upload;
 
 	public int getGradeCode() {
 		return gradeCode;
@@ -54,6 +57,14 @@ public class Grade {
 
 	public void setSaveFileName(String saveFileName) {
 		this.saveFileName = saveFileName;
+	}
+
+	public MultipartFile getUpload() {
+		return upload;
+	}
+
+	public void setUpload(MultipartFile upload) {
+		this.upload = upload;
 	}
 
 }

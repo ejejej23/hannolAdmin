@@ -7,13 +7,25 @@
 %>
 
 <script type="text/javascript">
+function deleteGrade(gradeCode) {
+	<c:if test="${sessionScope.staff.authority=='ROLE_ADMIN'}">
+		var url = "<%=cp%>/grade/delete?num="+gradeCode;
 
+		if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
+				location.href=url;
+		}
+	</c:if>    
+
+	<c:if test="${sessionScope.staff.authority!='ROLE_ADMIN'}">
+		alert("게시물을 삭제할 수  없습니다.");
+	</c:if>
+	}
 </script>
 
 <style type="text/css">
 .cardImage{
-	width: 18em;
-	height: 11em;
+	width: 8em;
+	height: 8em;
 }
 
 .cardImage_dialog{
@@ -43,6 +55,11 @@
 	width: 570px;
 }
 
+.custom_table {
+    width: 100%;
+    border-top: 2px solid #cecece;
+}
+
 }
 </style>
 
@@ -55,29 +72,26 @@
    
     
     <div>
-		<table  style="width: 100%; height: 13em; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+		<table  class="custom_table">
 		  <c:forEach var="dto" items="${list}">
 		  <tr align="center" style="border-bottom: 1px solid #cccccc;"> 
-		      <td rowspan="2" width="30%">
-		      	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
-		      	<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/card/${dto.saveFilename}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+		      <td rowspan="2" width="20%">
+		      	<c:if test="${empty dto.saveFileName}"><img src="<%=cp%>/resource/images/noimage.png" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+		      	<c:if test="${not empty dto.saveFileName}"><img src="<%=cp%>/uploads/grade/${dto.saveFileName}" class="cardImage" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 		      </td>
-		      <td colspan="2" width="70%" align="left" style="padding-left: 1em; padding-right: 1em; height: 3em;">
-		           	<h4 style="font-weight: bold;">${dto.cardName}</h4>
+		      <td colspan="2" width="80%" align="left" style="padding-left: 1em; padding-right: 1em; height: 3em;">
+		           	<h4 style="font-weight: bold;">${dto.gradeName}</h4>
 		      </td>
 		  </tr>
 		  <tr style="border-bottom: 1px solid #cccccc;">
-		  	  <td width="55%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em; height: 7em;"><span style="font-weight: bold;">카드사</span>
-					- ${dto.cardCo}
-				<span style="display:block; font-weight:bold;">이용혜택</span>- 자유이용권 ${dto.discount}% (본인에 한함. 전 놀이공원 1일, 1회)
+		  	  <td width="55%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em; height: 7em;"><span style="font-weight: bold;">조건</span>
+					- ${dto.condition} 
+				<span style="display:block;8 font-weight:bold;">혜택</span>- ${dto.benefit}
 		      </td>
 		      
 		      <td width="15%">
-		      	 <button type="button" class="btn btn-info" onclick="cardDetail(${dto.cardCode})">상세정보</button>
-		      	 <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
-		      	 	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/update?num=${dto.cardCode}&${query}';">수정하기</button>
-		      	 	<button type="button" class="btn btn-default" onclick="deleteCard('${dto.cardCode}');">삭제하기</button>
-		      	 </c:if>
+		      	 	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/update?num=${dto.gradeCode}';">수정하기</button>
+		      	 	<button type="button" class="btn btn-default" style="margin-top: 5px;" onclick="deleteGrade(${dto.gradeCode});">삭제하기</button>
 		      </td>
 		  </tr>
 		  </c:forEach>
@@ -92,7 +106,7 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/created';">카드등록</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/created';">등급추가</button>
 		      </td>
 		   </tr>
 		</table>

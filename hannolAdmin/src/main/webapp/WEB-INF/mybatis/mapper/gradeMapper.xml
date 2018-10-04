@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="grade">
+	<select id="list" resultType="com.sp.grade.Grade">
+		SELECT gradeCode, gradeName, condition, benefit, originalFileName, saveFileName
+		FROM grade
+	</select>
+	
+	<insert id="insertGrade" parameterType="com.sp.grade.Grade">
+		INSERT INTO grade(gradeCode, gradeName, condition, benefit, originalFileName, saveFileName)
+		VALUES(grade_seq.NEXTVAL, #{gradeName}, #{condition}, #{benefit}, #{originalFileName}, #{saveFileName})
+	</insert>
+	
+	<select id="readGrade" parameterType="Integer" resultType="com.sp.grade.Grade">
+		SELECT gradeCode, gradeName, condition, benefit, originalFileName, saveFileName
+		FROM grade
+		WHERE gradeCode = #{gradeCode}
+	</select>
+	
+	<delete id="deleteGrade" parameterType="Integer">
+		DELETE FROM grade WHERE gradeCode = #{gradeCode}
+	</delete>
+	
+	<update id="updateGrade" parameterType="com.sp.grade.Grade">
+		UPDATE grade SET gradeName=#{gradeName}, condition=#{condition}, benefit=#{benefit},
+			originalFileName=#{originalFileName}, saveFileName=#{saveFileName}
+		WHERE gradeCode=#{gradeCode}
+	</update>
+</mapper>

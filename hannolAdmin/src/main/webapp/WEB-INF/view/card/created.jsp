@@ -78,14 +78,14 @@
         str = f.cardupload.value;
         if(!str) {
             alert("카드 이미지를 첨부하세요. ");
-            f.content.focus();
+            f.cardupload.focus();
             return;
         }
         
         str = f.logoupload.value;
         if(!str) {
             alert("로고 이미지를 첨부하세요. ");
-            f.content.focus();
+            f.logoupload.focus();
             return;
         }
         }
