@@ -49,4 +49,30 @@ public class ReservationServiceImpl implements ReservationService {
 		return list;
 	}
 
+	@Override
+	public List<ShowReservation> listReservationMember(int sStartCode) throws Exception {
+		List<ShowReservation> list = null;
+		try {
+			list = dao.selectList("reservation.listReservationMember", sStartCode);
+			for(ShowReservation sr : list) {
+				List<String> seatNum = listReservationSeatNum(sr.getShowBookCode());
+				sr.setSeatNum(seatNum);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<String> listReservationSeatNum(int showBookCode) throws Exception {
+		List<String> list = null;
+		try {
+			list = dao.selectList("reservation.listReservationSeatNum", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

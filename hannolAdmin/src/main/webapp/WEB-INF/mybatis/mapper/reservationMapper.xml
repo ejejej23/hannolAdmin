@@ -19,9 +19,11 @@
 	
 	<!-- 상영날짜 list -->
 	<select id="listScreenDate" parameterType="Integer" resultType="map">
-		select schCode, screenDate
+		select schCode, to_char(screenDate, 'yy-mm-dd') screenDate
 		from showSch
-		where SHOWINFOcode = #{showInfoCode}
+<![CDATA[		
+		where SHOWINFOcode = #{showInfoCode} and screenDate >= sysdate-1
+]]>
 	</select>
 	
 	<!-- 시작시간 list -->
@@ -29,6 +31,24 @@
 		select sStartCode, startTime
 		from showStartTime
 		where schCode = #{schCode}
+	</select>
+	
+	<!-- 예약회원 list -->
+	<select id="listReservationMember" parameterType="Integer" resultType="com.sp.reservation.ShowReservation">
+		select showBookCode, bookDate, memberName, tel
+		from showBook sb 
+		join member1 m1
+		    on sb.usersCode = m1.usersCode
+		left join member2 m2
+		    on m1.USERSCODE = m2.USERSCODE
+		where sStartCode = #{sStartCode}
+	</select>
+	
+	<!-- 회원의 예약 좌석 list -->
+	<select id="listReservationSeatNum" parameterType="Integer" resultType="String">
+		select seatNum
+		from showBookInfo
+		where showBookCode = #{showBookCode}
 	</select>
 
 </mapper>

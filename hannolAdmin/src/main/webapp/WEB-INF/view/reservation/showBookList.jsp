@@ -15,26 +15,159 @@
 
 <script>
 
-//datepicker
+function searchList() {
+	var f = document.bookForm;
+	
+	var showInfoCode = f.showName.value;
+	if(showInfoCode == 0 || !showInfoCode) {
+		alert('공연을 선택하세요');
+		return;
+	}
+	
+	var schCode = f.screenDate.value;
+	if(schCode == 0 || !schCode) {
+		alert('날짜를 선택하세요');
+		return;
+	}
+	
+	var sStartCode = f.startTime.value;
+	if(sStartCode == 0 || !sStartCode) {
+		alert('시간을 선택하세요');
+		return;
+	}
+	
+	var url = "<%=cp%>/reservation/reservationList";
+	var type = "get";
+	var query = "showInfoCode=" + showInfoCode + "&schCode=" + schCode + "&sStartCode=" + sStartCode;
+	var divId = "reservationList";
+	
+	ajaxHTML(url, type, query, divId);
+}
+
 $(function(){
-	//검색 시작날짜
-	$("input[name=searchStartDate]").datepicker({
-		dateFormat:'yy-mm-dd',
-		showOn:"button",
-        buttonImage:"<%=cp%>/resource/images/date24.png",
-        buttonImageOnly:true,
-        showAnim:"slideDown",
-        buttonText:"선택",
-        onSelect:function(selected){
-        	if(!$("input[name=searchEndDate]").val()){ 
-        		$("input[name=searchEndDate]").val(selected);  
-        	}
-        		
-        	$("input[name=searchEndDate]").datepicker("option", "minDate", selected);
-        
-        }
-	}); 
+	
+	$("select[name=showName]").change(function () {
+		// 제거
+		$("select[name=screenDate] option").remove();
+		$("select[name=startTime] option").remove();
+		
+		var showInfoCode = $(this).val();
+		if(showInfoCode == 0) {
+			return;
+		}
+		var url = "<%=cp%>/reservation/show/screenDate";
+		var type = "get";
+		var query = "showInfoCode=" + showInfoCode;
+		ajaxJSON(url, type, query);
+	});
+
+	$("select[name=screenDate]").change(function () {
+		// 제거
+		$("select[name=startTime] option").remove();
+		
+		var schCode = $(this).val();
+		if(schCode == 0) {
+			return;
+		}
+		var url = "<%=cp%>/reservation/show/startTime";
+		var type = "get";
+		var query = "schCode=" + schCode;
+		ajaxJSON(url, type, query);
+	});
+	
+	
 });
+
+var arr = [];	// SCHCODE, SCREENDATE - 선택 가능한 날짜
+
+/* function selectableDays(date) { 
+	var ymd = dateToString(date);
+
+    if ($.inArray(ymd, arr) >= -1) {
+        return [true,"",""];
+    } else {
+        return [false,"",""];
+    }
+}  
+ */
+
+//ajax-text 공통함수
+ function ajaxHTML(url, type, query, divId) {
+ 	$.ajax({
+ 		type:type,
+ 		url:url,
+ 		data:query,
+ 		success:function(data){
+ 			if($.trim(data)=="error"){
+ 				alert('잘못된 요청입니다.');
+ 				listPage(1);
+ 				return;
+ 			}
+ 			$("#"+divId).html(data);
+ 		},
+ 		beforeSend:function(jqXHR){
+ 			jqXHR.setRequestHeader("AJAX", true);
+ 		},
+ 		error:function(jqXHR){
+ 			if(jqXHR.status==403){
+ 				location.href="<%=cp%>/member/login";
+ 				return;
+ 			}
+ 			console.log(jqXHR.responseText);
+ 		}
+ 	});
+ } 
+ 
+//ajax-json 공통함수
+function ajaxJSON(url, type, query) {
+	$.ajax({
+		type:type
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="screenDatetrue") {
+				arr = data.list;
+//				var dataArr = [];
+				for(var i = 0; i < arr.length; i++) {
+//					dataArr.push(arr[i].SCREENDATE);
+					var $option = $("<option value=" + arr[i].SCHCODE + ">" + arr[i].SCREENDATE + "</option>");
+					$("select[name=screenDate]").append($option);
+				}				
+				
+				//검색 시작날짜
+				<%-- $("input[name=searchStartDate]").datepicker({
+					showOn:"button",
+			        buttonImage:"<%=cp%>/resource/images/date24.png",
+			        buttonImageOnly:true,
+			        showAnim:"slideDown",
+			        buttonText:"선택",
+					dateFormat:'yy-mm-dd',
+			        beforeShowDay: selectableDays
+				}); --%> 
+			} else if(state=="startTimetrue") {
+				var stArr = data.list;
+				for(var i = 0; i < stArr.length; i++) {
+					var $option = $("<option value=" + stArr[i].SSTARTCODE + ">" + stArr[i].STARTTIME + "</option>");
+					$("select[name=startTime]").append($option);
+				}				
+			} else if(state=="false") {
+				alert(data.msg);
+			}
+		}
+		,beforeSend : function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
 </script>
 
 <div>
@@ -45,6 +178,7 @@ $(function(){
 					<th>공연</th> 
 					<td>
 						<select name="showName" class="selectField">
+							<option value="0">:::선택:::</option>
 							<c:forEach items="${showList}" var="dto">
 								<option value="${dto.showInfoCode}">${dto.showName}</option>
 							</c:forEach>
@@ -54,16 +188,18 @@ $(function(){
 				<tr height="40">
 					<th>날짜</th>
 					<td>
-						<span class="datepickerBox"><input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> 
-					</td>  
+<%-- 						<span class="datepickerBox">
+							<input type="text" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span>  --%>
+						<select name="screenDate" class="selectField">
+							<option value="0">:::선택:::</option>
+						</select>  
+ 					</td>  
 				</tr>
 				<tr>
-					<th>검색</th> 
+					<th>시간</th> 
 					<td>
-						<select name="searchKey" class="selectField">
-							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
-							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
-							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>점검내역</option>
+						<select name="startTime" class="selectField">
+							<option value="0">:::선택:::</option>
 						</select>  
 					</td>  
 				</tr>
@@ -76,57 +212,7 @@ $(function(){
 				</tr>
 			</table>
 	
-	
-	
-		<table class="table">
-		    <colgroup>
-		        <col style="width: 5%; text-align:center">
-		        <col style="width: 20%; text-align:center">
-		        <col style="width: 20%; text-align:center">
-		        <col style="width: 20%; text-align:center">
-		        <col style="width: 20%; text-align:center">
-		        <col style="width: 15%; text-align:center">
-		    </colgroup>
-    
-		  <thead class="thead-light">
-		    <tr style="text-align: center;">
-		      <th scope="col"><input type="checkbox" name="chkAll" id="chkAll" value="chkAll" onclick="checkAll();"></th>
-		      <th scope="col">예약번호</th>
-		      <th scope="col">예약일자</th>
-		      <th scope="col">회원명</th>
-		      <th scope="col">전화번호</th>
-		      <th scope="col">좌석</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-			  	<c:forEach var="dto" items="${list}">
-				    <tr>
-				      <th><input type="checkbox" name="chk" value="chk" onclick="chkSingle();" data-showBookCode="${dto.showBookCode}"></th>
-				      <th scope="row">${dto.bookDate}</th>
-				      <td>${dto.screenDate}</td>
-				      <td>${dto.showName}</td>
-				      <td>${dto.name}</td>
-				      <td>
-					      <c:forEach items="${dto.seatNum}" var="vo" varStatus="status">
-					      	${vo}&nbsp;${(status.last) ? "" : " , "}
-					      </c:forEach>
-				      </td>
-				    </tr>
-			    </c:forEach>
-		  </tbody>
-		</table>
-		
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-				<td align="center">
-				        <c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-				   		<c:if test="${dataCount!=0 }">${paging}</c:if>
-				</td>
-				<td align="right" width="100">
-						<button type="button" id="btnShowDelete" name="btnShowDelete" class="btn btn-default">예약삭제</button>
-				</td>
-		   </tr>
-		</table>
+		<div id="reservationList"></div>
+
 	</form>
 </div>
