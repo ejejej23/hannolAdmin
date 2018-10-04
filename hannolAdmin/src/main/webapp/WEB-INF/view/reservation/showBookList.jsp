@@ -44,10 +44,10 @@ $(function(){
 				<tr>
 					<th>공연</th> 
 					<td>
-						<select name="searchKey" class="selectField">
-							<option value="kind" <c:if test="${searchKey=='kind'}">selected="selected"</c:if>>분류</option>
-							<option value="name" <c:if test="${searchKey=='name'}">selected="selected"</c:if>>시설명</option> 
-							<option value="content" <c:if test="${searchKey=='content'}">selected="selected"</c:if>>점검내역</option>
+						<select name="showName" class="selectField">
+							<c:forEach items="${showList}" var="dto">
+								<option value="${dto.showInfoCode}">${dto.showName}</option>
+							</c:forEach>
 						</select>  
 					</td>  
 				</tr>

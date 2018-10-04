@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservation">
+	<!-- 공연 -->
+	<!-- 현재 상영중인 공연 -->
+	<select id="listNowPlaying" resultType="com.sp.schedule.Show">
+		select s.showCode, s.showname, si.showinfocode 
+		from show s 
+		join showinfo si
+		    on s.showCode = si.SHOWCODE
+		join stage st
+		    on si.FACILITYCODE = st.FACILITYCODE
+		where s.gubunCode = 3
+<![CDATA[
+		    and si.startDate <= sysdate and si.endDate >= sysdate
+]]>
+	</select>
+	
+	<!-- 상영날짜 list -->
+	<select id="listScreenDate" parameterType="Integer" resultType="map">
+		select schCode, screenDate
+		from showSch
+		where SHOWINFOcode = #{showInfoCode}
+	</select>
+	
+	<!-- 시작시간 list -->
+	<select id="listStartTime" parameterType="Integer" resultType="map">
+		select sStartCode, startTime
+		from showStartTime
+		where schCode = #{schCode}
+	</select>
+
+</mapper>
