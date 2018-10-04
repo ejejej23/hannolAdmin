@@ -77,7 +77,7 @@
 		<div class="form-group"> 
 			<label for="condition" class="col-sm-2 control-label">등급조건</label> 
 			<div class="col-sm-10"> 
-				<input name="condition" type="text" class="form-control" id="condition" placeholder="등급조건" value="${dto.condition}"> 
+				<input style="width: 30%;" name="condition" type="text" class="form-control" id="condition" placeholder="금액" value="${dto.condition}">만원 이상 구매 회원
 			</div>  
 		</div>
 
@@ -112,9 +112,11 @@
 		        <button type="button" class="btn btn-default" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 		        <button type="reset" class="btn btn-default">다시입력</button>
 		        <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+		        <c:if test="${mode eq 'update'}">
 		        <input type="hidden" name="gradeCode" value="${dto.gradeCode}">
 		        <input type="hidden" name="saveFileName" value="${dto.saveFileName}">
 		        <input type="hidden" name="originalFileName" value="${dto.originalFileName}">
+		      	</c:if>
 		      </td>
 		    </tr>
 		</table>

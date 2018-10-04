@@ -78,6 +78,8 @@ public class GradeController {
 	@RequestMapping(value = "/grade/delete")
 	public String delete(@RequestParam int num, HttpSession session) throws Exception {
 		
+		service.updateMemberGrade(num);
+		
 		Grade dto = service.readGrade(num);
 		if(dto==null) {
 			return "redirect:/grade/list";

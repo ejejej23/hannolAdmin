@@ -1,6 +1,8 @@
 package com.sp.grade;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,10 +64,10 @@ public class GradeServiceImpl implements GradeService {
 	public int deleteGrade(int gradeCode, String saveFileName, String pathname) throws Exception {
 		int result = 0;
 		try {
-			if (saveFileName != null) {
+			if (saveFileName != null && result == 1) {
 				fileManager.doFileDelete(saveFileName, pathname);
 			}
-
+			
 			result = dao.deleteData("grade.deleteGrade", gradeCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -92,6 +94,23 @@ public class GradeServiceImpl implements GradeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+
+	@Override
+	public int updateMemberGrade(int gradeCode) throws Exception {
+		int result = 0;
+		try {
+			int first = dao.selectOne("grade.getFirstCode");
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("gradeCode", gradeCode);
+			map.put("first", first);
+			result = dao.updateData("grade.updateMemberGrade", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
 		return result;
 	}
 

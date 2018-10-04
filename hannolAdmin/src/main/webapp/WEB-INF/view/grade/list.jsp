@@ -85,13 +85,16 @@ function deleteGrade(gradeCode) {
 		  </tr>
 		  <tr style="border-bottom: 1px solid #cccccc;">
 		  	  <td width="55%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em; height: 7em;"><span style="font-weight: bold;">조건</span>
-					- ${dto.condition} 
+					<c:if test="${dto.gradeName eq 'FIRST'}">- 가입 고객</c:if>
+					<c:if test="${dto.gradeName ne 'FIRST'}">- 연 ${dto.condition}만원 이상 구매 회원</c:if>
 				<span style="display:block;8 font-weight:bold;">혜택</span>- ${dto.benefit}
 		      </td>
 		      
 		      <td width="15%">
+		      <c:if test="${dto.gradeName ne 'FIRST'}">
 		      	 	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/update?num=${dto.gradeCode}';">수정하기</button>
 		      	 	<button type="button" class="btn btn-default" style="margin-top: 5px;" onclick="deleteGrade(${dto.gradeCode});">삭제하기</button>
+		      </c:if>
 		      </td>
 		  </tr>
 		  </c:forEach>
