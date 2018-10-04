@@ -69,7 +69,7 @@
             <span class="dep1">사용자 관리</span>
             <ul>
                 <li><a href="<%=cp%>/coupon/list">쿠폰 발송</a></li>
-                <li><a href="<%=cp%>/rank/list">등급 관리</a></li>
+                <li><a href="<%=cp%>/grade/list">등급 관리</a></li>
                 <li><a href="<%=cp%>/member/list">회원리스트</a></li>                
             </ul>
         </li>
