@@ -15,35 +15,6 @@
 
 <script>
 
-function searchList() {
-	var f = document.bookForm;
-	
-	var showInfoCode = f.showName.value;
-	if(showInfoCode == 0 || !showInfoCode) {
-		alert('공연을 선택하세요');
-		return;
-	}
-	
-	var schCode = f.screenDate.value;
-	if(schCode == 0 || !schCode) {
-		alert('날짜를 선택하세요');
-		return;
-	}
-	
-	var sStartCode = f.startTime.value;
-	if(sStartCode == 0 || !sStartCode) {
-		alert('시간을 선택하세요');
-		return;
-	}
-	
-	var url = "<%=cp%>/reservation/reservationList";
-	var type = "get";
-	var query = "showInfoCode=" + showInfoCode + "&schCode=" + schCode + "&sStartCode=" + sStartCode;
-	var divId = "reservationList";
-	
-	ajaxHTML(url, type, query, divId);
-}
-
 $(function(){
 	
 	$("select[name=showName]").change(function () {
@@ -90,7 +61,7 @@ var arr = [];	// SCHCODE, SCREENDATE - 선택 가능한 날짜
     }
 }  
  */
-
+ 
 //ajax-text 공통함수
  function ajaxHTML(url, type, query, divId) {
  	$.ajax({
@@ -168,6 +139,42 @@ function ajaxJSON(url, type, query) {
 	    }
 	});
 }
+
+function searchList() {
+	var f = document.bookForm;
+	
+	var showInfoCode = f.showName.value;
+	if(showInfoCode == 0 || !showInfoCode) {
+		alert('공연을 선택하세요');
+		return;
+	}
+	
+	var schCode = f.screenDate.value;
+	if(schCode == 0 || !schCode) {
+		alert('날짜를 선택하세요');
+		return;
+	}
+	
+	var sStartCode = f.startTime.value;
+	if(sStartCode == 0 || !sStartCode) {
+		alert('시간을 선택하세요');
+		return;
+	}
+	
+	
+	var screenDate = $("select[name=screenDate] option:selected").text();
+	var startTime = $("select[name=startTime] option:selected").text();
+	
+	var url = "<%=cp%>/reservation/reservationList";
+	var type = "get";
+	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime + "&sStartCode=" + sStartCode;
+	alert(query);
+	var divId = "reservationList";
+	
+	ajaxHTML(url, type, query, divId);
+}
+
+
 </script>
 
 <div>

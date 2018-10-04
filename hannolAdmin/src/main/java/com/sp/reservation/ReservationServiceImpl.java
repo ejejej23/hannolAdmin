@@ -75,4 +75,26 @@ public class ReservationServiceImpl implements ReservationService {
 		return list;
 	}
 
+	@Override
+	public int readSeatCount(int showInfoCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("reservation.readSeatCount", showInfoCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Integer> listSeat(Map<String, Object> map) throws Exception {
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("reservation.listSeat", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

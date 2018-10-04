@@ -50,5 +50,32 @@
 		from showBookInfo
 		where showBookCode = #{showBookCode}
 	</select>
+	
+	<!-- 시설의 총 좌석수 -->
+		<select id="readSeatCount" parameterType="Integer" resultType="Integer">
+		select nvl(seatCount, 0) seatCount
+		from facility f left outer join stage s
+			on f.FACILITYCODE = s.FACILITYCODE
+		where gubuncode = 3 and f.facilitycode = (
+			select facilityCode 
+			from showInfo
+			where showInfocode = #{showInfocode}
+		)
+	</select>
+	
+	<!-- 예약좌석 리스트 -->
+ 	<select id="listSeat" parameterType="map" resultType="Integer">
+		select seatNum
+		from showbookinfo
+		where sStartCode = (
+		    select sStartCode
+		    from showStartTime
+		    where startTime = #{startTime} and schCode = (
+		        select schCode
+		        from showSch
+		        where screenDate = #{screenDate} and showInfoCode = #{showInfoCode})
+		)
+	</select>
+	
 
 </mapper>

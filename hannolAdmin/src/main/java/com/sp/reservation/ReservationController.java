@@ -84,10 +84,28 @@ public class ReservationController {
 	@RequestMapping(value="/reservation/reservationList")
 	public String reservationList(
 			@RequestParam(value="showInfoCode") int showInfoCode,
-			@RequestParam(value="schCode") int schCode,
 			@RequestParam(value="sStartCode") int sStartCode,
+			@RequestParam(value="screenDate") String screenDate,
+			@RequestParam(value="startTime") String startTime,
 			Model model) throws Exception {
 		
+		// 시설의 총 좌석 수
+		int seatCount = service.readSeatCount(showInfoCode);
+		
+		// 예약된 좌석 리스트
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", screenDate);
+		map.put("showInfoCode", showInfoCode);
+		map.put("startTime", startTime);
+		List<Integer> seatList = service.listSeat(map);
+		
+		model.addAttribute("seatCount", seatCount);
+		model.addAttribute("screenDate", screenDate);
+		model.addAttribute("startTime", startTime);
+		model.addAttribute("showInfoCode", showInfoCode);
+		model.addAttribute("seatList", seatList);
+		
+		// 예약자
 		List<ShowReservation> list = service.listReservationMember(sStartCode);
 		model.addAttribute("list", list);
 		model.addAttribute("dataCount", list.size());

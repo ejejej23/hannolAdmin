@@ -13,4 +13,7 @@ public interface ReservationService {
 	public List<ShowReservation> listReservationMember(int sStartCode) throws Exception;
 	public List<String> listReservationSeatNum(int showBookCode) throws Exception;
 	
+	// 무대공연 - 좌석
+	public int readSeatCount(int showInfoCode) throws Exception;
+	public List<Integer> listSeat(Map<String, Object> map) throws Exception;
 }
