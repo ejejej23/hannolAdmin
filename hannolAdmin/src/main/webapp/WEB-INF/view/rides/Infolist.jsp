@@ -116,7 +116,6 @@
 		$(function() {
 			$("body").on("click", "#sendOk", function() {
 				var url = "<%=cp%>/rides/ridesInfocreated";
-				/* var query =  $("#ridesInfoForm").serialize(); */
 				var test =  $("#name1 option:selected").val();
 				var test1 = $("#state option:selected").val();
 				var query = {"test":test, "test1":test1}

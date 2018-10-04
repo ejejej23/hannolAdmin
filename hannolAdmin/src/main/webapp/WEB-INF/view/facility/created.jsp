@@ -10,11 +10,60 @@
     function sendOk() {
         var f = document.facilityForm;
 
+        var themeCode = f.themeCode.value;
+        if(!themeCode){
+        	alert("테마를 선택하세요.");
+        	f.themeCode.focus();
+        	return false;
+        }
+
+        var gubunCode = f.gubunCode.value;
+        if(!gubunCode){
+        	alert("시설을 선택하세요.");
+        	f.gubunCode.focus();
+        	return false;
+        }
+
+        var name = f.name.value;
+        if(!name){
+        	alert("시설명을 입력하세요.");
+        	f.name.focus();
+        	return false;
+        }
+
+        var state = f.state.value;
+        if(!state){
+        	alert("상태를 선택하세요.");
+        	f.state.focus();
+        	return false;
+        }
+
+        var memo = f.memo.value;
+        if(!memo){
+        	alert("상세설명을 입력하세요.");
+        	f.memo.focus();
+        	return false;
+        }
+        
     	f.action="<%=cp%>/facility/${mode}";
 
         f.submit();
     }
 
+    
+
+	function check() {
+	    var f = document.goodsForm;
+	    
+	    var giftName = f.goodsName.value;
+	    if(!giftName){
+	    	alert("상품명을 입력하세요. ");
+	    	f.goodsName.focus();
+	    	return false;
+	    }
+	    
+	    
+	}
 </script>
 
 <style type="text/css">
