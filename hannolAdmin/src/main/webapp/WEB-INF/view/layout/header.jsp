@@ -69,7 +69,7 @@
             <span class="dep1">사용자 관리</span>
             <ul>
                 <li><a href="<%=cp%>/coupon/list">쿠폰 발송</a></li>
-                <li><a href="#">등급 관리</a></li>
+                <li><a href="<%=cp%>/rank/list">등급 관리</a></li>
                 <li><a href="<%=cp%>/member/list">회원리스트</a></li>                
             </ul>
         </li>
@@ -145,7 +145,7 @@
         </li>
         
         <li style="width: 30%; margin-left: 305px">
-    		<a href="#"><img style="width: 100%;" src ="<%=cp%>/resource/images/park.JPG"></a>  
+    		<a href="/hannol/"><img style="width: 100%;" src ="<%=cp%>/resource/images/park.JPG"></a>  
     	</li>  
     </ul>  
 </div>
