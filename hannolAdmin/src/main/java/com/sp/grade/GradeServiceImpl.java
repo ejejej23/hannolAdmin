@@ -25,7 +25,6 @@ public class GradeServiceImpl implements GradeService {
 		try {
 			list = dao.selectList("grade.list");
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
 
 		return list;
@@ -43,7 +42,6 @@ public class GradeServiceImpl implements GradeService {
 			}
 			result = dao.insertData("grade.insertGrade", dto);
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
 
 		return result;
@@ -55,7 +53,6 @@ public class GradeServiceImpl implements GradeService {
 		try {
 			dto = dao.selectOne("grade.readGrade", gradeCode);
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
 		return dto;
 	}
@@ -70,7 +67,6 @@ public class GradeServiceImpl implements GradeService {
 			
 			result = dao.deleteData("grade.deleteGrade", gradeCode);
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -92,7 +88,6 @@ public class GradeServiceImpl implements GradeService {
 			}
 			result=dao.updateData("grade.updateGrade", dto);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return result;
 	}
@@ -108,7 +103,6 @@ public class GradeServiceImpl implements GradeService {
 			map.put("first", first);
 			result = dao.updateData("grade.updateMemberGrade", map);
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
 		
 		return result;

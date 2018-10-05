@@ -144,4 +144,11 @@ public class MemberController {
 		
 		return "redirect:/member/detail?num="+num+"&page="+current_page;
 	}
+	
+	@RequestMapping(value = "/member/updateGrade")
+	public String updateGrade() throws Exception {
+		service.updateGradeCode();
+		
+		return "redirect:/member/list";
+	}
 }

@@ -60,4 +60,29 @@
 	<update id="updateEnabled" parameterType="map">
 		UPDATE member1 SET enabled=#{enabled} WHERE usersCode = #{usersCode} 
 	</update>
+	
+	<select id="getUpdateGradeCode" resultType="com.sp.member.Member">
+		SELECT m1.usersCode,
+			NVL((SELECT gradeCode from grade where condition = (    
+            		SELECT max(condition) 
+                    FROM grade 
+                    <![CDATA[
+                    WHERE condition*10000 <= (
+                    ]]>
+                        SELECT sum(payPrice) totalPrice
+                        FROM(
+                            SELECT payPrice payPrice
+                            FROM payment p 
+                            JOIN cardInfo ci ON p.payCode = ci.payCode
+                            JOIN payInfo pi ON p.payCode = pi.payCode
+                            WHERE state = '승인완료' and usersCode = 3 and to_char(p.payDate,'yyyy') = to_char(sysdate,'yyyy')-1
+                )))),1) gradeCode
+	     FROM member1 m1
+	     JOIN member2 m2 ON m1.usersCode = m2.usersCode
+	     JOIN grade g ON g.gradeCode = m2.gradeCode
+	</select>
+	
+	<update id="updateGradeCode" parameterType="com.sp.member.Member">
+		UPDATE member2 SET gradeCode = #{gradeCode} WHERE usersCode = #{usersCode}
+	</update>
 </mapper>

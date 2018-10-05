@@ -95,7 +95,7 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		          &nbsp;
+		          <button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=cp%>/member/updateGrade';">전체 회원 등급 업데이트</button>
 		      </td>
 		   </tr>
 		</table>

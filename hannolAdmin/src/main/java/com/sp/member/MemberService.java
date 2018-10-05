@@ -10,4 +10,5 @@ public interface MemberService {
 	public List<Member> gradelist() throws Exception;
 	public int updateGrade(Map<String, Object> map) throws Exception;
 	public int updateEnabled(Map<String, Object> map) throws Exception;
+	public void updateGradeCode() throws Exception;
 }

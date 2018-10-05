@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
+import com.sp.grade.Grade;
 
 @Service("memberlist.memberlistService")
 public class MemberServiceImpl implements MemberService{
@@ -80,4 +81,14 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public void updateGradeCode() throws Exception {
+		try {
+			List<Member> list = dao.selectList("member.getUpdateGradeCode");
+			for(int i = 0; i<list.size(); i++) {
+				dao.updateData("member.updateGradeCode", list.get(i));
+			}
+		} catch (Exception e) {
+		}
+	}
 }
