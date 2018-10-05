@@ -36,4 +36,48 @@
 		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'Q'), to_char(mpDate,'MM'), t.themeCode
 		ORDER BY YEAR, QUARTER, MONTH, themaCode
 	</select>
+	
+	<select id="ridesList" parameterType="map" resultType="com.sp.rides.main.RidesMain">
+		SELECT facilityCode AS ridesCode, name AS ridesName FROM facility
+		WHERE gubunCode=1 AND themeCode=#{themaCode}
+		ORDER BY facilityCode
+	</select>
+	
+	<select id="getvisitorRides" parameterType="map" resultType="com.sp.rides.main.RidesMain">
+		SELECT to_char(mpDate,'YYYY') as YEAR
+		, to_char(mpDate,'Q') as QUARTER 
+		, to_char(mpDate,'MM') as MONTH
+		,t.themeCode AS themaCode
+		,f.FACILITYCODE AS ridesCode
+		,f.name AS ridesName
+		,COUNT(f.FACILITYCODE) totalCount
+		FROM magicpass m
+		JOIN facility f ON f.FACILITYCODE = m.FACILITYCODE
+		JOIN theme t ON t.themeCode = f.themeCode
+		WHERE t.themeCode != 4	AND f.themeCode=#{themaCode}
+		AND to_char(mpDate,'YYYY')= #{years}
+		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'Q'), to_char(mpDate,'MM'), t.themeCode,f.FACILITYCODE, name
+		ORDER BY YEAR, QUARTER, MONTH, themaCode, ridesCode
+	</select>
+	
+	<select id="dataCountRides" parameterType="Integer" resultType="Integer">
+		SELECT count(*) FROM facility
+		WHERE gubunCode=1 AND themeCode= #{themaCode}
+	</select>
+	
+	<select id="getThemeQuarter" parameterType="map" resultType="com.sp.rides.main.RidesMain">
+		SELECT to_char(mpDate,'YYYY') as YEAR
+		, to_char(mpDate,'Q') as QUARTER 
+		,t.themeCode AS themaCode
+		,f.FACILITYCODE AS ridesCode
+		,f.name AS ridesName
+		,COUNT(f.FACILITYCODE) totalCount
+		FROM magicpass m
+		JOIN facility f ON f.FACILITYCODE = m.FACILITYCODE
+		JOIN theme t ON t.themeCode = f.themeCode
+		WHERE t.themeCode != 4	AND f.themeCode=#{themaCode}
+		AND to_char(mpDate,'YYYY')=  #{years}
+		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'Q'), t.themeCode,f.FACILITYCODE, name
+		ORDER BY YEAR, QUARTER,themaCode, ridesCode
+	</select>
 </mapper>

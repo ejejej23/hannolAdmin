@@ -47,4 +47,47 @@ public class RidesMainServiceImpl implements RidesMainService {
 		return list;
 	}
 
+	@Override
+	public List<RidesMain> ridesList(Map<String, Object> map) throws Exception {
+		List<RidesMain> list = null;
+		try {
+			list = dao.selectList("ridemain.ridesList", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public List<RidesMain> getVisitorRides(Map<String, Object> map) throws Exception {
+		List<RidesMain> list = null;
+		try {
+			list = dao.selectList("ridemain.getvisitorRides", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int dataCountRides(int themeCode) throws Exception {
+		int result=0;
+		try {
+			result =dao.selectOne("ridemain.dataCountRides", themeCode);
+		} catch (Exception e) {
+		}
+		return result;
+	}
+
+	@Override
+	public List<RidesMain> getThemeQuarter(Map<String, Object> map) throws Exception {
+		List<RidesMain> list = null;
+		try {
+			list = dao.selectList("ridemain.getThemeQuarter", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
 }

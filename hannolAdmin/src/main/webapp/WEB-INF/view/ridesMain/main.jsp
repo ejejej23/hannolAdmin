@@ -159,6 +159,10 @@ function getYear(themaCode){
 function reset(){
 	$("input[name=searchStartDate]").val("");
 	$("input[name=searchEndDate]").val("");
+	
+	$("#years").val("");
+	
+	
 }
 
 //search버튼 Event
