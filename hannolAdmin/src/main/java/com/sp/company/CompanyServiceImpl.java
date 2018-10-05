@@ -76,7 +76,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public int deleteCompany(int num) throws Exception {
-		int result = 0;
+		int result = 0; 
 		
 		try {
 			result = dao.deleteData("company.deleteCompany", num);

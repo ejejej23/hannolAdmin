@@ -251,7 +251,7 @@
 					success:function(data){
 						if(data.state=="true"){
 							alert("업체 삭제가 되었습니다.");
-							formClean();
+							formClean(); 
 							location.reload();
 						}else{
 							alert("업체 삭제를 실패하였습니다.");	

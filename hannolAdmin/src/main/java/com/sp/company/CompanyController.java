@@ -186,7 +186,7 @@ public class CompanyController {
 		int result = service.deleteCompany(companyCode);
 		if(result==0) {
 			state = "false";
-		}
+		} 
 		
 		model.put("state", state);
 		
