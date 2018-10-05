@@ -46,7 +46,9 @@
 		             				<c:if test="${dto.payCode == vo.PAYCODE && dto.state eq '결제취소'}"><h5>결제취소</h5></c:if>
 		             				<c:if test="${dto.state eq '승인완료'}">
 		             				<c:if test="${(dto.payCode == vo.PAYCODE || empty uselist) && dto.gubunCode != 8}">
+		             					<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		             					<button type="button" class="btn btn-danger" onclick="refundCheck(${dto.payCode});">구매취소</button>
+		             					</c:if>
 		             					
 		             					<!-- 모달창시작 -->
 		             					<div style="display: none;" id="refundModal${dto.payCode}" role="dialog" class="modal" tabindex="-1">

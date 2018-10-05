@@ -109,7 +109,9 @@
 	 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		     <tr height="45"> 
 		      <td align="center" >
+		      <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		        <button type="button" class="btn btn-default" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+		      </c:if>
 		        <button type="reset" class="btn btn-default">다시입력</button>
 		        <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 		        <c:if test="${mode eq 'update'}">

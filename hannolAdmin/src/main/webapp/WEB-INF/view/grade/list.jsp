@@ -91,9 +91,11 @@ function deleteGrade(gradeCode) {
 		      </td>
 		      
 		      <td width="15%">
+		      <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		      <c:if test="${dto.gradeName ne 'FIRST'}">
 		      	 	<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/update?num=${dto.gradeCode}';">수정하기</button>
 		      	 	<button type="button" class="btn btn-default" style="margin-top: 5px;" onclick="deleteGrade(${dto.gradeCode});">삭제하기</button>
+		      </c:if>
 		      </c:if>
 		      </td>
 		  </tr>
@@ -109,7 +111,9 @@ function deleteGrade(gradeCode) {
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
+		      <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/grade/created';">등급추가</button>
+		      </c:if>
 		      </td>
 		   </tr>
 		</table>

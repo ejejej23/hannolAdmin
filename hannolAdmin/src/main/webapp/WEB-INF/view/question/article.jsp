@@ -164,10 +164,12 @@ function updateOK(){
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
 			    <td width="300" align="left" class="td_custom">
+			    <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 			         <button id="delete" type="button" class="btn btn-default" style="font-weight: bold;">삭제하기</button>
 			         <c:if test="${empty adminAnswer || empty adminAnswer.content}">
 			         	<button id="answerShow" type="button" class="btn btn-default" style="font-weight: bold;">답변달기</button>
-			    	 </c:if>
+			    </c:if>
+			   	</c:if>
 			    </td>
 			
 			    <td align="right" class="td_custom">

@@ -71,7 +71,11 @@
 			      <td>${dto.birth}</td>
 			      <td>${dto.tel}</td>
 			      <td>${dto.isMember}</td>
-			      <td><button class="btn btn1" name="detail" onclick="javascript:location.href='${articleUrl}&num=${dto.usersCode}';">상세</button></td>
+			      <td>
+			      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
+			      		<button class="btn btn1" name="detail" onclick="javascript:location.href='${articleUrl}&num=${dto.usersCode}';">상세</button>
+			      	</c:if>
+			      	</td>
 			    </tr>
 			    </c:forEach>
 		  </tbody>
@@ -95,7 +99,9 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
+		      <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		          <button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=cp%>/member/updateGrade';">전체 회원 등급 업데이트</button>
+		      </c:if>
 		      </td>
 		   </tr>
 		</table>

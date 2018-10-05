@@ -366,8 +366,10 @@ $(function(){
 		<table style="margin: 35px auto; border-spacing: 0px;">
 			<tr height="30">
 				<td align="center">
-				<button type="button" name="gradeButton" class="btn btn-default" onclick="gradeUpdate();">등급수정</button>
+				<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
+					<button type="button" name="gradeButton" class="btn btn-default" onclick="gradeUpdate();">등급수정</button>
 					<button type="button" name="InOutButton" class="btn btn-default" onclick="inOut()">탈퇴/복구</button>
+				</c:if>
 					<button type="button" class="btn btn-default	"
 						onclick="javascript:location.href='<%=cp%>/member/list?page=${page}';">리스트</button>
 				</td>

@@ -140,7 +140,6 @@
                 <li><a href="<%=cp%>/goodsOut/list">출고관리</a></li>
                 <li><a href="<%=cp%>/company/list">업체 정보</a></li>
                 <li><a href="<%=cp%>/magam/list">마감</a></li>
-                <li><a href="#">구매내역</a></li>
             </ul>
         </li>
         
