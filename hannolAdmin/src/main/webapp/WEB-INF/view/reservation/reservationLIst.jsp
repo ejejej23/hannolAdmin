@@ -45,9 +45,7 @@ input {
 <div style="margin: -40px auto; width: 600px; height: 200px;">
 
 	<form action="" name="seatForm" method="post">
-
 		<table style="width: 100%; border-spacing: 1; border-collapse: collapse;">
-			
 			<%
 				int row = 0;
 				row = seatCount / 15 + 1;
@@ -70,7 +68,6 @@ input {
 								out.print("</tr>");
 								break jump;
 							}
-	
 							k++;
 						}
 					}
@@ -79,10 +76,8 @@ input {
 			%>
 		</table>
 	</form>
+	
 </div>
-
-
-
 
 <div>
 	<form name="bookForm" id="bookForm">
@@ -124,7 +119,6 @@ input {
 			    </c:forEach>
 		  </tbody>
 		</table>
-		
 				
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
