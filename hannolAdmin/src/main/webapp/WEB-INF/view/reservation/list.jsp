@@ -217,7 +217,6 @@ function searchList() {
 	var url = "<%=cp%>/reservation/reservationList";
 	var type = "get";
 	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime + "&sStartCode=" + sStartCode;
-	alert(query);
 	var divId = "reservationList";
 	
 	ajaxHTML(url, type, query, divId);
