@@ -20,81 +20,86 @@
 
 </style>
 
+<script type="text/javascript">
+
+
+$(function(){
+	
+	var themeName = '${themeName}';
+	var day = '${day}';
+	
+	listPage(themeName, day);
+});
+
+	function check(){
+		var themeName = document.getElementById('theme');
+		themeName=themeName.value;
+		alert(themeName);
+
+		var day = document.getElementById('day');
+		day=day.value;
+		alert(day);
+		
+		listPage(themeName, day);
+	};
+
+	function listPage(themeName, day){
+		var url = "<%=cp%>/amenity/storage1";
+		
+		ajaxHTML(url,"post",themeName, day);
+	};
+	
+	function ajaxHTML(url, type, themeName, day){
+		$.ajax({
+			type:type,
+			url:url,
+			data:{themeName:themeName,day:day},
+			success:function(data){
+				if($.trim(data)=="error"){
+					listPage("프린세스빌리지","에러");
+					alert("에러남");
+					return;
+				}
+				$("#showlayout").html(data);
+			},
+			beforeSend:function(jqXHR){
+				jqXHR.setRequestHeader("AJAX", true);
+			},
+			error:function(jqXHR){
+				if(jqXHR.status==403){
+					location.href="<%=cp%>/member/login";
+					return;
+				}
+				console.log(jqXHR.responseText);
+			}
+		});
+	}
+	
+
+</script>
+
 <div class="sub-container">
 	<div class="sub-title">
 		<h3>보관함</h3>
 	</div>
 	
 	<div class="sub_contents">
-		<form>
-			<div>
-				테마존 :
-				<select class="selectField">
-					<option value="프린세스빌리지">프린세스빌리지</option>
-					<option value="토이스토리">토이스토리</option>
-					<option value="라이온킹">라이온킹</option>
-					<option value="미니언즈">미니언즈</option>
-					<option value="니모">니모</option>
-				</select>
-				<select class="selectField">
-					<option value="오전">오전</option>
-					<option value="오후">오후</option>
-				</select>
-				<button class="btn">조회</button>
-			</div>
-			
-			<div class="storageCount_box">남은 보관함 : 5개/10개</div>
-			
-			<div>
-			<table class="storage_box"> 
-				<tr>
-					<td class="st_rent">
-						<span class="storage_num">1</span>
-						<span class="storage_rant">대여중</span>
-					</td>
-					<td>
-						<span class="storage_num">2</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">3</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">4</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">5</span>
-						<span class="storage_rant">대기</span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="storage_num">6</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">7</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">8</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">9</span>
-						<span class="storage_rant">대기</span>
-					</td>
-					<td>
-						<span class="storage_num">10</span>
-						<span class="storage_rant">대기</span>
-					</td>
-				</tr>
-			</table>
-			</div>
-			
-			
-		</form>
+		<div>
+			테마존 :
+			<select class="selectField" name="theme" id="theme">
+				<option value="프린세스빌리지">프린세스빌리지</option>
+				<option value="토이스토리">토이스토리</option>
+				<option value="라이온킹">라이온킹</option>
+				<option value="미니언즈">미니언즈</option>
+				<option value="니모">니모</option>
+			</select>
+			<select class="selectField" name="day" id="day">
+				<option value="종일">종일</option>
+				<option value="오후">오후</option>
+			</select>
+			<button class="btn" onclick="check();">조회</button>
+		</div>
+		
+		<div id="showlayout"></div>
 	</div>
 </div>

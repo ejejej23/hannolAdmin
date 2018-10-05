@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amenity">
+	<select id="checkList" parameterType="map" resultType="com.sp.amenity.Amenity">
+		select * from assetsBook a
+		join assets s on s.assetsCode = a.assetsCode 
+		join facility f on f.facilityCode = s.facilityCode
+		join theme t on f.themeCode = t.themeCode
+		join lockerInfo l on l.bookCode = a.bookCode
+		where themeName =#{themeName} and useDate = '20181004' and bookTime=#{daynum}
+	</select>
+
+	<select id="datanum" parameterType="map" resultType="Integer">
+		select count(*) from
+			(select * from assetsBook a
+			join assets s on s.assetsCode = a.assetsCode 
+			join facility f on f.facilityCode = s.facilityCode
+			join theme t on f.themeCode = t.themeCode
+			join lockerInfo l on l.bookCode = a.bookCode
+			where themeName =#{themeName} and to_char(useDate,'yyyymmdd')='20181004' and bookTime=#{daynum}
+			) 
+	</select>	
+	
+</mapper>
