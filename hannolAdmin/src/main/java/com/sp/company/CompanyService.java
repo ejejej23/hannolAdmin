@@ -9,5 +9,5 @@ public interface CompanyService {
 	public List<Company> listCompany(Map<String, Object> map) throws Exception;
 	public Company readCompany(int num) throws Exception;
 	public int updateCompany(Company dto) throws Exception;
-	public int deleteCompany(int num) throws Exception; 
+	public void deleteCompany(int num) throws Exception; 
 }

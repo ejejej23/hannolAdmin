@@ -183,13 +183,15 @@ public class CompanyController {
 		String state = "true";
 		Map<String, Object> model = new HashMap<String, Object>();
 		
-		int result = service.deleteCompany(companyCode);
-		if(result==0) {
+		try {
+			service.deleteCompany(companyCode);
+			
+		} catch(Exception e) {
 			state = "false";
-		} 
+			model.put("msg", "거래내역이 있는 업체는 삭제할 수 없습니다");
+		}
 		
 		model.put("state", state);
-		
 		return model;
 	}
 	

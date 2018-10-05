@@ -9,27 +9,27 @@ import org.springframework.stereotype.Service;
 import com.sp.common.dao.CommonDAO;
 
 @Service("company.companyServiceImpl")
-public class CompanyServiceImpl implements CompanyService{
+public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private CommonDAO dao;
-	
+
 	@Override
-	public int insertCompany(Company dto) throws Exception{
+	public int insertCompany(Company dto) throws Exception {
 		int result = 0;
-		
+
 		try {
 			result = dao.insertData("company.insertCompany", dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
+
 		return result;
 	}
 
 	@Override
 	public int dataCount(Map<String, Object> map) throws Exception {
 		int result = 0;
-		
+
 		try {
 			result = dao.selectOne("company.dataCount", map);
 		} catch (Exception e) {
@@ -39,9 +39,9 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public List<Company> listCompany(Map<String, Object> map)  throws Exception{
+	public List<Company> listCompany(Map<String, Object> map) throws Exception {
 		List<Company> list = null;
-		
+
 		try {
 			list = dao.selectList("company.listCompany", map);
 		} catch (Exception e) {
@@ -53,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public Company readCompany(int num) throws Exception {
 		Company dto = null;
-		
+
 		try {
 			dto = dao.selectOne("company.readCompany", num);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public int updateCompany(Company dto) throws Exception {
 		int result = 0;
-		
+
 		try {
 			result = dao.updateData("company.updateCompany", dto);
 		} catch (Exception e) {
@@ -75,15 +75,12 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public int deleteCompany(int num) throws Exception {
-		int result = 0; 
-		
+	public void deleteCompany(int num) throws Exception {
 		try {
-			result = dao.deleteData("company.deleteCompany", num);
+			dao.deleteData("company.deleteCompany", num);
 		} catch (Exception e) {
-			// throw e;
+			throw e;
 		}
-		return result;
 	}
 
 }
