@@ -181,12 +181,13 @@ public class CompanyController {
 	public Map<String, Object> delete(@RequestParam(value="companyCode") int companyCode) throws Exception{
 		
 		String state = "true";
+		Map<String, Object> model = new HashMap<String, Object>();
 		
 		int result = service.deleteCompany(companyCode);
-		if(result==0)
+		if(result==0) {
 			state = "false";
+		}
 		
-		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		
 		return model;

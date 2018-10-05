@@ -45,7 +45,7 @@ public class CompanyServiceImpl implements CompanyService{
 		try {
 			list = dao.selectList("company.listCompany", map);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			// System.out.println(e.toString());
 		}
 		return list;
 	}
@@ -81,7 +81,7 @@ public class CompanyServiceImpl implements CompanyService{
 		try {
 			result = dao.deleteData("company.deleteCompany", num);
 		} catch (Exception e) {
-			throw e;
+			// throw e;
 		}
 		return result;
 	}
