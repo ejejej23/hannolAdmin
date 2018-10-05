@@ -8,7 +8,7 @@ public class Company {
 	private String tel1;
 	private String tel2;
 	private String tel3;
-	private String startDate;	//거래시작일자
+	private String startDate;	//거래시작일자 
 	private String memo;		//설명
 
 	
