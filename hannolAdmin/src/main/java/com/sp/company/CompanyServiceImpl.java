@@ -14,7 +14,7 @@ public class CompanyServiceImpl implements CompanyService{
 	private CommonDAO dao;
 	
 	@Override
-	public int insertCompany(Company dto){
+	public int insertCompany(Company dto) throws Exception{
 		int result = 0;
 		
 		try {
@@ -27,7 +27,7 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public int dataCount(Map<String, Object> map) {
+	public int dataCount(Map<String, Object> map) throws Exception {
 		int result = 0;
 		
 		try {
@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public List<Company> listCompany(Map<String, Object> map) {
+	public List<Company> listCompany(Map<String, Object> map)  throws Exception{
 		List<Company> list = null;
 		
 		try {
@@ -51,7 +51,7 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public Company readCompany(int num) {
+	public Company readCompany(int num) throws Exception {
 		Company dto = null;
 		
 		try {
@@ -63,7 +63,7 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public int updateCompany(Company dto) {
+	public int updateCompany(Company dto) throws Exception {
 		int result = 0;
 		
 		try {
@@ -75,13 +75,13 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public int deleteCompany(int num) {
+	public int deleteCompany(int num) throws Exception {
 		int result = 0;
 		
 		try {
 			result = dao.deleteData("company.deleteCompany", num);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			throw e;
 		}
 		return result;
 	}
