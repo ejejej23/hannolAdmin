@@ -29,6 +29,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 		Staff dto = service.readStaffById(userId);
 		SessionInfo info = new SessionInfo();
 		info.setStaffIdx(dto.getUsersCode());
+		info.setAuthority(dto.getAuthority());
 		info.setStaffId(userId);
 		info.setStaffName(dto.getName());
 	
