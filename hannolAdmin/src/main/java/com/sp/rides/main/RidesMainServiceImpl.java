@@ -90,4 +90,15 @@ public class RidesMainServiceImpl implements RidesMainService {
 		return list;
 	}
 
+	@Override
+	public List<RidesMain> getThemeMonth(Map<String, Object> map) throws Exception {
+		List<RidesMain> list = null;
+		try {
+			list = dao.selectList("ridemain.getThemeMonth", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
 }

@@ -155,14 +155,9 @@ function getYear(themaCode){
 	});
 }
 
-//datepicket 초기화
 function reset(){
-	$("input[name=searchStartDate]").val("");
-	$("input[name=searchEndDate]").val("");
 	
 	$("#years").val("");
-	
-	
 }
 
 //search버튼 Event
@@ -186,11 +181,6 @@ $(function(){
 				alert("년도를 선택해 주세요");
 				return;
 			}
-		}else{
-			if($("#searchStartDate").val()=="" || $("#searchEndDate").val()==""){
-				alert("일자를 선택해 주세요");
-				return;
-			}
 		}
 		
 		//AJAX-CHART
@@ -205,12 +195,7 @@ function getChartData(){
 	var searchGubun = $("#searchGubun").val();
 	data+="&searchGubun="+searchGubun;
 	
-	if(searchGubun=="self"){
-		data+="&searchStartDate="+$("#searchStartDate").val();
-		data+="&searchEndDate="+$("#searchEndDate").val();
-	}else{
-		data+="&years="+$("#years").val();
-	}
+	data+="&years="+$("#years").val();
 	
 	var url="<%=cp%>/rides/chartData?"+data;
 	$.getJSON(url, function (csv) {
@@ -269,7 +254,6 @@ function getChartData(){
 							<option value="">::구분선택::</option>
 							<option value="quarter">분기별</option>
 							<option value="month">월별</option>
-							<option value="self">직접기간설정</option>
 						</select>
 					</p>
 				</div>
@@ -280,12 +264,6 @@ function getChartData(){
 						<select id="years" name="years" class="boxTF select-search">
 							<option value="">::::년도::::</option>
 						</select>
-					</p>
-					
-					<p class="tit search-self" style="display: none;">기간설정</p>
-					<p class="search-self" style="display: none;">
-						<span class="datepickerBox"><input type="text" id="searchStartDate" name="searchStartDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> ~ 
-						<span class="datepickerBox"><input type="text" id="searchEndDate" name="searchEndDate" class="boxTF datepicker" readonly="readonly"  value="${searchEndDate}"></span>
 					</p>
 					
 					<p>

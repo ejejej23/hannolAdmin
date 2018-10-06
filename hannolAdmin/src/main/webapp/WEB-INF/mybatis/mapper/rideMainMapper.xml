@@ -80,4 +80,20 @@
 		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'Q'), t.themeCode,f.FACILITYCODE, name
 		ORDER BY YEAR, QUARTER,themaCode, ridesCode
 	</select>
+	
+	<select id="getThemeMonth" parameterType="map" resultType="com.sp.rides.main.RidesMain">
+		SELECT to_char(mpDate,'YYYY') as YEAR
+		, to_char(mpDate,'MM') as MONTH
+		,t.themeCode AS themaCode
+		,f.FACILITYCODE AS ridesCode
+		,f.name AS ridesName
+		,COUNT(f.FACILITYCODE) totalCount
+		FROM magicpass m
+		JOIN facility f ON f.FACILITYCODE = m.FACILITYCODE
+		JOIN theme t ON t.themeCode = f.themeCode
+		WHERE t.themeCode != 4	AND f.themeCode=#{themaCode}
+		AND to_char(mpDate,'YYYY')= #{years}
+		GROUP BY to_char(mpDate,'YYYY'), to_char(mpDate,'MM'), t.themeCode,f.FACILITYCODE, name
+		ORDER BY YEAR, MONTH, themaCode, ridesCode
+	</select>
 </mapper>

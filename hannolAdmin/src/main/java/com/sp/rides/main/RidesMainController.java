@@ -511,6 +511,57 @@ public class RidesMainController {
 				job.put("series", arr);
 				job.put("chartX", chartX);
 
+			}else {
+				// 선택한 테마의 놀이기구 별 월 뿌리기
+				int dataCountRides = service.dataCountRides(themaCode);
+				
+				List<RidesMain> ridesList = service.ridesList(paramMap);
+				list = service.getThemeMonth(paramMap);
+								
+				for(int i=0; i<dataCountRides; i++) {
+
+					int ridesCode = ridesList.get(i).getRidesCode();
+					String ridesName = ridesList.get(i).getRidesName();
+					int countRide[] = new int[12];
+					
+					for(RidesMain r : list) {
+						if(ridesCode==r.getRidesCode() && r.getMonth()==1) {
+							countRide[0]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==2) {
+							countRide[1]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==3) {
+							countRide[2]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==4) {
+							countRide[3]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==5) {
+							countRide[4]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==6) {
+							countRide[5]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==7) {
+							countRide[6]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==8) {
+							countRide[7]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==9) {
+							countRide[8]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==10) {
+							countRide[9]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==11) {
+							countRide[10]+=r.getTotalCount();
+						}else if(ridesCode==r.getRidesCode() && r.getMonth()==12) {
+							countRide[11]+=r.getTotalCount();
+						}
+					}
+					
+					ob = new JSONObject();
+					ob.put("name", ridesName);
+					ob.put("data", countRide);
+					arr.put(ob);	
+				}
+				
+				job = new JSONObject();
+				job.put("series", arr);
+				job.put("chartX", chartX);
+				
 			}
 		}
 

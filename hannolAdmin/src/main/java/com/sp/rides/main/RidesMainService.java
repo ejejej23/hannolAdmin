@@ -10,5 +10,6 @@ public interface RidesMainService {
 	public List<RidesMain> ridesList(Map<String, Object> map) throws Exception;
 	public List<RidesMain> getVisitorRides(Map<String, Object> map) throws Exception;
 	public List<RidesMain> getThemeQuarter(Map<String, Object> map) throws Exception;
+	public List<RidesMain> getThemeMonth(Map<String, Object> map) throws Exception;
 	public int dataCountRides(int themeCode) throws Exception;
 }
