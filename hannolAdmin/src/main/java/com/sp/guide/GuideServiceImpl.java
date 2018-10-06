@@ -112,4 +112,48 @@ public class GuideServiceImpl implements GuideService {
 		return result;
 	}
 
+
+	@Override
+	public int okTicketIfPayCancled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("guide.okTicketIfPayCancled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int okMorningTicketIfPayCancled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("guide.okMorningTicketIfPayCancled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteGuidebookIfPayCanceled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("guide.deleteGuidebookIfPayCanceled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public Guide getGuideBookCancleDay(int payCode) throws Exception {
+		Guide dto =null;
+		try {
+			dto = dao.selectOne("guide.getGuideBookCancleDay", payCode);
+		} catch (Exception e) {
+		}
+		return dto;
+	}
+
 }

@@ -42,4 +42,83 @@
 	<delete id="deleteSch" parameterType="Integer">
 		DELETE FROM GUIDE WHERE SCHCODE = #{schCode}
 	</delete>
+	
+	
+	<select id="okTicketIfPayCancled" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = (
+            SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+        )
+        AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="okMorningTicketIfPayCancled" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = (
+            SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+        )
+         AND (GUBUN != 5 OR GUBUN != 6)  AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="getGuideBookCancleDay" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT G.SCHCODE, TIMEZONE, WORKDATE
+		FROM GUIDE G
+        JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+		WHERE GB.USERSCODE = (
+		    SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		) 
+		AND WORKDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+	</select>
+	
+	<!-- 결제취소 제외하고 사용가능한 이용권수가 0이면 예약 취소 -->
+	<delete id="deleteGuidebookIfPayCanceled" parameterType="Integer">
+		DELETE FROM GUIDEBOOK
+		WHERE SCHCODE = (
+		    SELECT G.SCHCODE
+		    FROM GUIDE G 
+		        JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+				WHERE GB.USERSCODE = (
+				    SELECT DISTINCT USERSCODE
+				    FROM PAYMENT P
+				    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+				    WHERE P.PAYCODE = #{payCode}
+				) 
+				AND WORKDATE = (
+				    SELECT DISTINCT STARTDATE 
+				    FROM PAYMENT P
+				    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+				    WHERE P.PAYCODE = #{payCode}
+				)
+		)
+	</delete>
 </mapper>
