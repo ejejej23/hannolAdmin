@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.common.MyUtil;
-import com.sp.finance.Finance;
+import com.sp.guide.Guide;
+import com.sp.guide.GuideService;
 
 @Controller("payment.paymentController")
 public class PaymentController {
 	@Autowired
 	PaymentService service;
+	
+	@Autowired
+	GuideService gservice;
 	
 	@Autowired
 	private MyUtil util;
@@ -135,6 +139,9 @@ public class PaymentController {
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			HttpServletRequest req
 			) throws Exception {
+		
+		
+		deleteIfPayCanceled(payCode);
 		service.deleteRefund(payCode);
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -147,6 +154,32 @@ public class PaymentController {
 		}
 		
 		return "redirect:/payment/list?thema="+thema+query;
+	}
+	
+	public void deleteIfPayCanceled(@RequestParam(value = "payCode") int payCode) throws Exception {
+
+		// 결제취소할 이용권의 사용예정일에 가이드 예약이 있는지 검사
+		Guide dto = gservice.getGuideBookCancleDay(payCode);
+
+		if (dto != null) { // 취소할 가이드 예약이 있다면
+			if (dto.getTimezone() == 1) {
+				// 예약한 가이드일정이 오전일 때
+				int okTicket = gservice.okMorningTicketIfPayCancled(payCode);
+				
+				if (okTicket == 0) {
+					// 사용가능 티켓이 0개면 가이드 예약 취소
+					gservice.deleteGuidebookIfPayCanceled(payCode);
+				}
+			} else {
+				// 예약한 가이드일정이 오후일 때
+				// 취소할 결제코드에서 이용권 사용일자 가져오고 그 일자에 사용가능한 이용권이 남는지 검사(지금 결제취소할 이용권외)
+				int okTicket = gservice.okTicketIfPayCancled(payCode);
+				if (okTicket == 0) {
+					// 사용가능 티켓이 0개면 가이드 예약 취소
+					gservice.deleteGuidebookIfPayCanceled(payCode);
+				}
+			}
+		}
 	}
 
 }
