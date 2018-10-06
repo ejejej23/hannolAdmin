@@ -66,4 +66,10 @@
 		DELETE FROM magicpass
 		WHERE mpCode = #{mpCode}
 	</delete>
+	
+	<delete id="deleteMagicpassAll" parameterType="Integer">
+		DELETE FROM magicpass WHERE ticketCode IN (
+		    SELECT TICKETCODE FROM ticket WHERE PAYCODE=#{paycode}
+		)
+	</delete>
 </mapper>

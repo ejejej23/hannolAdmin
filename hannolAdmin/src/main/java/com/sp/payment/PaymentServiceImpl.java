@@ -66,6 +66,9 @@ public class PaymentServiceImpl implements PaymentService {
 	public int deleteRefund(int payCode) throws Exception {
 		int result = 0;
 		try {
+			//매직패스 예약 취소
+			dao.deleteData("magic.deleteMagicpassAll", payCode);
+			
 			result = dao.deleteData("payment.deleteGift", payCode);
 			dao.updateData("payment.updateCardInfo", payCode);
 
