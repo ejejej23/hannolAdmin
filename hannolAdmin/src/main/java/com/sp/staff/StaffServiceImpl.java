@@ -162,4 +162,16 @@ public class StaffServiceImpl implements StaffService {
 		return result;
 	}
 
+	@Override
+	public Staff readStaffById(String staffId) {
+		Staff dto = null;
+		try {
+			dto = dao.selectOne("staff.readStaffById", staffId);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return dto;
+	}
+
 }

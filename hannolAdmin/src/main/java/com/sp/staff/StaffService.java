@@ -22,4 +22,6 @@ public interface StaffService {
 	public int readTheme(Map<String, Object> map) throws Exception;
 	public int readDepart(Map<String, Object> map) throws Exception;
 	public int readPosition(Map<String, Object> map) throws Exception;
+	
+	public Staff readStaffById(String staffId);
 }

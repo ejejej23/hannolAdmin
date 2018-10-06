@@ -153,4 +153,9 @@
 		UPDATE STAFFINFO SET STAFFPWD = #{staffPwd} WHERE USERSCODE = #{usersCode}
 	</update>
 	
+	<select id="readStaffById" parameterType="String" resultType="com.sp.staff.Staff">
+		SELECT s.usersCode, name, authority FROM staff si
+		JOIN staffinfo s ON s.usersCode=si.usersCode
+		WHERE staffId=#{staffId}
+	</select>
 </mapper>

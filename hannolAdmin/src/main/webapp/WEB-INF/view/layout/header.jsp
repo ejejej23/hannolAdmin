@@ -49,7 +49,6 @@
                 <li><a href="<%=cp%>/finance/profit">매출</a></li>
                 <li><a href="<%=cp%>/finance/loss">지출</a></li>
                 <li><a href="<%=cp%>/budget/list">예산</a></li>
-                <li><a href="#">현장 매출 등록</a></li>
             </ul>
         </li>
         

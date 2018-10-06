@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<context:component-scan base-package="com.sp"/>
+	
+    <!-- 권한이 없는 페이지를 접근할 경우 접근 불가 메시지 출력  -->
+	<http auto-config="true">
+		<!-- spring 4.x때 추가된 옵션으로 ssl을 사용하지 않을 경우 csrf는 disalbed=true로 설정. -->
+		<csrf disabled="true"/>
+		
+		<!-- 모든 사용자 접근 허용 -->
+		<!-- **보다 permitAll이 순위가 높기 때문에 먼저 풀어줄것 풀어주고, 그 다음에 접근 못하게 막도록한다. -->
+		<intercept-url pattern="/index.jsp" access="permitAll"/>
+		<intercept-url pattern="/main" access="permitAll"/>
+		<intercept-url pattern="/staff/login" access="permitAll"/>
+		<!-- <intercept-url pattern="/member/userIdCheck" access="permitAll"/> -->
+		<intercept-url pattern="/staff/logout" access="permitAll"/>
+		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
+	
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')"/> 
+		
+		<!-- 사용자 정의 로그인 폼 -->
+		<!-- login-processing-url : login.jsp의 action에서 수행할 주소 -->
+		<!-- username-parameter, password-parameter : login.jsp의 폼 태그 안에 존재하는 이름 -->
+		<form-login login-page="/staff/login" 
+					login-processing-url="/staff/login" 
+					username-parameter="staffId" 
+					password-parameter="staffPwd"
+					authentication-failure-url="/staff/login?login_error"
+					authentication-success-handler-ref="authenticationSuccessHandler"
+					default-target-url="/main"
+					always-use-default-target="true" 
+		/>
+		
+		<!-- 로그아웃 -->
+		<logout logout-url="/staff/logout"
+				invalidate-session="true"
+				logout-success-url="/"
+		/>
+		
+		<!-- 접근 권한이 없는 경우 경고 메세지 -->
+		<access-denied-handler error-page="/staff/noAuthorized"/>
+		
+		<!-- 동일한 아이디로 동시 접속 불가 -->
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/staff/expired"/>
+		</session-management>
+	</http>
+	
+	<!-- 객체생성 -->
+	<beans:bean id="authenticationSuccessHandler" class="com.sp.staff.MyAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/main"/>
+		<beans:property name="alwaysUseDefaultTargetUrl" value="true"/> <!-- 로그인시 메인화면으로 가도록 -->
+	</beans:bean>
+    
+    <jdbc-user-service data-source-ref="dataSource" id="userService"
+    					users-by-username-query="SELECT staffId AS userName, staffPwd as password, working as enabled FROM staffInfo si JOIN staff s ON s.usersCode=si.usersCode WHERE staffId=?"
+    					authorities-by-username-query="SELECT staffId AS userName, authority FROM staffInfo si JOIN staff s ON s.usersCode=si.usersCode WHERE staffId=?"
+    />
+    
+    <!-- bcrypt : 패스워드 암호화에 특화된 password hashing function -->
+    <!-- 암호화를 할때마다 랜덤한 키값을 뽑으므로 다 다른값이 나온다. -->
+    <beans:bean id ="bcryptPassword" 
+    	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+    
+    <!-- 패스워드 해쉬 함수 -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="userService">
+			<password-encoder ref="bcryptPassword"/>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
