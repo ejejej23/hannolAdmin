@@ -16,6 +16,10 @@ public interface ReservationService {
 	// 무대공연 - 좌석
 	public int readSeatCount(int showInfoCode) throws Exception;
 	public List<Integer> listSeat(Map<String, Object> map) throws Exception;
+
+	// 결제 취소
+	public void readTicketCodeByPayCode(int payCode) throws Exception;
+	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception;
 	
 	// 삭제
 	public int deleteShowBookInfo(int showBookCode) throws Exception;

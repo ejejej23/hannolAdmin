@@ -320,7 +320,4 @@ public class ShowServiceImpl implements ShowService {
 		}
 		return list;
 	}
-
-
-
 }

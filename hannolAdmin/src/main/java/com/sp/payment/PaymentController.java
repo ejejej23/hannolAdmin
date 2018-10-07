@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sp.common.MyUtil;
 import com.sp.guide.Guide;
 import com.sp.guide.GuideService;
+import com.sp.reservation.ReservationService;
 import com.sp.schedule.ShowService;
 
 @Controller("payment.paymentController")
@@ -32,7 +33,7 @@ public class PaymentController {
 	GuideService gservice;
 	
 	@Autowired
-	ShowService sservice;
+	ReservationService rservice;
 	
 	@Autowired
 	private MyUtil util;
@@ -146,7 +147,7 @@ public class PaymentController {
 		
 		
 		deleteIfPayCanceled(payCode);
-		/*sservice.readTicketCodeByPayCode(payCode);*/
+		rservice.readTicketCodeByPayCode(payCode);
 		service.deleteRefund(payCode);
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {

@@ -43,5 +43,4 @@ public interface ShowService {
 	
 	// 공연 예약
 	public int updateShowBookSStartCode(int schCode) throws Exception;
-	
 }

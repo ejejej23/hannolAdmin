@@ -119,4 +119,34 @@ public class ReservationServiceImpl implements ReservationService {
 		return result;
 	}
 
+	@Override
+	public void readTicketCodeByPayCode(int payCode) throws Exception {
+		List<Integer> ticketCodelist = null;
+		try {
+			ticketCodelist = dao.selectList("reservation.readTicketCodeByPayCode", payCode);
+			for(Integer i : ticketCodelist) {
+				List<Integer> showBookCodeList = readShowBookCodeByTicketCode(i);
+				
+				// 삭제
+				for(Integer j : showBookCodeList) {
+					deleteShowBookInfo(j);
+					deleteShowBook(j);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+	}
+
+	@Override
+	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception {
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("reservation.readShowBookCodeByTicketCode", ticketCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }
