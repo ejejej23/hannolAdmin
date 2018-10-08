@@ -23,11 +23,17 @@
 		<intercept-url pattern="/index.jsp" access="permitAll"/>
 		<intercept-url pattern="/main" access="permitAll"/>
 		<intercept-url pattern="/staff/login" access="permitAll"/>
-		<!-- <intercept-url pattern="/member/userIdCheck" access="permitAll"/> -->
-		<intercept-url pattern="/staff/logout" access="permitAll"/>
+		<intercept-url pattern="/staff/list" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/staff/staff" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/staff/updateAuth" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/staff/updateInout" access="hasAnyRole('ROLE_ADMIN')"/>
+		
+
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
 	
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')"/> 
+				
+		
 		
 		<!-- 사용자 정의 로그인 폼 -->
 		<!-- login-processing-url : login.jsp의 action에서 수행할 주소 -->
