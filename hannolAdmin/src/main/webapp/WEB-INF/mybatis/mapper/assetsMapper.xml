@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="assets">
+	<!-- 테마검색 -->
+	<sql id="theme-list">
+		<if test="searchthema==0">
+			f.themeCode IN(
+		       SELECT f.themeCode FROM theme WHERE f.themeCode != 4
+		    )
+		</if> 
+		<if test="searchthema!=0">		
+			f.themeCode = #{searchthema}
+		</if>
+	</sql>
+	
+	<!-- 검색 -->
+	<sql id="where-list">
+		<if test="searchKey=='id'">
+			AND (INSTR(lower(memberId), lower(#{searchValue})) &gt; 0)
+		</if>
+		<if test="searchKey=='name'">
+			AND (INSTR(lower(ab.name), lower(#{searchValue})) &gt; 0) 
+		</if>
+		<if test="searchKey=='tel'">
+			AND (tel = #{searchValue} or REPLACE(tel, '-', '') = #{searchValue}) 
+		</if> 
+	</sql>
+	 
+	
+	
+	<!-- 테마 리스트 -->	
+	<select id="themeList" resultType="map">
+		SELECT themeCode, themeName FROM theme WHERE themeCode!=4
+	</select> 
+	
+	<!-- 테마별 편의시설 수량  총 데이터 개수 -->
+	<select id="assetsDataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM(
+			SELECT a.facilityCode, name, COUNT(*) totalCount
+			FROM assets a
+			JOIN facility f ON a.facilityCode = f.facilityCode
+			<where>
+				<include refid="theme-list"/>
+			</where>
+				AND a.gubunCode = #{gubunCode} AND f.state != 2
+			GROUP BY a.facilityCode, name, themeCode
+			ORDER BY themeCode
+		)
+	</select>
+	
+	<!-- 테마별 편의시설 수량 리스트 -->
+	<select id="assetsCountList" resultType="com.sp.assets.Assets" parameterType="map">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT a.facilityCode, name, COUNT(*) totalCount
+				FROM assets a
+				JOIN facility f ON a.facilityCode = f.facilityCode
+				<where>
+					<include refid="theme-list"/>
+				</where> 
+					AND a.gubunCode = #{gubunCode} AND f.state != 2
+				GROUP BY a.facilityCode, name, themeCode
+				ORDER BY themeCode
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>	 
+	
+	<!-- 대여 수량 검색 -->
+	<select id="searchRentCount" resultType="Integer" parameterType="Integer"> 
+		SELECT NVL(COUNT(*), 0) rentCount  
+		FROM assetsBook ab   
+		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+		LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+		WHERE a.facilityCode = #{num}   
+		GROUP BY themeCode
+	</select>
+	
+	<!-- 편의시설(자산) 대여 안한 것들 중 가장 첫번째 코드 가져오기-->
+	<select id="searchAssetsCode" resultType="Integer" parameterType="Integer">
+		SELECT assetsCode FROM( 
+			SELECT ROWNUM, tb.* FROM(    
+			    SELECT *
+			    FROM assets a
+			    LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+			    WHERE a.facilityCode=#{num} AND state=1 AND 
+			            assetsCode NOT IN(
+			                SELECT assetsCode FROM assetsBook
+			            )
+			    ORDER BY assetsCode
+			)tb WHERE ROWNUM=1
+		)
+	</select>
+	
+	<!-- 현장 등록 -->
+	<insert id="insertRent" parameterType="com.sp.assets.Assets">
+		INSERT INTO assetsBook (bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name) VALUES 
+			(assetsBook_seq.NEXTVAL, SYSDATE, #{bookTime}, 0, #{tel}, 1, #{assetsCode}, #{name})        
+	</insert>
+	
+	
+	<!-- 대여 신청 데이터 총  개수-->
+	<select id="assetsReservationDataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) FROM(
+			SELECT bookCode, ab.name, tel, bookTime, ab.state, a.assetsCode, f.name facilityName, memberId 
+			FROM assetsBook ab
+			LEFT OUTER JOIN member1 m1 ON ab.usersCode = m1.usersCode
+			LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+			LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+			LEFT OUTER JOIN theme t ON f.themeCode = t.themeCode
+			<where>
+				<include refid="theme-list"/>
+				
+				<if test="searchValue!=null and searchValue!=''">
+					<include refid="where-list"/>
+				</if>
+			</where> 
+				AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(useDate, 'YYYY-MM-DD') AND ab.state=0 AND a.gubunCode=#{gubunCode}
+		)
+	</select>
+	
+	<!-- 대여 신청 리스트 -->
+	<select id="assetsReservationList" resultType="com.sp.assets.Assets" parameterType="map">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT bookCode, ab.name, tel, bookTime, ab.state, a.assetsCode, f.name facilityName, memberId 
+				FROM assetsBook ab
+				LEFT OUTER JOIN member1 m1 ON ab.usersCode = m1.usersCode
+				LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+				LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+				LEFT OUTER JOIN theme t ON f.themeCode = t.themeCode
+				<where>
+					<include refid="theme-list"/>
+					
+					<if test="searchValue!=null and searchValue!=''">
+						<include refid="where-list"/>
+					</if>
+				</where>  
+					AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(useDate, 'YYYY-MM-DD') AND ab.state=0 AND a.gubunCode=#{gubunCode}
+				ORDER BY bookCode DESC 
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;=#{start}  
+	</select>
+	
+
+	<!-- 대여 완료 데이터 총  개수-->
+	<select id="rentalOkCount" resultType="Integer" parameterType="map">
+		SELECT COUNT(*) FROM(
+			SELECT bookCode, ab.name, tel, bookTime, ab.state, a.assetsCode, f.name facilityName, memberId 
+			FROM assetsBook ab
+			LEFT OUTER JOIN member1 m1 ON ab.usersCode = m1.usersCode
+			LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+			LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+			LEFT OUTER JOIN theme t ON f.themeCode = t.themeCode 
+			<where>
+				<include refid="theme-list"/>
+				
+				<if test="searchValue!=null and searchValue!=''">
+					<include refid="where-list"/>
+				</if>
+			</where>   
+				AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(useDate, 'YYYY-MM-DD') AND (ab.state!=0 AND ab.state!=4 )AND a.gubunCode=#{gubunCode}
+		)
+	</select>
+	
+	<!-- 대여 완료 리스트 -->
+	<select id="rentalOkList" resultType="com.sp.assets.Assets" parameterType="map">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT bookCode, ab.name, tel, bookTime, ab.state, a.assetsCode, f.name facilityName, memberId 
+				FROM assetsBook ab
+				LEFT OUTER JOIN member1 m1 ON ab.usersCode = m1.usersCode
+				LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+				LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+				LEFT OUTER JOIN theme t ON f.themeCode = t.themeCode 
+				<where>
+					<include refid="theme-list"/>
+					
+					<if test="searchValue!=null and searchValue!=''">
+						<include refid="where-list"/>
+					</if>
+				</where> 
+					AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(useDate, 'YYYY-MM-DD') AND (ab.state!=0 AND ab.state!=4 ) AND a.gubunCode=#{gubunCode}
+				ORDER BY bookCode DESC 
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;=#{start}  
+	</select>
+	
+	
+	<!-- 예약 승인 -->
+	<update id="rentUpdate" parameterType="Integer">
+		UPDATE assetsBook SET state = #{stateCode} WHERE bookCode=#{bookCode}        
+	</update>
+</mapper>
