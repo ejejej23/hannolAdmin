@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,28 +28,6 @@ public class StaffController {
 
 	@Autowired
 	private MyUtil myUtil;
-
-	@RequestMapping(value = "/staff/login", method = RequestMethod.GET)
-	public String loginForm(@RequestParam(required=false) String login_error, Model model) throws Exception {
-		
-		if(login_error != null) {
-			model.addAttribute("msg", "로그인을 하지 못했습니다. 아이디 혹은 패스워드를 확인 후 다시 시도해 주세요.");
-		}
-		
-		return ".staff.login";
-	}
-
-	@RequestMapping(value = "/staff/pwd", method = RequestMethod.GET)
-	public String pwdForm(String dropout, Model model) throws Exception {
-
-		if (dropout == null) {
-			model.addAttribute("mode", "update");
-		} else {
-			model.addAttribute("mode", "dropout");
-		}
-
-		return ".staff.pwd";
-	}
 
 	@RequestMapping(value = "/staff/list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
@@ -161,6 +140,10 @@ public class StaffController {
 		String tel = dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3();
 		dto.setTel(tel);
 
+		// 비밀번호 암호화
+		String staffPwd = new BCryptPasswordEncoder().encode(dto.getStaffPwd());
+		dto.setStaffPwd(staffPwd);
+
 		service.updateStaff(dto);
 
 		StringBuffer sb = new StringBuffer();
@@ -232,7 +215,7 @@ public class StaffController {
 		// 재직중이면 퇴사일자 빈칸으로 하기
 		if (dto.getInDate() != null && dto.getOutDate() != null) {
 			boolean compare = dto.getInDate().compareTo(dto.getOutDate()) > 0;
-			if (compare) { 
+			if (compare) {
 				dto.setOutDate("");
 			}
 		}
@@ -242,15 +225,18 @@ public class StaffController {
 		model.addAttribute("mode", "update");
 		return ".staff.myInfo";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/staff/updateMyinfo", method = RequestMethod.POST)
 	public Map<String, Object> updateMyinfoSubmit(Staff dto) throws Exception {
 
 		String tel = dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3();
 		dto.setTel(tel);
-		
-		if(dto.getStaffPwd()!="") {
+
+		if (dto.getStaffPwd() != "") {
+			// 비밀번호 암호화
+			String staffPwd = new BCryptPasswordEncoder().encode(dto.getStaffPwd());
+			dto.setStaffPwd(staffPwd);
 			service.updatePwd(dto);
 		}
 
@@ -260,7 +246,7 @@ public class StaffController {
 		sb.append(dto.getName() + "님의 회원정보가 정상적으로 변경되었습니다.<br>");
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("mode", "updateInfo");
 		map.put("message", sb.toString());
 		map.put("usersCode", dto.getUsersCode());
