@@ -119,10 +119,10 @@
     });
 </script>
 
-<div class="body-container" style="width: 960px;">
-    <div class="body-title">
-        <h3><span class="glyphicon glyphicon-credit-card"></span> 제휴카드 </h3>
-    </div>
+<div class="sub-container" style="width: 960px;">
+    <div class="sub-title">
+	  <h3>제휴카드 등록하기</h3>
+	</div>
     
     
     <form role="form" name="cardForm" method="post" enctype="multipart/form-data"> 

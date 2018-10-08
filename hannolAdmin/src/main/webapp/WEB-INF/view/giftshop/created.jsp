@@ -109,15 +109,13 @@ $(function(){
 		    	console.log(e.responseText);
 		    }
 		});
-		
-		
 	}
 </script>
 <script type="text/javascript" src="<%=cp%>/resource/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <div class="sub-container" style="width: 960px;">
     <div class="sub-title">
-	  <h3>상품등록하기</h3>
+	  <h3>상품 등록하기</h3>
 	</div>
     
     <div>

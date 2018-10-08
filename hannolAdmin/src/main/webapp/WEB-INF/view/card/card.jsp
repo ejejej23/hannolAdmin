@@ -63,7 +63,7 @@ function deleteCard(cardCode) {
 }
 </style>
 
-<div class="sub-container">
+<div class="sub-container" style="width: 960px;">
     <div class="sub-title">
 	  <h3>제휴카드</h3>
 	</div> 

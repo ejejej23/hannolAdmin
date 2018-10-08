@@ -79,7 +79,7 @@ function check() {
 
 <div class="sub-container" style="width: 960px;">
     <div class="sub-title">
-	  <h3>이용권등록하기</h3>
+	  <h3>이용권 등록하기</h3>
 	</div>
     
     <div>

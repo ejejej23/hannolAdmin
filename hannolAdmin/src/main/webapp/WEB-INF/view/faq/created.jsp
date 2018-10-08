@@ -64,7 +64,7 @@
 
 <div class="sub-container" style="width: 960px;">
     <div class="sub-title">
-	  <h3>${mode=='created'? 'FAQ등록' : 'FAQ수정'}</h3>
+	  <h3>${mode=='created'? 'FAQ 등록' : 'FAQ 수정'}</h3>
 	</div>
     
     <form role="form" name="faqForm" method="post"> 
