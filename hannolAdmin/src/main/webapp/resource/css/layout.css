@@ -5,9 +5,38 @@
     text-align:left;
 }
 
+#page-header {
+	    margin:20px 0;
+}
+
+#page-header .header-brand { 
+    width:165px;  
+    margin:0 auto;
+}
+#page-header .header-brand a{ 
+    display:block;
+    width:100%;
+    height:100%;
+}
+#page-header .header-brand a img{ 
+    width:100%;
+}
+
+#page-header .header-login {
+	min-height:27px;margin-top:17px;
+}
+#page-header .login {
+	float:right; position:relative;
+}
+#page-header .login i {
+	display:inline-block; margin:0 3px 0 3px;
+	position:relative; top:1px;
+	width:1px; height:11px; background: #c0c0c0;
+}
+
 .container {
     clear:both;
-    width:100%;
+    width: 960px;
     text-align:left;
 }
 

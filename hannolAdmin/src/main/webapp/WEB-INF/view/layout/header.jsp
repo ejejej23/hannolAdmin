@@ -5,17 +5,11 @@
 <%
    String cp = request.getContextPath();
 %>
-<div class="header-top">
-    <div style="width: 960px; height: 120px; margin-top: 20px;" align="center">
-        <div style="margin: 2px;">
-            <a href="<%=cp%>/" style="text-decoration: none;">
-        		<img width="180px" height="120px" src="<%=cp%>/resource/images/logo.jpg">            
-            </a>
-        </div>
-    </div>
+<div class="container">
+    <div id="page-header">
+        <div class="header-brand"><a href="<%=cp%>/"><img src="<%=cp%>/resource/images/hannol_logo.jpg" alt="로고"/></a></div>
     
-    <div style="width: 960px; height: 20px;" >
-        <div align="right">
+    	<div class="login header-login">
             <c:if test="${empty sessionScope.staff}">
                 <a  href="<%=cp%>/staff/login">로그인</a>
             </c:if>
@@ -26,7 +20,7 @@
                 &nbsp;|&nbsp;
                 <a href="<%=cp%>/staff/logout">로그아웃</a>
             </c:if>
-        </div>
+    	</div>
     </div>
 </div>
 
