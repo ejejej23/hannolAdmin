@@ -191,4 +191,9 @@
 	<update id="rentUpdate" parameterType="Integer">
 		UPDATE assetsBook SET state = #{stateCode} WHERE bookCode=#{bookCode}        
 	</update>
+	
+	<!-- 입장권 검색 -->
+	<select id="searchTicket" resultType="com.sp.ticket.Ticket" parameterType="Integer">
+		SELECT * FROM ticket WHERE TO_CHAR(sysdate, 'YYYY-MM-DD') BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD') AND ticketCode = #{num}
+	</select>
 </mapper>

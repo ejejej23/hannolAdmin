@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
+import com.sp.ticket.Ticket;
 
 @Controller("assets.assetsController")
 public class AssetsController {
@@ -247,6 +248,26 @@ public class AssetsController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
+		
+		return model;
+	}
+	
+	// 이용권 검색 AJAX-JSON
+	@RequestMapping(value="/assets/searchTicket", method=RequestMethod.POST)
+	@ResponseBody 
+	public Map<String, Object> searchTicket(@RequestParam(value="ticketCode") int ticketCode) throws Exception{
+
+		String state = "true";  
+		  
+		
+		Ticket searchTicket = service.searchTicket(ticketCode);
+		
+		if(searchTicket==null)  
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("searchTicket", searchTicket); 
 		
 		return model;
 	}

@@ -8,6 +8,9 @@
 <style>
 	/*table list*/
 	.table.tbStatus td:nth-child(4){font-weight:bold; color:#5390e2;}  
+	input[name=ticketCode]{width:153px;} 
+	input[disabled],
+	select[disabled]{background-color:#efefef;}       
 </style> 
 
 <script type="text/javascript">
@@ -35,7 +38,7 @@
 			$("#modal").dialog({
 				title : "현장등록",
 				width : 390,       
-				height : 350,      
+				height : 400,       
 				modal : true,
 				close:function(){
 					formClean();
@@ -50,12 +53,6 @@
 	
 		//현장등록
 		$("#insertRent").click(function(){   
-			/* $(".nav-item").each(function(){
-				$(this).hashClass("active");
-			});
-			 */
-			
-			
 			var url = "<%=cp%>/assets/insertRent";
 			var query = $("form[name=formData]").serialize()+"&facilityNum="+facilityCode;
 			
@@ -81,6 +78,62 @@
 		});
 	});
 	
+	
+	//이용권 검색
+	$("#searchTicket").click(function(){
+		var ticketCode = $("input[name=ticketCode]").val();
+		 
+		var url = "<%=cp%>/assets/searchTicket";
+		var query = "ticketCode="+ticketCode;
+		
+		$.ajax({ 
+			type:"post",
+			url:url,
+			data:query,
+			beforeSend:ticketCheck,
+			success:function(data){
+				if(data.state=="true"){
+					//disabled해제
+					for(var i=0; i<tfDisabled().length;i++){
+						tfDisabled().attr("disabled", false); 
+					}   
+					
+					if(data.searchTicket.gubunCode==5 || data.searchTicket.gubunCode==6){
+						$("#afternoon").prop("disabled", true); 
+					}
+				}else{
+					//disabled신청
+					for(var i=0; i<tfDisabled().length;i++){
+						tfDisabled().attr("disabled", true); 
+					} 
+					
+					alert("사용가능한 티켓이 아닙니다.");
+				}
+			},
+			error:function(e){
+				console.log(e.responseText);
+			}
+		}); 
+
+		return;	
+	});
+	
+	function tfDisabled(){
+		var s_elements = [];
+		
+		s_elements = $("input[name=bookTime], input[name=name], .tel");
+		
+		return s_elements;
+	}
+	
+	//이용권 창 빈칸 확인
+	function ticketCheck(){
+		if(!$("input[name=ticketCode]").val()){ 
+			$("input[name=ticketCode]").focus();
+			alert("입장권을 입력해주세요.");  
+			return false;
+		}
+	}
 	
 	//빈칸 확인
 	function check(){
@@ -186,28 +239,35 @@
 	<form name="formData" method="post">
 		<table class="modalTable">
 			<tr>
+				<th scope="row">입장권</th>
+				<td>   
+					<input type="text" name="ticketCode" class="boxTF" data-name="입장권을">
+					<input type="button" id="searchTicket" class="btn btn-default" value="확인"/>  
+				</td> 
+			</tr>
+			<tr>
 				<th scope="row">시간</th>
 				<td>   
-					<input type="radio" name="bookTime" value="0" checked="checked"> 오후
-					<input type="radio" name="bookTime" value="1"> 종일 
+					<input type="radio" id="afternoon" name="bookTime" value="0" checked="checked" disabled="disabled"> 오후
+					<input type="radio" id="allDay" name="bookTime" value="1" disabled="disabled"> 종일 
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">이름</th>
 				<td>
-					<input type="text" name="name" class="boxTF" data-name="이름을"> 
+					<input type="text" name="name" class="boxTF" data-name="이름을" disabled="disabled"> 
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">연락처</th>
 				<td>
-					<select name="tel1" class="selectField tel" data-name="연락처를">
+					<select name="tel1" class="selectField tel" data-name="연락처를" disabled="disabled">
 						<option value="010" selected="selected">010</option> 
 						<option value="011">011</option>
 						<option value="017">017</option>
 						<option value="016">016</option>
 						<option value="019">019</option>
-					</select> - <input type="text" name="tel2" class="boxTF tel" maxlength="4" data-name="연락처를"> - <input type="text" name="tel3" class="boxTF tel" maxlength="4" data-name="연락처를">
+					</select> - <input type="text" name="tel2" class="boxTF tel" maxlength="4" data-name="연락처를" disabled="disabled"> - <input type="text" name="tel3" class="boxTF tel" maxlength="4" data-name="연락처를" disabled="disabled">
 				</td> 
 			</tr>
 		</table>

@@ -20,6 +20,7 @@ public class Assets {
 	private int totalCount; 	//총 수량  
 	private int rentCount; 		//대여 수량  
 	
+	private int ticketCode; 	//시리얼번호(입장권)
 
 	public int getBookCode() {
 		return bookCode;
@@ -155,5 +156,13 @@ public class Assets {
 
 	public void setRentCount(int rentCount) {
 		this.rentCount = rentCount;
+	}
+
+	public int getTicketCode() {
+		return ticketCode;
+	}
+
+	public void setTicketCode(int ticketCode) {
+		this.ticketCode = ticketCode;
 	}	
 }

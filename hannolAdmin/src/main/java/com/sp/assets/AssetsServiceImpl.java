@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
+import com.sp.ticket.Ticket;
 
 @Service("assets.assetsServiceImpl")
 public class AssetsServiceImpl implements AssetsService{
@@ -74,6 +75,18 @@ public class AssetsServiceImpl implements AssetsService{
 			System.out.println(e.toString());
 		}
 		return result;
+	}
+
+	@Override
+	public Ticket searchTicket(int num) {
+		Ticket list = null;
+		
+		try {
+			list = dao.selectOne("assets.searchTicket", num); 
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list; 
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package com.sp.assets;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.ticket.Ticket;
+
 public interface AssetsService {
 	public List<Map<String, Object>> themeList();
 	
@@ -10,6 +12,7 @@ public interface AssetsService {
 	public List<Assets> assetsCountList(Map<String, Object> map);
 	public int searchRentCount(int num);
 	public int searchAssetsCode(int num);
+	public Ticket searchTicket(int num);
 	public int insertRent(Assets dto);
 	
 	public int assetsReservationDataCount (Map<String, Object> map);
@@ -19,5 +22,7 @@ public interface AssetsService {
 	public List<Assets> rentalOkList (Map<String, Object> map);
 	
 	public int rentUpdate (Map<String, Object> map);
+	
+	
 
 }

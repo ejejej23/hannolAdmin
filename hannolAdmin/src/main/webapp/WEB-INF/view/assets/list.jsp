@@ -139,9 +139,8 @@
 	
 	//대여 신청 목록
 	function reservationPageList(page){  
-		console.log('ssssss');
 		var query = "page="+page;
-		
+		  
 		//active되어있는 tab의 번호가져오기(편의시설 구분번호)
 		var tab = "";
 		$(".nav-item").each(function(){
@@ -165,14 +164,12 @@
 				query += "&searchKey="+searchKey+"&searchValue="+searchValue; 
 		
 		var url = "<%=cp%>/assets/assetsReservationList";
-		console.log(query);
 		
 		$.ajax({ 
 			type:"post",
 			url:url,
 			data:query, 
 			success:function(data){
-				console.log(data);
 				$(".list-reservation").html(data);  
 			},
 			error:function(e){
@@ -222,82 +219,6 @@
 			} 
 		});
 	}  
-	
-	<%-- function statusPageList(page){  
-		var query = "page="+page;
-		
-		//active되어있는 tab의 번호가져오기(편의시설 구분번호)
-		var tab = "";
-		$(".nav-item").each(function(){
-			if($(this).hasClass("active")){
-				tab = $(this).children(".nav-link").attr("data-tab");  
-			}
-		});
-		
-		//검색 
-		var searchthema,
-			searchKey,
-			searchValue;      
-		 
-			searchthema= $("select[name=searchthema]").val(); //테마 코드
-			searchKey = $("select[name=searchKey]").val(); //검색키  
-			searchValue = $("input[name=searchValue]").val(); //검색값  
-			
-
-			  
-			query = "&tab="+tab+"&searchthema="+searchthema;   
-		
-			if(searchValue!="")
-				query += "&searchKey="+searchKey+"&searchValue="+searchValue; 
-		
-			
-		//대여 현황
-		var url = "<%=cp%>/assets/assetsStatusList";
-		
-		$.ajax({ 
-			type:"post",
-			url:url,
-			data:query, 
-			success:function(data){ 
-				$(".list-status").html(data);   
-			},
-			error:function(e){  
-				console.log(e.responseText);
-			} 
-		});
-		 
-		
-		//대여 신청 목록
-		var url = "<%=cp%>/assets/assetsReservationList";
-		
-		$.ajax({ 
-			type:"post",
-			url:url,
-			data:query, 
-			success:function(data){
-				$(".list-reservation").html(data);  
-			},
-			error:function(e){
-				console.log(e.responseText);
-			} 
-		});
-		
-		//대여 완료 리스트
-		var url = "<%=cp%>/assets/rentalOkList";
-		
-		$.ajax({ 
-			type:"post",
-			url:url,
-			data:query, 
-			success:function(data){ 
-				$(".list-rentalOk").html(data);   
-			},
-			error:function(e){
-				console.log(e.responseText);
-			} 
-		});
-	} --%>
-	
 	 
 	//검색
 	function searchList(){
