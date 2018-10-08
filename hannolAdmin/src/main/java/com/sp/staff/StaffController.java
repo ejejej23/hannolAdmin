@@ -50,20 +50,6 @@ public class StaffController {
 		return ".staff.pwd";
 	}
 
-	@RequestMapping(value = "/staff/staffIdCheck", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> idCheck(@RequestParam String staffId) throws Exception {
-
-		String p = "true";
-		Staff dto = service.loginStaff(staffId);
-		if (dto != null)
-			p = "false";
-
-		Map<String, Object> model = new HashMap<>();
-		model.put("passed", p);
-		return model;
-	}
-
 	@RequestMapping(value = "/staff/list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
@@ -246,7 +232,7 @@ public class StaffController {
 		// 재직중이면 퇴사일자 빈칸으로 하기
 		if (dto.getInDate() != null && dto.getOutDate() != null) {
 			boolean compare = dto.getInDate().compareTo(dto.getOutDate()) > 0;
-			if (compare) {
+			if (compare) { 
 				dto.setOutDate("");
 			}
 		}
