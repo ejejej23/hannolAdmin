@@ -27,10 +27,106 @@
 		<intercept-url pattern="/staff/staff" access="hasAnyRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/staff/updateAuth" access="hasAnyRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/staff/updateInout" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 사용자 공지 -->
+		<intercept-url pattern="/notice/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/notice/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/notice/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/noticeS/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/noticeS/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/noticeS/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 재정관리 -->
+		<intercept-url pattern="/finance/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/budget/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 이용권관리 -->
+		<intercept-url pattern="/ticket/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/noticeS/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 할인카드 -->
+		<intercept-url pattern="/card/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/card/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/card/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 이용객현황관리 -->
+		<intercept-url pattern="/visitor/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 구매관리 -->
+		<intercept-url pattern="/payment/refundPay" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 예약관리 -->
+		<intercept-url pattern="/reservation/deleteShow" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 쿠폰발송 -->
+		<intercept-url pattern="/coupon/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/coupon/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 등급관리 -->
+		<intercept-url pattern="/grade/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/grade/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/grade/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 회원 리스트, 발령관리 -->
+		<intercept-url pattern="/member/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/career/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- FAQ -->
+		<intercept-url pattern="/faq/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/faq/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/faq/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- question -->
+		<intercept-url pattern="/question/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/question/insertAnswer" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/question/deleteAnswer" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/question/updateAnswer" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 후기 -->
+		<intercept-url pattern="/review/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 스케줄-가이드 -->
+		<intercept-url pattern="/guide/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/guide/insertGuide" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 스케줄-공연 -->
+		<intercept-url pattern="/show/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/insertShowDetail" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/showInfo/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/updateShowDetail" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/showInfo/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/insertShowSchedule" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/insertShowSchedule/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/updateShowSchedule" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/show/insertShowSchedule/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 스케줄-이벤트 -->
+		<intercept-url pattern="/event/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/event/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/event/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 시설 -->
+		<intercept-url pattern="/facility/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/facility/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 놀이기구 -->
+		<intercept-url pattern="/rides/main" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/rides/getYear" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/rides/chartData" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 놀이기구 정보 -->
+		<intercept-url pattern="/rides/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/rides/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/rides/Infoupdate" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/rides/updateChg" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 놀이기구 상태 -->
+		<intercept-url pattern="/state/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 편의시설 - 대여/반납 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<!-- 편의시설 - 보관함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<!-- 정비-수리 -->
+		<intercept-url pattern="/repair/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 정비-점검 -->
+		<intercept-url pattern="/inspection/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/inspection/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/inspection/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 기프트샵 -->
+		<intercept-url pattern="/giftshop/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/giftshop/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/giftshop/deleteFile" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 기프트샵-입고/출고 -->
+		<intercept-url pattern="/goodsIn/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/goodsOut/**" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 기프트샵-업체정보 -->
+		<intercept-url pattern="/company/created" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/company/update" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/company/delete" access="hasAnyRole('ROLE_ADMIN')"/>
+		<!-- 마감 -->
+		<intercept-url pattern="/magam/**" access="hasAnyRole('ROLE_ADMIN')"/>
 		
-
+		
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
-	
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')"/> 
 				
 		

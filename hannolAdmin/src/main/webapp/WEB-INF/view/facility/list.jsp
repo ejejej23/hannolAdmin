@@ -54,16 +54,16 @@
 					<td>${vo.installDate}</td>
 					<td>${vo.removeDate}</td>
 					<td>
-						<c:if test="${empty vo.saveMainFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG"  class="facilityImage" 
-									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+						<c:if test="${empty vo.saveMainFilename}"><img src="<%=cp%>/resource/images/noimage.png"  class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 						<c:if test="${not empty vo.saveMainFilename}"><img src="/hannolAdmin/uploads/facility/${vo.saveMainFilename}" class="facilityImage" 
-									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+									onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 					</td>
 					<td>
-						<c:if test="${empty vo.saveLocFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="facilityImage" 
-									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+						<c:if test="${empty vo.saveLocFilename}"><img src="<%=cp%>/resource/images/noimage.png" class="facilityImage" 
+									onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 						<c:if test="${not empty vo.saveLocFilename}"><img src="/hannolAdmin/uploads/facility/${vo.saveLocFilename}" class="facilityImage" 
-									onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+									onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 										
 					</td>
 					<td>${vo.memo}</td>
