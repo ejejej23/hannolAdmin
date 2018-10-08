@@ -25,10 +25,9 @@
 </script>
 
 <div class="sub-container" style="width: 960px;">
-
-	<div class="body-title">
-		<h3>놀이기구 상태(리스트) </h3>
-	</div>
+	<div class="sub-title">
+	  <h3>놀이기구 상태 <small>리스트</small></h3>
+	</div> 
 
 	<div style="width: 900px; border-spacing: 0px;">
 		<div style="float: left; width: 40%">

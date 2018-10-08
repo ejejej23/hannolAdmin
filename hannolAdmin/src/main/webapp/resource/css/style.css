@@ -98,3 +98,4 @@ a:hover, a:active {
     font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 
+.header a:active{line-height:inherit !important; border:0 none !important;}  

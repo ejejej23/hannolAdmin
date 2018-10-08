@@ -62,15 +62,20 @@ function deleteCard(cardCode) {
     padding: 5px;
     width: 75px;
 }
+
+.custom_table {
+    width: 100%;
+    border-top: 2px solid #cecece;
+}
 </style>
 
 <div class="sub-container">
-    <div class="body-title">
-          <h3><span class="glyphicon glyphicon-bookmark"></span> 이벤트 </h3>
-    </div>
+    <div class="sub-title">
+	  <h3>이벤트</h3>
+	</div> 
     	
     <div>
-		<table  style="width: 100%; height: 13em; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+		<table class="custom_table">
 		  <c:forEach var="dto" items="${list}">
 		  <tr align="center" style="border-bottom: 1px solid #cccccc;"> 
 		      <td rowspan="2" width="30%">

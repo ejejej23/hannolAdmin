@@ -6,8 +6,8 @@
    String cp = request.getContextPath();
 %>
 
-	<div class="body-title">
-     	<h3>어트랙션 정보<small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
+	<div class="sub-title">
+     	<h3>어트랙션 정보 <small>${dataCount}개(${page}/${total_page} 페이지)</small></h3>
     </div> 
 
   <div>
