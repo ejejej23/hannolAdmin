@@ -23,12 +23,22 @@ import com.sp.common.MyUtil;
 
 @Controller("staff.memberController")
 public class StaffController {
-	@Autowired
+	@Autowired 
 	private StaffService service;
 
 	@Autowired
 	private MyUtil myUtil;
 
+	@RequestMapping(value = "/staff/login", method = RequestMethod.GET)
+	public String loginForm(@RequestParam(required=false)String login_error, Model model) {
+		
+		if (login_error != null) {
+			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+		}
+
+		return ".staff.login";
+	}
+	
 	@RequestMapping(value = "/staff/list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(value = "searchKey", defaultValue = "subject") String searchKey,
