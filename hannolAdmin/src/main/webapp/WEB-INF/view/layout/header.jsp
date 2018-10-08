@@ -118,7 +118,7 @@
         <li>
             <span class="dep1">편의시설</span>
             <ul>
-                <li><a href="#">대여/반납</a></li>
+                <li><a href="<%=cp %>/assets/list">대여/반납</a></li> 
                 <li><a href="<%=cp %>/amenity/storage">보관</a></li>
             </ul>
         </li>
