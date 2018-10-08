@@ -182,8 +182,9 @@ function sendGuide(){
           <div id="calendar"></div>
       
     <br>
+    	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
                 <button type="button" name="insertBtn" class="btn btn-default">일정추가</button>
-          
+        </c:if>
     </div>
     
     <div id="resultLayout"></div>

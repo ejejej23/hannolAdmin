@@ -145,7 +145,9 @@ function listPage(page){
     	</div>
     	<div class="bottom-btn">
     		<button type="button" class="btn btn-default" style="float: left;" onclick="javascript:location.href='<%=cp%>/faq/list'">새로고침</button>
+    		<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
     		<button type="button" class="btn btn-info" style="float: right;" onclick="javascript:location.href='<%=cp%>/faq/created'">등록하기</button>
+    		</c:if>
     	</div>
     	
     </div>

@@ -89,8 +89,9 @@
 					</td>
 					
 					<td align="right" width="100">
-						<button id="btnSend" type="button" class="btn1">변경하기</button>
+					<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/facility/created';">추가하기</button>
+					</c:if>
 					</td>
 				</tr>
 			</table>

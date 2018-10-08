@@ -79,9 +79,9 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		      	<%-- <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }"> --%>
+		      	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		          <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/ticket/created';">등록하기</button>
-		      	<%-- </c:if> --%>
+		      	</c:if>
 		      </td>
 		   </tr>
 		</table>

@@ -54,9 +54,11 @@ function deleteFaq(){
 			
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
-			    <td width="300" align="left">				    
+			    <td width="300" align="left">	
+			    <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">			    
 			          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/faq/update?${query}&faqCode=${dto.faqCode}';">수정</button>
 			          <button type="button" class="btn btn-default" onclick="deleteFaq();">삭제</button>
+			    </c:if>
 			    </td>
 			
 			    <td align="right">

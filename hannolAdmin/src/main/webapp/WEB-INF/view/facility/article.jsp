@@ -63,7 +63,9 @@
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 				<tr height="45">
 				    <td width="300" align="left">
+				    	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 				          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/facility/update?page=${page}&facilityCode=${dto.facilityCode}&gubunName=${dto.gubunName}';">수정</button>
+				    	</c:if>
 				    </td>
 				
 				    <td align="right">

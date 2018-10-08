@@ -87,7 +87,7 @@ $(function(){
 					<th scope="col" style="width: 10%">번호</th>
 					<th scope="col">쿠폰명</th>
 					<th scope="col">발급일자</th>
-					<th scope="col" style="width: 10%">삭제</th>
+					<th scope="col" style="width: 10%"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,7 +96,11 @@ $(function(){
 					<td scope="row">${item.listNum}</td>
 					<td><a href="${articleUrl}&mngCode=${item.mngCode}">${item.mngName}</a></td>
 					<td>${item.mngDate}</td>
-					<td><button type="button" class="btn btn-danger btn-delete" data-num="${item.mngCode}">삭제</button></td>
+					<td>
+						<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
+						<button type="button" class="btn btn-danger btn-delete" data-num="${item.mngCode}">삭제</button>
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 			</tbody>
@@ -119,7 +123,9 @@ $(function(){
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
+		      <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 		          <button type="button" class="btn btn-info" onclick="javascript:location.href='<%=cp%>/coupon/created';">쿠폰발송</button>
+		      </c:if>
 		      </td>
 		   </tr>
 		</table>

@@ -135,7 +135,9 @@ $(function(){
 		</form>
 		<div class="btnBox">
 			<button class="btn btn-default" onclick="javascript:location.href='<%=cp%>/coupon/list?${dataQuery}'">돌아가기</button>
+			<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN' }">
 			<button class="btn btn-danger btn-delete" data-num="${dto.mngCode}">삭제</button>
+			</c:if>
 		</div>
 		
 		<div>
