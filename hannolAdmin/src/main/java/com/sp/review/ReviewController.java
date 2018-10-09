@@ -90,6 +90,9 @@ public class ReviewController {
  			model.put("msg", "후기를 삭제하기 전에 로그인을 먼저 해야합니다.");
  			return model;
  		}
+ 		// 좋아요 취소
+ 		service.deleteReviewLike(reviewCode);
+ 		// 리뷰 삭제
  		service.deleteReview(reviewCode);
  		model.put("state", "true");
  		
