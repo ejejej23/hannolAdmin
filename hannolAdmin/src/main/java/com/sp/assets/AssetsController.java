@@ -255,20 +255,35 @@ public class AssetsController {
 	// 이용권 검색 AJAX-JSON
 	@RequestMapping(value="/assets/searchTicket", method=RequestMethod.POST)
 	@ResponseBody 
-	public Map<String, Object> searchTicket(@RequestParam(value="ticketCode") int ticketCode) throws Exception{
+	public Map<String, Object> searchTicket(
+			@RequestParam(value="gubunCode") int gubunCode,
+			@RequestParam(value="ticketCode") int ticketCode) throws Exception{
 
+ 
 		String state = "true";  
-		  
+		int assetsCode = 0;
 		
 		Ticket searchTicket = service.searchTicket(ticketCode);
 		
-		if(searchTicket==null)  
+		if(searchTicket==null) { 
 			state = "false";
+			
+		}else {
+			//이용권이 있다면 구매 내역이 있는지 확인
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("ticketCode", ticketCode);
+			map.put("gubunCode", gubunCode);
+			
+			int searchReservationCheck = service.searchReservationCheck(map);
+			if(searchReservationCheck>0){	
+				state = "beFound";
+			}
+		} 		
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		model.put("searchTicket", searchTicket); 
-		
+		    
 		return model;
 	}
 }

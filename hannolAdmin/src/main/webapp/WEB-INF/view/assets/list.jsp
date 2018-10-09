@@ -55,7 +55,7 @@
 	.boxTF,
 	.boxTA,
 	.modalTable .selectField{width:206px; vertical-align:middle;} 
-	.boxTF[readonly]{background-color:#ffffff;}
+	/*.boxTF[readonly]{background-color:#ffffff;}*/
 	.boxTA[disabled]{background-color:#f3f3f3; padding:10px 15px;}
 	.selectField{padding:6px; vertical-align:middle;}  
 	.boxTF.tel,
@@ -283,3 +283,52 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+<!-- 모달창 -->
+<div id="modal" class="modal">
+	<form name="formData" method="post">
+		<table class="modalTable">
+			<tr>
+				<th scope="row">입장권</th>
+				<td>   
+					<input type="text" name="ticketCode" class="boxTF" data-name="입장권을">
+					<input type="button" id="searchTicket" class="btn btn-default" value="확인"/>  
+				</td> 
+			</tr>
+			<tr>
+				<th scope="row">시간</th>
+				<td>   
+					<input type="radio" id="afternoon" name="bookTime" value="0" checked="checked" disabled="disabled"> 오후
+					<input type="radio" id="allDay" name="bookTime" value="1" disabled="disabled"> 종일 
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">이름</th>
+				<td>
+					<input type="text" name="name" class="boxTF" data-name="이름을" disabled="disabled"> 
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">연락처</th>
+				<td>
+					<select name="tel1" class="selectField tel" data-name="연락처를" disabled="disabled">
+						<option value="010" selected="selected">010</option> 
+						<option value="011">011</option>
+						<option value="017">017</option>
+						<option value="016">016</option>
+						<option value="019">019</option>
+					</select> - <input type="text" name="tel2" class="boxTF tel" maxlength="4" data-name="연락처를" disabled="disabled"> - <input type="text" name="tel3" class="boxTF tel" maxlength="4" data-name="연락처를" disabled="disabled">
+				</td> 
+			</tr>
+		</table>
+		
+		<div class="btnBox">
+	        <button type="button" class="btn btn-info" id="insertRent">현장등록</button>
+	        <button type="reset" class="btn btn-default">다시입력</button> 
+	        <button type="button" class="btn btn-default" id="modalCloseBtn">등록취소</button>
+	    </div> 
+	</form>
+</div> 

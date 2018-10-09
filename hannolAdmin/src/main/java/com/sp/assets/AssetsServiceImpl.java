@@ -90,6 +90,18 @@ public class AssetsServiceImpl implements AssetsService{
 	}
 
 	@Override
+	public int searchReservationCheck(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("assets.searchReservationCheck", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
 	public int insertRent(Assets dto) {
 		int result = 0;
 		
