@@ -304,7 +304,9 @@ function facilityList(){
 	       <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 	           <tr height="45"> 
 	            <td align="center" >
-	              <button type="button" class="btn" onclick="updateShow();">공연정보 수정</button>
+	            	<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+			              <button type="button" class="btn" onclick="updateShow();">공연정보 수정</button>
+	            	</c:if>
 	              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/show/manage?tab=${tab}&pageNo=${pageNo}';">리스트</button>
 	               <c:if test="${mode=='update'}">
 	                   <input type="hidden" name="num" value="">

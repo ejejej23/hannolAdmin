@@ -25,7 +25,13 @@ $(function() {
 <div>
 <hr> 
 	<div class="sub-title">
-	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div><button type="button" id="infoIcon" class="btn addIcon" onclick="createdShowInfoForm('${showCode}');">+</button>
+	     <div class="col-sm-11" style="display: inline-block;"><h3>상세 정보</h3></div>
+	     <c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+		     <button type="button" id="infoIcon" class="btn addIcon" onclick="createdShowInfoForm('${showCode}');">+</button>
+		 </c:if>
+		 <c:if test="${sessionScope.staff.authority == 'ROLE_STAFF'}">
+			 &nbsp;
+		 </c:if>
     </div>
     <br>
     <div id="showCreatedForm"></div>
@@ -40,7 +46,14 @@ $(function() {
 					<input type="text" data-showInfoCode="${dto.showInfoCode}" name="eEndDate" value="${dto.endDate}" style="border: none; background-color: tomato; " size="10" readonly="readonly"></div> 
 				<div class="col-sm-2">상영시간</div>
 				<div class="col-sm-3"><mark>${dto.runningTime}분</mark></div>
-				<div class="col-sm-1"><button type="button" class="btn" onclick="updateShowInfoForm('${dto.showInfoCode}')">수정</button></div>
+				<div class="col-sm-1">
+					<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+						<button type="button" class="btn" onclick="updateShowInfoForm('${dto.showInfoCode}')">수정</button>
+		      		</c:if>
+		      		<c:if test="${sessionScope.staff.authority == 'ROLE_STAFF'}">
+				      		&nbsp;
+		      		</c:if>
+				</div>
 			</div><br>
 			<div class="form-group">
 				<div class="col-sm-2">공연장소</div>
@@ -73,7 +86,14 @@ $(function() {
 								      		${sst.startTime}&nbsp;${(status.last) ? "" : " , "}
 								      	</c:forEach>
 								      </td>
-								      <td width="10%"><button type="button" class="btn" onclick="updateShowScheduleForm('${vo.schCode}', '${showCode}');">수정</button></td>
+								      <td width="10%">
+								      		<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+										      		<button type="button" class="btn" onclick="updateShowScheduleForm('${vo.schCode}', '${showCode}');">수정</button>
+								      		</c:if>
+								      		<c:if test="${sessionScope.staff.authority == 'ROLE_STAFF'}">
+										      		&nbsp;
+								      		</c:if>
+								      </td>
 								  </tr>
 							</c:forEach>
 							<c:if test="${empty dto.showScheduleList}">
@@ -83,12 +103,15 @@ $(function() {
 									<td></td>
 								</tr> 
 							</c:if>
-							<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
-						      <td width="30%"></td>
-						      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
-						      		<button type="button" id="" class="btn" onclick="createdShowScheduleForm('${dto.showInfoCode}')">+</button></td> 
-						      <td width="10%">&nbsp;</td>
-							</tr>
+				      		<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+								<tr align="center" height="30em" style="border-bottom: 1px solid #cccccc;"> 
+							      <td width="30%"></td>
+							      <td width="60%" align="left" style="padding-left: 1em; padding-right: 1em;">
+							      			<button type="button" id="" class="btn" onclick="createdShowScheduleForm('${dto.showInfoCode}')">+</button>
+							      </td> 
+							      <td width="10%">&nbsp;</td>
+								</tr>
+				      		</c:if>
 						</table>
 					</div>
 				</div>

@@ -27,9 +27,14 @@
     	<div style="width: 20%; float: left; background: " align="center" data-reviewCode="${dto.reviewCode}">
     		<div id="likeCount${dto.reviewCode}" class="redHeart"></div>
 			
-		    <input type="text" name="likeCount${dto.reviewCode}" style="text-align:center; padding-left:14px; background-color:transparent; border: none; " disabled="disabled" value="${dto.likecount}">		
     		
-    		<img class="deleteReview" src="<%=cp%>/resource/images/close_icon.png" onclick="deleteReview('${dto.reviewCode}')">
+    		<c:if test="${sessionScope.staff.authority == 'ROLE_ADMIN'}">
+    		    <input type="text" name="likeCount${dto.reviewCode}" style="text-align:center; padding-left:14px; background-color:transparent; border: none; " disabled="disabled" value="${dto.likecount}">		
+	    		<img class="deleteReview" src="<%=cp%>/resource/images/close_icon.png" onclick="deleteReview('${dto.reviewCode}')">
+    		</c:if>
+    		<c:if test="${sessionScope.staff.authority == 'ROLE_STAFF'}">
+			    <input type="text" name="likeCount${dto.reviewCode}" style="text-align:center; background-color:transparent; border: none; " disabled="disabled" value="${dto.likecount}">		
+    		</c:if>
 		</div>
 		<hr size="3">
     </div>
