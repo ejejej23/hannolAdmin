@@ -159,13 +159,13 @@
 	
 	//연락처 숫자만
 	$(function(){
-		$(".tel").keypress(function(){
+		$(".tel, input[name=ticketCode]").keypress(function(){
 			if(event.keyCode<48 || event.keyCode>57){
 				try{ 
 					event.preventDefault(); //발생된 이벤트를 취소	
 				}catch (e) {
 					event.returnValue = false; //ie낮은 버전 이벤트 취소
-				}
+				} 
 			}
 				
 		});

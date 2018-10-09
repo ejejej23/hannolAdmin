@@ -66,13 +66,13 @@
 		) WHERE rnum &gt;= #{start}
 	</select>	 
 	
-	<!-- 대여 수량 검색 -->
+	<!-- 오늘날짜 대여 수량 검색 -->
 	<select id="searchRentCount" resultType="Integer" parameterType="Integer"> 
 		SELECT NVL(COUNT(*), 0) rentCount  
 		FROM assetsBook ab   
 		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
 		LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
-		WHERE a.facilityCode = #{num}   
+		WHERE a.facilityCode = #{num} AND TO_CHAR(useDate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')   
 		GROUP BY themeCode
 	</select>
 	
