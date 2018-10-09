@@ -75,6 +75,10 @@ $(function(){
 		});
 	}
 	
+	function back(){
+		
+		
+	}
 
 </script>
 
@@ -101,5 +105,7 @@ $(function(){
 		</div>
 		
 		<div id="showlayout"></div>
+		
+			<button class="btn" onclick="back();">반납하기</button>
 	</div>
 </div>

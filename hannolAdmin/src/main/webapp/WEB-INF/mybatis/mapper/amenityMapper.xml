@@ -8,7 +8,7 @@
 		join facility f on f.facilityCode = s.facilityCode
 		join theme t on f.themeCode = t.themeCode
 		join lockerInfo l on l.bookCode = a.bookCode
-		where themeName =#{themeName} and useDate = '20181004' and bookTime=#{daynum}
+		where themeName =#{themeName} and useDate = #{yyyymmdd} and bookTime=#{daynum}
 	</select>
 
 	<select id="datanum" parameterType="map" resultType="Integer">
@@ -18,7 +18,7 @@
 			join facility f on f.facilityCode = s.facilityCode
 			join theme t on f.themeCode = t.themeCode
 			join lockerInfo l on l.bookCode = a.bookCode
-			where themeName =#{themeName} and to_char(useDate,'yyyymmdd')='20181004' and bookTime=#{daynum}
+			where themeName =#{themeName} and to_char(useDate,'yyyymmdd')=#{yyyymmdd} and bookTime=#{daynum}
 			) 
 	</select>	
 	
