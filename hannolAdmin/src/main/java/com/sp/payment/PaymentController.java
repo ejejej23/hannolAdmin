@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.amenity.Amenity;
+import com.sp.amenity.AmenityService;
 import com.sp.common.MyUtil;
 import com.sp.guide.Guide;
 import com.sp.guide.GuideService;
@@ -31,6 +33,9 @@ public class PaymentController {
 	
 	@Autowired
 	GuideService gservice;
+	
+	@Autowired
+	AmenityService aservice;
 	
 	@Autowired
 	ReservationService rservice;
@@ -186,6 +191,22 @@ public class PaymentController {
 				}
 			}
 		}
+		
+		Amenity adto = aservice.getCubeBookCancelDay(payCode);
+		
+		if(adto !=null) {
+			int okTicketcube = aservice.okTicketIfPayCancledCube(payCode);
+			if(okTicketcube==0) {
+				//삭제할 예약번호 가져오기
+				int cubepayCode = aservice.payBookCode(payCode);
+				System.out.println(cubepayCode+":::::::삭제할 번호 가져옴::");
+				//예약된 보관함 삭제
+				aservice.paydeleteLocker(cubepayCode);
+				//예약된 코드 삭제
+				aservice.paydeleteBook(cubepayCode);
+			}
+		}
+		
 	}
 
 }

@@ -22,4 +22,58 @@
 			) 
 	</select>	
 	
+		<select id="getCubeBookCancelDay" parameterType="Integer" resultType="com.sp.assets.Assets">
+		select bookCode, useDate,usersCode
+		from assetsBook 
+		where usersCode = (
+		    SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		) 
+		AND useDate = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		and assetsCode=3
+	</select>
+	
+	<select id="okTicketIfPayCancledCube" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = (
+            SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+        )
+        AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="payBookCode" parameterType="Integer" resultType="Integer">
+		select bookCode from assetsBook a
+			join member1 m on a.usersCode = m.usersCode
+			join payment p on a.usersCode = p.usersCode
+			where payCode=#{payCode}
+	</select>
+	
+	<delete id="paydeleteLocker" parameterType="Integer">
+		delete from lockerInfo
+		where bookCode=#{cubepayCode}
+	</delete>
+	
+	<delete id="paydeleteBook" parameterType="Integer">
+		delete from assetsBook
+		where bookCode=#{cubepayCode}
+	</delete>
+	
 </mapper>
