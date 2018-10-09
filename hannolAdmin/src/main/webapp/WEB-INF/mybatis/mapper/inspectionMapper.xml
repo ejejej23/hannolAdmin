@@ -4,7 +4,7 @@
 <mapper namespace="inspection">
 	<!-- 시설 종류 가져오기 -->
 	<select id="listFacGubun" resultType="map">
-		SELECT gubunCode, name FROM facGubun
+		SELECT gubunCode, name FROM facGubun WHERE gubunCode!=2 
 	</select>
 	
 	<!-- 시설 종류별 시설 가져오기 -->
