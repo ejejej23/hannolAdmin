@@ -43,7 +43,7 @@
 						<c:if test="${vo.runningTime!=null}">
 							${vo.runningTime}분
 						</c:if>
-					</td>	
+					</td>	 
 					<td>${vo.name}</td>
 					<td class="st">
 						<c:forEach var="a" items="${vo.showTime}" varStatus="status">
