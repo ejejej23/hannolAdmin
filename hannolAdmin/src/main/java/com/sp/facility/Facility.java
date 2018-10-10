@@ -11,18 +11,21 @@ public class Facility {
 	int state;
 	String installDate;
 	String removeDate;
+	// upload1
 	String saveMainFilename;
 	String originalMainFilename;
+	// upload2
 	String saveLocFilename;
 	String originalLocFilename;
+	
+	private MultipartFile upload1;
+	private MultipartFile upload2;
 	String memo;
 	int gubunCode;
 	String gubunName;
 	int themeCode;
 	int listNum;
 	String themeName;
-	private MultipartFile upload1;
-	private MultipartFile upload2;
 	Date recordDate;
 	int timezone;
 	int waiting;
@@ -30,6 +33,31 @@ public class Facility {
 	String yyyymmdd;
 	int hh;
 	
+
+	public String getSaveMainFilename() {
+		return saveMainFilename;
+	}
+	public void setSaveMainFilename(String saveMainFilename) {
+		this.saveMainFilename = saveMainFilename;
+	}
+	public String getOriginalMainFilename() {
+		return originalMainFilename;
+	}
+	public void setOriginalMainFilename(String originalMainFilename) {
+		this.originalMainFilename = originalMainFilename;
+	}
+	public String getSaveLocFilename() {
+		return saveLocFilename;
+	}
+	public void setSaveLocFilename(String saveLocFilename) {
+		this.saveLocFilename = saveLocFilename;
+	}
+	public String getOriginalLocFilename() {
+		return originalLocFilename;
+	}
+	public void setOriginalLocFilename(String originalLocFilename) {
+		this.originalLocFilename = originalLocFilename;
+	}
 	public String getYyyymmdd() {
 		return yyyymmdd;
 	}
@@ -131,30 +159,6 @@ public class Facility {
 	}
 	public void setRemoveDate(String removeDate) {
 		this.removeDate = removeDate;
-	}
-	public String getSaveMainFilename() {
-		return saveMainFilename;
-	}
-	public void setSaveMainFilename(String saveMainFilename) {
-		this.saveMainFilename = saveMainFilename;
-	}
-	public String getOriginalMainFilename() {
-		return originalMainFilename;
-	}
-	public void setOriginalMainFilename(String originalMainFilename) {
-		this.originalMainFilename = originalMainFilename;
-	}
-	public String getSaveLocFilename() {
-		return saveLocFilename;
-	}
-	public void setSaveLocFilename(String saveLocFilename) {
-		this.saveLocFilename = saveLocFilename;
-	}
-	public String getOriginalLocFilename() {
-		return originalLocFilename;
-	}
-	public void setOriginalLocFilename(String originalLocFilename) {
-		this.originalLocFilename = originalLocFilename;
 	}
 	public String getMemo() {
 		return memo;
