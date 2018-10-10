@@ -28,7 +28,7 @@
 		            WHERE parentCode != 0
 		        )a ON a.parentCode=q.qnaCode  
 		        LEFT OUTER JOIN member1 m1 ON m1.usersCode = q.usersCode
-		        ORDER BY qDate DESC
+		        ORDER BY qDate DESC 
 		<![CDATA[
 		    )tb WHERE ROWNUM <= #{end} AND gubun = #{gubun}
 		)WHERE rnum >= #{start} AND parentCode = 0 
