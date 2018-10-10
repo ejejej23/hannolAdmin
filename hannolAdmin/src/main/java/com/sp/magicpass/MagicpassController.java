@@ -96,11 +96,10 @@ public class MagicpassController {
 		for(Magicpass dto : list) {
 			Date reservDate = dateFormat.parse(dto.getMpDate());
 			int compare = now.compareTo(reservDate);
-			
 			if(compare>0) {
 				dto.setState(1);
-			}else if(compare==0 && dto.getMpTime()>Integer.parseInt(timeStamp)) {
-				dto.setState(0);
+			}else if(compare==0 && dto.getMpTime()<Integer.parseInt(timeStamp)) {
+				dto.setState(1);
 			}else {
 				dto.setState(0);
 			}
