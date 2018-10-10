@@ -112,6 +112,11 @@ function createForm(){
 $(function(){
 	$(document).on("click","button[name=updateBtn]",function(){
 		
+		if(document.getElementById("isStaff") != null){
+			var temp = document.getElementById("isStaff").innerHTML;
+			return false;
+		}
+		
 		$("#themeModal").dialog({
 			title:"테마",
 			width:300,

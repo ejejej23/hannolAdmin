@@ -208,14 +208,14 @@ public class CareerController {
 
 		Staff isExist = temp.readStaff(usersCode);
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("usersCode", usersCode);
+		map.put("themeCode", themeCode);
+
 		if(isExist==null) {
 			//return "redirect:/career/list?usersCode="+usersCode;
 			return map;
 		}
-		
-		
-		map.put("usersCode", usersCode);
-		map.put("themeCode", themeCode);
 		
 		service.updateTheme(map);
 		

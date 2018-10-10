@@ -58,7 +58,7 @@
 		</table>
 		
 		<c:if test="${isStaff=='false' }">
-			<div>존재하지 않는 사원번호입니다</div>		
+			<div id="isStaff">존재하지 않는 사원번호입니다</div>		
 		</c:if>
 		
 	<div id="themeModal" class="modal">
