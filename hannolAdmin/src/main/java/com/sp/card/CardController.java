@@ -1,5 +1,5 @@
-package com.sp.card; 
- 
+package com.sp.card;
+
 import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -27,11 +27,11 @@ public class CardController {
 
 	@Autowired
 	MyUtil util;
-	
+
 	public String imgPath(HttpSession session) {
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "card";	
-		
+		String pathname = root + "uploads" + File.separator + "card";
+
 		return pathname;
 	}
 
@@ -67,8 +67,11 @@ public class CardController {
 		map.put("end", end);
 
 		List<Card> list = service.listCard(map);
+		for (Card dto : list) {
+			dto.setMemo(dto.getMemo().replaceAll("\n", "<br>"));
+		}
 
-		String query = "page="+current_page;
+		String query = "page=" + current_page;
 		String listUrl = cp + "/card/list";
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
@@ -110,85 +113,74 @@ public class CardController {
 	}
 
 	@RequestMapping(value = "/card/update", method = RequestMethod.GET)
-	public String updateForm(
-			@RequestParam int num,
-			@RequestParam String page,
+	public String updateForm(@RequestParam int num, @RequestParam String page,
 			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
-			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
-			Model model) throws Exception {
-		
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, Model model) throws Exception {
+
 		String query = "page=" + page;
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
-		
+
 		Card dto = service.readCard(num);
-		if(dto==null) {
-			return "redirect:/card/list?"+query;
+		if (dto == null) {
+			return "redirect:/card/list?" + query;
 		}
-		
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
-		
+
 		return ".card.created";
 	}
-	
-	@RequestMapping(value="/card/update", method=RequestMethod.POST)
-	public String updateSubmit(
-			Card dto,
-			@RequestParam String saveFilename,
-			@RequestParam String originalFilename,
-			@RequestParam String logoSaveFilename,
-			@RequestParam String logoOriginalFilename,
-			@RequestParam String page,
+
+	@RequestMapping(value = "/card/update", method = RequestMethod.POST)
+	public String updateSubmit(Card dto, @RequestParam String saveFilename, @RequestParam String originalFilename,
+			@RequestParam String logoSaveFilename, @RequestParam String logoOriginalFilename, @RequestParam String page,
 			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
-			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
-			HttpSession session) throws Exception {
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, HttpSession session)
+			throws Exception {
 
 		String query = "page=" + page;
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
-		
-		String pathname = imgPath(session);		
-		
+
+		String pathname = imgPath(session);
+
 		dto.setSaveFilename(saveFilename);
 		dto.setOriginalFilename(originalFilename);
 		dto.setLogoSaveFilename(logoSaveFilename);
 		dto.setLogoOriginalFilename(logoOriginalFilename);
-		
-		service.updateCard(dto, pathname);		
-		
-		
-		return "redirect:/card/list?"+query;
+
+		service.updateCard(dto, pathname);
+
+		return "redirect:/card/list?" + query;
 	}
-	
-	@RequestMapping(value="/card/delete")
-	public String delete(
-			@RequestParam int num,
-			@RequestParam String page,
+
+	@RequestMapping(value = "/card/delete")
+	public String delete(@RequestParam int num, @RequestParam String page,
 			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
-			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
-			HttpSession session) throws Exception {
-		
+			@RequestParam(value = "searchValue", defaultValue = "") String searchValue, HttpSession session)
+			throws Exception {
+
 		String query = "page=" + page;
 		if (searchValue.length() != 0) {
 			query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "utf-8");
 		}
-		
+
 		Card dto = service.readCard(num);
-		if(dto==null) {
-			return "redirect:/card/list?page="+page;
+		if (dto == null) {
+			return "redirect:/card/list?page=" + page;
 		}
-		
-		String pathname = imgPath(session);	
- 	
+
+		String pathname = imgPath(session);
+
 		service.deleteCard(num, dto.getSaveFilename(), dto.getLogoSaveFilename(), pathname);
-		
-		return "redirect:/card/list?"+query;
+
+		return "redirect:/card/list?" + query;
 	}
 }

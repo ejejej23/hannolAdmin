@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
-import com.sp.grade.Grade;
 
 @Service("memberlist.memberlistService")
 public class MemberServiceImpl implements MemberService{
