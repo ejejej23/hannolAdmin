@@ -261,7 +261,7 @@ public class AssetsController {
 
  
 		String state = "true";  
-		int assetsCode = 0;
+		//int assetsCode = 0;
 		
 		Ticket searchTicket = service.searchTicket(ticketCode);
 		

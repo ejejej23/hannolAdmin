@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sp.common.dao.CommonDAO;
 
-@Service
+@Service("goodsOut.goodsOutService")
 public class GoodsOutServiceImpl implements GoodsOutService {
 	@Autowired
 	private CommonDAO dao;
