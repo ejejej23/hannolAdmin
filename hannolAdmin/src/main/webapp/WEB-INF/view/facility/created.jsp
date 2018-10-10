@@ -214,6 +214,10 @@
 						onclick="javascript:location.href='<%=cp%>/facility/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 					<c:if test="${mode=='update'}">
 						<input type="hidden" name="facilityCode" value="${dto.facilityCode}">
+						<input type="hidden" name="saveMainFilename" value="${dto.saveMainFilename}">
+						<input type="hidden" name="saveLocFilename" value="${dto.saveLocFilename}">
+						<input type="hidden" name="originalMainFilename" value="${dto.originalMainFilename}">
+						<input type="hidden" name="originalLocFilename" value="${dto.originalLocFilename}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>
 				</td>

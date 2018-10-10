@@ -97,8 +97,8 @@
 		    ,name=#{name}
 		    ,state=#{state}
 		    ,removeDate=#{removeDate}
-		    ,saveMainFilename=#{originalMainFilename}
-		    ,saveLocFilename=#{originalLocFilename}
+		    ,saveMainFilename=#{saveMainFilename}
+		    ,saveLocFilename=#{saveLocFilename}
 		    ,memo=#{memo}
 		WHERE facilityCode=#{facilityCode}
 	</update>

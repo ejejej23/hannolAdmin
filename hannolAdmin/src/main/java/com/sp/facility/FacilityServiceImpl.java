@@ -71,7 +71,32 @@ public class FacilityServiceImpl implements FacilityService{
 		int result = 0;
 		try {
 			System.out.println("update하러 들어왔다~~~~~~~~~~~~~~~~~@!!!!!!!!!!!");
-
+			
+			/*
+	// upload1
+	String saveMainFilename;
+	String originalMainFilename;
+	// upload2
+	String saveLocFilename;
+	String originalLocFilename;
+			 * */
+			String newsaveMainFilename = filemanager.doFileUpload(dto.getUpload1(), pathname);
+			String newsaveLocFilename = filemanager.doFileUpload(dto.getUpload2(), pathname);
+			
+			if(newsaveMainFilename!=null) {
+				if(dto.getSaveMainFilename().length()!=0)
+					filemanager.doFileDelete(dto.getSaveMainFilename(), pathname);
+				dto.setSaveMainFilename(newsaveMainFilename);
+				dto.setOriginalMainFilename(dto.getUpload1().getOriginalFilename());
+			} 
+			
+			if(newsaveLocFilename!=null) {
+				if(dto.getSaveLocFilename().length()!=0)
+					filemanager.doFileDelete(dto.getSaveLocFilename(), pathname);
+				dto.setSaveLocFilename(newsaveLocFilename);
+				dto.setOriginalLocFilename(dto.getUpload2().getOriginalFilename());
+			}
+			
 			dao.updateData("facility.updateFacility", dto);
 			result=1;
 		} catch (Exception e) {
