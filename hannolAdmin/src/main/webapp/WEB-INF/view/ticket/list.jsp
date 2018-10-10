@@ -52,7 +52,7 @@
 		  <tbody>
 			  <c:forEach var="vo" items="${list}">
 			    <tr>
-			      <th><a href="${articleUrl}&goodsCode=${vo.goodsCode}">${vo.goodsName}</a></th>
+			      <th><a href="${articleUrl}&goodsCode=${vo.goodsCode}">[${vo.gubunName}]${vo.goodsName}</a></th>
 			      <td><fmt:formatNumber value="${vo.goodsPrice}" type="number"/>원</td>
 			      <td>${vo.state==1 ? "사용중" : "사용안함"}</td>
 			      <td>${vo.gubunName}</td>
