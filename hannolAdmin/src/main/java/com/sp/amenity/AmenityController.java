@@ -126,12 +126,6 @@ public class AmenityController {
 		
 		System.out.println(dto.getLock1()+":::"+dto.getLock2()+":::"+dto.getLock10());
 		
-	/*	for(int n=1; n<=10; n++) {	
-			int locknum = n;
-			map.put("locknum", locknum);
-			Amenity dto = service.checkdate(map);
-		}*/
-		
 		//보관함을 리스트가 아니라 번호당 받아서 보내줘야함
 		
 		model.addAttribute("unuse", unuse);

@@ -66,36 +66,68 @@
 		) WHERE rnum &gt;= #{start}
 	</select>	 
 	
-	<!-- 대여 수량 검색 -->
+	<!-- 오늘날짜 대여 수량 검색 -->
 	<select id="searchRentCount" resultType="Integer" parameterType="Integer"> 
 		SELECT NVL(COUNT(*), 0) rentCount  
 		FROM assetsBook ab   
 		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
 		LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
-		WHERE a.facilityCode = #{num}   
+		WHERE a.facilityCode = #{num} AND TO_CHAR(useDate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')   
 		GROUP BY themeCode
 	</select>
 	
 	<!-- 편의시설(자산) 대여 안한 것들 중 가장 첫번째 코드 가져오기-->
 	<select id="searchAssetsCode" resultType="Integer" parameterType="Integer">
-		SELECT assetsCode FROM( 
-			SELECT ROWNUM, tb.* FROM(    
-			    SELECT *
+		SELECT assetsCode FROM(
+			SELECT ROWNUM, tb.* FROM(
+			    SELECT assetsCode 
 			    FROM assets a
 			    LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
-			    WHERE a.facilityCode=#{num} AND state=1 AND 
-			            assetsCode NOT IN(
-			                SELECT assetsCode FROM assetsBook
+			    WHERE f.facilityCode=#{num} AND state=1 AND   
+			            assetsCode NOT IN(  
+			            	SELECT assetsCode FROM assetsBook WHERE TO_CHAR(useDate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			            )
 			    ORDER BY assetsCode
 			)tb WHERE ROWNUM=1
 		)
 	</select>
 	
+	<!-- 입장권 검색 -->
+	<select id="searchTicket" resultType="com.sp.ticket.Ticket" parameterType="Integer">
+		SELECT gubun gubunCode, ticketCode FROM ticket WHERE TO_CHAR(sysdate, 'YYYY-MM-DD') BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD') AND ticketCode = #{num}
+	</select>
+	
+	<!-- 예약내역이 있는지 검색  -->
+	<select id="searchReservationCheck" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0) 
+		FROM assetsBook ab
+		JOIN assets a ON ab.assetsCode = a.assetsCode	 
+		WHERE TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(useDate, 'YYYY-MM-DD')
+				AND ticketCode=#{ticketCode} 
+				AND state!=1
+				AND gubunCode = #{gubunCode}
+	</select>
+	
+	<!-- 테마별, 편의시설별 대여소의 자산 검색(해당 당일만) -->
+	<!-- <select id="searchFacility" resultType="Integer" parameterType="Integer">
+		SELECT assetsCode FROM(
+			SELECT ROWNUM, tb.* FROM(
+			    SELECT assetsCode 
+			    FROM assets a
+			    LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+			    WHERE f.facilityCode=#{num} AND state=1 AND   
+			            assetsCode NOT IN(  
+			            	SELECT assetsCode FROM assetsBook WHERE TO_CHAR(useDate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+			            )
+			    ORDER BY assetsCode
+			)tb WHERE ROWNUM=1
+		) 
+	</select> -->
+	
 	<!-- 현장 등록 -->
 	<insert id="insertRent" parameterType="com.sp.assets.Assets">
-		INSERT INTO assetsBook (bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name) VALUES 
-			(assetsBook_seq.NEXTVAL, SYSDATE, #{bookTime}, 0, #{tel}, 1, #{assetsCode}, #{name})        
+		INSERT INTO assetsBook (bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name, ticketCode) VALUES 
+			(assetsBook_seq.NEXTVAL, SYSDATE, #{bookTime}, 0, #{tel}, 1, #{assetsCode}, #{name}, #{ticketCode})         
 	</insert>
 	
 	
@@ -191,9 +223,4 @@
 	<update id="rentUpdate" parameterType="Integer">
 		UPDATE assetsBook SET state = #{stateCode} WHERE bookCode=#{bookCode}        
 	</update>
-	
-	<!-- 입장권 검색 -->
-	<select id="searchTicket" resultType="com.sp.ticket.Ticket" parameterType="Integer">
-		SELECT * FROM ticket WHERE TO_CHAR(sysdate, 'YYYY-MM-DD') BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD') AND ticketCode = #{num}
-	</select>
 </mapper>
