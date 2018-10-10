@@ -63,8 +63,8 @@
 					</if>
 		        </where>
 		        ORDER BY faqCode DESC
-		    ) tb WHERE ROWNUM &lt;= 10
-		) WHERE rnum &gt;=1
+		    ) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;=#{start}
 	</select>
 	
 	<select id="readFaq" parameterType="Long" resultType="com.sp.faq.Faq">

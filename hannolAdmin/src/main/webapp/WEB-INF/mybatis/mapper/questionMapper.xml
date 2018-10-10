@@ -28,9 +28,9 @@
 		            WHERE parentCode != 0
 		        )a ON a.parentCode=q.qnaCode  
 		<![CDATA[
-		    )tb WHERE ROWNUM <= #{end}
+		    )tb WHERE ROWNUM <= #{end} AND gubun = #{gubun}
 		    ORDER BY qDate DESC
-		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
+		)WHERE rnum >= #{start} AND parentCode = 0 
 		]]>
 	</select>
 	
