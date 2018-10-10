@@ -463,9 +463,9 @@
 				<c:forEach var="dto" items="${list}">
 					<tr>
 						<td>${dto.listNum}</td>
-						<td>${dto.facGubunName}</td>
-						<td>${dto.facilityName}</td>
-						<td class="articleVeiw" data-artileNum="${dto.checkCode}"><a href="#">${dto.memo}</a></td>
+						<td title="${dto.facGubunName}">${dto.facGubunName}</td>
+						<td title="${dto.facilityName}">${dto.facilityName}</td> 
+						<td class="articleVeiw" data-artileNum="${dto.checkCode}" title="${dto.memo}"><a href="#">${dto.memo}</a></td>
 						<td>
 							<c:if test="${dto.state==1}">양호</c:if>
 							<c:if test="${dto.state==0}"><span class="warning">주의</span></c:if>

@@ -341,10 +341,10 @@
 				<c:forEach var="dto" items="${list}">
 					<tr>
 						<td>${dto.listNum}</td>
-						<td>${dto.name}</td>
-						<td class="articleVeiw" data-artileNum="${dto.companyCode}"><a href="#">${dto.memo}</a></td>
+						<td title="${dto.name}">${dto.name}</td>
+						<td class="articleVeiw" data-artileNum="${dto.companyCode}" title="${dto.memo}"><a href="#">${dto.memo}</a></td>
 						<td>${dto.tel}</td>
-						<td>${dto.startDate}</td>
+						<td>${dto.startDate}</td> 
 					</tr>
 				</c:forEach>
 			</tbody>

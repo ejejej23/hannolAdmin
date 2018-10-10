@@ -164,13 +164,13 @@
 					<tr onclick="javascript:location.href='${article_url}&num=${dto.outCode}';"> 
 						<td>${dto.listNum}</td>
 						<td>${dto.goodsCode}</td>    
-						<td>${dto.goodsName}</td>
-						<td>${dto.companyName}</td>
+						<td title="${dto.goodsName}">${dto.goodsName}</td>
+						<td title="${dto.companyName}">${dto.companyName}</td>
 						<td>${dto.quantity}</td>
 						<td>${dto.totalCount}</td>
 						<td><fmt:formatNumber value="${dto.salePrice}" type="number"/></td> 
 						<td><fmt:formatNumber value="${dto.quantity*dto.salePrice}" type="number"/></td> 
-						<td>${dto.memo}</td> 
+						<td title="${dto.memo}">${dto.memo}</td>  
 						<td>${dto.outDate}</td>
 					</tr> 
 				</c:forEach>

@@ -164,8 +164,8 @@
 					<tr onclick="javascript:location.href='${article_url}&num=${dto.inCode}';"> 
 						<td>${dto.listNum}</td>
 						<td>${dto.goodsCode}</td>    
-						<td>${dto.goodsName}</td>
-						<td>${dto.companyName}</td>
+						<td title="${dto.goodsName}">${dto.goodsName}</td> 
+						<td title="${dto.companyName}">${dto.companyName}</td>
 						<td>${dto.quantity}</td>
 						<td>${dto.totalCount}</td>
 						<td><fmt:formatNumber value="${dto.unitPrice}" type="number"/></td> 
