@@ -61,7 +61,7 @@
 
 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		<tr height="35">
-			<td align="center"><c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
+			<td align="center"><c:if test="${dataCount==0 }">등록된 공연이 없습니다.</c:if>
 				<c:if test="${dataCount!=0 }">${paging}</c:if></td>
 		</tr>
 	</table>
