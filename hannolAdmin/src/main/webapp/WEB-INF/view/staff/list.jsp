@@ -103,7 +103,7 @@
 		      	&nbsp;
 		      </td>
 		      <td align="right" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/staff/created';">글올리기</button>
+		      &nbsp;
 		      </td>
 		   </tr>
 		</table>
