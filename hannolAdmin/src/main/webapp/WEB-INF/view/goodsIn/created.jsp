@@ -28,9 +28,9 @@
 	var elementsNameText = [];
 	
 	$(function(){
-		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select");  
+		var elements = $("form[name=formData] input, form[name=formData] textarea, form[name=formData] select").not("form[name=formData] textarea[name=memo]");  
 		 
-		for(var i=0; i<elements.length; i++){
+		for(var i=0; i<elements.length; i++){ 
 			elementsName[i] = elements[i];
 			elementsNameText[i] = elements[i].getAttribute("data-name");
 		}	
