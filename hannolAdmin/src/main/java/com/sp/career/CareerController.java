@@ -206,7 +206,13 @@ public class CareerController {
 			int themeCode
 			) throws Exception {
 
+		Staff isExist = temp.readStaff(usersCode);
 		Map<String, Object> map = new HashMap<String, Object>();
+		if(isExist==null) {
+			//return "redirect:/career/list?usersCode="+usersCode;
+			return map;
+		}
+		
 		map.put("usersCode", usersCode);
 		map.put("themeCode", themeCode);
 		
