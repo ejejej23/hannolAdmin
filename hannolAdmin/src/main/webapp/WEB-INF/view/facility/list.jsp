@@ -162,11 +162,11 @@
 			</tr>
 		</table>
 		
-		<div class="btnBox">
+<!-- 		<div class="btnBox">
 	        <button type="button" class="btn btn-info" id="sendOk">시록</button>
 	        <button type="reset" class="btn btn-default">다시입력</button> 
 	        <button type="button" class="btn btn-default" id="facilityAdd_close_btn">?</button>
-	    </div>
+	    </div> -->
 	</form>
 </div>
 	    

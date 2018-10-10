@@ -159,8 +159,6 @@ public class facilityController {
 		service.updateFacility(dto, pathname);
 		System.out.println("안녕안녕 이제 거의 마무으리ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
 		
-		
-		
 		return "redirect:/facility/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
 	}
 	
