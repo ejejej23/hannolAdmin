@@ -137,6 +137,7 @@
 
 
 		<intercept-url pattern="/resource/**" access="permitAll" /> <!-- img,css,javascript -->
+		<intercept-url pattern="/uploads/**" access="permitAll" /> <!-- 게시글 관련 이미지 -->
 		<intercept-url pattern="/**"
 			access="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')" />
 
