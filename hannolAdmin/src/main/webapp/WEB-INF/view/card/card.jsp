@@ -137,7 +137,6 @@ function deleteCard(cardCode) {
 							${dto.memo}
  						</div>
 					
-					
 					</div>
 					</div>
 					</div>
