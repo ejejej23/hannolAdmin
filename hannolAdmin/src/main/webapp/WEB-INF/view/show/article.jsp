@@ -284,7 +284,7 @@ function facilityList(){
          <div class="col-sm-2">사진</div>
          <div class="col-sm-10">
 	         <c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
-			 <c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/show/${dto.saveFilename}" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+			 <c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/uploads/show/${dto.saveFilename}" style="padding: 5px; width: 600px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 		</div> 
       </div><br>
       <div class="form-group">
