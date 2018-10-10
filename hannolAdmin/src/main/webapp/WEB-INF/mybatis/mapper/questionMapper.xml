@@ -20,13 +20,14 @@
 	<select id="listQuestion" parameterType="map" resultType="com.sp.question.Question">
 		SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(
-		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer, memberId
 		        FROM question q
 		        LEFT OUTER JOIN (
 		            SELECT qnaCode, parentCode
 		            FROM question 
 		            WHERE parentCode != 0
 		        )a ON a.parentCode=q.qnaCode  
+		        LEFT OUTER JOIN member1 m1 ON m1.usersCode = q.usersCode
 		<![CDATA[
 		    )tb WHERE ROWNUM <= #{end} AND gubun = #{gubun}
 		    ORDER BY qDate DESC

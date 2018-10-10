@@ -9,6 +9,7 @@ public class Question {
 	private String qDate;
 	private int parentCode;
 	private int usersCode;
+	private String memberId;
 	private int answer;
 	private String answerContent;
 	private String answerUpdate;
@@ -75,6 +76,14 @@ public class Question {
 
 	public void setUsersCode(int usersCode) {
 		this.usersCode = usersCode;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public int getAnswer() {

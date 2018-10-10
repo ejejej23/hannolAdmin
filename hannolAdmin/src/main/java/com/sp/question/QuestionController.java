@@ -95,6 +95,7 @@ public class QuestionController {
 		
 		Question adminAnswer = service.readAnswer(num);
 		if(adminAnswer != null) {
+			model.addAttribute("brRemoveAnswer", adminAnswer.getContent());
 			adminAnswer.setContent(adminAnswer.getContent().replaceAll("\n", "<br>"));
 			model.addAttribute("adminAnswer", adminAnswer);
 		}

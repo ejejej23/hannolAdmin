@@ -210,7 +210,7 @@ function updateOK(){
 				<tr>
 					<th>답변</th>
 					<td align="left" valign="top" height="100">
-						<textarea id="answerUpdate" name="answerUpdate" rows="6" style="width: 100%; resize: none;">${adminAnswer.content}</textarea>
+						<textarea id="answerUpdate" name="answerUpdate" rows="6" style="width: 100%; resize: none;">${brRemoveAnswer}</textarea>
 					</td>
 					<td>
 						<button id="answerUpdateBtn" type="button" class="btn btn-default" style="font-weight: bold;" onclick="updateOK();">수정완료</button>

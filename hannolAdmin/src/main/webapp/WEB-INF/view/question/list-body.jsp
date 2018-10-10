@@ -13,6 +13,7 @@
 				<col style="width: 10%; text-align:center">
 				<col style="text-align:center">
 				<col style="width: 15%; text-align:center">
+				<col style="width: 15%; text-align:center">
 				<col style="width: 10%; text-align:center">
 			</colgroup>
 		    
@@ -21,6 +22,7 @@
 					<th scope="col">번호</th>
 				    <th scope="col">제목</th>
 				    <th scope="col">작성일</th>
+				    <th scope="col">작성자</th>
 				    <th scope="col">상태</th>
 				</tr>
 			</thead>
@@ -30,6 +32,7 @@
 			      <td>${dto.listNum}</td>
 			      <td><a href="${articleUrl}&num=${dto.qnaCode}">${dto.subject}</a></td>
 			      <td>${dto.qDate}</td>
+			      <td>${dto.memberId}</td>
 			      <td>
 			      	<c:if test="${dto.answer != 0}">
 			      		답변완료
