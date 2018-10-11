@@ -200,16 +200,26 @@
 				<tr>
 					<th>구입처</th>
 					<td colspan="3">
-						<select name="companyCode" class="selectField" data-name="구입처를">
-							<option value="">::업체명선택::</option> 
-						</select>
+						<c:if test="${mode=='created'}">
+							<select name="companyCode" class="selectField" data-name="구입처를">
+								<option value="">::업체명선택::</option> 
+							</select>
+						</c:if>
+						<c:if test="${mode=='update'}">
+							<select name="companyCode" class="selectField" data-name="구입처를">
+								<option value="">::업체명선택::</option> 
+								<c:forEach var="list" items="${companyList}">  
+									<option value="${list.companyCode}" <c:if test="${list.companyCode==dto.companyCode}">selected="selected"</c:if>>${list.companyName}</option>
+								</c:forEach>  
+							</select>
+						</c:if>
 					</td>   
 				    <th>출고날짜</th>
 				    <td>
 				    	<c:if test="${mode=='created'}">
 				    		${today}
 				    	</c:if>
-				    	<c:if test="${mode=='update'}">
+				    	<c:if test="${mode=='update'}">  
 				    		${dto.outDate}
 				    	</c:if>
 				    </td>   
