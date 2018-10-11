@@ -34,11 +34,11 @@ $(function(){
 	function check(){
 		var themeName = document.getElementById('theme');
 		themeName=themeName.value;
-		alert(themeName);
+		//alert(themeName);
 
 		var day = document.getElementById('day');
 		day=day.value;
-		alert(day);
+		//alert(day);
 		
 		listPage(themeName, day);
 	};
