@@ -51,6 +51,11 @@ public class facilityController {
 			code=service.readFacilityCode();
 			//가져온 값으로 insert해주기
 		service.insertRides(code);
+		dto.setFacilityCode(code);
+		int test = dto.getFacilityCode();
+				
+		System.out.println(test+"::"+dto.getName()+"::"+dto.getState());
+		service.insertRidesInfo(dto);
 		}
 		
 		return "redirect:/facility/list";

@@ -112,7 +112,7 @@
 			});
 		});
  
- 		//업체 등록
+ 		//시설 등록
 		$(function() {
 			$("body").on("click", "#sendOk", function() {
 				var url = "<%=cp%>/rides/ridesInfocreated";
@@ -131,7 +131,7 @@
 						formClean();
 						location.href="<%=cp%>/rides/Infolist";
 							}else{
-								alert("업체 등록을 실패하였습니다.");	
+								alert("시설 등록을 실패하였습니다.");	
 							}
 						},
 						error:function(e){
