@@ -30,7 +30,19 @@
 	.selectField{padding:6px; vertical-align:middle;}
 	.boxTF[readonly]{background-color:#ffffff;}   
 	.datepicker + img{width:22px; margin:0px 0px 0px -31px; padding-left:8px; border-left:1px solid #dddddd; cursor:pointer;}
-
+	
+	
+	/**dialog new style**/
+	.ui-widget{font-family:"Nanum Gothic";}
+	.ui-widget input, 
+	.ui-widget select, 
+	.ui-widget textarea, 
+	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
+	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
+	.ui-dialog .ui-dialog-title{font-size:16px;}
+	.ui-dialog .ui-dialog-titlebar{padding:11px 1em;}
+	.ui-dialog{padding:0;}
+	.ui-draggable .ui-dialog-titlebar{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 </style>
 
 <script type="text/javascript">
