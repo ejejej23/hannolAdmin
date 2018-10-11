@@ -196,6 +196,7 @@ public class RidesController {
 		String query="page="+page;
 		
 		Rides dto = service.readRides(facilityCode);
+		
 		if(dto == null) {
 			return "redirect:/rides/list?"+query;
 		}
