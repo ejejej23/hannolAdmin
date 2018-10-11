@@ -34,7 +34,7 @@
 	/**dialog new style**/
 	.ui-widget{font-family:"Nanum Gothic";}
 	.ui-widget input, 
-	.ui-widget select, 
+	.ui-widget select,  
 	.ui-widget textarea, 
 	.ui-widget button{font-family:"Nanum Gothic"; font-size:13px;}
 	.ui-widget-header{color:#ffffff; background:#4c4c4c;}
