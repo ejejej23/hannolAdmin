@@ -268,7 +268,7 @@ public class GoodsOutController {
 
 		
 		//업체 리스트 가져오기
-		List<Map<String, Object>> companyList = service.listCompany();
+		List<GoodsOut> listGoodsCompany = service.listGoodsCompany(dto.getGoodsCode());
 		
 		//jsp로 객체 전송
 		model.addAttribute("mode", "update");  
@@ -276,9 +276,8 @@ public class GoodsOutController {
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 
-		model.addAttribute("companyList", companyList);
+		model.addAttribute("companyList", listGoodsCompany); 
 		
-		System.out.println(dto.getTotalCount()); 
 		return ".goodsOut.created"; 
 	}
 	
