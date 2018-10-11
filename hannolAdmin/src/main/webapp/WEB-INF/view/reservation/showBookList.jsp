@@ -106,7 +106,7 @@ function ajaxJSON(url, type, query) {
 	
 	$.ajax({
 		type:type
-		,url:url
+		,url:url 
 		,data:query
 		,dataType:"json"
 		,success : function(data) {
