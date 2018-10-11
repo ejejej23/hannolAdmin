@@ -8,7 +8,7 @@
 <script>
 	//반납(대여중->반납)
 	$(function(){
-		$("body").on("click", ".rt_return", function(){
+		$("body").off().on("click", ".rt_return", function(){
 			var url = "<%=cp%>/assets/rentUpdate";
 			var query = "bookCode="+$(this).attr("data-num")+"&stateCode=1"; //예약코드, 상태			
 			

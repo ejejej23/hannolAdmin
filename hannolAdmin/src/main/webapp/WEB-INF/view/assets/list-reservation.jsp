@@ -8,7 +8,7 @@
 <script>
 	//대여 확인(예약->대여중)
 	$(function(){
-		$("body").on("click", ".rentalOk", function(){								
+		$("body").off().on("click", ".rentalOk", function(){								
 			var url = "<%=cp%>/assets/rentUpdate";
 			var query = "bookCode="+$(this).attr("data-num")+"&stateCode=2"; //예약코드, 상태코드		
 			
