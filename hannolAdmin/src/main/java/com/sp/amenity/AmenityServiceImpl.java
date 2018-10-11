@@ -133,7 +133,6 @@ public class AmenityServiceImpl implements AmenityService{
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
 		return res;
 	}
 
