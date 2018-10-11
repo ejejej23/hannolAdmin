@@ -6,7 +6,7 @@
 		SELECT DISTINCT TO_CHAR(payDate,'YYYY') AS YEAR
 		FROM payment p
         JOIN cardInfo c ON p.payCode = c.payCode
-        WHERE state ='카드승인'
+        WHERE state ='승인완료'
 	    ORDER BY YEAR DESC
 	</select>
 	
@@ -31,7 +31,7 @@
 		                        join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                        WHERE gg.parentCode=1 and g.gubunCode != 8
 		                    )
-		                    WHERE STATE = '카드승인'
+		                    WHERE STATE = '승인완료'
 		                    group by rollup(YEAR, QUARTER, MONTH, DAY)        
 		        ) union all  
 		            SELECT YEAR, QUARTER, MONTH, DAY, totalCount
@@ -76,7 +76,7 @@
 		                join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                WHERE g.gubunCode=3 or g.gubunCode=4
 		             )
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY) 
         )WHERE QUARTER IS NOT NULL 
             AND MONTH IS NOT NULL 
@@ -103,7 +103,7 @@
 		                join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                WHERE g.gubunCode=5 or g.gubunCode=6
 		             )
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY) 
         )WHERE QUARTER IS NOT NULL 
             AND MONTH IS NOT NULL 
@@ -146,7 +146,7 @@
 		                        join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                        WHERE gg.parentCode=1 and g.gubunCode != 8
 		                    )
-		                    WHERE STATE = '카드승인'
+		                    WHERE STATE = '승인완료'
 		                    group by rollup(PAYDATE)        
 		         union all  
 		                    select useDate as payDate, sum(totalCount) as totalCount
@@ -179,7 +179,7 @@
 		                join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                WHERE g.gubunCode=3 or g.gubunCode=4
 		             )
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(PAYDATE) 
         )WHERE PAYDATE IS NOT NULL
         <![CDATA[
@@ -202,7 +202,7 @@
 		                join goodsGubun gg on gg.gubunCode = g.gubunCode
 		                WHERE g.gubunCode=5 or g.gubunCode=6
 		             )
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(PAYDATE) 
         )WHERE PAYDATE IS NOT NULL
         <![CDATA[
