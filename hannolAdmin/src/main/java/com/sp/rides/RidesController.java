@@ -298,7 +298,6 @@ public class RidesController {
 	
 	@RequestMapping(value="/rides/updateChg", method=RequestMethod.POST)
 	public String updateSubmit(Rides dto, int page) throws Exception{
-		
 		service.updateRidesChg(dto);
 		
 		return "redirect:/rides/article?facilityCode="+dto.getFacilityCode()+"&page="+page;

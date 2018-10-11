@@ -153,9 +153,7 @@ public class RidesServiceImpl implements RidesService{
 	public Rides readRides(int num) {
 		Rides dto=null;
 		try {
-			
 			dto=dao.selectOne("rides.readRides",num);
-			System.out.println(dto.getGenreName()+":::::::::::::::::::w장르명");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
