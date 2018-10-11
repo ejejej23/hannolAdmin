@@ -76,4 +76,27 @@
 		where bookCode=#{cubepayCode}
 	</delete>
 	
+	<select id="checknum" parameterType="map" resultType="com.sp.amenity.Amenity">
+		select *from assetsBook a 
+			join lockerInfo l on l.bookCode=a.bookCode
+			where assetsCode=3 and to_char(useDate,'yyyymmdd')=#{yyyymmdd}
+	</select>
+	
+	<select id="checkcc" parameterType="map" resultType="Integer">
+		select count(*) from(
+			select *from assetsBook a 
+			join lockerInfo l on l.bookCode=a.bookCode
+			where assetsCode=3 and to_char(useDate,'yyyymmdd')=#{yyyymmdd})	
+			</select>
+	
+	<delete id="cancel" parameterType="map">
+		delete from assetsBook 
+		where assetsCode=3 and to_char(useDate,'yyyymmdd')=#{yyyymmdd}
+	</delete>
+	
+	<delete id="lockercancel" parameterType="map">
+		delete from lockerInfo 
+		where bookCode=#{num}
+	</delete>
+	
 </mapper>
