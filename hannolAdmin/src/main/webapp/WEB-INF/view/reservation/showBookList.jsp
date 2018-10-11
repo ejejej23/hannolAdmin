@@ -25,6 +25,7 @@ function listPage(page) {
 	ajaxHTML(url, "get", query, "tab-content");
 }
 
+var $sOption = $("<option value='0'>:::선택:::</option>");
 
 $(function(){
 	$(document).on("change","select[name=showName]", function(){
@@ -101,6 +102,8 @@ var arr = [];	// SCHCODE, SCREENDATE - 선택 가능한 날짜
  
 //ajax-json 공통함수
 function ajaxJSON(url, type, query) {
+//	var $sOption = $("<option value="0">:::선택:::</option>");
+	
 	$.ajax({
 		type:type
 		,url:url
@@ -111,6 +114,8 @@ function ajaxJSON(url, type, query) {
 			if(state=="screenDatetrue") {
 				arr = data.list;
 //				var dataArr = [];
+				
+				$("select[name=screenDate]").append($sOption);
 				for(var i = 0; i < arr.length; i++) {
 //					dataArr.push(arr[i].SCREENDATE);
 					var $option = $("<option value=" + arr[i].SCHCODE + ">" + arr[i].SCREENDATE + "</option>");
@@ -127,8 +132,9 @@ function ajaxJSON(url, type, query) {
 					dateFormat:'yy-mm-dd',
 			        beforeShowDay: selectableDays
 				}); --%> 
-			} else if(state=="startTimetrue") {
+			} else if(state=="startTimetrue") { 
 				var stArr = data.list;
+				$("select[name=startTime]").append($sOption);
 				for(var i = 0; i < stArr.length; i++) {
 					var $option = $("<option value=" + stArr[i].SSTARTCODE + ">" + stArr[i].STARTTIME + "</option>");
 					$("select[name=startTime]").append($option);
