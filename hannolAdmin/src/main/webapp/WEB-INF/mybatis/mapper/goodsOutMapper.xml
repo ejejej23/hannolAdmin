@@ -30,6 +30,13 @@
 		SELECT price FROM goods WHERE goodsCode = #{goodsCode} 
 	</select>
 	
+	<!-- 상품  구입처 가져오기-->
+	<select id="listGoodsCompany" resultType="com.sp.goodsOut.GoodsOut" parameterType="Integer">
+		SELECT companyCode, name companyName FROM company WHERE companyCode IN(
+		    SELECT companyCode FROM goodsIn WHERE goodsCode=#{num}  
+		) 
+	</select>
+	
 	<!-- 상품 총 수량 업데이트 -->
 	<update id="updateGoodsCount" parameterType="com.sp.goodsOut.GoodsOut">
 		UPDATE goodsCount SET quantity = quantity-#{quantity} WHERE goodsCode = #{goodsCode} 

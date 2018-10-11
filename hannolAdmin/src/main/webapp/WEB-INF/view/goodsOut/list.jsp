@@ -135,12 +135,12 @@
 			<colgroup>
 				<col style="width:5%;">
 				<col style="width:8%;">   
-				<col style="width:12%;"> 
-				<col style="width:12%;">  
+				<col style="width:18%;"> 
+				<col style="width:15%;">   
 				<col style="width:8%;">   
 				<col style="width:8%;"> 
 				<col style="width:9%;">
-				<col style="width:13%;">  
+				<col style="width:10%;">   
 				<col style="">  
 				<col style="width:10%;">  
 			</colgroup> 

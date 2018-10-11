@@ -113,6 +113,17 @@ public class GoodsOutServiceImpl implements GoodsOutService {
 	}
 
 	@Override
+	public List<GoodsOut> listGoodsCompany(int num) {
+		List<GoodsOut> list = null;
+		try {
+			list = dao.selectList("goodsOut.listGoodsCompany", num);  
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
 	public int goodsCount(int num) {
 		int result = 0;
 		

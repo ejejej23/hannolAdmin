@@ -90,8 +90,14 @@
 					dataType:"json",
 					success:function(data){
 						$("#totalCount").text(data.goodsTotalCount);
-						$("#price").val(data.goodsPrice);    
-					},error:function(e){
+						$("#price").val(data.goodsPrice);  
+						$("select[name=companyCode]").empty();
+						$("select[name=companyCode]").append("<option value=''>::업체명선택::</option>");     
+						   
+						for(var i=0 ; i<data.goodsOutList.length ; i++){               
+							$("select[name=companyCode]").append("<option value="+data.goodsOutList[i].companyCode+">"+data.goodsOutList[i].companyName+"</option>");	
+						}    
+					},error:function(e){  
 						console.log(e.responseText);
 					}
 				});	
@@ -196,9 +202,6 @@
 					<td colspan="3">
 						<select name="companyCode" class="selectField" data-name="구입처를">
 							<option value="">::업체명선택::</option> 
-							<c:forEach var="list" items="${companyList}">
-								<option value="${list.COMPANYCODE}" <c:if test="${list.COMPANYCODE==dto.companyCode}">selected="selected"</c:if>>${list.COMPANYNAME}</option>
-							</c:forEach>  
 						</select>
 					</td>   
 				    <th>출고날짜</th>
