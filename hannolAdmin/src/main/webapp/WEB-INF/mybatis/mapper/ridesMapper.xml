@@ -173,7 +173,6 @@
 			,gubunCode=#{gubunCode} 
 		WHERE facilityCode=#{facilityCode}
 		
-		
 	</update>
 	
 </mapper>
