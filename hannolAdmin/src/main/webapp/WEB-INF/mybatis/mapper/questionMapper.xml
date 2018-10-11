@@ -45,7 +45,7 @@
 		            SELECT qnaCode, parentCode
 		            FROM question 
 		            WHERE parentCode != 0
-		        )a ON a.parentCode=q.qnaCode 
+		        )a ON a.parentCode=q.qnaCode  
 		        LEFT OUTER JOIN member1 m1 ON m1.usersCode = q.usersCode
                 WHERE a.qnaCode IS NULL AND gubun = #{gubun} and q.parentCode = 0
                 ORDER BY TO_CHAR(q.qDate,'YYYY-MM-DD HH:MI:SS') DESC
