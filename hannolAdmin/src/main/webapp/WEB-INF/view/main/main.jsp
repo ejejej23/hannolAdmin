@@ -34,7 +34,7 @@
         	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/noticeS/list'"><div class="glyphicon glyphicon-volume-up" aria-hidden="true"></div><div>사내 공지</div></div></li>
         	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp%>/finance/main'"><div class="glyphicon glyphicon-usd" aria-hidden="true"></div><div>재정 통계표</div></div></li>
         	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/ticket/list'"><div class="glyphicon glyphicon-envelope" aria-hidden="true"></div><div>이용권 관리</div></div></li>
-        	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/reservation/list'"><div class="glyphicon glyphicon-book" aria-hidden="true"></div><div>예약 관리</div></div></li>
+        	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/reservation/show/list'"><div class="glyphicon glyphicon-book" aria-hidden="true"></div><div>공연 예약 관리</div></div></li>
         	
         	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/coupon/list'"><div class="glyphicon glyphicon-inbox" aria-hidden="true"></div><div>쿠폰 발송</div></div></li>
         	<li><div class="note" style="cursor: pointer;" onclick="location.href='<%=cp %>/staff/list'"><div class="glyphicon glyphicon-user" aria-hidden="true"></div><div>인사정보관리</div></div></li>
