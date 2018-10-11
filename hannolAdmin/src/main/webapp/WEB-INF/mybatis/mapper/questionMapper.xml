@@ -28,32 +28,31 @@
 		            WHERE parentCode != 0
 		        )a ON a.parentCode=q.qnaCode  
 		        LEFT OUTER JOIN member1 m1 ON m1.usersCode = q.usersCode
-		        ORDER BY qDate DESC 
-		<![CDATA[
-		    )tb WHERE ROWNUM <= #{end} AND gubun = #{gubun}
-		)WHERE rnum >= #{start} AND parentCode = 0 
+                WHERE gubun = #{gubun}  AND q.parentCode = 0
+                ORDER BY TO_CHAR(q.qDate,'YYYY-MM-DD HH:MI:SS') DESC 
+        <![CDATA[
+		    )tb WHERE ROWNUM <= #{end}
+		)WHERE rnum >= #{start}
 		]]>
 	</select>
 	
 	<select id="listQuestionNoAnswer" parameterType="map" resultType="com.sp.question.Question">
-		SELECT * FROM(
+        SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(
-		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, q.parentCode, a.qnaCode as answer, memberId
 		        FROM question q
 		        LEFT OUTER JOIN (
 		            SELECT qnaCode, parentCode
 		            FROM question 
 		            WHERE parentCode != 0
-		        )a ON a.parentCode=q.qnaCode  
-		<![CDATA[
+		        )a ON a.parentCode=q.qnaCode 
+		        LEFT OUTER JOIN member1 m1 ON m1.usersCode = q.usersCode
+                WHERE a.qnaCode IS NULL AND gubun = #{gubun} and q.parentCode = 0
+                ORDER BY TO_CHAR(q.qDate,'YYYY-MM-DD HH:MI:SS') DESC
+        <![CDATA[
 		    )tb WHERE ROWNUM <= #{end}
-		    ORDER BY qDate DESC
-		)WHERE rnum >= #{start} AND parentCode = 0 AND gubun = #{gubun}
+		)WHERE rnum >= #{start}
 		]]>
-		 AND qnaCode NOT IN(
-        SELECT parentCode
-        FROM question 
-        WHERE parentCode != 0)
 	</select>
 	
 	<select id="readQuestion" parameterType="Integer" resultType="com.sp.question.Question">
