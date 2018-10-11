@@ -1,7 +1,7 @@
 package com.sp.finance;
 
 public class Finance {
-	private int saleAmount;
+	private double saleAmount;
 	private int year;
 	private int quarter;
 	private int month;
@@ -14,11 +14,11 @@ public class Finance {
 	private String repairDate;
 	private String inDate;
 
-	public int getSaleAmount() {
+	public double getSaleAmount() {
 		return saleAmount;
 	}
 
-	public void setSaleAmount(int saleAmount) {
+	public void setSaleAmount(double saleAmount) {
 		this.saleAmount = saleAmount;
 	}
 

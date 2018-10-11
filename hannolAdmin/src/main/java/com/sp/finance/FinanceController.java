@@ -99,7 +99,7 @@ public class FinanceController {
 		if (gubun.equals("quarter")) {
 			// 분기별
 
-			int[] paySales = new int[4];
+			double[] paySales = new double[4];
 			String[] chartX = new String[4];
 
 			for (int i = 0; i < 4; i++) {
@@ -127,7 +127,7 @@ public class FinanceController {
 			List<Finance> listR = service.getExpenseRepair(map);
 			List<Finance> listG = service.getExpenseGoodsIn(map);
 
-			int[] expense = new int[4];
+			double[] expense = new double[4];
 
 			for (Finance f : listR) {
 				if (f.getQuarter() == 1) {
@@ -164,7 +164,7 @@ public class FinanceController {
 			job.put("chartX", chartX);
 		} else {
 			// 월별
-			int[] paySales = new int[12];
+			double[] paySales = new double[12];
 			String[] chartX = new String[12];
 
 			for (int i = 0; i < 12; i++) {
@@ -208,7 +208,7 @@ public class FinanceController {
 			List<Finance> listR = service.getExpenseRepair(map);
 			List<Finance> listG = service.getExpenseGoodsIn(map);
 
-			int[] expense = new int[12];
+			double[] expense = new double[12];
 
 			for (Finance f : listR) {
 				if (f.getMonth() == 1) {
@@ -301,7 +301,7 @@ public class FinanceController {
 		long diff = end.getTime() - start.getTime();
 		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
 
-		int[] paySales = new int[diffDays];
+		double[] paySales = new double[diffDays];
 		String[] chartX = new String[diffDays];
 
 		Calendar cal = new GregorianCalendar(Locale.KOREA);
@@ -332,7 +332,7 @@ public class FinanceController {
 		List<Finance> listR = service.expenseRepairPeriod(map);
 		List<Finance> listG = service.expenseGoodsInPeriod(map);
 
-		int[] expenses = new int[diffDays];
+		double[] expenses = new double[diffDays];
 
 		tempnum = 0;
 
@@ -408,9 +408,9 @@ public class FinanceController {
 
 		if (gubun.equals("quarter")) {
 
-			int[] paySales = new int[4];
-			int[] payTicket = new int[4];
-			int[] payGift = new int[4];
+			double[] paySales = new double[4];
+			double[] payTicket = new double[4];
+			double[] payGift = new double[4];
 			String[] chartX = new String[4];
 
 			for (int i = 0; i < 4; i++) {
@@ -473,9 +473,9 @@ public class FinanceController {
 			job.put("chartX", chartX);
 
 		} else {
-			int[] paySales = new int[12];
-			int[] payTicket = new int[12];
-			int[] payGift = new int[12];
+			double[] paySales = new double[12];
+			double[] payTicket = new double[12];
+			double[] payGift = new double[12];
 			String[] chartX = new String[12];
 
 			for (int i = 0; i < 12; i++) {
@@ -611,9 +611,9 @@ public class FinanceController {
 		long diff = end.getTime() - start.getTime();
 		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
 
-		int[] paySales = new int[diffDays];
-		int[] ticketSales = new int[diffDays];
-		int[] giftSales = new int[diffDays];
+		double[] paySales = new double[diffDays];
+		double[] ticketSales = new double[diffDays];
+		double[] giftSales = new double[diffDays];
 		String[] chartX = new String[diffDays];
 
 		Calendar cal = new GregorianCalendar(Locale.KOREA);
@@ -710,9 +710,9 @@ public class FinanceController {
 
 		if (gubun.equals("quarter")) {
 
-			int[] expenses = new int[4];
-			int[] expensesR = new int[4];
-			int[] expensesG = new int[4];
+			double[] expenses = new double[4];
+			double[] expensesR = new double[4];
+			double[] expensesG = new double[4];
 			String[] chartX = new String[4];
 
 			for (int i = 0; i < 4; i++) {
@@ -771,9 +771,9 @@ public class FinanceController {
 			job.put("chartX", chartX);
 
 		} else {
-			int[] expenses = new int[12];
-			int[] expensesR = new int[12];
-			int[] expensesG = new int[12];
+			double[] expenses = new double[12];
+			double[] expensesR = new double[12];
+			double[] expensesG = new double[12];
 			String[] chartX = new String[12];
 
 			for (int i = 0; i < 12; i++) {
@@ -904,9 +904,9 @@ public class FinanceController {
 		long diff = end.getTime() - start.getTime();
 		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
 
-		int[] expenses = new int[diffDays];
-		int[] expensesR = new int[diffDays];
-		int[] expensesG = new int[diffDays];
+		double[] expenses = new double[diffDays];
+		double[] expensesR = new double[diffDays];
+		double[] expensesG = new double[diffDays];
 		String[] chartX = new String[diffDays];
 
 		Calendar cal = new GregorianCalendar(Locale.KOREA);
