@@ -65,7 +65,7 @@ public class VisitorController {
 		
 		if (gubun.equals("quarter")) {
 			
-			int[] paySales = new int[4];
+			double[] paySales = new double[4];
 			String[] chartX = new String[4];
 
 			for (int i = 0; i < 4; i++) {
@@ -90,7 +90,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[4];
+			paySales = new double[4];
 			for (Visitor f : listA) {
 				if (f.getQuarter() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -109,7 +109,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[4];
+			paySales = new double[4];
 			for (Visitor f : listN) {
 				if (f.getQuarter() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -128,7 +128,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[4];
+			paySales = new double[4];
 			for (Visitor f : listY) {
 				if (f.getQuarter() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -152,7 +152,7 @@ public class VisitorController {
 			job.put("series", arr);
 			job.put("chartX", chartX);
 		}else {
-			int[] paySales = new int[12];
+			double[] paySales = new double[12];
 			String[] chartX = new String[12];
 
 			for (int i = 0; i < 12; i++) {
@@ -193,7 +193,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[12];
+			paySales = new double[12];
 			for (Visitor f : listA) {
 				if (f.getMonth() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -228,7 +228,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[12];
+			paySales = new double[12];
 			for (Visitor f : listN) {
 				if (f.getMonth() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -263,7 +263,7 @@ public class VisitorController {
 			ob.put("data", paySales);
 			arr.put(ob);
 			
-			paySales = new int[12];
+			paySales = new double[12];
 			for (Visitor f : listY) {
 				if (f.getMonth() == 1) {
 					paySales[0] += f.getTotalCount();
@@ -331,10 +331,10 @@ public class VisitorController {
 		long diff = end.getTime() - start.getTime();
 		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
 		
-		int[] visitors = new int[diffDays];	
-		int[] visitorsA = new int[diffDays];
-		int[] visitorsN = new int[diffDays];
-		int[] visitorsY = new int[diffDays];
+		double[] visitors = new double[diffDays];	
+		double[] visitorsA = new double[diffDays];
+		double[] visitorsN = new double[diffDays];
+		double[] visitorsY = new double[diffDays];
 		String[] chartX = new String[diffDays];
 
 		Calendar cal = new GregorianCalendar(Locale.KOREA);

@@ -6,7 +6,7 @@ public class Visitor {
 	private int month;
 	private int day;
 	private int rnum;
-	private int totalCount;
+	private double totalCount;
 	private String payDate;
 
 	public String getYear() {
@@ -49,11 +49,12 @@ public class Visitor {
 		this.rnum = rnum;
 	}
 
-	public int getTotalCount() {
+
+	public double getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(double totalCount) {
 		this.totalCount = totalCount;
 	}
 
