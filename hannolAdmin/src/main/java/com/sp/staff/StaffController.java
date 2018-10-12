@@ -150,10 +150,6 @@ public class StaffController {
 		String tel = dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3();
 		dto.setTel(tel);
 
-		// 비밀번호 암호화
-		String staffPwd = new BCryptPasswordEncoder().encode(dto.getStaffPwd());
-		dto.setStaffPwd(staffPwd);
-
 		service.updateStaff(dto);
 
 		StringBuffer sb = new StringBuffer();
