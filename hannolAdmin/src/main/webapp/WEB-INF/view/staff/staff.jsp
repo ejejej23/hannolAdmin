@@ -56,6 +56,8 @@
 	
 </style>
 <script type="text/javascript">
+
+
 function memberOk() {
 	var f = document.staffForm;
 	var test = f.length;

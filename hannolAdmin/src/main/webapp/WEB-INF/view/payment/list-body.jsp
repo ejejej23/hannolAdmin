@@ -24,8 +24,6 @@
 		  			
 		  			<div style="border: 1px solid #e1e1e1; margin-top: 15px;">
 		  			
-		  			<form name="submitForm" method="post"> 
-		  			
 		  			
 		  			<div style="background-color: #e1e1e1;">
     					<div style="padding: 10px;">
@@ -105,9 +103,11 @@
 														<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 											   				<tr height="40">
 											      				<td align="center" width="100">
-											      					<input type="hidden" name="payCode" value="${dto.payCode}">
-											      					<input type="hidden" name="searchKey" value="${searchKey}">
-											      					<input type="hidden" name="searchValue" value="${searchValue}">
+											      					<form id ="submitForm" name="submitForm" method="post"> 
+												      					<input type="hidden" name="payCode" value="${dto.payCode}"> 
+												      					<input type="hidden" name="searchKey" value="${searchKey}">
+												      					<input type="hidden" name="searchValue" value="${searchValue}">
+											      					 </form>
 											          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="refund();">환불하기</button>
 											     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소하기</button>
 											     	 			</td>
@@ -135,7 +135,6 @@
       	<c:if test="${list.size()>0}">
 		     </table>
 		     </div>
-		     </form>
 		     </div>
 		 </c:if>
 		
