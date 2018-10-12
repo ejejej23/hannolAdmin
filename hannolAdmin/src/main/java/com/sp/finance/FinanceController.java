@@ -1009,7 +1009,7 @@ public class FinanceController {
 		columnLabels.add("분기");
 		columnLabels.add("월");
 		columnLabels.add("일");
-		columnLabels.add("구분");
+		columnLabels.add("비고");
 		columnLabels.add("금액");
 
 		for (int i = 0; i < list.size(); i++) {

@@ -91,8 +91,11 @@ public class MyExcelView extends AbstractXlsxView {
 					cell.setCellValue((Boolean) values[col]);
 				else if (values[col] instanceof String)
 					cell.setCellValue((String) values[col]);
-				else
-					cell.setCellValue(values[col].toString());
+				else {
+					if(values[col] != null) {
+						cell.setCellValue(values[col].toString());
+					}
+				}
 			}
 		}
 	}
