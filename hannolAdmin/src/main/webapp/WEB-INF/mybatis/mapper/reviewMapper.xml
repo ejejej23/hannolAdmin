@@ -56,4 +56,9 @@
 		where reviewCode = #{reviewCode}
 	</delete>
 	
+	<delete id="deleteReviewLike" parameterType="Integer">
+		delete from reviewLike 
+		where reviewCode = #{reviewCode} 
+	</delete>
+	
 </mapper>
