@@ -82,7 +82,7 @@
 	
 	//nav 클릭 이벤트
 	$(function(){  
-		$("body").on("click", ".nav-item", function(){
+		$(".nav-item").on("click", function(){
 			$(".nav-item").removeClass("active");  
 			$(this).addClass("active");  
 			
