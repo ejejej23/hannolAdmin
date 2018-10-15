@@ -13,14 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
-import com.sp.goodsIn.GoodsIn;
 
 @Controller("goodsOut.goodsOutController")
 public class GoodsOutController {
@@ -180,12 +178,12 @@ public class GoodsOutController {
 		
 		int goodsTotalCount = service.goodsCount(goodsCode);
 		int goodsPrice = service.goodsPrice(goodsCode);
-		System.out.println(goodsPrice); 
-		
+		List<GoodsOut> goodsOutList = service.listGoodsCompany(goodsCode);
+
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("goodsTotalCount", goodsTotalCount);
 		model.put("goodsPrice", goodsPrice);
-		
+		model.put("goodsOutList", goodsOutList);
 		return model;
 	}
 	
@@ -270,7 +268,7 @@ public class GoodsOutController {
 
 		
 		//업체 리스트 가져오기
-		List<Map<String, Object>> companyList = service.listCompany();
+		List<GoodsOut> listGoodsCompany = service.listGoodsCompany(dto.getGoodsCode());
 		
 		//jsp로 객체 전송
 		model.addAttribute("mode", "update");  
@@ -278,9 +276,8 @@ public class GoodsOutController {
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 
-		model.addAttribute("companyList", companyList);
+		model.addAttribute("companyList", listGoodsCompany); 
 		
-		System.out.println(dto.getTotalCount()); 
 		return ".goodsOut.created"; 
 	}
 	

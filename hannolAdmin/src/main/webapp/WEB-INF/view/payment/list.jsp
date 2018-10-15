@@ -164,8 +164,8 @@ function refundCheck(payCode){
 }
 
 function refund(){
-	var f = document.submitForm;
-	f.action="<%=cp%>/payment/refundPay?thema="+thema;
+	var f =$("#submitForm");
+	f.attr("action", "<%=cp%>/payment/refundPay?thema="+thema);
     f.submit();
 }
 

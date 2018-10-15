@@ -437,7 +437,7 @@
 				<col style="width:5%;">
 				<col style="width:12%;">
 				<col style="width:12%;">
-				<col style="width:13%;">
+				<col style="width:18%;">
 				<col style="">
 				<col style="width:11%;"> 
 				<col style="width:9%;">
@@ -462,9 +462,9 @@
 						<td>${dto.listNum}</td>
 						<td>${dto.facGubunName}</td>
 						<td>${dto.facilityName}</td>
-						<td>${dto.companyName}</td>
-						<td class="articleVeiw" data-artilenum="${dto.repairCode}"><a href="#">${dto.memo}</a></td>
-						<td><fmt:formatNumber value="${dto.cost}" type="number"/></td>   
+						<td title="${dto.companyName}">${dto.companyName}</td>
+						<td class="articleVeiw" data-artilenum="${dto.repairCode}" title="${dto.memo}"><a href="#">${dto.memo}</a></td>
+						<td><fmt:formatNumber value="${dto.cost}" type="number"/></td>     
 						<td>
 							<c:if test="${dto.state==0}">요청</c:if>
 							<c:if test="${dto.state==1}">요청완료</c:if>

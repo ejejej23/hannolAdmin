@@ -24,7 +24,6 @@ import com.sp.common.MyUtil;
 import com.sp.guide.Guide;
 import com.sp.guide.GuideService;
 import com.sp.reservation.ReservationService;
-import com.sp.schedule.ShowService;
 
 @Controller("payment.paymentController")
 public class PaymentController {
@@ -144,7 +143,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping(value = "/payment/refundPay")
-	public String paylist(int payCode, int thema,
+	public String paylist(@RequestParam int payCode, int thema,
 			@RequestParam(value = "searchKey", defaultValue = "all") String searchKey,
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
 			HttpServletRequest req

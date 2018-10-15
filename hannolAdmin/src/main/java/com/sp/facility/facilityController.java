@@ -51,6 +51,11 @@ public class facilityController {
 			code=service.readFacilityCode();
 			//가져온 값으로 insert해주기
 		service.insertRides(code);
+		dto.setFacilityCode(code);
+		int test = dto.getFacilityCode();
+				
+		System.out.println(test+"::"+dto.getName()+"::"+dto.getState());
+		service.insertRidesInfo(dto);
 		}
 		
 		return "redirect:/facility/list";
@@ -157,7 +162,6 @@ public class facilityController {
 		String root= session.getServletContext().getRealPath("/");
 		String pathname = root+File.separator+"uploads"+File.separator+"facility";
 		service.updateFacility(dto, pathname);
-		System.out.println("안녕안녕 이제 거의 마무으리ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
 		
 		return "redirect:/facility/article?facilityCode="+dto.getFacilityCode()+"&page="+page;
 	}

@@ -112,7 +112,7 @@
 		<form name="formData" method="post">
 			<table class="tableForm">
 				<tr>  
-				    <th>구분코드</th>
+				    <th>구분</th>
 				    <td colspan="5"> 
 				      	<c:if test="${mode=='created'}">
 					 		<select id="gubuncode" name="gubuncode" class="selectField" data-name="구분코드를"> 

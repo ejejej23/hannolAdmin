@@ -34,11 +34,11 @@ $(function(){
 	function check(){
 		var themeName = document.getElementById('theme');
 		themeName=themeName.value;
-		alert(themeName);
+		//alert(themeName);
 
 		var day = document.getElementById('day');
 		day=day.value;
-		alert(day);
+		//alert(day);
 		
 		listPage(themeName, day);
 	};
@@ -75,9 +75,14 @@ $(function(){
 		});
 	}
 	
+	$(function(){
+		var back = '${back}';
+		if(back=="반납완료"||back=="반납할 보관함이 없습니다.")
+			alert(back);
+	});
+	
 	function back(){
-		
-		
+		location.href="<%=cp%>/amenity/cancel";
 	}
 
 </script>

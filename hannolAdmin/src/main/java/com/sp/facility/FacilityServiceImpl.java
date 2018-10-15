@@ -181,4 +181,16 @@ public class FacilityServiceImpl implements FacilityService{
 		return list;
 	}
 
+	@Override
+	public int insertRidesInfo(Facility dto) {
+		int result=0;
+		try {
+			result=dao.insertData("facility.insertRidesInfo", dto);
+			System.out.println(result+"::::::::::::result::");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

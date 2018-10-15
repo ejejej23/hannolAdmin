@@ -6,9 +6,9 @@
    String cp = request.getContextPath();
 %>
 <script>
-	//반납(대여중->반납)
-	$(function(){
-		$("body").on("click", ".rt_return", function(){
+	//반납(대여중->반납)  
+	$(function(){        
+		$(".rt_return").off().on("click", function(){
 			var url = "<%=cp%>/assets/rentUpdate";
 			var query = "bookCode="+$(this).attr("data-num")+"&stateCode=1"; //예약코드, 상태			
 			
@@ -84,13 +84,13 @@
 				</tr>
 			</c:forEach> 
 		</tbody>
-	</table>
+	</table> 
 	
 	<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		<tr>
 			<td class="listData_no"> 
 				<c:if test="${rentalOkDataCount==0}">
-					등록된 게시물이 없습니다.
+					반납된 목록이 없습니다.
 				</c:if>
 				<c:if test="${rentalOkDataCount!=0}">
 					${rentalOkpaging} 

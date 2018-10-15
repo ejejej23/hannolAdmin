@@ -7,8 +7,8 @@
 %>
 <script>
 	//대여 확인(예약->대여중)
-	$(function(){
-		$("body").on("click", ".rentalOk", function(){								
+	$(function(){        
+		$(".rentalOk").off().on("click", function(){								
 			var url = "<%=cp%>/assets/rentUpdate";
 			var query = "bookCode="+$(this).attr("data-num")+"&stateCode=2"; //예약코드, 상태코드		
 			
@@ -84,7 +84,7 @@
 		<tr>
 			<td class="listData_no">
 				<c:if test="${assetsReservationDataCount==0}">
-					등록된 게시물이 없습니다.
+					예약한 대여 목록이 없습니다.
 				</c:if>
 				<c:if test="${assetsReservationDataCount!=0}">
 					${reservationPaging}  

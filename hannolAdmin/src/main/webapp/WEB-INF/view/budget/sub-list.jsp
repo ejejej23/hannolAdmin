@@ -26,7 +26,7 @@
 		      <th scope="col">예산금액</th>
 		      <th scope="col">결제사원번호</th>
 		      <th scope="col">결제담당자</th>
-		      <th scope="col">입력일자</th>
+		      <th scope="col">수정일자</th>
 		      <th scope="col">&nbsp;</th>
 		    </tr>
 		  </thead>

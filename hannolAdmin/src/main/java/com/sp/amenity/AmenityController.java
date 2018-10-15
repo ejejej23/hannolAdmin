@@ -133,4 +133,39 @@ public class AmenityController {
 		
 		return "/amenity/substorage";
 	}
+
+	@RequestMapping(value="/amenity/cancel")
+	public String cancel(Model model) {
+
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("yyyyMMdd");
+		
+		Date today = new Date();
+		String date = formatter2.format(today);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("yyyymmdd", date);
+		
+		int cc = service.checkcc(map);
+		if(cc==0) {
+			model.addAttribute("back","반납할 보관함이 없습니다.");
+			return ".amenity.storage";
+		}
+		else {
+			List<Amenity> list = service.checknum(map);
+		
+			for(Amenity e: list) {
+				int num = e.getBookCode();
+				map.put("num", num);
+				service.lockercancel(map);
+			}
+			
+			service.cancel(map);
+		}
+		
+		model.addAttribute("back","반납완료");
+		
+		return ".amenity.storage";
+	}
+	
 }

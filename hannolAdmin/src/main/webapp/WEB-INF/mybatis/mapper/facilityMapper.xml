@@ -11,6 +11,10 @@
 	<insert id="insertRides" parameterType="Integer">
 	   INSERT INTO rides(facilityCode) VALUES (#{code})
 	</insert>
+	<insert id="insertRidesInfo" parameterType="Integer">
+	   INSERT INTO ridesInfo(facilityCode,state,ridesInfoCode)
+		VALUES (#{facilityCode},#{state},ridesInfo_seq.NEXTVAL)
+	</insert>
 	
 
 	<sql id="where-list">

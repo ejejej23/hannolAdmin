@@ -22,7 +22,7 @@
 	//모달창 띄우기  
 	$(function(){		 
 		var facilityCode = ""; //시설코드
-		$(".rt_register").off().on("click", function(){
+		$(".rt_register").on("click", function(){
 			binCheck();    
 			   
 			facilityCode = $(this).attr("data-num"); 

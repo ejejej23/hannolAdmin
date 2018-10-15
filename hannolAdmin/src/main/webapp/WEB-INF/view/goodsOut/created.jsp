@@ -90,8 +90,14 @@
 					dataType:"json",
 					success:function(data){
 						$("#totalCount").text(data.goodsTotalCount);
-						$("#price").val(data.goodsPrice);    
-					},error:function(e){
+						$("#price").val(data.goodsPrice);  
+						$("select[name=companyCode]").empty();
+						$("select[name=companyCode]").append("<option value=''>::업체명선택::</option>");     
+						   
+						for(var i=0 ; i<data.goodsOutList.length ; i++){               
+							$("select[name=companyCode]").append("<option value="+data.goodsOutList[i].companyCode+">"+data.goodsOutList[i].companyName+"</option>");	
+						}    
+					},error:function(e){  
 						console.log(e.responseText);
 					}
 				});	
@@ -154,7 +160,7 @@
 		<form name="formData" method="post">
 			<table class="tableForm">
 				<tr>  
-				    <th>구분코드</th>
+				    <th>구분</th> 
 				    <td colspan="5"> 
 				      	<c:if test="${mode=='created'}">
 					 		<select id="gubuncode" name="gubuncode" class="selectField" data-name="구분코드를"> 
@@ -194,19 +200,26 @@
 				<tr>
 					<th>구입처</th>
 					<td colspan="3">
-						<select name="companyCode" class="selectField" data-name="구입처를">
-							<option value="">::업체명선택::</option> 
-							<c:forEach var="list" items="${companyList}">
-								<option value="${list.COMPANYCODE}" <c:if test="${list.COMPANYCODE==dto.companyCode}">selected="selected"</c:if>>${list.COMPANYNAME}</option>
-							</c:forEach>  
-						</select>
+						<c:if test="${mode=='created'}">
+							<select name="companyCode" class="selectField" data-name="구입처를">
+								<option value="">::업체명선택::</option> 
+							</select>
+						</c:if>
+						<c:if test="${mode=='update'}">
+							<select name="companyCode" class="selectField" data-name="구입처를">
+								<option value="">::업체명선택::</option> 
+								<c:forEach var="list" items="${companyList}">  
+									<option value="${list.companyCode}" <c:if test="${list.companyCode==dto.companyCode}">selected="selected"</c:if>>${list.companyName}</option>
+								</c:forEach>  
+							</select>
+						</c:if>
 					</td>   
 				    <th>출고날짜</th>
 				    <td>
 				    	<c:if test="${mode=='created'}">
 				    		${today}
 				    	</c:if>
-				    	<c:if test="${mode=='update'}">
+				    	<c:if test="${mode=='update'}">  
 				    		${dto.outDate}
 				    	</c:if>
 				    </td>   

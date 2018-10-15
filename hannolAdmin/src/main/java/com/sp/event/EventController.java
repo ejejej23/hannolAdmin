@@ -126,13 +126,8 @@ public class EventController {
 
 		String query = "page=" + page;
 
-		SessionInfo info = (SessionInfo) session.getAttribute("staff");
 		Event dto = service.readEvent(num);
 		if (dto == null) {
-			return "redirect:/event/list?page=" + page;
-		}
-
-		if (info.getStaffIdx() != dto.getUsersCode()) {
 			return "redirect:/event/list?page=" + page;
 		}
 

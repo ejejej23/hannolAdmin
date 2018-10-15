@@ -45,7 +45,7 @@
 		        from PAYMENT p
 		        join cardInfo c on p.payCode = p.payCode
 		    ) 
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		    order by YEAR, QUARTER, MONTH, DAY
 		)
@@ -110,7 +110,7 @@
 		        ]]>
 		        ORDER BY PAYDATE
 		    )
-            WHERE STATE = '카드승인'
+            WHERE STATE = '승인완료'
 		    GROUP BY ROLLUP(PAYDATE)
 		    ORDER BY PAYDATE
 		)
@@ -172,7 +172,7 @@
                 LEFT OUTER JOIN goodsgubun gb ON gb.gubunCode = g.gubunCode
                 LEFT OUTER JOIN cardInfo c on p.payCode = p.payCode
 		    ) 
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY, PARENTCODE)
 		    order by YEAR, QUARTER, MONTH, DAY, PARENTCODE
 		)
@@ -274,7 +274,7 @@
                      CONNECT BY PRIOR gubuncode=parentcode
                 )
 		    ) 
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		    order by YEAR, QUARTER, MONTH, DAY
 		)
@@ -308,7 +308,7 @@
                      CONNECT BY PRIOR gubuncode=parentcode
                 )
 		    ) 
-		    WHERE STATE = '카드승인'
+		    WHERE STATE = '승인완료'
 		    group by rollup(YEAR, QUARTER, MONTH, DAY)
 		    order by YEAR, QUARTER, MONTH, DAY
 		)
@@ -340,7 +340,7 @@
 		        ]]>
 		        ORDER BY PAYDATE
 		    )
-            WHERE STATE = '카드승인'
+            WHERE STATE = '승인완료'
 		    GROUP BY ROLLUP(PAYDATE)
 		    ORDER BY PAYDATE
 		)
@@ -369,7 +369,7 @@
 		        ]]>
 		        ORDER BY PAYDATE
 		    )
-            WHERE STATE = '카드승인'
+            WHERE STATE = '승인완료'
 		    GROUP BY ROLLUP(PAYDATE)
 		    ORDER BY PAYDATE
 		)

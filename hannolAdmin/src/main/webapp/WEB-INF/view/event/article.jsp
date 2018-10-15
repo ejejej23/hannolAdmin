@@ -34,7 +34,7 @@ function updateEvent() {
 	location.href=url;
 </c:if>
 
-<c:if test="${sessionScope.staff.staffIdx!=dto.usersCode}">
+<c:if test="${sessionScope.staff.authority!='ROLE_ADMIN'}">
 	alert("게시물을 수정할 수  없습니다.");
 </c:if>
 }

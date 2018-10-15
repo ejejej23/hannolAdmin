@@ -14,8 +14,10 @@ public interface GoodsOutService {
 	public List<Map<String, Object>> listGubun();
 	public List<Map<String, Object>> listItem(int num);
  	public List<Map<String, Object>> listCompany();
+ 	public List<GoodsOut> listGoodsCompany(int num);
  	
  	public int goodsCount(int num);
  	public int goodsPrice(int num);
+ 	
  	public int searchMagam(Map<String, Object> map);
 }

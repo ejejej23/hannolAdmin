@@ -81,12 +81,12 @@
 	 
 	
 	//nav 클릭 이벤트
-	$(function(){
-		$("body").off().on("click", ".nav-item", function(){
+	$(function(){  
+		$(".nav-item").on("click", function(){
 			$(".nav-item").removeClass("active");  
 			$(this).addClass("active");  
 			
-			statusPageList(1);
+			statusPageList(1);  
 			reservationPageList(1);
 			rentalOkListPage(1);     
 		}); 

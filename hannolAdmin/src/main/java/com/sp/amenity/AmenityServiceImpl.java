@@ -96,4 +96,56 @@ public class AmenityServiceImpl implements AmenityService{
 		}
 		return res;
 	}
+
+	
+	@Override
+	public List<Amenity> checknum(Map<String, Object> map) {
+		List<Amenity> list = null;
+		try {
+			System.out.println("체크체크!!!!!!!!!!!!!!!!!!!!!!!!!");
+			list = dao.selectList("amenity.checknum", map);
+			System.out.println(list+":::::::::리스트");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+	
+	@Override
+	public int cancel(Map<String, Object> map) {
+		int res=0;
+		
+		try {
+			res = dao.deleteData("amenity.cancel", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int lockercancel(Map<String, Object> map) {
+		int res=0;
+		
+		try {
+			res = dao.deleteData("amenity.lockercancel", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return res;
+	}
+
+	@Override
+	public int checkcc(Map<String, Object> map) {
+		int checkcc=0;
+		
+		try {
+			checkcc=dao.selectOne("amenity.checkcc",map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return checkcc;
+	}
 }
